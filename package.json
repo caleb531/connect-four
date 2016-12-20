@@ -1,0 +1,22 @@
+{
+  "name": "connect-four",
+  "version": "0.1.0",
+  "description": "A Connect Four web app implemented in JS using Mithril",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/caleb531/connect-four.git"
+  },
+  "keywords": [
+    "connect-four",
+    "mithril"
+  ],
+  "author": "Caleb Evans",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/caleb531/connect-four/issues"
+  },
+  "homepage": "https://github.com/caleb531/connect-four#readme"
+}
