@@ -1,0 +1,9 @@
+# OS-generated files
+.DS_Store
+
+# Node.js files
+node_modules
+*.log
+
+# Private environment variables for deployment
+.env
