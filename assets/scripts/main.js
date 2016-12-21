@@ -20,7 +20,17 @@ function GameGrid(args) {
   this.rowCount = args.rowCount;
   this.chipSize = args.chipSize;
   this.chipMargin = args.chipMargin;
+  // The columns array where columns containing placed chips are stored
+  this.columns = [];
+  this.resetGrid();
 }
+// Reset the grid by removing all placed chips
+GameGrid.prototype.resetGrid = function () {
+  this.columns.length = 0;
+  for (var c = 0; c < this.columnCount; c += 1) {
+    this.columns.push([]);
+  }
+};
 
 var GameGridComponent = {
   controller: function () {
