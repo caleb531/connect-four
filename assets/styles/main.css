@@ -17,11 +17,11 @@ body {
   margin: 0 auto;
 }
 
-#chip-placeholders,
 #chips {
   position: absolute;
   bottom: 0;
   left: 0;
+  z-index: 10;
 }
 
 .grid-column {
@@ -32,6 +32,9 @@ body {
 .chip-placeholder,
 .chip {
   display: block;
+  width: 50px;
+  height: 50px;
+  margin: 6px;
   border: solid 2px rgba(0, 0, 0, 0.5);
   border-radius: 50%;
   box-sizing: border-box;

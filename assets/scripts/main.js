@@ -56,44 +56,19 @@ function Player(args) {
 }
 
 var GridComponent = {};
-GridComponent.controller = function () {
-  return {
-    getGridStyle: function (grid) {
-      var gridWidth = grid.columnCount * (grid.chipSize + (grid.chipMargin * 2));
-      var gridHeight = grid.rowCount * (grid.chipSize + (grid.chipMargin * 2));
-      return {
-        width: gridWidth + 'px',
-        height: gridHeight + 'px'
-      };
-    },
-    getChipStyle: function (c, r, grid) {
-      return {
-        width: grid.chipSize + 'px',
-        height: grid.chipSize + 'px',
-        margin: grid.chipMargin + 'px'
-      };
-    }
-  };
-};
 GridComponent.view = function (ctrl, game) {
   var grid = game.grid;
-  return m('div', {id: 'grid', style: ctrl.getGridStyle(grid)}, [
+  return m('div', {id: 'grid'}, [
     // Bottom grid of chip placeholders (indicating space chips can occupy)
     m('div', {id: 'chip-placeholders'}, _.times(grid.columnCount, function (c) {
       return m('div', {class: 'grid-column'}, _.times(grid.rowCount, function (r) {
-        return m('div', {
-          class: 'chip-placeholder',
-          style: ctrl.getChipStyle(c, r, grid)
-        });
+        return m('div', {class: 'chip-placeholder'});
       }));
     })),
     // Top grid of placed chips
     m('div', {id: 'chips'}, _.times(grid.columnCount, function (c) {
       return m('div', {class: 'grid-column'}, _.map(grid.columns[c], function (chip, r) {
-        return m('div', {
-          class: ['chip', chip.player.color].join(' '),
-          style: ctrl.getChipStyle(c, r, grid)
-        });
+        return m('div', {class: ['chip', chip.player.color].join(' ')});
       }));
     }))
   ]);
