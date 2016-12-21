@@ -17,16 +17,21 @@ body {
   margin: 0 auto;
 }
 
+#chip-placeholders,
+#chips {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
 .grid-column {
-  display: inline-block;
+  display: inline-flex;
+  flex-direction: column-reverse;
 }
 
 .chip-placeholder,
 .chip {
   display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
   border: solid 2px rgba(0, 0, 0, 0.5);
   border-radius: 50%;
   box-sizing: border-box;

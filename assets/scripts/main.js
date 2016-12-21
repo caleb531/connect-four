@@ -42,7 +42,6 @@ function Grid(args) {
 // Reset the grid by removing all placed chips
 Grid.prototype.resetGrid = function () {
   this.columns.length = 0;
-  var p1 = new Player({color: 'red'});
   for (var c = 0; c < this.columnCount; c += 1) {
     this.columns.push([]);
   }
@@ -68,12 +67,10 @@ GridComponent.controller = function () {
       };
     },
     getChipStyle: function (c, r, grid) {
-      var chipX = c * (grid.chipSize + (grid.chipMargin * 2)) + grid.chipMargin;
-      var chipY = (grid.rowCount - r - 1) * (grid.chipSize + (grid.chipMargin * 2)) + grid.chipMargin;
       return {
         width: grid.chipSize + 'px',
         height: grid.chipSize + 'px',
-        transform: 'translate(' + chipX + 'px,' + chipY + 'px)'
+        margin: grid.chipMargin + 'px'
       };
     }
   };
@@ -82,23 +79,23 @@ GridComponent.view = function (ctrl, game) {
   var grid = game.grid;
   return m('div', {id: 'grid', style: ctrl.getGridStyle(grid)}, [
     // Bottom grid of chip placeholders (indicating space chips can occupy)
-    _.times(grid.columnCount, function (c) {
-      return _.times(grid.rowCount, function (r) {
+    m('div', {id: 'chip-placeholders'}, _.times(grid.columnCount, function (c) {
+      return m('div', {class: 'grid-column'}, _.times(grid.rowCount, function (r) {
         return m('div', {
           class: 'chip-placeholder',
           style: ctrl.getChipStyle(c, r, grid)
         });
-      });
-    }),
+      }));
+    })),
     // Top grid of placed chips
-    _.times(grid.columnCount, function (c) {
-      return _.map(grid.columns[c], function (chip, r) {
+    m('div', {id: 'chips'}, _.times(grid.columnCount, function (c) {
+      return m('div', {class: 'grid-column'}, _.map(grid.columns[c], function (chip, r) {
         return m('div', {
           class: ['chip', chip.player.color].join(' '),
           style: ctrl.getChipStyle(c, r, grid)
         });
-      });
-    })
+      }));
+    }))
   ]);
 };
 
