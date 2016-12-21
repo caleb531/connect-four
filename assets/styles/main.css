@@ -17,7 +17,7 @@ body {
   margin: 0 auto;
 }
 
-.column {
+.grid-column {
   display: inline-block;
 }
 
@@ -30,4 +30,13 @@ body {
   border: solid 2px rgba(0, 0, 0, 0.5);
   border-radius: 50%;
   box-sizing: border-box;
+}
+.chip.black {
+  background-color: #111;
+}
+.chip.blue {
+  background-color: #36c;
+}
+.chip.red {
+  background-color: #c33;
 }
