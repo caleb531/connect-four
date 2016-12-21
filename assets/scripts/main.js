@@ -2,32 +2,32 @@
 
 var GameComponent = {};
 GameComponent.controller = function () {
-    return {
-        game: new Game({
-            ai: false,
-            grid: new Grid({
-                columnCount: 7,
-                rowCount: 6,
-                chipSize: 50,
-                chipMargin: 6
-            })
-        })
-    };
+  return {
+    game: new Game({
+      ai: false,
+      grid: new Grid({
+        columnCount: 7,
+        rowCount: 6,
+        chipSize: 50,
+        chipMargin: 6
+      })
+    })
+  };
 };
 GameComponent.view = function (ctrl) {
   return m(GridComponent, ctrl.game);
 };
 
 function Game(args) {
-    this.grid = args.grid;
-    this.players = [
-        // Player 1 (a human)
-        new Player({color: 'red'}),
-        // Player 2 (another human or the AI)
-        new Player({color: 'blue'})
-    ];
-    // The current player is null when a game is not in progress
-    this.currentPlayer = null;
+  this.grid = args.grid;
+  this.players = [
+    // Player 1 (a human)
+    new Player({color: 'red'}),
+    // Player 2 (another human or the AI)
+    new Player({color: 'blue'})
+  ];
+  // The current player is null when a game is not in progress
+  this.currentPlayer = null;
 }
 
 function Grid(args) {
