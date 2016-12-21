@@ -4,7 +4,6 @@ var GameComponent = {};
 GameComponent.controller = function () {
   return {
     game: new Game({
-      ai: false,
       grid: new Grid({
         columnCount: 7,
         rowCount: 6
@@ -13,26 +12,81 @@ GameComponent.controller = function () {
   };
 };
 GameComponent.view = function (ctrl) {
-  return m(GridComponent, ctrl.game);
+  return [
+    m(GameControlsComponent, ctrl.game),
+    m(GridComponent, ctrl.game)
+  ];
+};
+
+var GameControlsComponent = {};
+GameControlsComponent.controller = function () {
+  return {
+    startGame: function (game, playerCount) {
+      game.startGame({playerCount: playerCount});
+    },
+    resetGame: function (game) {
+      game.resetGame();
+    }
+  };
+};
+GameControlsComponent.view = function (ctrl, game) {
+  return m('div', {id: 'game-controls'}, [
+    game.players.length === 0 ? [
+      // Initially ask user to choose number of players to start game
+      m('label', 'Start Game:'),
+      m('button', {onclick: _.partial(ctrl.startGame, game, 1)}, '1 Player'),
+      m('button', {onclick: _.partial(ctrl.startGame, game, 2)}, '2 Players'),
+      m('p', {id: 'game-message'}, 'Choose a number of players to start a game.')
+    ] : [
+      // If game is in progress, display the number of players are whose turn it
+      // is (also provide an option to stop the game)
+      m('label', (game.players[1].ai ? 1 : 2) + '-Player Game'),
+      m('button', {onclick: _.partial(ctrl.resetGame, game)}, 'End Game'),
+      m('p', {id: 'game-message'}, game.currentPlayer.ai ?
+        'It\'s the AI\'s turn!'
+        : ('It\'s player ' + game.currentPlayer.playerNum + '\'s turn!'))
+    ]
+  ]);
 };
 
 function Game(args) {
   this.grid = args.grid;
-  this.players = [
-    // Player 1 (a human)
-    new Player({color: 'red'}),
-    // Player 2 (another human or the AI)
-    new Player({color: 'blue'})
-  ];
+  this.players = [];
   // The current player is null when a game is not in progress
   this.currentPlayer = null;
   // Whether or not the game is in progress
   this.gameInProgress = false;
   // The chip above the grid that is about to be placed
-  this.pendingChip = new Chip({player: new Player({color: 'red'})});
+  this.pendingChip = null;
   // The chip that was most recently placed in the board
   this.lastInsertedChip = null;
 }
+Game.prototype.startGame = function (args) {
+  if (args.playerCount === 2) {
+    // If 2-player game is selected, assume two human players
+    this.players.push(new Player({color: 'red', playerNum: 1}));
+    this.players.push(new Player({color: 'blue', playerNum: 2}));
+  } else {
+    // Otherwise, assume one human player and one AI player
+    this.players.push(new Player({color: 'red', playerNum: 1}));
+    // Set color of AI player to black to distinguish it from a human player
+    this.players.push(new Player({color: 'black', playerNum: 2, ai: true}));
+  }
+  this.gameInProgress = true;
+  this.currentPlayer = this.players[0];
+  this.startTurn();
+};
+Game.prototype.startTurn = function () {
+  this.pendingChip = new Chip({player: this.currentPlayer});
+};
+Game.prototype.resetGame = function (args) {
+  this.gameInProgress = false;
+  this.players.length = 0;
+  this.currentPlayer = null;
+  this.pendingChip = null;
+  this.lastInsertedChip = null;
+  this.grid.resetGrid();
+};
 
 function Grid(args) {
   this.columnCount = args.columnCount;
@@ -54,11 +108,13 @@ function Chip(args) {
 }
 
 function Player(args) {
+  this.playerNum = args.playerNum;
   this.color = args.color;
+  this.ai = !!args.ai;
 }
 
 var GridComponent = {};
-GridComponent.controller = function (game) {
+GridComponent.controller = function () {
   return {
     // Translate the pending chip to be aligned with whatever the user hovered
     // over (which is guaranteed to be either a chip, placeholder chip, or grid
