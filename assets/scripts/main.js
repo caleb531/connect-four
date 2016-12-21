@@ -1,17 +1,34 @@
 (function() {
 
 var GameComponent = {};
-GameComponent.view = function () {
-  return [
-    m(GridComponent, new Grid({
-        columnCount: 7,
-        rowCount: 6,
-        chipSize: 50,
-        chipMargin: 6
-      })
-    )
-  ];
+GameComponent.controller = function () {
+    return {
+        game: new Game({
+            ai: false,
+            grid: new Grid({
+                columnCount: 7,
+                rowCount: 6,
+                chipSize: 50,
+                chipMargin: 6
+            })
+        })
+    };
 };
+GameComponent.view = function (ctrl) {
+  return m(GridComponent, ctrl.game);
+};
+
+function Game(args) {
+    this.grid = args.grid;
+    this.players = [
+        // Player 1 (a human)
+        new Player({color: 'red'}),
+        // Player 2 (another human or the AI)
+        new Player({color: 'blue'})
+    ];
+    // The current player is null when a game is not in progress
+    this.currentPlayer = null;
+}
 
 function Grid(args) {
   this.columnCount = args.columnCount;
@@ -61,7 +78,8 @@ GridComponent.controller = function () {
     }
   };
 };
-GridComponent.view = function (ctrl, grid) {
+GridComponent.view = function (ctrl, game) {
+  var grid = game.grid;
   return m('div', {id: 'grid'},
     _.times(grid.columnCount, function (c) {
       return m('div', {class: 'grid-column', style: ctrl.getColumnStyle(grid)}, _.times(grid.rowCount, function (r) {
