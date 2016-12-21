@@ -1,0 +1,33 @@
+body {
+  font-family: 'Ubuntu', sans-serif;
+}
+#app {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+#game {
+  font-size: 0;
+}
+
+#grid {
+  display: inline-block;
+  position: relative;
+  margin: 0 auto;
+}
+
+.column {
+  display: inline-block;
+}
+
+.chip-placeholder,
+.chip {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: solid 2px rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  box-sizing: border-box;
+}
