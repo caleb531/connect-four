@@ -61,12 +61,12 @@ body {
 }
 
 /* Container of chip outlines, each indicating space a chip may occupy */
-#chip-placeholders {
+#chip-slots {
   position: relative;
   z-index: 10;
 }
-/* Ensure that the grid columns for the placeholder chips flush with the pending chip area */
-#chip-placeholders .grid-column {
+/* Ensure that the grid columns for the chip slots flush with the pending chip area */
+#chip-slots .grid-column {
   padding-top: 62px;
 }
 
@@ -78,7 +78,7 @@ body {
   z-index: 20;
 }
 
-.chip-placeholder,
+.chip-slot,
 .chip {
   display: block;
   width: 50px;

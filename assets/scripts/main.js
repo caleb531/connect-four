@@ -125,12 +125,12 @@ GridComponent.controller = function () {
         return elem.offsetLeft - marginLeft;
     },
     // Translate the pending chip to be aligned with whatever the user hovered
-    // over (which is guaranteed to be either a chip, placeholder chip, or grid
-    // column)
+    // over (which is guaranteed to be either a chip, chip slot, or grid column)
     getPendingChipTranslate: function (ctrl, game, event) {
       if (game.pendingChip && !game.placingPendingChip) {
         var pendingChipElem = event.currentTarget.querySelector('.chip.pending');
-        // Ensure that the left margin of a chip or placeholder chip is included in the offset measurement
+        // Ensure that the left margin of a chip or chip slot is included in the
+        // offset measurement
         pendingChipElem.style.transform = 'translate(' + ctrl.getOuterOffsetLeft(event.target) + 'px,0)';
       }
     },
@@ -158,10 +158,10 @@ GridComponent.view = function (ctrl, game) {
       m('div', {
         class: ['chip', 'pending', game.pendingChip.player.color, game.placingPendingChip ? 'placing' : ''].join(' ')
       }) : null),
-    // Bottom grid of chip placeholders (indicating space chips can occupy)
-    m('div', {id: 'chip-placeholders'}, _.times(grid.columnCount, function (c) {
+    // Bottom grid of slots (indicating space chips can occupy)
+    m('div', {id: 'chip-slots'}, _.times(grid.columnCount, function (c) {
       return m('div', {class: 'grid-column'}, _.times(grid.rowCount, function (r) {
-        return m('div', {class: 'chip-placeholder'});
+        return m('div', {class: 'chip-slot'});
       }));
     })),
     // Top grid of placed chips
