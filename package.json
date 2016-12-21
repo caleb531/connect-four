@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/caleb531/connect-four#readme",
   "dependencies": {
-    "mithril": "^0.2.5"
+    "mithril": "^0.2.5",
+    "underscore": "^1.8.3"
   }
 }
