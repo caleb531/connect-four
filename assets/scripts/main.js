@@ -4,7 +4,7 @@ var GameComponent = {
   controller: function () {},
   view: function (ctrl) {
     return [
-      m(GameGridComponent, new GameGrid({
+      m(GridComponent, new Grid({
           columnCount: 7,
           rowCount: 6,
           chipSize: 50,
@@ -15,7 +15,7 @@ var GameComponent = {
   }
 };
 
-function GameGrid(args) {
+function Grid(args) {
   this.columnCount = args.columnCount;
   this.rowCount = args.rowCount;
   this.chipSize = args.chipSize;
@@ -25,14 +25,14 @@ function GameGrid(args) {
   this.resetGrid();
 }
 // Reset the grid by removing all placed chips
-GameGrid.prototype.resetGrid = function () {
+Grid.prototype.resetGrid = function () {
   this.columns.length = 0;
   for (var c = 0; c < this.columnCount; c += 1) {
     this.columns.push([]);
   }
 };
 
-var GameGridComponent = {
+var GridComponent = {
   controller: function () {
     return {
       getGridStyle: function (grid) {
