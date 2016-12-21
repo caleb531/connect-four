@@ -86,6 +86,7 @@ Game.prototype.resetGame = function (args) {
   this.players.length = 0;
   this.currentPlayer = null;
   this.pendingChip = null;
+  this.pendingChipIsFalling = false;
   this.lastPlacedChip = null;
   this.grid.resetGrid();
 };
