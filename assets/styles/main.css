@@ -105,7 +105,7 @@ body {
   transition-duration: 100ms;
   transition-timing-function: ease-in-out;
 }
-.chip.pending.placing {
+.chip.pending.is-falling {
   transition-duration: 500ms;
   transition-timing-function: cubic-bezier(0.6, 0.0, 0.0, 1.25);
 }

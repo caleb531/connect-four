@@ -59,7 +59,7 @@ function Game(args) {
   // The chip above the grid that is about to be placed
   this.pendingChip = null;
   // Whether or not a chip is in the process of being placed on the grid
-  this.placingPendingChip = false;
+  this.pendingChipIsFalling = false;
   // The chip that was most recently placed in the board
   this.lastPlacedChip = null;
 }
@@ -127,7 +127,7 @@ GridComponent.controller = function () {
     // Translate the pending chip to be aligned with whatever the user hovered
     // over (which is guaranteed to be either a chip, chip slot, or grid column)
     getPendingChipTranslate: function (ctrl, game, event) {
-      if (game.pendingChip && !game.placingPendingChip) {
+      if (game.pendingChip && !game.pendingChipIsFalling) {
         var pendingChipElem = event.currentTarget.querySelector('.chip.pending');
         // Ensure that the left margin of a chip or chip slot is included in the
         // offset measurement
@@ -135,8 +135,8 @@ GridComponent.controller = function () {
       }
     },
     placeChip: function (ctrl, game, event) {
-      if (game.pendingChip && !game.placingPendingChip) {
-          game.placingPendingChip = true;
+      if (game.pendingChip && !game.pendingChipIsFalling) {
+          game.pendingChipIsFalling = true;
           var pendingChipElem = event.currentTarget.querySelector('.chip.pending');
           var columnOffsetLeft = ctrl.getOuterOffsetLeft(event.target);
           // For testing, transition the chip down to an arbitrary slot in the
@@ -156,7 +156,7 @@ GridComponent.view = function (ctrl, game) {
     // Area where to-be-placed chips are dropped from
     m('div', {id: 'pending-chip-zone'}, game.pendingChip ?
       m('div', {
-        class: ['chip', 'pending', game.pendingChip.player.color, game.placingPendingChip ? 'placing' : ''].join(' ')
+        class: ['chip', 'pending', game.pendingChip.player.color, game.pendingChipIsFalling ? 'is-falling' : ''].join(' ')
       }) : null),
     // Bottom grid of slots (indicating space chips can occupy)
     m('div', {id: 'chip-slots'}, _.times(grid.columnCount, function (c) {
