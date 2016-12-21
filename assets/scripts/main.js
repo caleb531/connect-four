@@ -65,8 +65,7 @@ GridComponent.controller = function (game) {
     // column)
     getPendingChipTranslate: function (game, event) {
       if (game.pendingChip) {
-        var pendingChipElem = document.querySelector('.chip.pending');
-        var gridElem = event.currentTarget;
+        var pendingChipElem = event.currentTarget.querySelector('.chip.pending');
         // Ensure that the left margin of a chip or placeholder chip is included in the offset measurement
         var marginLeft = parseInt(window.getComputedStyle(event.target)['margin-left']);
         var offsetX = event.target.offsetLeft - marginLeft;
