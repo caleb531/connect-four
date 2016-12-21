@@ -58,8 +58,10 @@ function Game(args) {
   this.gameInProgress = false;
   // The chip above the grid that is about to be placed
   this.pendingChip = null;
+  // Whether or not a chip is in the process of being placed on the grid
+  this.placingPendingChip = false;
   // The chip that was most recently placed in the board
-  this.lastInsertedChip = null;
+  this.lastPlacedChip = null;
 }
 Game.prototype.startGame = function (args) {
   if (args.playerCount === 2) {
@@ -84,7 +86,7 @@ Game.prototype.resetGame = function (args) {
   this.players.length = 0;
   this.currentPlayer = null;
   this.pendingChip = null;
-  this.lastInsertedChip = null;
+  this.lastPlacedChip = null;
   this.grid.resetGrid();
 };
 
@@ -116,27 +118,45 @@ function Player(args) {
 var GridComponent = {};
 GridComponent.controller = function () {
   return {
+    // Get the left offset of the element (including its margin) relative to its
+    // nearest non-static parent
+    getOuterOffsetLeft: function (elem) {
+        var marginLeft = parseInt(window.getComputedStyle(elem)['margin-left']);
+        return elem.offsetLeft - marginLeft;
+    },
     // Translate the pending chip to be aligned with whatever the user hovered
     // over (which is guaranteed to be either a chip, placeholder chip, or grid
     // column)
-    getPendingChipTranslate: function (game, event) {
-      if (game.pendingChip) {
+    getPendingChipTranslate: function (ctrl, game, event) {
+      if (game.pendingChip && !game.placingPendingChip) {
         var pendingChipElem = event.currentTarget.querySelector('.chip.pending');
         // Ensure that the left margin of a chip or placeholder chip is included in the offset measurement
-        var marginLeft = parseInt(window.getComputedStyle(event.target)['margin-left']);
-        var offsetX = event.target.offsetLeft - marginLeft;
-        pendingChipElem.style.transform = 'translate(' + offsetX + 'px,0)';
+        pendingChipElem.style.transform = 'translate(' + ctrl.getOuterOffsetLeft(event.target) + 'px,0)';
+      }
+    },
+    placeChip: function (ctrl, game, event) {
+      if (game.pendingChip && !game.placingPendingChip) {
+          game.placingPendingChip = true;
+          var pendingChipElem = event.currentTarget.querySelector('.chip.pending');
+          var columnOffsetLeft = ctrl.getOuterOffsetLeft(event.target);
+          // For testing, transition the chip down to an arbitrary slot in the
+          // same column
+          pendingChipElem.style.transform = 'translate(' + columnOffsetLeft + 'px,310px)';
       }
     }
   };
 };
 GridComponent.view = function (ctrl, game) {
   var grid = game.grid;
-  return m('div', {id: 'grid', onmousemove: _.partial(ctrl.getPendingChipTranslate, game)}, [
+  return m('div', {
+    id: 'grid',
+    onmousemove: _.partial(ctrl.getPendingChipTranslate, ctrl, game),
+    onclick: _.partial(ctrl.placeChip, ctrl, game)
+  }, [
     // Area where to-be-placed chips are dropped from
     m('div', {id: 'pending-chip-zone'}, game.pendingChip ?
       m('div', {
-        class: ['chip', 'pending', game.pendingChip.player.color].join(' ')
+        class: ['chip', 'pending', game.pendingChip.player.color, game.placingPendingChip ? 'placing' : ''].join(' ')
       }) : null),
     // Bottom grid of chip placeholders (indicating space chips can occupy)
     m('div', {id: 'chip-placeholders'}, _.times(grid.columnCount, function (c) {
