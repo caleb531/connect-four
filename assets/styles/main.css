@@ -8,10 +8,10 @@ body {
   margin: 0 auto;
   text-align: center;
 }
-
 #game {
   font-size: 0;
 }
+
 
 #game-controls {
   margin-bottom: 10px;
@@ -38,16 +38,17 @@ body {
   background-color: #5b2;
 }
 
+
 #grid {
   display: inline-block;
   position: relative;
   margin: 0 auto;
 }
-
 .grid-column {
   display: inline-flex;
   flex-direction: column-reverse;
 }
+
 
 /* The space above the main grid where a to-be-placed chip will drop from */
 #pending-chip-zone {
@@ -59,7 +60,6 @@ body {
   z-index: 100;
   pointer-events: none;
 }
-
 /* Container of chip outlines, each indicating space a chip may occupy */
 #chip-slots {
   position: relative;
@@ -69,7 +69,6 @@ body {
 #chip-slots .grid-column {
   padding-top: 62px;
 }
-
 /* Container for chips placed during the game */
 #chips {
   position: absolute;
@@ -77,6 +76,7 @@ body {
   left: 0;
   z-index: 20;
 }
+
 
 .chip-slot,
 .chip {

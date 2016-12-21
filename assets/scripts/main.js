@@ -18,6 +18,7 @@ GameComponent.view = function (ctrl) {
   ];
 };
 
+
 var GameControlsComponent = {};
 GameControlsComponent.controller = function () {
   return {
@@ -48,6 +49,7 @@ GameControlsComponent.view = function (ctrl, game) {
     ]
   ]);
 };
+
 
 function Game(args) {
   this.grid = args.grid;
@@ -91,6 +93,19 @@ Game.prototype.resetGame = function (args) {
   this.grid.resetGrid();
 };
 
+
+function Chip(args) {
+  this.player = args.player;
+}
+
+
+function Player(args) {
+  this.playerNum = args.playerNum;
+  this.color = args.color;
+  this.ai = !!args.ai;
+}
+
+
 function Grid(args) {
   this.columnCount = args.columnCount;
   this.rowCount = args.rowCount;
@@ -106,15 +121,6 @@ Grid.prototype.resetGrid = function () {
   }
 };
 
-function Chip(args) {
-  this.player = args.player;
-}
-
-function Player(args) {
-  this.playerNum = args.playerNum;
-  this.color = args.color;
-  this.ai = !!args.ai;
-}
 
 var GridComponent = {};
 GridComponent.controller = function () {
@@ -173,6 +179,7 @@ GridComponent.view = function (ctrl, game) {
     }))
   ]);
 };
+
 
 m.mount(document.getElementById('game'), GameComponent);
 
