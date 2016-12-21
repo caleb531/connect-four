@@ -7,9 +7,7 @@ GameComponent.controller = function () {
       ai: false,
       grid: new Grid({
         columnCount: 7,
-        rowCount: 6,
-        chipSize: 50,
-        chipMargin: 6
+        rowCount: 6
       })
     })
   };
@@ -33,8 +31,6 @@ function Game(args) {
 function Grid(args) {
   this.columnCount = args.columnCount;
   this.rowCount = args.rowCount;
-  this.chipSize = args.chipSize;
-  this.chipMargin = args.chipMargin;
   // The columns array where columns containing placed chips are stored
   this.columns = [];
   this.resetGrid();
