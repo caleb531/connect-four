@@ -59,7 +59,6 @@ var GameGridComponent = {
       _.times(grid.columnCount, function (c) {
         return m('div', {class: 'column'}, _.times(grid.rowCount, function (r) {
           return m('div', {
-            key: 'chip-' + c + '-' + r,
             class: 'chip-placeholder',
             style: ctrl.getChipStyle(c, r, grid)
           });
