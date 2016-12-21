@@ -69,7 +69,7 @@ GridComponent.controller = function () {
     },
     getChipStyle: function (c, r, grid) {
       var chipX = c * (grid.chipSize + (grid.chipMargin * 2)) + grid.chipMargin;
-      var chipY = r * (grid.chipSize + (grid.chipMargin * 2)) + grid.chipMargin;
+      var chipY = (grid.rowCount - r - 1) * (grid.chipSize + (grid.chipMargin * 2)) + grid.chipMargin;
       return {
         width: grid.chipSize + 'px',
         height: grid.chipSize + 'px',
