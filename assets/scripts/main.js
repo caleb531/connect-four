@@ -59,8 +59,8 @@ function Player(args) {
 var GridComponent = {};
 GridComponent.controller = function () {
   return {
-    getColumnStyle: function (grid) {
-      var gridWidth = grid.chipSize + (grid.chipMargin * 2);
+    getGridStyle: function (grid) {
+      var gridWidth = grid.columnCount * (grid.chipSize + (grid.chipMargin * 2));
       var gridHeight = grid.rowCount * (grid.chipSize + (grid.chipMargin * 2));
       return {
         width: gridWidth + 'px',
@@ -80,21 +80,26 @@ GridComponent.controller = function () {
 };
 GridComponent.view = function (ctrl, game) {
   var grid = game.grid;
-  return m('div', {id: 'grid'},
+  return m('div', {id: 'grid', style: ctrl.getGridStyle(grid)}, [
+    // Bottom grid of chip placeholders (indicating space chips can occupy)
     _.times(grid.columnCount, function (c) {
-      return m('div', {class: 'grid-column', style: ctrl.getColumnStyle(grid)}, _.times(grid.rowCount, function (r) {
+      return _.times(grid.rowCount, function (r) {
         return m('div', {
           class: 'chip-placeholder',
           style: ctrl.getChipStyle(c, r, grid)
         });
-      }).concat(_.forEach(grid.columns[c], function (chip, r) {
+      });
+    }),
+    // Top grid of placed chips
+    _.times(grid.columnCount, function (c) {
+      return _.map(grid.columns[c], function (chip, r) {
         return m('div', {
           class: ['chip', chip.player.color].join(' '),
           style: ctrl.getChipStyle(c, r, grid)
         });
-      })));
+      });
     })
-  );
+  ]);
 };
 
 m.mount(document.getElementById('game'), GameComponent);
