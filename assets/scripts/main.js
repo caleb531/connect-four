@@ -66,6 +66,8 @@ function Game(args) {
   this.pendingChipIsFalling = false;
   // The chip that was most recently placed in the board
   this.lastPlacedChip = null;
+  // TODO: remove this when P2 mode testing is finished
+  this.startGame({playerCount: 2});
 }
 Game.prototype.startGame = function (args) {
   if (args.playerCount === 2) {
