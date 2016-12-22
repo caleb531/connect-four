@@ -178,14 +178,14 @@ GridComponent.controller = function () {
     // Get the left offset of the element (including its margin) relative to its
     // nearest non-static parent
     getOuterOffsetLeft: function (elem) {
-        var marginLeft = parseInt(window.getComputedStyle(elem)['margin-left']);
-        return elem.offsetLeft - marginLeft;
+      var marginLeft = parseInt(window.getComputedStyle(elem)['margin-left']);
+      return elem.offsetLeft - marginLeft;
     },
     // Get the top offset of the element (including its margin) relative to its
     // nearest non-static parent
     getOuterOffsetTop: function (elem) {
-        var marginTop = parseInt(window.getComputedStyle(elem)['margin-top']);
-        return elem.offsetTop - marginTop;
+      var marginTop = parseInt(window.getComputedStyle(elem)['margin-top']);
+      return elem.offsetTop - marginTop;
     },
     // Translate the pending chip to be aligned with whatever the user hovered
     // over (which is guaranteed to be either a chip, chip slot, or grid column)
@@ -214,32 +214,32 @@ GridComponent.controller = function () {
     // it is hovering over
     placePendingChip: function (ctrl, game, event) {
       if (game.pendingChip && !game.pendingChipIsFalling) {
-          var pendingChipElem = event.currentTarget.querySelector('.chip.pending');
-          if (!pendingChipElem) {
-            return;
-          }
-          // Get the column/row index where the pending chip is to be placed
-          var columnIndex = Number(event.target.getAttribute('data-column'));
-          var rowIndex = game.getNextAvailableSlot({column: columnIndex});
-          // Do not allow user to place chip in column that is already full
-          if (rowIndex === null) {
-            return;
-          }
-          game.pendingChipIsFalling = true;
-          // Translate chip to the visual position on the grid corresponding to
-          // the above column and row
-          var slotOffset = ctrl.getSlotOffset(columnIndex, rowIndex);
-          ctrl.setTranslate(pendingChipElem, {
-            x: slotOffset.left,
-            y: slotOffset.top
-          });
-          // Perform insertion on internal game grid once transition has ended
-          pendingChipElem.addEventListener('transitionend', function transitionend() {
-            pendingChipElem.removeEventListener('transitionend', transitionend);
-            game.placePendingChip({column: columnIndex});
-            // Ensure pending chip is removed from DOM since it has been placed
-            game.endTurn();
-          });
+        var pendingChipElem = event.currentTarget.querySelector('.chip.pending');
+        if (!pendingChipElem) {
+          return;
+        }
+        // Get the column/row index where the pending chip is to be placed
+        var columnIndex = Number(event.target.getAttribute('data-column'));
+        var rowIndex = game.getNextAvailableSlot({column: columnIndex});
+        // Do not allow user to place chip in column that is already full
+        if (rowIndex === null) {
+          return;
+        }
+        game.pendingChipIsFalling = true;
+        // Translate chip to the visual position on the grid corresponding to
+        // the above column and row
+        var slotOffset = ctrl.getSlotOffset(columnIndex, rowIndex);
+        ctrl.setTranslate(pendingChipElem, {
+          x: slotOffset.left,
+          y: slotOffset.top
+        });
+        // Perform insertion on internal game grid once transition has ended
+        pendingChipElem.addEventListener('transitionend', function transitionend() {
+          pendingChipElem.removeEventListener('transitionend', transitionend);
+          game.placePendingChip({column: columnIndex});
+          // Ensure pending chip is removed from DOM since it has been placed
+          game.endTurn();
+        });
       }
     }
   };
