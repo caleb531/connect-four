@@ -251,6 +251,8 @@ GridComponent.controller = function () {
           game.placePendingChip({column: columnIndex});
           // Ensure pending chip is removed from DOM since it has been placed
           game.endTurn();
+          // Reset position of pending chip to be directly above column where
+          // chip was placed just now
           ctrl.pendingChipTranslateX = ctrl.getSlotOffset(game.lastInsertedChipColumn, 0).left;
           ctrl.pendingChipTranslateY = 0;
           m.redraw();
