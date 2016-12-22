@@ -187,10 +187,15 @@ GridComponent.controller = function () {
       var marginTop = parseInt(window.getComputedStyle(elem)['margin-top']);
       return elem.offsetTop - marginTop;
     },
-    // Get the width of a single chip (including margin)z
-    getChipOuterWidth: function (chipElem) {
-      var chipStyle = window.getComputedStyle(chipElem);
-      return parseInt(chipStyle.width) + (parseInt(chipStyle['margin-left']) * 2);
+    // Get the left offset of the column currently aligned with the cursor
+    getPointerColumnOffsetLeft: function (game, event) {
+      var chipWidth = event.currentTarget.offsetWidth / game.grid.columnCount;
+      return Math.floor((event.pageX - event.currentTarget.offsetLeft) / chipWidth) * chipWidth;
+    },
+    // Get the index of the column currently aligned with the cursor
+    getPointerColumnIndex: function (game, event) {
+      var chipWidth = event.currentTarget.offsetWidth / game.grid.columnCount;
+      return Math.floor((event.pageX - event.currentTarget.offsetLeft) / chipWidth);
     },
     // Translate the pending chip to be aligned with whatever the user hovered
     // over (which is guaranteed to be either a chip, chip slot, or grid column)
@@ -199,9 +204,8 @@ GridComponent.controller = function () {
         // The currentTarget is always guaranteed to be div#grid
         var pendingChipElem = event.currentTarget.querySelector('.chip.pending');
         if (pendingChipElem) {
-          var chipWidth = ctrl.getChipOuterWidth(pendingChipElem);
           ctrl.setTranslate(pendingChipElem, {
-            x: Math.floor((event.pageX - event.currentTarget.offsetLeft) / chipWidth) * chipWidth,
+            x: ctrl.getPointerColumnOffsetLeft(game, event),
             y: 0
           });
         }
@@ -224,7 +228,7 @@ GridComponent.controller = function () {
           return;
         }
         // Get the column/row index where the pending chip is to be placed
-        var columnIndex = Number(event.target.getAttribute('data-column'));
+        var columnIndex = ctrl.getPointerColumnIndex(game, event);
         var rowIndex = game.getNextAvailableSlot({column: columnIndex});
         // Do not allow user to place chip in column that is already full
         if (rowIndex === null) {
