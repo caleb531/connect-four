@@ -35,7 +35,7 @@ GameControlsComponent.view = function (ctrl, game) {
     game.players.length === 0 ? [
       // Initially ask user to choose number of players to start game
       m('label', 'Start Game:'),
-      m('button', {onclick: _.partial(ctrl.startGame, game, 1)}, '1 Player'),
+      // m('button', {onclick: _.partial(ctrl.startGame, game, 1)}, '1 Player'),
       m('button', {onclick: _.partial(ctrl.startGame, game, 2)}, '2 Players'),
       m('p', {id: 'game-message'}, 'Choose a number of players to start a game.')
     ] : [
