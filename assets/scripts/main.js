@@ -213,7 +213,10 @@ GridComponent.controller = function () {
     },
     // Get the left/top offset of the chip slot element at the given column/row
     getSlotOffset: function (columnIndex, rowIndex) {
-      var slotElem = document.querySelector('.chip-slot[data-column="' + columnIndex + '"][data-row="' + rowIndex + '"]');
+      var slotElem = document
+        .getElementById('chip-slots')
+        .getElementsByClassName('grid-column')[columnIndex]
+        .getElementsByClassName('chip-slot')[rowIndex];
       return {
         left: this.getOuterOffsetLeft(slotElem),
         top: this.getOuterOffsetTop(slotElem)
