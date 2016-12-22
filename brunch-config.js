@@ -12,5 +12,10 @@ module.exports = {
         'styles/main.css': ['app/styles/main.scss']
       }
     }
+  },
+  modules: {
+    autoRequire: {
+      'scripts/main.js': ['scripts/main']
+    }
   }
 };
