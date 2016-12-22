@@ -94,6 +94,5 @@ body {
 }
 .chip.pending.is-falling {
   z-index: 20;
-  transition-duration: 500ms;
-  transition-timing-function: cubic-bezier(0.6, 0.0, 0.0, 1.25);
+  transition: transform 500ms cubic-bezier(0.6, 0.0, 0.0, 1.25);
 }
