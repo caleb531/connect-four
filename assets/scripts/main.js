@@ -244,6 +244,9 @@ GridComponent.controller = function () {
           game.placePendingChip({column: columnIndex});
           // Ensure pending chip is removed from DOM since it has been placed
           game.endTurn();
+          ctrl.pendingChipTranslateX = ctrl.getSlotOffset(game.lastInsertedChipColumn, 0).left;
+          ctrl.pendingChipTranslateY = 0;
+          m.redraw();
         });
       }
     }
