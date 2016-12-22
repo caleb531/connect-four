@@ -254,8 +254,7 @@ GridComponent.controller = function () {
 };
 GridComponent.view = function (ctrl, game) {
   var grid = game.grid;
-  return m('div', {
-    id: 'grid',
+  return m('div#grid', {
     onmousemove: _.partial(ctrl.getPendingChipTranslate, ctrl, game),
     onclick: _.partial(ctrl.placePendingChip, ctrl, game)
   }, [
@@ -271,14 +270,14 @@ GridComponent.view = function (ctrl, game) {
         }
       }) : null,
     // Bottom grid of slots (indicating space chips can occupy)
-    m('div', {id: 'chip-slots'}, _.times(grid.columnCount, function (c) {
-      return m('div', {class: 'grid-column', 'data-column': c}, _.times(grid.rowCount, function (r) {
-        return m('div', {class: 'chip-slot', 'data-column': c, 'data-row': r});
+    m('div#chip-slots', _.times(grid.columnCount, function (c) {
+      return m('div.grid-column', {'data-column': c}, _.times(grid.rowCount, function (r) {
+        return m('div.chip-slot', {'data-column': c, 'data-row': r});
       }));
     })),
     // Top grid of placed chips
-    m('div', {id: 'chips'}, _.times(grid.columnCount, function (c) {
-      return m('div', {class: 'grid-column', 'data-column': c}, _.map(grid.columns[c], function (chip, r) {
+    m('div#chips', _.times(grid.columnCount, function (c) {
+      return m('div.grid-column', {'data-column': c}, _.map(grid.columns[c], function (chip, r) {
         return m('div', {
           key: 'chip-' + [c, r].join('-'),
           class: ['chip', chip.player.color].join(' '), 'data-column': c, 'data-row': r
