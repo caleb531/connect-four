@@ -1,0 +1,72 @@
+// The game grid, including all of its layers as well as individual chips
+
+// Chip constants
+$chip-size: 50px;
+$chip-margin: 6px;
+
+#grid {
+  display: inline-block;
+  position: relative;
+  margin: 0 auto;
+}
+.grid-column {
+  display: inline-flex;
+  flex-direction: column-reverse;
+  // This ensures that empty columns do not occupy any less space
+  width: $chip-size + $chip-margin;
+}
+// Container of chip outlines, each indicating space a chip may occupy
+#chip-slots {
+  position: relative;
+  // The layer of chip slots should appear below all other grid elements
+  z-index: 10;
+  // Ensure that the grid columns for the chip slots flush with the pending chip
+  // area
+  .grid-column {
+    padding-top: $chip-size + $chip-margin;
+  }
+}
+// Container for chips placed during the game
+#placed-chips {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  // The layer of placed chips should appear above all other grid elements
+  z-index: 30;
+}
+
+// Chips
+
+.chip-slot,
+.chip {
+  display: block;
+  width: $chip-size;
+  height: $chip-size;
+  margin: $chip-margin;
+  border: solid 2px rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+.chip {
+  &.black {
+    background-color: #111;
+  }
+  &.blue {
+    background-color: #36c;
+  }
+  &.red {
+    background-color: #c33;
+  }
+  // The pending chip is the to-be-placed chip above the board
+  &.pending {
+    position: absolute;
+    top: 0;
+    left: 0;
+    // The falling pending chip should appear below the layer of placed chips
+    z-index: 20;
+  }
+  &.pending.is-falling {
+    // Set a falling transition with a rubber-banding effect at the end
+    transition: transform 500ms cubic-bezier(0.6, 0.0, 0.0, 1.25);
+  }
+}

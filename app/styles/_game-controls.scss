@@ -1,0 +1,24 @@
+#game-controls {
+  margin-bottom: 10px;
+  label, button {
+    font-size: 14px;
+  }
+  button {
+    margin: 0 4px;
+    border: solid 1px rgba(0, 0, 0, 0.25);
+    border-radius: 3px;
+    padding: 4px 6px;
+    background-color: #4a1;
+    color: #fff;
+    &:focus {
+      outline-width: 0;
+      background-color: #5b2;
+    }
+  }
+}
+
+#game-message {
+  font-size: 14px;
+  margin: 0;
+  margin-top: 10px;
+}
