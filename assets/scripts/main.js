@@ -187,16 +187,21 @@ GridComponent.controller = function () {
       var marginTop = parseInt(window.getComputedStyle(elem)['margin-top']);
       return elem.offsetTop - marginTop;
     },
+    // Get the width of a single chip (including margin)z
+    getChipOuterWidth: function (chipElem) {
+      var chipStyle = window.getComputedStyle(chipElem);
+      return parseInt(chipStyle.width) + (parseInt(chipStyle['margin-left']) * 2);
+    },
     // Translate the pending chip to be aligned with whatever the user hovered
     // over (which is guaranteed to be either a chip, chip slot, or grid column)
     getPendingChipTranslate: function (ctrl, game, event) {
       if (game.pendingChip && !game.pendingChipIsFalling) {
+        // The currentTarget is always guaranteed to be div#grid
         var pendingChipElem = event.currentTarget.querySelector('.chip.pending');
         if (pendingChipElem) {
-          // Ensure that the left margin of a chip or chip slot is included in
-          // the offset measurement
+          var chipWidth = ctrl.getChipOuterWidth(pendingChipElem);
           ctrl.setTranslate(pendingChipElem, {
-            x: ctrl.getOuterOffsetLeft(event.target),
+            x: Math.floor((event.pageX - event.currentTarget.offsetLeft) / chipWidth) * chipWidth,
             y: 0
           });
         }
