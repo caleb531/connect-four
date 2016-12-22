@@ -83,6 +83,23 @@ Game.prototype.startGame = function (args) {
 Game.prototype.startTurn = function () {
   this.pendingChip = new Chip({player: this.currentPlayer});
 };
+// Return the index of the next available row for the given column
+Game.prototype.getNextAvailableSlot = function (args) {
+  var nextRowIndex = this.grid.columns[args.column].length;
+  if (nextRowIndex < this.grid.rowCount) {
+    return nextRowIndex;
+  } else {
+    // Return null if thee are no more available slots in this column
+    return null;
+  }
+};
+// Insert the current pending chip into the columns array at the given index
+Game.prototype.placePendingChip = function (args) {
+  this.grid.columns[args.column].push(this.pendingChip);
+  this.pendingChipIsFalling = false;
+  this.lastPlacedChip = this.pendingChip;
+  this.pendingChip = null;
+};
 Game.prototype.resetGame = function (args) {
   this.gameInProgress = false;
   this.players.length = 0;
@@ -127,6 +144,14 @@ GridComponent.controller = function () {
   return {
     // Set the CSS transform value for the given DOM element
     setTranslate: function (elem, coords) {
+      if (coords.x === undefined || coords.y === undefined) {
+        var currentTranslate = window.getComputedStyle(elem).transform;
+        if (currentTranslate && currentTranslate !== 'none') {
+          currentValues = currentTranslate.match(/-?\d+(\.\d+)?/);
+          coords.x = coords.x === undefined ? Number(currentValues[0]) : coords.x;
+          coords.y = coords.y === undefined ? Number(currentValues[1]) : coords.y;
+        }
+      }
       elem.style.transform = 'translate(' + coords.x + 'px,' + coords.y + 'px)';
     },
     // Get the left offset of the element (including its margin) relative to its
@@ -134,6 +159,12 @@ GridComponent.controller = function () {
     getOuterOffsetLeft: function (elem) {
         var marginLeft = parseInt(window.getComputedStyle(elem)['margin-left']);
         return elem.offsetLeft - marginLeft;
+    },
+    // Get the top offset of the element (including its margin) relative to its
+    // nearest non-static parent
+    getOuterOffsetTop: function (elem) {
+        var marginTop = parseInt(window.getComputedStyle(elem)['margin-top']);
+        return elem.offsetTop - marginTop;
     },
     // Translate the pending chip to be aligned with whatever the user hovered
     // over (which is guaranteed to be either a chip, chip slot, or grid column)
@@ -148,15 +179,36 @@ GridComponent.controller = function () {
         });
       }
     },
-    placeChip: function (ctrl, game, event) {
+    // Get the left/top offset of the chip slot element at the given column/row
+    getSlotOffset: function (columnIndex, rowIndex) {
+      var slotElem = document.querySelector('.chip-slot[data-column="' + columnIndex + '"][data-row="' + rowIndex + '"]');
+      return {
+        left: this.getOuterOffsetLeft(slotElem),
+        top: this.getOuterOffsetTop(slotElem)
+      };
+    },
+    // Place the current pending chip into the next available slot in the column
+    // it is hovering over
+    placePendingChip: function (ctrl, game, event) {
       if (game.pendingChip && !game.pendingChipIsFalling) {
           game.pendingChipIsFalling = true;
           var pendingChipElem = event.currentTarget.querySelector('.chip.pending');
-          // For testing, transition the chip down to an arbitrary slot in the
-          // same column
+          // Get the column/row index where the pending chip is to be placed
+          var columnIndex = Number(event.target.getAttribute('data-column'));
+          var rowIndex = game.getNextAvailableSlot({column: columnIndex});
+          // Translate chip to the visual position on the grid corresponding to
+          // the above column and row
+          var slotOffset = ctrl.getSlotOffset(columnIndex, rowIndex);
           ctrl.setTranslate(pendingChipElem, {
-            x: ctrl.getOuterOffsetLeft(event.target),
-            y: 310
+            x: slotOffset.left,
+            y: slotOffset.top
+          });
+          // Perform insertion on internal game grid once transition has ended
+          pendingChipElem.addEventListener('transitionend', function transitionend() {
+            pendingChipElem.removeEventListener('transitionend', transitionend);
+            game.placePendingChip({column: columnIndex});
+            // Ensure that
+            m.redraw();
           });
       }
     }
@@ -167,7 +219,7 @@ GridComponent.view = function (ctrl, game) {
   return m('div', {
     id: 'grid',
     onmousemove: _.partial(ctrl.getPendingChipTranslate, ctrl, game),
-    onclick: _.partial(ctrl.placeChip, ctrl, game)
+    onclick: _.partial(ctrl.placePendingChip, ctrl, game)
   }, [
     // Area where to-be-placed chips are dropped from
     m('div', {id: 'pending-chip-zone'}, game.pendingChip ?
@@ -176,14 +228,17 @@ GridComponent.view = function (ctrl, game) {
       }) : null),
     // Bottom grid of slots (indicating space chips can occupy)
     m('div', {id: 'chip-slots'}, _.times(grid.columnCount, function (c) {
-      return m('div', {class: 'grid-column'}, _.times(grid.rowCount, function (r) {
-        return m('div', {class: 'chip-slot'});
+      return m('div', {class: 'grid-column', 'data-column': c}, _.times(grid.rowCount, function (r) {
+        return m('div', {class: 'chip-slot', 'data-column': c, 'data-row': r});
       }));
     })),
     // Top grid of placed chips
     m('div', {id: 'chips'}, _.times(grid.columnCount, function (c) {
-      return m('div', {class: 'grid-column'}, _.map(grid.columns[c], function (chip, r) {
-        return m('div', {class: ['chip', chip.player.color].join(' ')});
+      return m('div', {class: 'grid-column', 'data-column': c}, _.map(grid.columns[c], function (chip, r) {
+        return m('div', {
+          key: 'chip-' + [c, r].join('-'),
+          class: ['chip', chip.player.color].join(' '), 'data-column': c, 'data-row': r
+        });
       }));
     }))
   ]);

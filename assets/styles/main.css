@@ -47,6 +47,7 @@ body {
 .grid-column {
   display: inline-flex;
   flex-direction: column-reverse;
+  width: 62px;
 }
 
 
