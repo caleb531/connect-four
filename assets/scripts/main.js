@@ -125,6 +125,10 @@ Grid.prototype.resetGrid = function () {
 var GridComponent = {};
 GridComponent.controller = function () {
   return {
+    // Set the CSS transform value for the given DOM element
+    setTranslate: function (elem, coords) {
+      elem.style.transform = 'translate(' + coords.x + 'px,' + coords.y + 'px)';
+    },
     // Get the left offset of the element (including its margin) relative to its
     // nearest non-static parent
     getOuterOffsetLeft: function (elem) {
@@ -138,17 +142,22 @@ GridComponent.controller = function () {
         var pendingChipElem = event.currentTarget.querySelector('.chip.pending');
         // Ensure that the left margin of a chip or chip slot is included in the
         // offset measurement
-        pendingChipElem.style.transform = 'translate(' + ctrl.getOuterOffsetLeft(event.target) + 'px,0)';
+        ctrl.setTranslate(pendingChipElem, {
+          x: ctrl.getOuterOffsetLeft(event.target),
+          y: 0
+        });
       }
     },
     placeChip: function (ctrl, game, event) {
       if (game.pendingChip && !game.pendingChipIsFalling) {
           game.pendingChipIsFalling = true;
           var pendingChipElem = event.currentTarget.querySelector('.chip.pending');
-          var columnOffsetLeft = ctrl.getOuterOffsetLeft(event.target);
           // For testing, transition the chip down to an arbitrary slot in the
           // same column
-          pendingChipElem.style.transform = 'translate(' + columnOffsetLeft + 'px,310px)';
+          ctrl.setTranslate(pendingChipElem, {
+            x: ctrl.getOuterOffsetLeft(event.target),
+            y: 310
+          });
       }
     }
   };
