@@ -276,7 +276,7 @@ GridComponent.view = function (ctrl, game) {
       }));
     })),
     // Top grid of placed chips
-    m('div#chips', _.times(grid.columnCount, function (c) {
+    m('div#placed-chips', _.times(grid.columnCount, function (c) {
       return m('div.grid-column', {'data-column': c}, _.map(grid.columns[c], function (chip, r) {
         return m('div', {
           key: 'chip-' + [c, r].join('-'),
