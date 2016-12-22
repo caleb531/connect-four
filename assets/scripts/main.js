@@ -172,7 +172,8 @@ GridComponent.controller = function () {
           coords.y = coords.y === undefined ? Number(currentValues[1]) : coords.y;
         }
       }
-      elem.style.transform = this.getTranslate(coords);
+      this.pendingChipTranslateX = coords.x;
+      this.pendingChipTranslateY = coords.y;
     },
     // Get the left offset of the element (including its margin) relative to its
     // nearest non-static parent
@@ -250,11 +251,17 @@ GridComponent.view = function (ctrl, game) {
     onmousemove: _.partial(ctrl.getPendingChipTranslate, ctrl, game),
     onclick: _.partial(ctrl.placePendingChip, ctrl, game)
   }, [
-    // Area where to-be-placed chips are dropped from
-    m('div', {id: 'pending-chip-zone'}, game.pendingChip ?
+    // The chip that is about to be placed on the grid
+    game.pendingChip ?
       m('div', {
         class: ['chip', 'pending', game.pendingChip.player.color, game.pendingChipIsFalling ? 'is-falling' : ''].join(' '),
-      }) : null),
+        style: {
+          transform: ctrl.getTranslate({
+            x: ctrl.pendingChipTranslateX,
+            y: ctrl.pendingChipTranslateY
+          })
+        }
+      }) : null,
     // Bottom grid of slots (indicating space chips can occupy)
     m('div', {id: 'chip-slots'}, _.times(grid.columnCount, function (c) {
       return m('div', {class: 'grid-column', 'data-column': c}, _.times(grid.rowCount, function (r) {
