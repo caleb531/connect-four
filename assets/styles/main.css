@@ -52,6 +52,7 @@ body {
 /* Container of chip outlines, each indicating space a chip may occupy */
 #chip-slots {
   position: relative;
+  /* The layer of chip slots should appear below all other grid elements */
   z-index: 10;
 }
 /* Ensure that the grid columns for the chip slots flush with the pending chip area */
@@ -63,6 +64,7 @@ body {
   position: absolute;
   bottom: 0;
   left: 0;
+  /* The layer of placed chips should appear above all other grid elements */
   z-index: 30;
 }
 
@@ -90,9 +92,11 @@ body {
   position: absolute;
   top: 0;
   left: 0;
+  /* TODO: make this negative z-index unnecessary */
   z-index: -10;
 }
 .chip.pending.is-falling {
+  /* The falling pending chip should appear below the layer of p;aced chips */
   z-index: 20;
   transition: transform 500ms cubic-bezier(0.6, 0.0, 0.0, 1.25);
 }
