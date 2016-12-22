@@ -175,18 +175,6 @@ GridComponent.controller = function () {
       this.pendingChipTranslateX = coords.x;
       this.pendingChipTranslateY = coords.y;
     },
-    // Get the left offset of the element (including its margin) relative to its
-    // nearest non-static parent
-    getOuterOffsetLeft: function (elem) {
-      var marginLeft = parseInt(window.getComputedStyle(elem)['margin-left']);
-      return elem.offsetLeft - marginLeft;
-    },
-    // Get the top offset of the element (including its margin) relative to its
-    // nearest non-static parent
-    getOuterOffsetTop: function (elem) {
-      var marginTop = parseInt(window.getComputedStyle(elem)['margin-top']);
-      return elem.offsetTop - marginTop;
-    },
     // Get the left offset of the column currently aligned with the cursor
     getPointerColumnOffsetLeft: function (game, event) {
       var chipWidth = event.currentTarget.offsetWidth / game.grid.columnCount;
@@ -217,9 +205,10 @@ GridComponent.controller = function () {
         .getElementById('chip-slots')
         .getElementsByClassName('grid-column')[columnIndex]
         .getElementsByClassName('chip-slot')[rowIndex];
+      var slotStyle = window.getComputedStyle(slotElem);
       return {
-        left: this.getOuterOffsetLeft(slotElem),
-        top: this.getOuterOffsetTop(slotElem)
+        left: slotElem.offsetLeft - parseInt(slotStyle['margin-left']),
+        top: slotElem.offsetTop - parseInt(slotStyle['margin-top'])
       };
     },
     // Place the current pending chip into the next available slot in the column
