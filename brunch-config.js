@@ -1,5 +1,7 @@
 // Brunch configuration
 // See http://brunch.io for documentation.
+'use strict';
+
 module.exports = {
   files: {
     javascripts: {
