@@ -16,8 +16,6 @@ function Game(args) {
   this.gameInProgress = false;
   // The chip above the grid that is about to be placed
   this.pendingChip = null;
-  // The index of the last column a chip was inserted into
-  this.lastInsertedChipColumn = Math.floor(this.grid.columnCount / 2);
   // Whether or not a chip is in the process of being placed on the grid
   this.pendingChipIsFalling = false;
   // The chip that was most recently placed in the board
@@ -73,7 +71,6 @@ Game.prototype.getNextAvailableSlot = function (args) {
 Game.prototype.placePendingChip = function (args) {
   this.grid.columns[args.column].push(this.pendingChip);
   this.lastPlacedChip = this.pendingChip;
-  this.lastInsertedChipColumn = args.column;
   this.pendingChipIsFalling = false;
   this.pendingChip = null;
 };
