@@ -92,11 +92,9 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  /* TODO: make this negative z-index unnecessary */
-  z-index: -10;
+  /* The falling pending chip should appear below the layer of placed chips */
+  z-index: 20;
 }
 .chip.pending.is-falling {
-  /* The falling pending chip should appear below the layer of p;aced chips */
-  z-index: 20;
   transition: transform 500ms cubic-bezier(0.6, 0.0, 0.0, 1.25);
 }
