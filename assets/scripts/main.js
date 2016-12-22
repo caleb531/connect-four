@@ -164,14 +164,6 @@ GridComponent.controller = function () {
     },
     // Set the CSS transform value for the given DOM element
     setTranslate: function (elem, coords) {
-      if (coords.x === undefined || coords.y === undefined) {
-        var currentTranslate = window.getComputedStyle(elem).transform;
-        if (currentTranslate && currentTranslate !== 'none') {
-          currentValues = currentTranslate.match(/-?\d+(\.\d+)?/);
-          coords.x = coords.x === undefined ? Number(currentValues[0]) : coords.x;
-          coords.y = coords.y === undefined ? Number(currentValues[1]) : coords.y;
-        }
-      }
       this.pendingChipTranslateX = coords.x;
       this.pendingChipTranslateY = coords.y;
     },
