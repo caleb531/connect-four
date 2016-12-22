@@ -102,9 +102,6 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  transition-property: transform;
-  transition-duration: 100ms;
-  transition-timing-function: ease-in-out;
 }
 .chip.pending.is-falling {
   transition-duration: 500ms;
