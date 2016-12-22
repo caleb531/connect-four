@@ -1,4 +1,5 @@
-(function() {
+var m = require('mithril');
+var _ = require('underscore');
 
 var GameComponent = {};
 GameComponent.controller = function () {
@@ -279,5 +280,3 @@ GridComponent.view = function (ctrl, game) {
 
 
 m.mount(document.getElementById('game'), GameComponent);
-
-}());

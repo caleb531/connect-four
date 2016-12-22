@@ -5,5 +5,8 @@
 node_modules
 *.log
 
+# Brunch
+public/
+
 # Private environment variables for deployment
 .env
