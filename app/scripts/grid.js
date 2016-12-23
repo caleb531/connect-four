@@ -157,6 +157,7 @@ Grid.Component.view = function (ctrl, game) {
           key: 'chip-' + [c, r].join('-'),
           class: classNames(
             'chip',
+            'placed',
             chip.player.color,
             {'highlighted': chip.highlighted}
           )

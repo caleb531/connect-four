@@ -58,6 +58,12 @@ $chip-margin: 6px;
 }
 
 .chip {
+  &.placed {
+    // Add subtle transition for chip highlight
+    transition-property: border-color, box-shadow;
+    transition-duration: 250ms;
+    transition-timing-function: ease-in-out;
+  }
   &.black {
     @include add-chip-color-styles(
       $border-color: #000,
