@@ -13,7 +13,7 @@ $chip-margin: 6px;
   display: inline-flex;
   flex-direction: column-reverse;
   // This ensures that empty columns do not occupy any less space
-  width: $chip-size + $chip-margin;
+  width: $chip-size + ($chip-margin * 2);
 }
 // Container of chip outlines, each indicating space a chip may occupy
 #chip-slots {
@@ -23,7 +23,7 @@ $chip-margin: 6px;
   // Ensure that the grid columns for the chip slots flush with the pending chip
   // area
   .grid-column {
-    padding-top: $chip-size + $chip-margin;
+    padding-top: $chip-size + ($chip-margin * 2);
   }
 }
 // Container for chips placed during the game
