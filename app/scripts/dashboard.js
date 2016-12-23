@@ -3,10 +3,10 @@
 var m = require('mithril');
 var _ = require('underscore');
 
-var Controls = {};
-Controls.Component = {};
+var Dashboard = {};
+Dashboard.Component = {};
 
-Controls.Component.controller = function () {
+Dashboard.Component.controller = function () {
   return {
     startGame: function (game) {
       game.startGame();
@@ -17,8 +17,8 @@ Controls.Component.controller = function () {
   };
 };
 
-Controls.Component.view = function (ctrl, game) {
-  return m('div', {id: 'game-controls'}, [
+Dashboard.Component.view = function (ctrl, game) {
+  return m('div', {id: 'game-dashboard'}, [
     game.players.length === 0 ? [
       // Initially ask user to choose number of players to start game
       m('label', 'Start Game:'),
@@ -30,10 +30,11 @@ Controls.Component.view = function (ctrl, game) {
       // is (also provide an option to stop the game)
       m('label', (game.players[1].ai ? 1 : 2) + '-Player Game'),
       m('button', {onclick: _.partial(ctrl.resetGame, game)}, 'End Game'),
-      m('p', {id: 'game-message'},
-        'It\'s player ' + game.currentPlayer.playerNum + '\'s turn!')
+      m('p', {id: 'game-message'}, game.currentPlayer.ai ?
+        'It\'s the AI\'s turn!'
+        : ('It\'s player ' + game.currentPlayer.playerNum + '\'s turn!'))
     ]
   ]);
 };
 
-module.exports = Controls;
+module.exports = Dashboard;

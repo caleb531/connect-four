@@ -2,7 +2,7 @@
 
 var m = require('mithril');
 var _ = require('underscore');
-var Controls = require('./controls');
+var Dashboard = require('./dashboard');
 var Grid = require('./grid');
 var Player = require('./player');
 var Chip = require('./chip');
@@ -93,7 +93,7 @@ Game.Component.controller = function () {
 
 Game.Component.view = function (ctrl) {
   return [
-    m(Controls.Component, ctrl.game),
+    m(Dashboard.Component, ctrl.game),
     m(Grid.Component, ctrl.game)
   ];
 };
