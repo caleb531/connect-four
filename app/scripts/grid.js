@@ -2,6 +2,7 @@
 
 var m = require('mithril');
 var _ = require('underscore');
+var classNames = require('classnames');
 
 function Grid(args) {
   this.columnCount = args.columnCount;
@@ -127,13 +128,13 @@ Grid.Component.view = function (ctrl, game) {
     // The chip that is about to be placed on the grid
     game.pendingChip ?
       m('div', {
-        class: [
+        class: classNames(
           'chip',
           'pending',
           game.pendingChip.player.color,
-          ctrl.transitionPendingChipX ? 'transition-x' : '',
-          ctrl.transitionPendingChipY ? 'transition-y' : ''
-        ].join(' '),
+           {'transition-x': ctrl.transitionPendingChipX},
+           {'transition-y': ctrl.transitionPendingChipY}
+        ),
         style: {
           transform: ctrl.getTranslate({
             x: ctrl.pendingChipX,
@@ -152,7 +153,7 @@ Grid.Component.view = function (ctrl, game) {
       return m('div.grid-column', {'data-column': c}, _.map(grid.columns[c], function (chip, r) {
         return m('div', {
           key: 'chip-' + [c, r].join('-'),
-          class: ['chip', chip.player.color].join(' '), 'data-column': c, 'data-row': r
+          class: classNames('chip', chip.player.color), 'data-column': c, 'data-row': r
         });
       }));
     }))
