@@ -99,29 +99,28 @@ Grid.Component.controller = function () {
           // the above column and row
           ctrl.setPendingChipCoords(slotCoords);
           // Perform insertion on internal game grid once transition has ended
-          ctrl.finishPlacingPendingChipPartial = _.partial(ctrl.finishPlacingPendingChip, ctrl, game, columnIndex);
-          pendingChipElem.addEventListener('transitionend',
-            ctrl.finishPlacingPendingChipPartial);
+          ctrl.finishPlacingPendingChip(ctrl, game, pendingChipElem, columnIndex);
         }
       }
     },
     // Place the pending chip on the grid once the falling transition has ended
-    finishPlacingPendingChip: function (ctrl, game, columnIndex, event) {
-      event.target.removeEventListener('transitionend',
-        ctrl.finishPlacingPendingChipPartial);
-      game.placePendingChip({column: columnIndex});
-      ctrl.transitionPendingChipX = false;
-      ctrl.transitionPendingChipY = false;
-      // Check for winning connections (i.e. four in a row)
-      game.checkForWinner();
-      // Ensure pending chip is removed from DOM since it has been placed
-      game.endTurn();
-      // Reset position of pending chip to be directly above pointer column
-      ctrl.setPendingChipCoords({
-        x: ctrl.pointerColumnX,
-        y: 0
+    finishPlacingPendingChip: function (ctrl, game, pendingChipElem, columnIndex) {
+      pendingChipElem.addEventListener('transitionend', function transitionend() {
+        event.target.removeEventListener('transitionend', transitionend);
+        game.placePendingChip({column: columnIndex});
+        ctrl.transitionPendingChipX = false;
+        ctrl.transitionPendingChipY = false;
+        // Check for winning connections (i.e. four in a row)
+        game.checkForWinner();
+        // Ensure pending chip is removed from DOM since it has been placed
+        game.endTurn();
+        // Reset position of pending chip to be directly above pointer column
+        ctrl.setPendingChipCoords({
+          x: ctrl.pointerColumnX,
+          y: 0
+        });
+        m.redraw();
       });
-      m.redraw();
     }
   };
 };
