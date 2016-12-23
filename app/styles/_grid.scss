@@ -1,8 +1,22 @@
 // The game grid, including all of its layers as well as individual chips
 
+// Grid constants
+$grid-column-count: 7;
+
 // Chip constants
 $chip-size: 52px;
 $chip-margin: 6px;
+$chip-size-compact: 35px;
+$chip-margin-compact: 5px;
+
+// Add mixin for compact layout media query (triggers when the viewport width is
+// smaller than the width of the grid)
+@mixin if-compact-layout() {
+  $max-width: ($chip-size + ($chip-margin * 2)) * $grid-column-count;
+  @media (max-width: $max-width) {
+    @content;
+  }
+}
 
 #grid {
   display: inline-block;
@@ -15,6 +29,9 @@ $chip-margin: 6px;
   vertical-align: bottom;
   // This ensures that empty columns do not occupy any less space
   width: $chip-size + ($chip-margin * 2);
+  @include if-compact-layout() {
+    width: $chip-size-compact + ($chip-margin-compact * 2);
+  }
 }
 // Container of chip outlines, each indicating space a chip may occupy
 #chip-slots {
@@ -25,6 +42,9 @@ $chip-margin: 6px;
   // area
   .grid-column {
     padding-top: $chip-size + ($chip-margin * 2);
+    @include if-compact-layout() {
+      padding-top: $chip-size-compact + ($chip-margin-compact * 2);
+    }
   }
 }
 // Container for chips placed during the game
@@ -47,6 +67,11 @@ $chip-margin: 6px;
   border: solid 2px rgba(0, 0, 0, 0.5);
   border-radius: 50%;
   box-sizing: border-box;
+  @include if-compact-layout() {
+    width: $chip-size-compact;
+    height: $chip-size-compact;
+    margin: $chip-margin-compact;
+  }
 }
 
 @keyframes highlight {
