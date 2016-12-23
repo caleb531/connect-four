@@ -47,15 +47,34 @@ $chip-margin: 6px;
   border-radius: 50%;
   box-sizing: border-box;
 }
+
+@mixin add-chip-color-styles($border-color, $background-color) {
+  border-color: $border-color;
+  background-color: $background-color;
+  &.highlighted {
+    border-color: #fff;
+    box-shadow: 0 0 0 2px $border-color;
+  }
+}
+
 .chip {
   &.black {
-    background-color: #111;
+    @include add-chip-color-styles(
+      $border-color: #000,
+      $background-color: #333
+    );
   }
   &.blue {
-    background-color: #36c;
+    @include add-chip-color-styles(
+      $border-color: #039,
+      $background-color: #36c
+    );
   }
   &.red {
-    background-color: #c33;
+    @include add-chip-color-styles(
+      $border-color: #900,
+      $background-color: #c33
+    );
   }
   // The pending chip is the to-be-placed chip above the board
   &.pending {

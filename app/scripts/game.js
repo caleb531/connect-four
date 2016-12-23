@@ -62,8 +62,64 @@ Game.prototype.getNextAvailableSlot = function (args) {
 Game.prototype.placePendingChip = function (args) {
   this.grid.columns[args.column].push(this.pendingChip);
   this.lastPlacedChip = this.pendingChip;
+  this.lastPlacedChip.column = args.column;
+  this.lastPlacedChip.row = this.grid.columns[args.column].length - 1;
   this.pendingChip = null;
 };
+
+// Find neighbors connected to the given chip in the given direction
+Game.prototype.findConnectedNeighbors = function (chip, dir) {
+  var neighbor = chip;
+  var connectedNeighbors = [];
+  var columns = this.grid.columns;
+  while (true) {
+    var nextColumn = neighbor.column + dir.x;
+    // Stop when we hit the first or last column
+    if (columns[nextColumn] === undefined) {
+      break;
+    }
+    var nextRow = neighbor.row + dir.y;
+    var nextNeighbor = columns[nextColumn][nextRow];
+    if (nextNeighbor === undefined) {
+      break;
+    }
+    if (nextNeighbor.player === chip.player) {
+      neighbor = nextNeighbor;
+      connectedNeighbors.push(nextNeighbor);
+    } else {
+      break;
+    }
+  }
+  return connectedNeighbors;
+};
+// Determine if a player won the game with four chips in a row (horizontally,
+// vertically, or diagonally)
+Game.prototype.checkConnection = function () {
+  var game = this;
+  _.forEach(Game.connectionDirections, function (dir) {
+    var connectedChips = [game.lastPlacedChip];
+    // Check for connected neighbors in this direction
+    connectedChips.push.apply(connectedChips, game.findConnectedNeighbors(game.lastPlacedChip, dir));
+    // Check for connected neighbors in the opposite direction
+    connectedChips.push.apply(connectedChips, game.findConnectedNeighbors(game.lastPlacedChip, {
+      x: -dir.x,
+      y: -dir.y
+    }));
+    if (connectedChips.length === 4) {
+      // Mark connected chips as highlighted
+      _.forEach(connectedChips, function (neighbor) {
+        neighbor.highlighted = true;
+      });
+    }
+  });
+};
+// The relative directions to check when checking for connected chip neighbors
+Game.connectionDirections = [
+  {x: 0, y: -1}, // Bottom-middle
+  {x: 1, y: -1}, // Bottom-right
+  {x: 1, y: 0}, // Right-middle
+  {x: 1, y: 1} // Top-right
+];
 
 Game.prototype.resetGame = function (args) {
   this.gameInProgress = false;
