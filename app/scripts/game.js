@@ -25,16 +25,9 @@ function Game(args) {
 }
 
 Game.prototype.startGame = function (args) {
-  if (args.playerCount === 2) {
-    // If 2-player game is selected, assume two human players
-    this.players.push(new Player({color: 'red', playerNum: 1}));
-    this.players.push(new Player({color: 'blue', playerNum: 2}));
-  } else {
-    // Otherwise, assume one human player and one AI player
-    this.players.push(new Player({color: 'red', playerNum: 1}));
-    // Set color of AI player to black to distinguish it from a human player
-    this.players.push(new Player({color: 'black', playerNum: 2, ai: true}));
-  }
+  // If 2-player game is selected, assume two human players
+  this.players.push(new Player({color: 'red', playerNum: 1}));
+  this.players.push(new Player({color: 'blue', playerNum: 2}));
   this.gameInProgress = true;
   this.currentPlayer = this.players[0];
   this.startTurn();

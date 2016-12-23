@@ -30,9 +30,8 @@ Controls.Component.view = function (ctrl, game) {
       // is (also provide an option to stop the game)
       m('label', (game.players[1].ai ? 1 : 2) + '-Player Game'),
       m('button', {onclick: _.partial(ctrl.resetGame, game)}, 'End Game'),
-      m('p', {id: 'game-message'}, game.currentPlayer.ai ?
-        'It\'s the AI\'s turn!'
-        : ('It\'s player ' + game.currentPlayer.playerNum + '\'s turn!'))
+      m('p', {id: 'game-message'},
+        'It\'s player ' + game.currentPlayer.playerNum + '\'s turn!')
     ]
   ]);
 };
