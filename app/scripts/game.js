@@ -67,10 +67,10 @@ Game.prototype.placePendingChip = function (args) {
   this.pendingChip = null;
 };
 
-// Find same-color neighbors aligned with the given chip in the given direction
-Game.prototype.findAlignedNeighbors = function (chip, direction) {
+// Find same-color neighbors connected to the given chip in the given direction
+Game.prototype.findConnectedNeighbors = function (chip, direction) {
   var neighbor = chip;
-  var alignedNeighbors = [];
+  var connectedNeighbors = [];
   while (true) {
     var nextColumn = neighbor.column + direction.x;
     // Stop if the left/right edge of the grid has been reached
@@ -88,29 +88,29 @@ Game.prototype.findAlignedNeighbors = function (chip, direction) {
     if (nextNeighbor.player !== chip.player) {
       break;
     }
-    // Assume at this point that this neighbor chip is aligned with the original
+    // Assume at this point that this neighbor chip is connected to the original
     // chip in the given direction
     neighbor = nextNeighbor;
-    alignedNeighbors.push(nextNeighbor);
+    connectedNeighbors.push(nextNeighbor);
   }
-  return alignedNeighbors;
+  return connectedNeighbors;
 };
 // Determine if a player won the game with four chips in a row (horizontally,
 // vertically, or diagonally)
 Game.prototype.checkForWinner = function () {
   var game = this;
   _.forEach(Game.connectionDirections, function (direction) {
-    var alignedChips = [game.lastPlacedChip];
-    // Check for aligned neighbors in this direction
-    alignedChips.push.apply(alignedChips, game.findAlignedNeighbors(game.lastPlacedChip, direction));
-    // Check for aligned neighbors in the opposite direction
-    alignedChips.push.apply(alignedChips, game.findAlignedNeighbors(game.lastPlacedChip, {
+    var connectedChips = [game.lastPlacedChip];
+    // Check for connected neighbors in this direction
+    connectedChips.push.apply(connectedChips, game.findConnectedNeighbors(game.lastPlacedChip, direction));
+    // Check for connected neighbors in the opposite direction
+    connectedChips.push.apply(connectedChips, game.findConnectedNeighbors(game.lastPlacedChip, {
       x: -direction.x,
       y: -direction.y
     }));
-    // If four aligned same-color chips are found, mark them as highlighted
-    if (alignedChips.length === 4) {
-      _.forEach(alignedChips, function (neighbor) {
+    // If four connected same-color chips are found, mark them as highlighted
+    if (connectedChips.length === 4) {
+      _.forEach(connectedChips, function (neighbor) {
         neighbor.highlighted = true;
       });
       return game.lastPlacedChip.player;
@@ -118,7 +118,7 @@ Game.prototype.checkForWinner = function () {
   });
   return null;
 };
-// The relative directions to check when checking for aligned chip neighbors
+// The relative directions to check when checking for connected chip neighbors
 Game.connectionDirections = [
   {x: 0, y: -1}, // Bottom-middle
   {x: 1, y: -1}, // Bottom-right
