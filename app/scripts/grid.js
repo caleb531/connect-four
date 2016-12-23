@@ -47,17 +47,16 @@ Grid.Component.controller = function () {
     movePendingChipToPointerColumn: function (ctrl, game, event) {
       if (game.pendingChip) {
         // The pointer column is the grid column nearest to the cursor at any
-        // given instant
-        var pointerColumnX = ctrl.getPointerColumnX(game, event);
-        if (!game.pendingChipIsFalling) {
+        // given instant; keep track of the pointer column's X position so the
+        // next pending chip can instantaneously appear there
+        ctrl.pointerColumnX = ctrl.getPointerColumnX(game, event);
+        if (!ctrl.transitionPendingChipY) {
           ctrl.setPendingChipCoords({
-            x: pointerColumnX,
+            x: ctrl.pointerColumnX,
             y: 0
           });
         }
-        // Keep track of where pointer is so the next pending chip can
-        // instantaneously appear at the pointer column
-        ctrl.pointerColumnX = pointerColumnX;
+        ctrl.transitionPendingChipX = true;
       }
     },
     // Get the coordinates of the chip slot element at the given column/row
@@ -75,7 +74,7 @@ Grid.Component.controller = function () {
     // Place the current pending chip into the next available slot in the column
     // it is hovering over
     placePendingChip: function (ctrl, game, event) {
-      if (game.pendingChip && !game.pendingChipIsFalling) {
+      if (game.pendingChip && !ctrl.transitionPendingChipY) {
         var pendingChipElem = event.currentTarget.querySelector('.chip.pending');
         if (!pendingChipElem) {
           return;
@@ -87,22 +86,34 @@ Grid.Component.controller = function () {
         if (rowIndex === null) {
           return;
         }
-        game.pendingChipIsFalling = true;
-        // Translate chip to the visual position on the grid corresponding to
-        // the above column and row
         var slotCoords = ctrl.getSlotCoords(columnIndex, rowIndex);
-        ctrl.setPendingChipCoords(slotCoords);
-        // Perform insertion on internal game grid once transition has ended
-        pendingChipElem.addEventListener('transitionend', function transitionend() {
-          pendingChipElem.removeEventListener('transitionend', transitionend);
-          game.placePendingChip({column: columnIndex});
-          // Ensure pending chip is removed from DOM since it has been placed
-          game.endTurn();
-          // Reset position of pending chip to be directly above pointer column
-          ctrl.pendingChipX = ctrl.pointerColumnX;
-          ctrl.pendingChipY = 0;
-          m.redraw();
-        });
+        // If pending chip is not currently aligned with pointer column
+        if (ctrl.pendingChipX !== slotCoords.x) {
+          // First move pending chip into alignment with pointer column
+          ctrl.movePendingChipToPointerColumn(ctrl, game, event);
+        } else {
+          // Otherwise, chip is already aligned; drop chip into place on grid
+          ctrl.transitionPendingChipX = false;
+          ctrl.transitionPendingChipY = true;
+          // Translate chip to the visual position on the grid corresponding to
+          // the above column and row
+          ctrl.setPendingChipCoords(slotCoords);
+          // Perform insertion on internal game grid once transition has ended
+          pendingChipElem.addEventListener('transitionend', function transitionend() {
+            pendingChipElem.removeEventListener('transitionend', transitionend);
+            game.placePendingChip({column: columnIndex});
+            ctrl.transitionPendingChipX = false;
+            ctrl.transitionPendingChipY = false;
+            // Ensure pending chip is removed from DOM since it has been placed
+            game.endTurn();
+            // Reset position of pending chip to be directly above pointer column
+            ctrl.setPendingChipCoords({
+              x: ctrl.pointerColumnX,
+              y: 0
+            });
+            m.redraw();
+          });
+        }
       }
     }
   };
@@ -116,7 +127,13 @@ Grid.Component.view = function (ctrl, game) {
     // The chip that is about to be placed on the grid
     game.pendingChip ?
       m('div', {
-        class: ['chip', 'pending', game.pendingChip.player.color, game.pendingChipIsFalling ? 'is-falling' : ''].join(' '),
+        class: [
+          'chip',
+          'pending',
+          game.pendingChip.player.color,
+          ctrl.transitionPendingChipX ? 'transition-x' : '',
+          ctrl.transitionPendingChipY ? 'transition-y' : ''
+        ].join(' '),
         style: {
           transform: ctrl.getTranslate({
             x: ctrl.pendingChipX,

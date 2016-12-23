@@ -65,8 +65,12 @@ $chip-margin: 6px;
     // The falling pending chip should appear below the layer of placed chips
     z-index: 20;
   }
-  &.pending.is-falling {
+  $pending-chip-transition-easing: cubic-bezier(0.6, 0.0, 0.0, 1.25);
+  &.pending.transition-x {
+    transition: transform 150ms $pending-chip-transition-easing;
+  }
+  &.pending.transition-y {
     // Set a falling transition with a rubber-banding effect at the end
-    transition: transform 500ms cubic-bezier(0.6, 0.0, 0.0, 1.25);
+    transition: transform 500ms $pending-chip-transition-easing;
   }
 }

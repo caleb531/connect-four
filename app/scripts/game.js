@@ -16,8 +16,6 @@ function Game(args) {
   this.gameInProgress = false;
   // The chip above the grid that is about to be placed
   this.pendingChip = null;
-  // Whether or not a chip is in the process of being placed on the grid
-  this.pendingChipIsFalling = false;
   // The chip that was most recently placed in the board
   this.lastPlacedChip = null;
   // TODO: remove this when P2 mode testing is finished
@@ -64,7 +62,6 @@ Game.prototype.getNextAvailableSlot = function (args) {
 Game.prototype.placePendingChip = function (args) {
   this.grid.columns[args.column].push(this.pendingChip);
   this.lastPlacedChip = this.pendingChip;
-  this.pendingChipIsFalling = false;
   this.pendingChip = null;
 };
 
@@ -73,7 +70,6 @@ Game.prototype.resetGame = function (args) {
   this.players.length = 0;
   this.currentPlayer = null;
   this.pendingChip = null;
-  this.pendingChipIsFalling = false;
   this.lastPlacedChip = null;
   this.grid.resetGrid();
 };
