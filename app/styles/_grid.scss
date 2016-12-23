@@ -64,35 +64,19 @@
   }
 }
 
-@mixin add-chip-color-styles($border-color, $background-color) {
-  border-color: $border-color;
-  background-color: $background-color;
-  // Define color property for use by global highlight @keyframes definition
-  // above (via currentColor)
-  color: $border-color;
-  &.highlighted {
-    animation: highlight 250ms forwards ease-in-out;
-  }
-}
-
 .chip {
-  &.black {
-    @include add-chip-color-styles(
-      $border-color: #000,
-      $background-color: #333
-    );
-  }
-  &.blue {
-    @include add-chip-color-styles(
-      $border-color: #039,
-      $background-color: #36c
-    );
-  }
-  &.red {
-    @include add-chip-color-styles(
-      $border-color: #900,
-      $background-color: #c33
-    );
+  @each $player-color-name, $player-color in $player-colors {
+    &.#{$player-color-name} {
+      $background-color: $player-color;
+      $border-color: darken($player-color, 5%);
+      background-color: $background-color;
+      // Define color property for use by global highlight @keyframes definition
+      // above (via currentColor)
+      color: $border-color;
+      &.highlighted {
+        animation: highlight 250ms forwards ease-in-out;
+      }
+    }
   }
   // The pending chip is the to-be-placed chip above the board
   &.pending {
