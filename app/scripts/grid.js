@@ -105,6 +105,8 @@ Grid.Component.controller = function () {
             game.placePendingChip({column: columnIndex});
             ctrl.transitionPendingChipX = false;
             ctrl.transitionPendingChipY = false;
+            // Check for winning connections (i.e. four in a row)
+            game.checkForWinner();
             // Ensure pending chip is removed from DOM since it has been placed
             game.endTurn();
             // Reset position of pending chip to be directly above pointer column
@@ -153,7 +155,12 @@ Grid.Component.view = function (ctrl, game) {
       return m('div.grid-column', _.map(grid.columns[c], function (chip, r) {
         return m('div', {
           key: 'chip-' + [c, r].join('-'),
-          class: classNames('chip', chip.player.color)
+          class: classNames(
+            'chip',
+            'placed',
+            chip.player.color,
+            {'highlighted': chip.highlighted}
+          )
         });
       }));
     }))

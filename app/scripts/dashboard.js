@@ -8,11 +8,17 @@ Dashboard.Component = {};
 
 Dashboard.Component.controller = function () {
   return {
+    // Start a game for the first time
     startGame: function (game) {
       game.startGame();
     },
-    resetGame: function (game) {
+    // Start a new game after a game has finished
+    startNewGame: function (game) {
       game.resetGame();
+      game.startGame();
+    },
+    endGame: function (game) {
+      game.endGame();
     }
   };
 };
@@ -26,13 +32,18 @@ Dashboard.Component.view = function (ctrl, game) {
       m('button', {onclick: _.partial(ctrl.startGame, game)}, '2 Players'),
       m('p', {id: 'game-message'}, 'Choose a number of players to start a game.')
     ] : [
-      // If game is in progress, display the number of players are whose turn it
-      // is (also provide an option to stop the game)
       m('label', (game.players[1].ai ? 1 : 2) + '-Player Game'),
-      m('button', {onclick: _.partial(ctrl.resetGame, game)}, 'End Game'),
-      m('p', {id: 'game-message'}, game.currentPlayer.ai ?
-        'It\'s the AI\'s turn!'
-        : ('It\'s player ' + game.currentPlayer.playerNum + '\'s turn!'))
+      // Give user option to end current game or start new game
+      game.inProgress ?
+        m('button', {onclick: _.partial(ctrl.endGame, game)}, 'End Game')
+        : m('button', {onclick: _.partial(ctrl.startNewGame, game)}, 'New Game'),
+      // Display status of current game
+      m('p', {id: 'game-message'},
+        game.winner ?
+          'Player ' + game.winner.playerNum + ' wins!'
+          : game.currentPlayer ?
+            'Player ' + game.currentPlayer.playerNum + ', you\'re up!'
+            : 'Game has ended')
     ]
   ]);
 };
