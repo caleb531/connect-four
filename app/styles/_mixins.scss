@@ -1,0 +1,9 @@
+// Mixins that can be used across all Sass partials
+
+// Add mixin for compact layout media query (triggers when the viewport width is
+// smaller than the width of the grid)
+@mixin if-compact-layout() {
+  @media (max-width: $page-max-width) {
+    @content;
+  }
+}

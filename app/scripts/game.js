@@ -4,6 +4,7 @@ var m = require('mithril');
 var _ = require('underscore');
 var Dashboard = require('./dashboard');
 var Grid = require('./grid');
+var Scoreboard = require('./scoreboard');
 var Player = require('./player');
 var Chip = require('./chip');
 
@@ -26,8 +27,8 @@ Game.prototype.startGame = function (args) {
   // Create new players if there are none
   if (this.players.length === 0) {
     this.players.push(
-        new Player({color: 'red', playerNum: 1}),
-        new Player({color: 'blue', playerNum: 2})
+        new Player({color: 'red', name: 'Player 1'}),
+        new Player({color: 'blue', name: 'Player 2'})
     );
   }
   this.currentPlayer = this.players[0];
@@ -37,6 +38,9 @@ Game.prototype.startGame = function (args) {
 
 // End the game without resetting the grid
 Game.prototype.endGame = function () {
+  if (this.winner) {
+    this.winner.score += 1;
+  }
   this.inProgress = false;
   this.currentPlayer = null;
   this.pendingChip = null;
@@ -142,9 +146,9 @@ Game.connectionDirections = [
   {x: 1, y: 1} // Top-right
 ];
 
-// Reset the game and grid completely without starting a new game
+// Reset the game and grid completely without starting a new game (endGame
+// should be called somewhere before this method is called)
 Game.prototype.resetGame = function (args) {
-  this.endGame();
   this.lastPlacedChip = null;
   this.winner = null;
   this.grid.resetGrid();
@@ -166,7 +170,8 @@ Game.Component.controller = function () {
 Game.Component.view = function (ctrl) {
   return [
     m(Dashboard.Component, ctrl.game),
-    m(Grid.Component, ctrl.game)
+    m(Grid.Component, ctrl.game),
+    m(Scoreboard.Component, ctrl.game)
   ];
 };
 

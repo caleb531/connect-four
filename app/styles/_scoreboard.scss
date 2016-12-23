@@ -1,0 +1,24 @@
+// The game scoreboard where players' stats are shown
+
+#game-scoreboard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: $chip-margin;
+  font-size: 16px;
+  text-align: center;
+}
+
+.player-stats:first-child {
+  margin-left: $chip-margin;
+  text-align: left;
+}
+.player-stats:last-child {
+  margin-right: $chip-margin;
+  text-align: right;
+}
+
+.player-score {
+  font-weight: 300;
+  font-size: 32px;
+}

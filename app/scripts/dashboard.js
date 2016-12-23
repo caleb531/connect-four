@@ -40,9 +40,9 @@ Dashboard.Component.view = function (ctrl, game) {
       // Display status of current game
       m('p', {id: 'game-message'},
         game.winner ?
-          'Player ' + game.winner.playerNum + ' wins!'
+          game.winner.name + ' wins!'
           : game.currentPlayer ?
-            'Player ' + game.currentPlayer.playerNum + ', you\'re up!'
+            game.currentPlayer.name + ', you\'re up!'
             : 'Game has ended')
     ]
   ]);
