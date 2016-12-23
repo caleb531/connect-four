@@ -21,6 +21,7 @@
   "homepage": "https://github.com/caleb531/connect-four#readme",
   "dependencies": {
     "classnames": "^2.2.5",
+    "fastclick": "^1.0.6",
     "mithril": "^0.2.5",
     "underscore": "^1.8.3"
   },
