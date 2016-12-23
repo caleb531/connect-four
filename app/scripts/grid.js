@@ -144,16 +144,16 @@ Grid.Component.view = function (ctrl, game) {
       }) : null,
     // Bottom grid of slots (indicating space chips can occupy)
     m('div#chip-slots', _.times(grid.columnCount, function (c) {
-      return m('div.grid-column', {'data-column': c}, _.times(grid.rowCount, function (r) {
-        return m('div.chip-slot', {'data-column': c, 'data-row': r});
+      return m('div.grid-column', _.times(grid.rowCount, function (r) {
+        return m('div.chip-slot');
       }));
     })),
     // Top grid of placed chips
     m('div#placed-chips', _.times(grid.columnCount, function (c) {
-      return m('div.grid-column', {'data-column': c}, _.map(grid.columns[c], function (chip, r) {
+      return m('div.grid-column', _.map(grid.columns[c], function (chip, r) {
         return m('div', {
           key: 'chip-' + [c, r].join('-'),
-          class: classNames('chip', chip.player.color), 'data-column': c, 'data-row': r
+          class: classNames('chip', chip.player.color)
         });
       }));
     }))
