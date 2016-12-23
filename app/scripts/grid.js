@@ -72,8 +72,7 @@ Grid.Component.controller = function () {
         y: slotElem.offsetTop - parseInt(slotStyle['margin-top'])
       };
     },
-    // Place the current pending chip into the next available slot in the column
-    // it is hovering over
+    // Place the pending chip into the poiner column's next available slot
     placePendingChip: function (ctrl, game, event) {
       if (game.pendingChip && !ctrl.transitionPendingChipY) {
         var pendingChipElem = event.currentTarget.querySelector('.chip.pending');
@@ -100,24 +99,29 @@ Grid.Component.controller = function () {
           // the above column and row
           ctrl.setPendingChipCoords(slotCoords);
           // Perform insertion on internal game grid once transition has ended
-          pendingChipElem.addEventListener('transitionend', function transitionend() {
-            pendingChipElem.removeEventListener('transitionend', transitionend);
-            game.placePendingChip({column: columnIndex});
-            ctrl.transitionPendingChipX = false;
-            ctrl.transitionPendingChipY = false;
-            // Check for winning connections (i.e. four in a row)
-            game.checkForWinner();
-            // Ensure pending chip is removed from DOM since it has been placed
-            game.endTurn();
-            // Reset position of pending chip to be directly above pointer column
-            ctrl.setPendingChipCoords({
-              x: ctrl.pointerColumnX,
-              y: 0
-            });
-            m.redraw();
-          });
+          ctrl.finishPlacingPendingChipPartial = _.partial(ctrl.finishPlacingPendingChip, ctrl, game, columnIndex);
+          pendingChipElem.addEventListener('transitionend',
+            ctrl.finishPlacingPendingChipPartial);
         }
       }
+    },
+    // Place the pending chip on the grid once the falling transition has ended
+    finishPlacingPendingChip: function (ctrl, game, columnIndex, event) {
+      event.target.removeEventListener('transitionend',
+        ctrl.finishPlacingPendingChipPartial);
+      game.placePendingChip({column: columnIndex});
+      ctrl.transitionPendingChipX = false;
+      ctrl.transitionPendingChipY = false;
+      // Check for winning connections (i.e. four in a row)
+      game.checkForWinner();
+      // Ensure pending chip is removed from DOM since it has been placed
+      game.endTurn();
+      // Reset position of pending chip to be directly above pointer column
+      ctrl.setPendingChipCoords({
+        x: ctrl.pointerColumnX,
+        y: 0
+      });
+      m.redraw();
     }
   };
 };
