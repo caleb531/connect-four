@@ -12,6 +12,7 @@ $chip-margin: 6px;
 .grid-column {
   display: inline-flex;
   flex-direction: column-reverse;
+  vertical-align: bottom;
   // This ensures that empty columns do not occupy any less space
   width: $chip-size + ($chip-margin * 2);
 }
@@ -48,22 +49,25 @@ $chip-margin: 6px;
   box-sizing: border-box;
 }
 
+@keyframes highlight {
+  100% {
+    border-color: #fff;
+    box-shadow: 0 0 0 2px currentColor;
+  }
+}
+
 @mixin add-chip-color-styles($border-color, $background-color) {
   border-color: $border-color;
   background-color: $background-color;
+  // Define color property for use by global highlight @keyframes definition
+  // above (via currentColor)
+  color: $border-color;
   &.highlighted {
-    border-color: #fff;
-    box-shadow: 0 0 0 2px $border-color;
+    animation: highlight 250ms forwards ease-in-out;
   }
 }
 
 .chip {
-  &.placed {
-    // Add subtle transition for chip highlight
-    transition-property: border-color, box-shadow;
-    transition-duration: 250ms;
-    transition-timing-function: ease-in-out;
-  }
   &.black {
     @include add-chip-color-styles(
       $border-color: #000,
