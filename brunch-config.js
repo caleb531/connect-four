@@ -19,5 +19,14 @@ module.exports = {
     autoRequire: {
       'scripts/main.js': ['scripts/main']
     }
+  },
+  plugins: {
+    postcss: {
+      processors: [
+        require('autoprefixer')({
+          browsers: ['> 0.1%']
+        })
+      ]
+    }
   }
 };
