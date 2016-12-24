@@ -46,6 +46,14 @@ Game.prototype.endGame = function () {
   this.pendingChip = null;
 };
 
+// Reset the game and grid completely without starting a new game (endGame
+// should be called somewhere before this method is called)
+Game.prototype.resetGame = function (args) {
+  this.lastPlacedChip = null;
+  this.winner = null;
+  this.grid.resetGrid();
+};
+
 // Start the turn of the current player
 Game.prototype.startTurn = function () {
   this.pendingChip = new Chip({player: this.currentPlayer});
@@ -145,14 +153,6 @@ Game.connectionDirections = [
   {x: 1, y: 0}, // Right-middle
   {x: 1, y: 1} // Top-right
 ];
-
-// Reset the game and grid completely without starting a new game (endGame
-// should be called somewhere before this method is called)
-Game.prototype.resetGame = function (args) {
-  this.lastPlacedChip = null;
-  this.winner = null;
-  this.grid.resetGrid();
-};
 
 Game.Component = {};
 
