@@ -23,6 +23,9 @@ Grid.Component = {};
 
 Grid.Component.controller = function () {
   return {
+    // Initialize position of pending chip to the leftmost column
+    pendingChipX: 0,
+    pendingChipY: 0,
     // Get the CSS translate string for the given coordinate map
     getTranslate: function (coords) {
       return 'translate(' + coords.x + 'px,' + coords.y + 'px)';
