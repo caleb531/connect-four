@@ -117,7 +117,8 @@ Grid.Component.controller = function () {
         game.checkForWin();
         // Check if the grid is completely full
         game.checkForFullGrid();
-        // Ensure pending chip is removed from DOM since it has been placed
+        // If the above checks have not ended the game, continue to next
+        // player's turn
         game.endTurn();
         // Reset position of pending chip to be directly above pointer column
         ctrl.setPendingChipCoords({
