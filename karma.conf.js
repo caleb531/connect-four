@@ -6,7 +6,7 @@ module.exports = function (config) {
   config.set({
     basePath: 'public',
     browsers: ['Chrome'],
-    files: ['scripts/main.js', 'scripts/test.js'],
+    files: ['scripts/modules.js', 'scripts/test.js'],
     frameworks: ['mocha'],
     preprocessors: {
       '**/*.js': ['sourcemap']
