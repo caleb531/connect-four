@@ -163,16 +163,18 @@ Game.prototype.checkForWin = function () {
       x: -direction.x,
       y: -direction.y
     }));
-    // If four connected same-color chips are found, declare winner and end game
+    // If four connected same-color chips are found, declare winner and
+    // highlight connected chips
     if (connectedChips.length === 4) {
       game.winner = game.lastPlacedChip.player;
-      _.forEach(connectedChips, function (neighbor) {
-        neighbor.highlighted = true;
+      _.forEach(connectedChips, function (chip) {
+        chip.highlighted = true;
       });
-      game.endGame();
-      return;
     }
   });
+  if (game.winner) {
+    game.endGame();
+  }
 };
 // The relative directions to check when checking for connected chip neighbors
 Game.connectionDirections = [
