@@ -111,7 +111,7 @@ Grid.Component.controller = function () {
         ctrl.transitionPendingChipX = false;
         ctrl.transitionPendingChipY = false;
         // Check for winning connections (i.e. four in a row)
-        game.checkForWinner();
+        game.checkForWin();
         // Ensure pending chip is removed from DOM since it has been placed
         game.endTurn();
         // Reset position of pending chip to be directly above pointer column

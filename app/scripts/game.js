@@ -124,7 +124,7 @@ Game.prototype.findConnectedNeighbors = function (chip, direction) {
 };
 // Determine if a player won the game with four chips in a row (horizontally,
 // vertically, or diagonally)
-Game.prototype.checkForWinner = function () {
+Game.prototype.checkForWin = function () {
   var game = this;
   _.forEach(Game.connectionDirections, function (direction) {
     var connectedChips = [game.lastPlacedChip];
@@ -135,7 +135,7 @@ Game.prototype.checkForWinner = function () {
       x: -direction.x,
       y: -direction.y
     }));
-    // If four connected same-color chips are found, mark them as highlighted
+    // If four connected same-color chips are found, declare winner and end game
     if (connectedChips.length === 4) {
       game.winner = game.lastPlacedChip.player;
       _.forEach(connectedChips, function (neighbor) {
