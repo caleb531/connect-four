@@ -35,6 +35,8 @@ Dashboard.Component.view = function (ctrl, game) {
         game.winner.name + ' wins!' :
       game.currentPlayer ?
         game.currentPlayer.name + ', you\'re up!' :
+      game.gridIsFull ?
+        'Looks like the grid is full. We\'ll call it a draw!' :
       game.players.length === 0 ?
         'Welcome! Click a button above to start.' :
       'Game has ended.'

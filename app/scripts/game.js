@@ -21,6 +21,8 @@ function Game(args) {
   this.lastPlacedChip = null;
   // The winning player of the game
   this.winner = null;
+  // Whether or not the grid is completely full of chips
+  this.gridIsFull = false;
 }
 
 Game.prototype.startGame = function (args) {
@@ -51,6 +53,7 @@ Game.prototype.endGame = function () {
 Game.prototype.resetGame = function (args) {
   this.lastPlacedChip = null;
   this.winner = null;
+  this.gridIsFull = false;
   this.grid.resetGrid();
 };
 
@@ -91,6 +94,17 @@ Game.prototype.placePendingChip = function (args) {
     this.lastPlacedChip.column = args.column;
     this.lastPlacedChip.row = this.grid.columns[args.column].length - 1;
     this.pendingChip = null;
+  }
+};
+
+// Check if the grid is completely full of chips, and end the game if it is
+Game.prototype.checkForFullGrid = function () {
+  var grid = this.grid;
+  this.gridIsFull = _.every(grid.columns, function (column) {
+    return column.length === grid.rowCount;
+  });
+  if (this.gridIsFull) {
+    this.endGame();
   }
 };
 
