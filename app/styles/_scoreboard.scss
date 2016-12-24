@@ -9,13 +9,20 @@
   text-align: center;
 }
 
-.player-stats:first-child {
-  margin-left: $chip-margin;
-  text-align: left;
-}
-.player-stats:last-child {
-  margin-right: $chip-margin;
-  text-align: right;
+.player-stats {
+  &:first-child {
+    margin-left: $chip-margin;
+    text-align: left;
+  }
+  &:last-child {
+    margin-right: $chip-margin;
+    text-align: right;
+  }
+  @each $player-color-name, $player-color in $player-colors {
+    &.#{$player-color-name} {
+      color: darken($player-color, 10%);
+    }
+  }
 }
 
 .player-score {
