@@ -68,8 +68,9 @@
 .chip {
   @each $player-color-name, $player-color in $player-colors {
     &.#{$player-color-name} {
+      $border-color: darken($player-color, 20%);
       $background-color: $player-color;
-      $border-color: darken($player-color, 5%);
+      border-color: $border-color;
       background-color: $background-color;
       // Define color property for use by global highlight @keyframes definition
       // above (via currentColor)
