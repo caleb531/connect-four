@@ -40,12 +40,12 @@ Grid.Component.controller = function () {
     // Get the left offset of the pointer column
     getPointerColumnX: function (game, event) {
       var chipWidth = event.currentTarget.offsetWidth / game.grid.columnCount;
-      return Math.floor((event.pageX - event.currentTarget.offsetLeft) / chipWidth) * chipWidth;
+      return Math.max(0, Math.floor((event.pageX - event.currentTarget.offsetLeft) / chipWidth) * chipWidth);
     },
     // Get the index of the pointer column
     getPointerColumnIndex: function (game, event) {
       var chipWidth = event.currentTarget.offsetWidth / game.grid.columnCount;
-      return Math.floor((event.pageX - event.currentTarget.offsetLeft) / chipWidth);
+      return Math.max(0, Math.floor((event.pageX - event.currentTarget.offsetLeft) / chipWidth));
     },
     // Translate the pending chip to be aligned with the column nearest to the
     // user's pointer
