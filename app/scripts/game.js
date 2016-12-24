@@ -9,8 +9,22 @@ var Player = require('./player');
 var Chip = require('./chip');
 
 function Game(args) {
-  this.grid = args.grid;
-  this.players = [];
+  if (args && args.grid) {
+    this.grid = args.grid;
+  } else {
+    this.grid = new Grid({
+      columnCount: 7,
+      rowCount: 6
+    });
+  }
+  if (args && args.players) {
+    this.players = args.players;
+  } else {
+    this.players = [
+      new Player({color: 'red', name: 'Player 1'}),
+      new Player({color: 'blue', name: 'Player 2'})
+    ];
+  }
   // The current player is null when a game is not in progress
   this.currentPlayer = null;
   // Whether or not the game is in progress
@@ -26,13 +40,6 @@ function Game(args) {
 }
 
 Game.prototype.startGame = function (args) {
-  // Create new players if there are none
-  if (this.players.length === 0) {
-    this.players.push(
-        new Player({color: 'red', name: 'Player 1'}),
-        new Player({color: 'blue', name: 'Player 2'})
-    );
-  }
   this.currentPlayer = this.players[0];
   this.inProgress = true;
   this.startTurn();
@@ -179,12 +186,7 @@ Game.Component = {};
 
 Game.Component.controller = function () {
   return {
-    game: new Game({
-      grid: new Grid({
-        columnCount: 7,
-        rowCount: 6
-      })
-    })
+    game: new Game()
   };
 };
 
