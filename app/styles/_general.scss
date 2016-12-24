@@ -12,6 +12,19 @@ body {
     font-weight: 400;
   }
 }
+#personal-site-link {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 14px;
+  .by {
+    margin-right: 2px;
+    font-style: italic;
+  }
+  a {
+    text-decoration: none;
+  }
+}
 #game {
   max-width: $page-max-width;
   margin: 0 auto;
