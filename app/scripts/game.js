@@ -9,8 +9,22 @@ var Player = require('./player');
 var Chip = require('./chip');
 
 function Game(args) {
-  this.grid = args.grid;
-  this.players = [];
+  if (args && args.grid) {
+    this.grid = args.grid;
+  } else {
+    this.grid = new Grid({
+      columnCount: 7,
+      rowCount: 6
+    });
+  }
+  if (args && args.players) {
+    this.players = args.players;
+  } else {
+    this.players = [
+      new Player({color: 'red', name: 'Player 1'}),
+      new Player({color: 'blue', name: 'Player 2'})
+    ];
+  }
   // The current player is null when a game is not in progress
   this.currentPlayer = null;
   // Whether or not the game is in progress
@@ -21,16 +35,11 @@ function Game(args) {
   this.lastPlacedChip = null;
   // The winning player of the game
   this.winner = null;
+  // Whether or not the grid is completely full of chips
+  this.gridIsFull = false;
 }
 
 Game.prototype.startGame = function (args) {
-  // Create new players if there are none
-  if (this.players.length === 0) {
-    this.players.push(
-        new Player({color: 'red', name: 'Player 1'}),
-        new Player({color: 'blue', name: 'Player 2'})
-    );
-  }
   this.currentPlayer = this.players[0];
   this.inProgress = true;
   this.startTurn();
@@ -51,6 +60,7 @@ Game.prototype.endGame = function () {
 Game.prototype.resetGame = function (args) {
   this.lastPlacedChip = null;
   this.winner = null;
+  this.gridIsFull = false;
   this.grid.resetGrid();
 };
 
@@ -91,6 +101,24 @@ Game.prototype.placePendingChip = function (args) {
     this.lastPlacedChip.column = args.column;
     this.lastPlacedChip.row = this.grid.columns[args.column].length - 1;
     this.pendingChip = null;
+    // Check for winning connections (i.e. four in a row)
+    this.checkForWin();
+    // Check if the grid is completely full
+    this.checkForFullGrid();
+    // If the above checks have not ended the game, continue to next player's
+    // turn
+    this.endTurn();
+  }
+};
+
+// Check if the grid is completely full of chips, and end the game if it is
+Game.prototype.checkForFullGrid = function () {
+  var grid = this.grid;
+  this.gridIsFull = _.every(grid.columns, function (column) {
+    return column.length === grid.rowCount;
+  });
+  if (this.gridIsFull) {
+    this.endGame();
   }
 };
 
@@ -158,12 +186,7 @@ Game.Component = {};
 
 Game.Component.controller = function () {
   return {
-    game: new Game({
-      grid: new Grid({
-        columnCount: 7,
-        rowCount: 6
-      })
-    })
+    game: new Game()
   };
 };
 

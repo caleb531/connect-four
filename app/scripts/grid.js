@@ -3,6 +3,7 @@
 var m = require('mithril');
 var _ = require('underscore');
 var classNames = require('classnames');
+var Browser = require('./browser');
 
 function Grid(args) {
   this.columnCount = args.columnCount;
@@ -23,6 +24,9 @@ Grid.Component = {};
 
 Grid.Component.controller = function () {
   return {
+    // Initialize position of pending chip to the leftmost column
+    pendingChipX: 0,
+    pendingChipY: 0,
     // Get the CSS translate string for the given coordinate map
     getTranslate: function (coords) {
       return 'translate(' + coords.x + 'px,' + coords.y + 'px)';
@@ -95,6 +99,8 @@ Grid.Component.controller = function () {
           // Otherwise, chip is already aligned; drop chip into place on grid
           ctrl.transitionPendingChipX = false;
           ctrl.transitionPendingChipY = true;
+          // Keep track of where chip was dropped on click
+          ctrl.pointerColumnX = slotCoords.x;
           // Translate chip to the visual position on the grid corresponding to
           // the above column and row
           ctrl.setPendingChipCoords(slotCoords);
@@ -105,15 +111,12 @@ Grid.Component.controller = function () {
     },
     // Place the pending chip on the grid once the falling transition has ended
     finishPlacingPendingChip: function (ctrl, game, pendingChipElem, columnIndex) {
-      pendingChipElem.addEventListener('transitionend', function transitionend(event) {
-        event.target.removeEventListener('transitionend', transitionend);
+      var transitionendEventName = Browser.normalizeEventName('transitionend');
+      pendingChipElem.addEventListener(transitionendEventName, function transitionend(event) {
+        event.target.removeEventListener(transitionendEventName, transitionend);
         game.placePendingChip({column: columnIndex});
         ctrl.transitionPendingChipX = false;
         ctrl.transitionPendingChipY = false;
-        // Check for winning connections (i.e. four in a row)
-        game.checkForWin();
-        // Ensure pending chip is removed from DOM since it has been placed
-        game.endTurn();
         // Reset position of pending chip to be directly above pointer column
         ctrl.setPendingChipCoords({
           x: ctrl.pointerColumnX,
@@ -140,12 +143,12 @@ Grid.Component.view = function (ctrl, game) {
            {'transition-x': ctrl.transitionPendingChipX},
            {'transition-y': ctrl.transitionPendingChipY}
         ),
-        style: {
+        style: Browser.normalizeStyles({
           transform: ctrl.getTranslate({
             x: ctrl.pendingChipX,
             y: ctrl.pendingChipY
           })
-        }
+        })
       }) : null,
     // Bottom grid of slots (indicating space chips can occupy)
     m('div#chip-slots', _.times(grid.columnCount, function (c) {
