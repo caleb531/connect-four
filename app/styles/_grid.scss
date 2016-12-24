@@ -5,6 +5,8 @@
   position: relative;
   margin: 0 auto;
   cursor: default;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 .grid-column {
   display: inline-flex;
