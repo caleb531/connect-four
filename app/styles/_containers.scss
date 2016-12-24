@@ -8,6 +8,9 @@ body {
 #app {
   margin: 0 auto;
   text-align: center;
+  h1 {
+    font-weight: 400;
+  }
 }
 #game {
   max-width: $page-max-width;
