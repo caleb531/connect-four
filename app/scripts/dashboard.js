@@ -43,7 +43,7 @@ Dashboard.Component.view = function (ctrl, game) {
       game.gridIsFull ?
         'Looks like the grid is full. We\'ll call it a draw!' :
       ctrl.showWelcome ?
-        'Welcome! Click a button above to start.' :
+        'Welcome! Press a button above to start.' :
       'Game has ended.'
     )
   ]);
