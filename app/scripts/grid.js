@@ -99,6 +99,8 @@ Grid.Component.controller = function () {
           // Otherwise, chip is already aligned; drop chip into place on grid
           ctrl.transitionPendingChipX = false;
           ctrl.transitionPendingChipY = true;
+          // Keep track of where chip was dropped on click
+          ctrl.pointerColumnX = slotCoords.x;
           // Translate chip to the visual position on the grid corresponding to
           // the above column and row
           ctrl.setPendingChipCoords(slotCoords);
