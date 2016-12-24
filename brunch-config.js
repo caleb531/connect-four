@@ -7,11 +7,11 @@ module.exports = {
   files: {
     javascripts: {
       joinTo: {
-        // Create two scripts, each containing application modules.  One will
-        // have initialization code (main) autoRequire'd, and other won't.  All
-        // the application may be loaded in a file (CSP-friendly), and only one
-        // file (latency-friendly), in the browser, and the modules can be
-        // tested in isolation in unit tests.
+        // Create two scripts, each containing application modules.  One has
+        // initialization code (main) autoRequire'd, and the other doesn't.  All
+        // of the application is loaded in a file (CSP-friendly) and in only one
+        // file (latency-friendly) in the browser, and the modules are tested in
+        // isolation in unit tests.
         'scripts/main.js': modules,
         'scripts/modules.js': modules,
         'scripts/test.js': ['test/*.js']
