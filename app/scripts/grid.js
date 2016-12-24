@@ -106,8 +106,9 @@ Grid.Component.controller = function () {
     },
     // Place the pending chip on the grid once the falling transition has ended
     finishPlacingPendingChip: function (ctrl, game, pendingChipElem, columnIndex) {
-      pendingChipElem.addEventListener('transitionend', function transitionend(event) {
-        event.target.removeEventListener('transitionend', transitionend);
+      var transitionendEventName = Browser.normalizeEventName('transitionend');
+      pendingChipElem.addEventListener(transitionendEventName, function transitionend(event) {
+        event.target.removeEventListener(transitionendEventName, transitionend);
         game.placePendingChip({column: columnIndex});
         ctrl.transitionPendingChipX = false;
         ctrl.transitionPendingChipY = false;

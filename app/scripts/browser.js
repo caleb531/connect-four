@@ -26,4 +26,25 @@ Browser.normalizeStyles = function (styles) {
   return normalized;
 };
 
+// Map of DOM event names to event names used by this browser.
+var normalizedEventNames = {
+  'transitionend': (function () {
+    var pair = _.find([
+      {property: 'ontransitionend', name: 'transitionend'},
+      {property: 'onwebkittransitionend', name: 'webkitTransitionEnd'}
+    ], function (pair) {
+      return window[pair.property] !== undefined;
+    });
+    return (pair && pair.name) || 'transitionend';
+  }())
+};
+
+// Convert a DOM event name to an equivalent event name for this browser.
+Browser.normalizeEventName = function (eventName) {
+  if (Object.prototype.hasOwnProperty.call(normalizedEventNames, eventName)) {
+    return normalizedEventNames[eventName];
+  }
+  return eventName;
+};
+
 module.exports = Browser;
