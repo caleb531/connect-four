@@ -3,6 +3,7 @@
 var m = require('mithril');
 var _ = require('underscore');
 var classNames = require('classnames');
+var Browser = require('./browser');
 
 function Grid(args) {
   this.columnCount = args.columnCount;
@@ -142,12 +143,12 @@ Grid.Component.view = function (ctrl, game) {
            {'transition-x': ctrl.transitionPendingChipX},
            {'transition-y': ctrl.transitionPendingChipY}
         ),
-        style: {
+        style: Browser.normalizeStyles({
           transform: ctrl.getTranslate({
             x: ctrl.pendingChipX,
             y: ctrl.pendingChipY
           })
-        }
+        })
       }) : null,
     // Bottom grid of slots (indicating space chips can occupy)
     m('div#chip-slots', _.times(grid.columnCount, function (c) {
