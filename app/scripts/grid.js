@@ -117,13 +117,6 @@ Grid.Component.controller = function () {
         game.placePendingChip({column: columnIndex});
         ctrl.transitionPendingChipX = false;
         ctrl.transitionPendingChipY = false;
-        // Check for winning connections (i.e. four in a row)
-        game.checkForWin();
-        // Check if the grid is completely full
-        game.checkForFullGrid();
-        // If the above checks have not ended the game, continue to next
-        // player's turn
-        game.endTurn();
         // Reset position of pending chip to be directly above pointer column
         ctrl.setPendingChipCoords({
           x: ctrl.pointerColumnX,

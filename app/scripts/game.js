@@ -94,6 +94,13 @@ Game.prototype.placePendingChip = function (args) {
     this.lastPlacedChip.column = args.column;
     this.lastPlacedChip.row = this.grid.columns[args.column].length - 1;
     this.pendingChip = null;
+    // Check for winning connections (i.e. four in a row)
+    this.checkForWin();
+    // Check if the grid is completely full
+    this.checkForFullGrid();
+    // If the above checks have not ended the game, continue to next player's
+    // turn
+    this.endTurn();
   }
 };
 
