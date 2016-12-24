@@ -8,13 +8,11 @@ Dashboard.Component = {};
 
 Dashboard.Component.controller = function () {
   return {
-    // Start a game for the first time
+    // Start a new game (for the first time or not)
     startGame: function (game) {
-      game.startGame();
-    },
-    // Start a new game after a game has finished
-    startNewGame: function (game) {
-      game.resetGame();
+      if (game.players.length > 0) {
+        game.resetGame();
+      }
       game.startGame();
     },
     endGame: function (game) {
@@ -25,26 +23,22 @@ Dashboard.Component.controller = function () {
 
 Dashboard.Component.view = function (ctrl, game) {
   return m('div', {id: 'game-dashboard'}, [
-    game.players.length === 0 ? [
-      // Initially ask user to choose number of players to start game
-      m('label', 'Start Game:'),
-      // m('button', {onclick: _.partial(ctrl.startGame, game, 1)}, '1 Player'),
-      m('button', {onclick: _.partial(ctrl.startGame, game)}, '2 Players'),
-      m('p', {id: 'game-message'}, 'Choose a number of players to start a game.')
+    game.inProgress ? [
+      m('label', '2-Player Game'),
+      m('button', {onclick: _.partial(ctrl.endGame, game)}, 'End Game')
     ] : [
-      m('label', (game.players[1].ai ? 1 : 2) + '-Player Game'),
-      // Give user option to end current game or start new game
-      game.inProgress ?
-        m('button', {onclick: _.partial(ctrl.endGame, game)}, 'End Game')
-        : m('button', {onclick: _.partial(ctrl.startNewGame, game)}, 'New Game'),
-      // Display status of current game
-      m('p', {id: 'game-message'},
-        game.winner ?
-          game.winner.name + ' wins!'
-          : game.currentPlayer ?
-            game.currentPlayer.name + ', you\'re up!'
-            : 'Game has ended')
-    ]
+      m('label', '2 Players'),
+      m('button', {onclick: _.partial(ctrl.startGame, game)}, 'New Game')
+    ],
+    m('p', {id: 'game-message'},
+      game.winner ?
+        game.winner.name + ' wins!' :
+      game.currentPlayer ?
+        game.currentPlayer.name + ', you\'re up!' :
+      game.players.length === 0 ?
+        'Welcome! Click a button above to start.' :
+      'Game has ended.'
+    )
   ]);
 };
 
