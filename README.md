@@ -23,13 +23,6 @@ brew install node
 npm install -g brunch
 ```
 
-You may also wish to install the `http-server`  package so you can serve the app
-from a local web server (as opposed to serving via `file://` URL).
-
-```bash
-npm install -g http-server
-```
-
 ### 2. Install project dependencies
 
 From the cloned project directory, run:
@@ -54,10 +47,9 @@ brunch watch
 
 ### 4. Serve app locally
 
-The `brunch build` will create the generated app under the `public/` directory,
-so you can serve from there to view the app locally.
+You can serve the app with the `--server` flag to `brunch watch`. When run, the
+app will be accessible at `http://localhost:3333`.
 
 ```bash
-cd public/
-http-server -o
+brunch watch --server
 ```
