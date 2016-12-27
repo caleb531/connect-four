@@ -53,6 +53,32 @@ describe('Game', function () {
     expect(game.pendingChip).to.be.null;
   });
 
+  it('should reset grid when resetting game', function () {
+    var game = new Game();
+    game.startGame();
+    game.placePendingChip({column: 2});
+    expect(game.grid.columns[2]).to.have.length(1);
+    game.endGame();
+    game.resetGame();
+    expect(game.grid.columns[2]).to.have.length(0);
+  });
+
+  it('should reset winner when resetting game', function () {
+    var game = new Game();
+    game.startGame();
+    game.placePendingChip({column: 0}); // P1
+    game.placePendingChip({column: 1}); // P2
+    game.placePendingChip({column: 0}); // P1
+    game.placePendingChip({column: 1}); // P2
+    game.placePendingChip({column: 0}); // P1
+    game.placePendingChip({column: 1}); // P2
+    game.placePendingChip({column: 0}); // P1
+    expect(game.winner).not.to.be.null;
+    game.endGame();
+    game.resetGame();
+    expect(game.winner).to.be.null;
+  });
+
   it('should determine a winner', function () {
     var game = new Game();
     game.startGame();
