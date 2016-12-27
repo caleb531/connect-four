@@ -35,8 +35,6 @@ function Game(args) {
   this.lastPlacedChip = null;
   // The winning player of the game
   this.winner = null;
-  // Whether or not the grid is completely full of chips
-  this.gridIsFull = false;
 }
 
 Game.prototype.startGame = function (args) {
@@ -60,7 +58,6 @@ Game.prototype.endGame = function () {
 Game.prototype.resetGame = function (args) {
   this.lastPlacedChip = null;
   this.winner = null;
-  this.gridIsFull = false;
   this.grid.resetGrid();
 };
 
