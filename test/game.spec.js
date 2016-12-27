@@ -44,6 +44,15 @@ describe('Game', function () {
     expect(game.inProgress).to.be.true;
   });
 
+  it('should end game', function () {
+    var game = new Game();
+    game.startGame();
+    game.endGame();
+    expect(game.currentPlayer).to.be.null;
+    expect(game.inProgress).to.be.false;
+    expect(game.pendingChip).to.be.null;
+  });
+
   it('should determine a winner', function () {
     var game = new Game();
     game.startGame();
