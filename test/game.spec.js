@@ -67,6 +67,15 @@ describe('Game', function () {
     expect(game.pendingChip).to.be.null;
   });
 
+  it('should increment winner\'s score when ending game', function () {
+    var game = new Game();
+    game.startGame();
+    game.winner = game.players[0];
+    expect(game.winner.score).to.equal(0);
+    game.endGame();
+    expect(game.winner.score).to.equal(1);
+  });
+
   it('should reset grid when resetting game', function () {
     var game = new Game();
     game.startGame();
