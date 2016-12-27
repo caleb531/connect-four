@@ -44,6 +44,12 @@ describe('Game', function () {
     expect(game.inProgress).to.be.true;
   });
 
+  it('should start turn', function () {
+    var game = new Game();
+    game.startTurn();
+    expect(game.pendingChip).not.to.be.null;
+  });
+
   it('should end game', function () {
     var game = new Game();
     game.startGame();
