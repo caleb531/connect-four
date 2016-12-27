@@ -37,6 +37,13 @@ describe('Game', function () {
     expect(game.winner).to.be.null;
   });
 
+  it('should start game', function () {
+    var game = new Game();
+    game.startGame();
+    expect(game.currentPlayer).to.equal(game.players[0]);
+    expect(game.inProgress).to.be.true;
+  });
+
   it('should determine a winner', function () {
     var game = new Game();
     game.startGame();
