@@ -50,6 +50,14 @@ describe('Game', function () {
     expect(game.pendingChip).not.to.be.null;
   });
 
+  it('should end turn', function () {
+    var game = new Game();
+    game.startGame();
+    game.startTurn();
+    game.endTurn();
+    expect(game.currentPlayer).to.equal(game.players[1]);
+  });
+
   it('should end game', function () {
     var game = new Game();
     game.startGame();
