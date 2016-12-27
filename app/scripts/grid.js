@@ -12,6 +12,15 @@ function Grid(args) {
   this.columns = [];
   this.resetGrid();
 }
+
+// Return true if the grid is completely full; otherwise, return false
+Grid.prototype.checkIfFull = function () {
+  var grid = this;
+  return _.every(grid.columns, function (column) {
+    return column.length === grid.rowCount;
+  });
+};
+
 // Reset the grid by removing all placed chips
 Grid.prototype.resetGrid = function () {
   this.columns.length = 0;

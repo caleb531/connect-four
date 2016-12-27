@@ -113,11 +113,7 @@ Game.prototype.placePendingChip = function (args) {
 
 // Check if the grid is completely full of chips, and end the game if it is
 Game.prototype.checkForFullGrid = function () {
-  var grid = this.grid;
-  this.gridIsFull = _.every(grid.columns, function (column) {
-    return column.length === grid.rowCount;
-  });
-  if (this.gridIsFull) {
+  if (this.grid.checkIfFull()) {
     this.endGame();
   }
 };
