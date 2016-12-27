@@ -89,14 +89,7 @@ describe('Game', function () {
   it('should reset winner when resetting game', function () {
     var game = new Game();
     game.startGame();
-    game.placePendingChip({column: 0}); // P1
-    game.placePendingChip({column: 1}); // P2
-    game.placePendingChip({column: 0}); // P1
-    game.placePendingChip({column: 1}); // P2
-    game.placePendingChip({column: 0}); // P1
-    game.placePendingChip({column: 1}); // P2
-    game.placePendingChip({column: 0}); // P1
-    expect(game.winner).not.to.be.null;
+    game.winner = game.players[0];
     game.endGame();
     game.resetGame();
     expect(game.winner).to.be.null;
