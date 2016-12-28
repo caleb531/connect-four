@@ -171,4 +171,20 @@ describe('Game', function () {
     expect(game.winner.name).to.equal('Player 1');
   });
 
+  it('should not win on connections of more than four', function () {
+    var game = new Game();
+    game.startGame();
+    game.placePendingChip({column: 2}); // P1
+    expect(game.winner).to.be.null;
+    game.placePendingChip({column: 2}); // P2
+    game.placePendingChip({column: 3}); // P1
+    game.placePendingChip({column: 3}); // P2
+    game.placePendingChip({column: 4}); // P1
+    game.placePendingChip({column: 4}); // P2
+    game.placePendingChip({column: 6}); // P1
+    game.placePendingChip({column: 6}); // P2
+    game.placePendingChip({column: 5}); // P1
+    expect(game.winner).to.be.null;
+  });
+
 });
