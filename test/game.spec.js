@@ -144,4 +144,31 @@ describe('Game', function () {
     expect(game.winner).to.have.property('name', 'Player 1');
   });
 
+  it('should win with two connect-fours at once', function () {
+    var game = new Game();
+    game.startGame();
+    game.placePendingChip({column: 0}); // P1
+    expect(game.winner).to.be.null;
+    game.placePendingChip({column: 1}); // P2
+    game.placePendingChip({column: 1}); // P1
+    game.placePendingChip({column: 1}); // P2
+    game.placePendingChip({column: 2}); // P1
+    game.placePendingChip({column: 2}); // P2
+    game.placePendingChip({column: 2}); // P1
+    game.placePendingChip({column: 0}); // P2
+    game.placePendingChip({column: 6}); // P1
+    game.placePendingChip({column: 5}); // P2
+    game.placePendingChip({column: 5}); // P1
+    game.placePendingChip({column: 5}); // P2
+    game.placePendingChip({column: 4}); // P1
+    game.placePendingChip({column: 4}); // P2
+    game.placePendingChip({column: 4}); // P1
+    game.placePendingChip({column: 3}); // P2
+    game.placePendingChip({column: 3}); // P1
+    game.placePendingChip({column: 3}); // P2
+    game.placePendingChip({column: 3}); // P1
+    expect(game.winner).not.to.be.null;
+    expect(game.winner).to.have.property('name', 'Player 1');
+  });
+
 });
