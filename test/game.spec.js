@@ -105,11 +105,9 @@ describe('Game', function () {
   it('should win horizontally', function () {
     var game = new Game();
     game.startGame();
-    game.placePendingChip({column: 2});
-    expect(game.winner).to.be.null;
     placeChips({
       game: game,
-      columns: [2, 3, 3, 4, 4, 5]
+      columns: [2, 2, 3, 3, 4, 4, 5]
     });
     expect(game.winner).not.to.be.null;
     expect(game.winner.name).to.equal('Player 1');
@@ -118,11 +116,9 @@ describe('Game', function () {
   it('should win vertically', function () {
     var game = new Game();
     game.startGame();
-    game.placePendingChip({column: 0});
-    expect(game.winner).to.be.null;
     placeChips({
       game: game,
-      columns: [1, 0, 1, 0, 1, 0]
+      columns: [0, 1, 0, 1, 0, 1, 0]
     });
     expect(game.winner).not.to.be.null;
     expect(game.winner.name).to.equal('Player 1');
@@ -131,11 +127,9 @@ describe('Game', function () {
   it('should win diagonally', function () {
     var game = new Game();
     game.startGame();
-    game.placePendingChip({column: 3});
-    expect(game.winner).to.be.null;
     placeChips({
       game: game,
-      columns: [4, 4, 3, 5, 5, 5, 6, 6, 6, 6]
+      columns: [3, 4, 4, 3, 5, 5, 5, 6, 6, 6, 6]
     });
     expect(game.winner).not.to.be.null;
     expect(game.winner.name).to.equal('Player 1');
@@ -144,11 +138,9 @@ describe('Game', function () {
   it('should win with two connect-fours at once', function () {
     var game = new Game();
     game.startGame();
-    game.placePendingChip({column: 0});
-    expect(game.winner).to.be.null;
     placeChips({
       game: game,
-      columns: [1, 1, 1, 2, 2, 2, 0, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 3]
+      columns: [0, 1, 1, 1, 2, 2, 2, 0, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 3]
     });
     expect(game.winner).not.to.be.null;
     expect(game.winner.name).to.equal('Player 1');
@@ -157,11 +149,9 @@ describe('Game', function () {
   it('should not win on connections of more than four', function () {
     var game = new Game();
     game.startGame();
-    game.placePendingChip({column: 2});
-    expect(game.winner).to.be.null;
     placeChips({
       game: game,
-      columns: [2, 3, 3, 4, 4, 6, 6, 5]
+      columns: [2, 2, 3, 3, 4, 4, 6, 6, 5]
     });
     expect(game.winner).to.be.null;
   });
