@@ -156,4 +156,22 @@ describe('Game', function () {
     expect(game.winner).to.be.null;
   });
 
+  it('should end game when grid becomes full', function () {
+    var game = new Game();
+    game.startGame();
+    placeChips({
+      game: game,
+      columns: [
+        0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0,
+        2, 3, 2, 3, 2, 3, 3, 2, 3, 2, 3, 2,
+        4, 5, 4, 5, 4, 5, 5, 4, 5, 4, 5, 4,
+        6, 6, 6, 6, 6, 6
+      ]
+    });
+    expect(game.winner).to.be.null;
+    expect(game.inProgress).to.be.false;
+    expect(game.players[0].score).to.equal(0);
+    expect(game.players[1].score).to.equal(0);
+  });
+
 });
