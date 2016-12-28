@@ -107,7 +107,7 @@ describe('Game', function () {
     game.placePendingChip({column: 4}); // P2
     game.placePendingChip({column: 5}); // P1
     expect(game.winner).not.to.be.null;
-    expect(game.winner).to.have.property('name', 'Player 1');
+    expect(game.winner.name).to.equal('Player 1');
   });
 
   it('should win vertically', function () {
@@ -122,7 +122,7 @@ describe('Game', function () {
     game.placePendingChip({column: 1}); // P2
     game.placePendingChip({column: 0}); // P1
     expect(game.winner).not.to.be.null;
-    expect(game.winner).to.have.property('name', 'Player 1');
+    expect(game.winner.name).to.equal('Player 1');
   });
 
   it('should win diagonally', function () {
@@ -141,7 +141,7 @@ describe('Game', function () {
     game.placePendingChip({column: 6}); // P2
     game.placePendingChip({column: 6}); // P1
     expect(game.winner).not.to.be.null;
-    expect(game.winner).to.have.property('name', 'Player 1');
+    expect(game.winner.name).to.equal('Player 1');
   });
 
   it('should win with two connect-fours at once', function () {
@@ -168,7 +168,7 @@ describe('Game', function () {
     game.placePendingChip({column: 3}); // P2
     game.placePendingChip({column: 3}); // P1
     expect(game.winner).not.to.be.null;
-    expect(game.winner).to.have.property('name', 'Player 1');
+    expect(game.winner.name).to.equal('Player 1');
   });
 
 });
