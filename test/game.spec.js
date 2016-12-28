@@ -16,13 +16,15 @@ describe('Game', function () {
 
   it('should initialize game with no arguments', function () {
     var game = new Game();
-    expect(game.grid.columnCount).to.equal(7);
-    expect(game.grid.rowCount).to.equal(6);
-    expect(game.players.length).to.equal(2);
-    expect(game.currentPlayer).to.be.null;
-    expect(game.pendingChip).to.be.null;
-    expect(game.lastPlacedChip).to.be.null;
-    expect(game.winner).to.be.null;
+    expect(game).to.have.property('grid');
+    expect(game.grid).to.have.property('columnCount', 7);
+    expect(game.grid).to.have.property('rowCount', 6);
+    expect(game).to.have.property('players');
+    expect(game.players).to.have.length(2);
+    expect(game).to.have.property('currentPlayer', null);
+    expect(game).to.have.property('pendingChip', null);
+    expect(game).to.have.property('lastPlacedChip', null);
+    expect(game).to.have.property('winner', null);
   });
 
   it('should initialize game with arguments', function () {
@@ -33,15 +35,15 @@ describe('Game', function () {
       ],
       grid: new Grid({columnCount: 9, rowCount: 8})
     });
-    expect(game.grid.columnCount).to.equal(9);
-    expect(game.grid.rowCount).to.equal(8);
-    expect(game.players.length).to.equal(2);
+    expect(game.grid).to.have.property('columnCount', 9);
+    expect(game.grid).to.have.property('rowCount', 8);
+    expect(game.players).to.have.length(2);
     expect(game.players[0].name).to.equal('Bob');
     expect(game.players[1].name).to.equal('Larry');
-    expect(game.currentPlayer).to.be.null;
-    expect(game.pendingChip).to.be.null;
-    expect(game.lastPlacedChip).to.be.null;
-    expect(game.winner).to.be.null;
+    expect(game).to.have.property('currentPlayer', null);
+    expect(game).to.have.property('pendingChip', null);
+    expect(game).to.have.property('lastPlacedChip', null);
+    expect(game).to.have.property('winner', null);
   });
 
   it('should start game', function () {
