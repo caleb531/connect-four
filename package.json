@@ -1,6 +1,6 @@
 {
   "name": "connect-four",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A Connect Four web app implemented in JS using Mithril",
   "scripts": {
     "test": "karma start"
