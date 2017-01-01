@@ -1,6 +1,6 @@
 # Connect Four
 
-*Copyright 2016, Caleb Evans*  
+*Copyright 2017, Caleb Evans*  
 *Released under the MIT License*
 
 This is the most advanced web app implementation of Connect Four, written using
