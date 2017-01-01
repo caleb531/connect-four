@@ -6,6 +6,5 @@
   </defs>
   <use xlink:href="#c4-red-chip" x="8" y="8" />
   <use xlink:href="#c4-blue-chip" x="8" y="24" />
-  <use xlink:href="#c4-blue-chip" x="24" y="8" />
   <use xlink:href="#c4-red-chip" x="24" y="24" />
 </svg>
