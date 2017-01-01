@@ -31,25 +31,12 @@ From the cloned project directory, run:
 npm install
 ```
 
-### 3. Build app
+### 3. Serve app locally
 
-If you want to build the app once, run:
-
-```bash
-brunch build
-```
-
-If you want to build the app whenever files change, run:
-
-```bash
-brunch watch
-```
-
-### 4. Serve app locally
-
-You can serve the app with the `--server` flag to `brunch watch`. When run, the
-app will be accessible at `http://localhost:3333`.
+To serve the app locally, run:
 
 ```bash
 brunch watch --server
 ```
+
+When run, the app will be accessible at `http://localhost:3333`.
