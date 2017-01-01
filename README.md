@@ -7,7 +7,7 @@ This is the most advanced web app implementation of Connect Four, written using
 HTML5, JavaScript, and Mithril.
 
 You can play the app online at:  
-http://projects.calebevans.me/connect-four/
+https://projects.calebevans.me/connect-four/
 
 ## Run the project locally
 
