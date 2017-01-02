@@ -9,23 +9,27 @@ body {
   margin: 0 auto;
   text-align: center;
   h1 {
+    margin-top: 30px;
     font-weight: 400;
   }
 }
-#personal-site-link {
+.nav-link {
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 6px;
   font-size: 14px;
-  .by {
-    margin-right: 2px;
-    font-style: italic;
+  $position-x: 8px;
+  &-left {
+    left: $position-x;
+  }
+  &-right {
+    right: $position-x;
   }
   a {
     color: #36c;
     text-decoration: none;
   }
 }
+
 #game {
   max-width: $page-max-width;
   margin: 0 auto;
