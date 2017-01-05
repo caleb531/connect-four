@@ -6,7 +6,7 @@ var Chip = require('../app/scripts/chip');
 
 describe('chip', function () {
 
-  it('should initialize chip', function () {
+  it('should initialize', function () {
     var player = new Player({
       color: 'green',
       name: 'Super Player'

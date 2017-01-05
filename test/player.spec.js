@@ -5,7 +5,7 @@ var Player = require('../app/scripts/player');
 
 describe('player', function () {
 
-  it('should initialize player', function () {
+  it('should initialize', function () {
     var player = new Player({
       name: 'Super Player',
       color: 'green'

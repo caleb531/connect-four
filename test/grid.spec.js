@@ -6,9 +6,9 @@ var Grid = require('../app/scripts/grid');
 var Player = require('../app/scripts/player');
 var Chip = require('../app/scripts/chip');
 
-describe('Grid', function () {
+describe('grid', function () {
 
-  it('should initialize grid', function () {
+  it('should initialize', function () {
     var grid = new Grid({
       columnCount: 9,
       rowCount: 8
@@ -21,7 +21,7 @@ describe('Grid', function () {
     });
   });
 
-  it('should know when grid is full', function () {
+  it('should know when it is full', function () {
     var grid = new Grid({
       columnCount: 9,
       rowCount: 8
@@ -35,7 +35,7 @@ describe('Grid', function () {
     expect(grid.checkIfFull()).to.be.true;
   });
 
-  it('should know when grid is not full', function () {
+  it('should know when it is not full', function () {
     var grid = new Grid({
       columnCount: 9,
       rowCount: 8
@@ -49,7 +49,7 @@ describe('Grid', function () {
     expect(grid.checkIfFull()).to.be.false;
   });
 
-  it('should reset grid', function () {
+  it('should reset', function () {
     var grid = new Grid({
       columnCount: 9,
       rowCount: 8

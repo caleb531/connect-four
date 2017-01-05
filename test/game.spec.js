@@ -5,7 +5,7 @@ var Grid = require('../app/scripts/grid');
 var Player = require('../app/scripts/player');
 var Game = require('../app/scripts/game');
 
-describe('Game', function () {
+describe('game', function () {
 
   // Place chips at the given columns in the given order
   function placeChips(args) {
@@ -14,7 +14,7 @@ describe('Game', function () {
     });
   }
 
-  it('should initialize game with no arguments', function () {
+  it('should initialize with no arguments', function () {
     var game = new Game();
     expect(game).to.have.property('grid');
     expect(game.grid).to.have.property('columnCount', 7);
@@ -28,7 +28,7 @@ describe('Game', function () {
     expect(game).to.have.property('winner', null);
   });
 
-  it('should initialize game with arguments', function () {
+  it('should initialize with arguments', function () {
     var game = new Game({
       players: [
         new Player({color: 'blue', name: 'Bob'}),
@@ -48,7 +48,7 @@ describe('Game', function () {
     expect(game).to.have.property('winner', null);
   });
 
-  it('should start game', function () {
+  it('should start', function () {
     var game = new Game();
     game.startGame();
     expect(game.currentPlayer).to.equal(game.players[0]);
@@ -69,7 +69,7 @@ describe('Game', function () {
     expect(game.currentPlayer).to.equal(game.players[1]);
   });
 
-  it('should end game', function () {
+  it('should end', function () {
     var game = new Game();
     game.startGame();
     game.endGame();
@@ -78,7 +78,7 @@ describe('Game', function () {
     expect(game.pendingChip).to.be.null;
   });
 
-  it('should increment winner\'s score when ending game', function () {
+  it('should increment winner\'s score when ending', function () {
     var game = new Game();
     game.startGame();
     game.winner = game.players[0];
@@ -87,7 +87,7 @@ describe('Game', function () {
     expect(game.winner.score).to.equal(1);
   });
 
-  it('should reset grid when resetting game', function () {
+  it('should reset grid when resetting', function () {
     var game = new Game();
     game.startGame();
     game.placePendingChip({column: 2});
@@ -97,7 +97,7 @@ describe('Game', function () {
     expect(game.grid.columns[2]).to.have.length(0);
   });
 
-  it('should reset winner when resetting game', function () {
+  it('should reset winner when resetting', function () {
     var game = new Game();
     game.startGame();
     game.winner = game.players[0];
@@ -160,7 +160,7 @@ describe('Game', function () {
     expect(game.winner).to.be.null;
   });
 
-  it('should end game when grid becomes full', function () {
+  it('should end when grid becomes full', function () {
     var game = new Game();
     game.startGame();
     placeChips({
