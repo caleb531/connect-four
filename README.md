@@ -3,6 +3,8 @@
 *Copyright 2017, Caleb Evans*  
 *Released under the MIT License*
 
+[![Build Status](https://travis-ci.org/caleb531/connect-four.svg?branch=master)](https://travis-ci.org/caleb531/connect-four)
+
 This is the most advanced web app implementation of Connect Four, written using
 HTML5, JavaScript, and Mithril.
 
