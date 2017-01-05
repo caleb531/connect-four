@@ -1,0 +1,17 @@
+# Travis CI Configuration
+
+language: node_js
+node_js:
+  - "6"
+  - "5"
+  - "4"
+before_install:
+  - export CHROME_BIN=chromium-browser
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+install:
+  - npm install
+before_script:
+  - ./node_modules/brunch/bin/brunch build
+script:
+  - ./node_modules/karma/bin/karma start --single-run
