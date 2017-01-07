@@ -31,7 +31,7 @@ function Game(args) {
   this.inProgress = false;
   // The chip above the grid that is about to be placed
   this.pendingChip = null;
-  // The chip that was most recently placed in the board
+  // The chip that was most recently placed on the grid
   this.lastPlacedChip = null;
   // The winning player of the game
   this.winner = null;
@@ -104,69 +104,21 @@ Game.prototype.checkForFullGrid = function () {
   }
 };
 
-// Find same-color neighbors connected to the given chip in the given direction
-Game.prototype.findConnectedNeighbors = function (chip, direction) {
-  var neighbor = chip;
-  var connectedNeighbors = [];
-  while (true) {
-    var nextColumn = neighbor.column + direction.x;
-    // Stop if the left/right edge of the grid has been reached
-    if (this.grid.columns[nextColumn] === undefined) {
-      break;
-    }
-    var nextRow = neighbor.row + direction.y;
-    var nextNeighbor = this.grid.columns[nextColumn][nextRow];
-    // Stop if the top/bottom edge of the grid has been reached or if the
-    // neighboring slot is empty
-    if (nextNeighbor === undefined) {
-      break;
-    }
-    // Stop if this neighbor is not the same color as the original chip
-    if (nextNeighbor.player !== chip.player) {
-      break;
-    }
-    // Assume at this point that this neighbor chip is connected to the original
-    // chip in the given direction
-    neighbor = nextNeighbor;
-    connectedNeighbors.push(nextNeighbor);
-  }
-  return connectedNeighbors;
-};
 // Determine if a player won the game with four chips in a row (horizontally,
 // vertically, or diagonally)
 Game.prototype.checkForWin = function () {
-  var game = this;
-  Game.connectionDirections.forEach(function (direction) {
-    var connectedChips = [game.lastPlacedChip];
-    // Check for connected neighbors in this direction
-    connectedChips.push.apply(connectedChips, game.findConnectedNeighbors(game.lastPlacedChip, direction));
-    // Check for connected neighbors in the opposite direction
-    connectedChips.push.apply(connectedChips, game.findConnectedNeighbors(game.lastPlacedChip, {
-      x: -direction.x,
-      y: -direction.y
-    }));
-    // If at least four connected same-color chips are found, declare winner and
-    // highlight connected chips
-    if (connectedChips.length >= 4) {
-      // Only highlight some group of exactly four chips within that connection
-      connectedChips.length = 4;
-      game.winner = game.lastPlacedChip.player;
-      connectedChips.forEach(function (chip) {
+  var connections = this.grid.getConnections(this.lastPlacedChip);
+  if (connections.length > 0) {
+    // Highlight chips to indicate that they're part of a winning connection
+    connections.forEach(function (connection) {
+      connection.forEach(function (chip) {
         chip.highlighted = true;
       });
-    }
-  });
-  if (game.winner) {
-    game.endGame();
+    });
+    this.winner = this.lastPlacedChip.player;
+    this.endGame();
   }
 };
-// The relative directions to check when checking for connected chip neighbors
-Game.connectionDirections = [
-  {x: 0, y: -1}, // Bottom-middle
-  {x: 1, y: -1}, // Bottom-right
-  {x: 1, y: 0}, // Right-middle
-  {x: 1, y: 1} // Top-right
-];
 
 Game.Component = {};
 
