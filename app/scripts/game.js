@@ -79,17 +79,6 @@ Game.prototype.endTurn = function () {
   }
 };
 
-// Return the index of the next available row for the given column
-Game.prototype.getNextAvailableSlot = function (args) {
-  var nextRowIndex = this.grid.columns[args.column].length;
-  if (nextRowIndex < this.grid.rowCount) {
-    return nextRowIndex;
-  } else {
-    // Return null if thee are no more available slots in this column
-    return null;
-  }
-};
-
 // Insert the current pending chip into the columns array at the given index
 Game.prototype.placePendingChip = function (args) {
   if (this.pendingChip) {

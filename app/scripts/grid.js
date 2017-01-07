@@ -29,6 +29,17 @@ Grid.prototype.resetGrid = function () {
   }
 };
 
+// Return the index of the next available slot for the given column
+Grid.prototype.getNextAvailableSlot = function (args) {
+  var nextRowIndex = this.columns[args.column].length;
+  if (nextRowIndex < this.rowCount) {
+    return nextRowIndex;
+  } else {
+    // Return null if there are no more available slots in this column
+    return null;
+  }
+};
+
 Grid.Component = {};
 
 Grid.Component.controller = function () {
@@ -94,7 +105,7 @@ Grid.Component.controller = function () {
         }
         // Get the column/row index where the pending chip is to be placed
         var columnIndex = ctrl.getPointerColumnIndex(game, event);
-        var rowIndex = game.getNextAvailableSlot({column: columnIndex});
+        var rowIndex = game.grid.getNextAvailableSlot({column: columnIndex});
         // Do not allow user to place chip in column that is already full
         if (rowIndex === null) {
           return;
