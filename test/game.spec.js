@@ -150,14 +150,14 @@ describe('game', function () {
     expect(game.winner.name).to.equal('Player 1');
   });
 
-  it('should not win on connections of more than four', function () {
+  it('should win on connections of more than four', function () {
     var game = new Game();
     game.startGame();
     placeChips({
       game: game,
       columns: [2, 2, 3, 3, 4, 4, 6, 6, 5]
     });
-    expect(game.winner).to.be.null;
+    expect(game.winner).not.to.be.null;
   });
 
   it('should end when grid becomes full', function () {
