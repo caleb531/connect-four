@@ -22,7 +22,7 @@ var normalizedProperties = {
 // this browser.
 Browser.normalizeStyles = function (styles) {
   var normalized = {};
-  _.forEach(_.keys(styles), function (property) {
+  _.keys(styles).forEach(function (property) {
     if (Object.prototype.hasOwnProperty.call(normalizedProperties, property)) {
       normalized[normalizedProperties[property]] = styles[property];
     } else {

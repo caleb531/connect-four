@@ -147,7 +147,7 @@ Game.prototype.findConnectedNeighbors = function (chip, direction) {
 // vertically, or diagonally)
 Game.prototype.checkForWin = function () {
   var game = this;
-  _.forEach(Game.connectionDirections, function (direction) {
+  Game.connectionDirections.forEach(function (direction) {
     var connectedChips = [game.lastPlacedChip];
     // Check for connected neighbors in this direction
     connectedChips.push.apply(connectedChips, game.findConnectedNeighbors(game.lastPlacedChip, direction));
@@ -162,7 +162,7 @@ Game.prototype.checkForWin = function () {
       // Only highlight some group of exactly four chips within that connection
       connectedChips.length = 4;
       game.winner = game.lastPlacedChip.player;
-      _.forEach(connectedChips, function (chip) {
+      connectedChips.forEach(function (chip) {
         chip.highlighted = true;
       });
     }
