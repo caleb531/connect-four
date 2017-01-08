@@ -33,7 +33,7 @@ function Game(args) {
   this.winner = null;
 }
 
-Game.prototype.startGame = function (args) {
+Game.prototype.startGame = function () {
   this.currentPlayer = this.players[0];
   this.inProgress = true;
   this.startTurn();
@@ -51,7 +51,7 @@ Game.prototype.endGame = function () {
 
 // Reset the game and grid completely without starting a new game (endGame
 // should be called somewhere before this method is called)
-Game.prototype.resetGame = function (args) {
+Game.prototype.resetGame = function () {
   this.lastPlacedChip = null;
   this.winner = null;
   this.grid.resetGrid();
