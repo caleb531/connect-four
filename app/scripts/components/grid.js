@@ -49,7 +49,7 @@ GridComponent.controller = function () {
     },
     // Translate the pending chip to be aligned with the column nearest to the
     // user's pointer
-    movePendingChipToPointerColumn: function (ctrl, game, event) {
+    movePendingChipViaPointer: function (ctrl, game, event) {
       if (game.pendingChip) {
         // The pointer column is the grid column nearest to the cursor at any
         // given instant; keep track of the pointer column's X position so the
@@ -65,47 +65,58 @@ GridComponent.controller = function () {
       }
     },
     // Get the coordinates of the chip slot element at the given column/row
-    getSlotCoords: function (grid, columnIndex, rowIndex) {
-      var chipWidth = this.getChipWidth(grid);
+    getSlotCoords: function (args) {
+      var chipWidth = this.getChipWidth(args.grid);
       return {
-        x: chipWidth * columnIndex,
-        y: chipWidth * (grid.rowCount - rowIndex)
+        x: chipWidth * args.column,
+        y: chipWidth * (args.grid.rowCount - args.row)
       };
     },
+    // Place the pending chip programmatically using the specified column
+    placePendingChip: function (args) {
+      var rowIndex = args.game.grid.getNextAvailableSlot({
+        column: args.column
+      });
+      // Do not allow user to place chip in column that is already full
+      if (rowIndex === null) {
+        return;
+      }
+      var slotCoords = this.getSlotCoords({
+        grid: args.game.grid,
+        column: args.column,
+        row: rowIndex
+      });
+      // If pending chip is not currently aligned with pointer column
+      if (this.pendingChipX !== slotCoords.x) {
+        // First move pending chip into alignment with pointer column
+        this.movePendingChipViaPointer(this, args.game, event);
+      } else {
+        // Otherwise, chip is already aligned; drop chip into place on grid
+        this.transitionPendingChipX = false;
+        this.transitionPendingChipY = true;
+        // Keep track of where chip was dropped on click
+        this.pointerColumnX = slotCoords.x;
+        // Translate chip to the visual position on the grid corresponding to
+        // the above column and row
+        this.setPendingChipCoords(slotCoords);
+        // Perform insertion on internal game grid once transition has ended
+        this.finishPlacingPendingChip(args);
+      }
+    },
     // Place the pending chip into the poiner column's next available slot
-    placePendingChip: function (ctrl, game, event) {
+    placePendingChipViaPointer: function (ctrl, game, event) {
       if (game.pendingChip && !ctrl.transitionPendingChipY) {
-        // Get the column/row index where the pending chip is to be placed
-        var columnIndex = ctrl.getPointerColumnIndex(game.grid, event);
-        var rowIndex = game.grid.getNextAvailableSlot({column: columnIndex});
-        // Do not allow user to place chip in column that is already full
-        if (rowIndex === null) {
-          return;
-        }
-        var slotCoords = ctrl.getSlotCoords(game.grid, columnIndex, rowIndex);
-        // If pending chip is not currently aligned with pointer column
-        if (ctrl.pendingChipX !== slotCoords.x) {
-          // First move pending chip into alignment with pointer column
-          ctrl.movePendingChipToPointerColumn(ctrl, game, event);
-        } else {
-          // Otherwise, chip is already aligned; drop chip into place on grid
-          ctrl.transitionPendingChipX = false;
-          ctrl.transitionPendingChipY = true;
-          // Keep track of where chip was dropped on click
-          ctrl.pointerColumnX = slotCoords.x;
-          // Translate chip to the visual position on the grid corresponding to
-          // the above column and row
-          ctrl.setPendingChipCoords(slotCoords);
-          // Perform insertion on internal game grid once transition has ended
-          ctrl.finishPlacingPendingChip(game, columnIndex);
-        }
+        ctrl.placePendingChip({
+          game: game,
+          column: ctrl.getPointerColumnIndex(game.grid, event)
+        });
       }
     },
     // Place the pending chip on the grid once the falling transition has ended
-    finishPlacingPendingChip: function (game, columnIndex) {
+    finishPlacingPendingChip: function (args) {
       var ctrl = this;
       ctrl.onPendingChipTransitionEnd(function() {
-        game.placePendingChip({column: columnIndex});
+        args.game.placePendingChip({column: args.column});
         ctrl.transitionPendingChipX = false;
         ctrl.transitionPendingChipY = false;
         // Reset position of pending chip to be directly above pointer column
@@ -122,8 +133,8 @@ GridComponent.view = function (ctrl, game) {
   var grid = game.grid;
   return m('div#grid', {
     class: classNames({'has-winner': game.winner !== null}),
-    onmousemove: _.partial(ctrl.movePendingChipToPointerColumn, ctrl, game),
-    onclick: _.partial(ctrl.placePendingChip, ctrl, game)
+    onmousemove: _.partial(ctrl.movePendingChipViaPointer, ctrl, game),
+    onclick: _.partial(ctrl.placePendingChipViaPointer, ctrl, game)
   }, [
     // The chip that is about to be placed on the grid
     game.pendingChip ?
