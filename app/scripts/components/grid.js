@@ -22,14 +22,19 @@ GridComponent.controller = function () {
       this.pendingChipX = coords.x;
       this.pendingChipY = coords.y;
     },
+    // Retrieve the constant width of a single chip
+    getChipWidth: function (grid) {
+      var gridElem = document.getElementById('grid');
+      return gridElem.offsetWidth / grid.columnCount;
+    },
     // Get the left offset of the pointer column
-    getPointerColumnX: function (game, event) {
-      var chipWidth = event.currentTarget.offsetWidth / game.grid.columnCount;
+    getPointerColumnX: function (grid, event) {
+      var chipWidth = this.getChipWidth(grid);
       return Math.max(0, Math.floor((event.pageX - event.currentTarget.offsetLeft) / chipWidth) * chipWidth);
     },
     // Get the index of the pointer column
-    getPointerColumnIndex: function (game, event) {
-      var chipWidth = event.currentTarget.offsetWidth / game.grid.columnCount;
+    getPointerColumnIndex: function (grid, event) {
+      var chipWidth = this.getChipWidth(grid);
       return Math.max(0, Math.floor((event.pageX - event.currentTarget.offsetLeft) / chipWidth));
     },
     // Translate the pending chip to be aligned with the column nearest to the
@@ -39,7 +44,7 @@ GridComponent.controller = function () {
         // The pointer column is the grid column nearest to the cursor at any
         // given instant; keep track of the pointer column's X position so the
         // next pending chip can instantaneously appear there
-        ctrl.pointerColumnX = ctrl.getPointerColumnX(game, event);
+        ctrl.pointerColumnX = ctrl.getPointerColumnX(game.grid, event);
         if (!ctrl.transitionPendingChipY) {
           ctrl.setPendingChipCoords({
             x: ctrl.pointerColumnX,
@@ -50,15 +55,11 @@ GridComponent.controller = function () {
       }
     },
     // Get the coordinates of the chip slot element at the given column/row
-    getSlotCoords: function (columnIndex, rowIndex) {
-      var slotElem = document
-        .getElementById('chip-slots')
-        .getElementsByClassName('grid-column')[columnIndex]
-        .getElementsByClassName('chip-slot')[rowIndex];
-      var slotStyle = window.getComputedStyle(slotElem);
+    getSlotCoords: function (grid, columnIndex, rowIndex) {
+      var chipWidth = this.getChipWidth(grid);
       return {
-        x: slotElem.offsetLeft - parseInt(slotStyle['margin-left']),
-        y: slotElem.offsetTop - parseInt(slotStyle['margin-top'])
+        x: chipWidth * columnIndex,
+        y: chipWidth * (grid.rowCount - rowIndex)
       };
     },
     // Place the pending chip into the poiner column's next available slot
@@ -69,13 +70,13 @@ GridComponent.controller = function () {
           return;
         }
         // Get the column/row index where the pending chip is to be placed
-        var columnIndex = ctrl.getPointerColumnIndex(game, event);
+        var columnIndex = ctrl.getPointerColumnIndex(game.grid, event);
         var rowIndex = game.grid.getNextAvailableSlot({column: columnIndex});
         // Do not allow user to place chip in column that is already full
         if (rowIndex === null) {
           return;
         }
-        var slotCoords = ctrl.getSlotCoords(columnIndex, rowIndex);
+        var slotCoords = ctrl.getSlotCoords(game.grid, columnIndex, rowIndex);
         // If pending chip is not currently aligned with pointer column
         if (ctrl.pendingChipX !== slotCoords.x) {
           // First move pending chip into alignment with pointer column
