@@ -3,10 +3,9 @@
 var m = require('mithril');
 var _ = require('underscore');
 
-var Dashboard = {};
-Dashboard.Component = {};
+var DashboardComponent = {};
 
-Dashboard.Component.controller = function () {
+DashboardComponent.controller = function () {
   return {
     // Whether or not to show the welcome message
     showWelcome: true,
@@ -26,7 +25,7 @@ Dashboard.Component.controller = function () {
   };
 };
 
-Dashboard.Component.view = function (ctrl, game) {
+DashboardComponent.view = function (ctrl, game) {
   return m('div', {id: 'game-dashboard'}, [
     game.inProgress ? [
       m('label', '2-Player Game'),
@@ -49,4 +48,4 @@ Dashboard.Component.view = function (ctrl, game) {
   ]);
 };
 
-module.exports = Dashboard;
+module.exports = DashboardComponent;

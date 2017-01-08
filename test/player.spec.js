@@ -1,7 +1,7 @@
 'use strict';
 
 var expect = require('chai').expect;
-var Player = require('../app/scripts/player');
+var Player = require('../app/scripts/models/player');
 
 describe('player', function () {
 

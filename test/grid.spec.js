@@ -2,9 +2,9 @@
 
 var _ = require('underscore');
 var expect = require('chai').expect;
-var Grid = require('../app/scripts/grid');
-var Player = require('../app/scripts/player');
-var Chip = require('../app/scripts/chip');
+var Grid = require('../app/scripts/models/grid');
+var Player = require('../app/scripts/models/player');
+var Chip = require('../app/scripts/models/chip');
 
 describe('grid', function () {
 

@@ -2,7 +2,7 @@
 // See http://brunch.io for documentation.
 'use strict';
 
-var modules = ['app/scripts/*.js', /^node_modules/];
+var modules = ['app/scripts/**/*.js', /^node_modules/];
 module.exports = {
   files: {
     javascripts: {

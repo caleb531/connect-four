@@ -28,7 +28,7 @@ Browser.normalizeStyles = function (styles) {
     } else {
       normalized[property] = styles[property];
     }
-  })
+  });
   return normalized;
 };
 

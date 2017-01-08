@@ -1,9 +1,9 @@
 'use strict';
 
 var expect = require('chai').expect;
-var Grid = require('../app/scripts/grid');
-var Player = require('../app/scripts/player');
-var Game = require('../app/scripts/game');
+var Grid = require('../app/scripts/models/grid');
+var Player = require('../app/scripts/models/player');
+var Game = require('../app/scripts/models/game');
 
 describe('game', function () {
 

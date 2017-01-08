@@ -1,10 +1,6 @@
 'use strict';
 
-var m = require('mithril');
-var _ = require('underscore');
-var Dashboard = require('./dashboard');
 var Grid = require('./grid');
-var Scoreboard = require('./scoreboard');
 var Player = require('./player');
 var Chip = require('./chip');
 
@@ -118,22 +114,6 @@ Game.prototype.checkForWin = function () {
     this.winner = this.lastPlacedChip.player;
     this.endGame();
   }
-};
-
-Game.Component = {};
-
-Game.Component.controller = function () {
-  return {
-    game: new Game()
-  };
-};
-
-Game.Component.view = function (ctrl) {
-  return [
-    m(Dashboard.Component, ctrl.game),
-    m(Grid.Component, ctrl.game),
-    m(Scoreboard.Component, ctrl.game)
-  ];
 };
 
 module.exports = Game;
