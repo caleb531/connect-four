@@ -101,9 +101,9 @@ Grid.prototype.getConnections = function (lastPlacedChip) {
 // The relative directions to check when checking for connected chip neighbors
 Grid.connectionDirections = [
   {x: 0, y: -1}, // Bottom-middle
-  {x: 1, y: -1}, // Bottom-right
-  {x: 1, y: 0}, // Right-middle
-  {x: 1, y: 1} // Top-right
+  {x: -1, y: -1}, // Bottom-left
+  {x: -1, y: 0}, // Left-middle
+  {x: -1, y: 1} // Top-left
 ];
 
 module.exports = Grid;
