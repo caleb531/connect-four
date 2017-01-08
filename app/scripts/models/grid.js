@@ -37,6 +37,13 @@ Grid.prototype.getNextAvailableSlot = function (args) {
   }
 };
 
+// Place the given chip into the specified column on the grid
+Grid.prototype.placeChip = function (args) {
+  this.columns[args.column].push(args.chip);
+  args.chip.column = args.column;
+  args.chip.row = this.columns[args.column].length - 1;
+};
+
 // Find same-color neighbors connected to the given chip in the given direction
 Grid.prototype.findConnectedNeighbors = function (chip, direction) {
   var neighbor = chip;

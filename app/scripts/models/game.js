@@ -78,10 +78,11 @@ Game.prototype.endTurn = function () {
 // Insert the current pending chip into the columns array at the given index
 Game.prototype.placePendingChip = function (args) {
   if (this.pendingChip) {
-    this.grid.columns[args.column].push(this.pendingChip);
+    this.grid.placeChip({
+      chip: this.pendingChip,
+      column: args.column
+    });
     this.lastPlacedChip = this.pendingChip;
-    this.lastPlacedChip.column = args.column;
-    this.lastPlacedChip.row = this.grid.columns[args.column].length - 1;
     this.pendingChip = null;
     // Check for winning connections (i.e. four in a row)
     this.checkForWin();
