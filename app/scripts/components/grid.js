@@ -12,9 +12,6 @@ GridComponent.controller = function () {
     // Initialize position of pending chip to the leftmost column
     pendingChipX: 0,
     pendingChipY: 0,
-    // The calculated constant width of the chip (which will eventually be
-    // cached for quick access)
-    chipWidth: null,
     // Get the CSS translate string for the given coordinate map
     getTranslate: function (coords) {
       return 'translate(' + coords.x + 'px,' + coords.y + 'px)';
@@ -25,22 +22,14 @@ GridComponent.controller = function () {
       this.pendingChipX = coords.x;
       this.pendingChipY = coords.y;
     },
-    // Calculate the width of a single chip and cache it for later
-    getChipWidth: function (game) {
-      if (!this.chipWidth) {
-        var gridElem = document.getElementById('grid');
-        this.chipWidth = gridElem.offsetWidth / game.grid.columnCount;
-      }
-      return this.chipWidth;
-    },
     // Get the left offset of the pointer column
     getPointerColumnX: function (game, event) {
-      var chipWidth = this.getChipWidth(game);
+      var chipWidth = event.currentTarget.offsetWidth / game.grid.columnCount;
       return Math.max(0, Math.floor((event.pageX - event.currentTarget.offsetLeft) / chipWidth) * chipWidth);
     },
     // Get the index of the pointer column
     getPointerColumnIndex: function (game, event) {
-      var chipWidth = this.getChipWidth(game);
+      var chipWidth = event.currentTarget.offsetWidth / game.grid.columnCount;
       return Math.max(0, Math.floor((event.pageX - event.currentTarget.offsetLeft) / chipWidth));
     },
     // Translate the pending chip to be aligned with the column nearest to the
