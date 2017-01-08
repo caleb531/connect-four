@@ -37,6 +37,16 @@ GridComponent.controller = function () {
       var chipWidth = this.getChipWidth(grid);
       return Math.max(0, Math.floor((event.pageX - event.currentTarget.offsetLeft) / chipWidth));
     },
+    // Execute the given callback when the current transition on the pending
+    // chip has finished
+    onPendingChipTransitionEnd: function (callback) {
+      var pendingChipElem = document.querySelector('.chip.pending');
+      var eventName = Browser.normalizeEventName('transitionend');
+      pendingChipElem.addEventListener(eventName, function transitionend(event) {
+        event.target.removeEventListener(eventName, transitionend);
+        callback();
+      });
+    },
     // Translate the pending chip to be aligned with the column nearest to the
     // user's pointer
     movePendingChipToPointerColumn: function (ctrl, game, event) {
@@ -65,10 +75,6 @@ GridComponent.controller = function () {
     // Place the pending chip into the poiner column's next available slot
     placePendingChip: function (ctrl, game, event) {
       if (game.pendingChip && !ctrl.transitionPendingChipY) {
-        var pendingChipElem = event.currentTarget.querySelector('.chip.pending');
-        if (!pendingChipElem) {
-          return;
-        }
         // Get the column/row index where the pending chip is to be placed
         var columnIndex = ctrl.getPointerColumnIndex(game.grid, event);
         var rowIndex = game.grid.getNextAvailableSlot({column: columnIndex});
@@ -91,15 +97,14 @@ GridComponent.controller = function () {
           // the above column and row
           ctrl.setPendingChipCoords(slotCoords);
           // Perform insertion on internal game grid once transition has ended
-          ctrl.finishPlacingPendingChip(ctrl, game, pendingChipElem, columnIndex);
+          ctrl.finishPlacingPendingChip(game, columnIndex);
         }
       }
     },
     // Place the pending chip on the grid once the falling transition has ended
-    finishPlacingPendingChip: function (ctrl, game, pendingChipElem, columnIndex) {
-      var transitionendEventName = Browser.normalizeEventName('transitionend');
-      pendingChipElem.addEventListener(transitionendEventName, function transitionend(event) {
-        event.target.removeEventListener(transitionendEventName, transitionend);
+    finishPlacingPendingChip: function (game, columnIndex) {
+      var ctrl = this;
+      ctrl.onPendingChipTransitionEnd(function() {
         game.placePendingChip({column: columnIndex});
         ctrl.transitionPendingChipX = false;
         ctrl.transitionPendingChipY = false;
