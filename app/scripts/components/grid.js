@@ -115,6 +115,7 @@ GridComponent.controller = function () {
 GridComponent.view = function (ctrl, game) {
   var grid = game.grid;
   return m('div#grid', {
+    class: classNames({'has-winner': game.winner !== null}),
     onmousemove: _.partial(ctrl.movePendingChipToPointerColumn, ctrl, game),
     onclick: _.partial(ctrl.placePendingChip, ctrl, game)
   }, [
@@ -138,7 +139,11 @@ GridComponent.view = function (ctrl, game) {
     // Bottom grid of slots (indicating space chips can occupy)
     m('div#chip-slots', _.times(grid.columnCount, function (c) {
       return m('div.grid-column', _.times(grid.rowCount, function (r) {
-        return m('div.chip-slot');
+        return m('div.chip-slot', {
+          class: classNames({
+            'filled': grid.columns[c][r] !== undefined
+          })
+        });
       }));
     })),
     // Top grid of placed chips
