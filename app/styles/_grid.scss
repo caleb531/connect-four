@@ -67,7 +67,7 @@
 // Fade out non-winning chips (and slots) when a connection has been found
 .has-winner .chip.placed {
   transition: opacity 300ms ease-in-out;
-  opacity: 0.4;
+  opacity: 0.3;
 }
 
 // Do not show chip slot outlines if slot has been filled by a chip
