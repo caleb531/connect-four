@@ -1,7 +1,7 @@
 'use strict';
 
 var Grid = require('./grid');
-var Player = require('./player');
+var HumanPlayer = require('./human-player');
 var Chip = require('./chip');
 
 function Game(args) {
@@ -17,8 +17,8 @@ function Game(args) {
     this.players = args.players;
   } else {
     this.players = [
-      new Player({color: 'red', name: 'Player 1'}),
-      new Player({color: 'blue', name: 'Player 2'})
+      new HumanPlayer({color: 'red', name: 'Player 1'}),
+      new HumanPlayer({color: 'blue', name: 'Player 2'})
     ];
   }
   // The current player is null when a game is not in progress
