@@ -91,6 +91,7 @@ GridComponent.controller = function () {
       });
       // Do not allow user to place chip in column that is already full
       if (rowIndex === null) {
+        m.redraw.strategy('none');
         return;
       }
       var slotCoords = this.getSlotCoords({
