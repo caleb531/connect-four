@@ -108,6 +108,8 @@ Game.prototype.checkForWin = function () {
   if (connections.length > 0) {
     // Highlight chips to indicate that they're part of a winning connection
     connections.forEach(function (connection) {
+      // Only highlight some group of exactly four chips within the connection
+      connection.length = 4;
       connection.forEach(function (chip) {
         chip.highlighted = true;
       });
