@@ -87,8 +87,6 @@ Grid.prototype.getConnections = function (lastPlacedChip) {
       x: -direction.x,
       y: -direction.y
     }));
-    // If at least four connected same-color chips are found, declare winner and
-    // highlight connected chips
     if (connection.length >= 4) {
       connections.push(connection);
     }
