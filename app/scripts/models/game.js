@@ -104,7 +104,10 @@ Game.prototype.checkForFullGrid = function () {
 // Determine if a player won the game with four chips in a row (horizontally,
 // vertically, or diagonally)
 Game.prototype.checkForWin = function () {
-  var connections = this.grid.getConnections(this.lastPlacedChip);
+  var connections = this.grid.getConnections({
+    baseChip: this.lastPlacedChip,
+    connectionSize: 4
+  });
   if (connections.length > 0) {
     // Highlight chips to indicate that they're part of a winning connection
     connections.forEach(function (connection) {

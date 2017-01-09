@@ -75,19 +75,19 @@ Grid.prototype.findConnectedNeighbors = function (chip, direction) {
 
 // Get all connections of four chips (including connections of four within
 // larger connections) which the last placed chip is apart of
-Grid.prototype.getConnections = function (lastPlacedChip) {
+Grid.prototype.getConnections = function (args) {
   var grid = this;
   var connections = [];
   Grid.connectionDirections.forEach(function (direction) {
-    var connection = [lastPlacedChip];
+    var connection = [args.baseChip];
     // Check for connected neighbors in this direction
-    connection.push.apply(connection, grid.findConnectedNeighbors(lastPlacedChip, direction));
+    connection.push.apply(connection, grid.findConnectedNeighbors(args.baseChip, direction));
     // Check for connected neighbors in the opposite direction
-    connection.push.apply(connection, grid.findConnectedNeighbors(lastPlacedChip, {
+    connection.push.apply(connection, grid.findConnectedNeighbors(args.baseChip, {
       x: -direction.x,
       y: -direction.y
     }));
-    if (connection.length >= 4) {
+    if (connection.length >= args.connectionSize) {
       connections.push(connection);
     }
   });
