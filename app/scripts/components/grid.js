@@ -51,19 +51,15 @@ GridComponent.controller = function () {
     },
     // Move the pending chip to be aligned with the specified column
     movePendingChipToColumn: function (args) {
-      if (args.game.pendingChip) {
-        // The last visited column is the grid column nearest to the cursor at
-        // any given instant; keep track of the column's X position so the next
-        // pending chip can instantaneously appear there
-        this.lastVisitedColumnX = this.getChipWidth(args.game.grid) * args.column;
-        if (!this.transitionPendingChipY) {
-          this.setPendingChipCoords({
-            x: this.lastVisitedColumnX,
-            y: 0
-          });
-        }
-        this.transitionPendingChipX = true;
-      }
+      // The last visited column is the grid column nearest to the cursor at
+      // any given instant; keep track of the column's X position so the next
+      // pending chip can instantaneously appear there
+      this.lastVisitedColumnX = this.getChipWidth(args.game.grid) * args.column;
+      this.setPendingChipCoords({
+        x: this.lastVisitedColumnX,
+        y: 0
+      });
+      this.transitionPendingChipX = true;
     },
     // Move the pending chip into alignment with the column nearest to the
     // user's cursor
