@@ -12,6 +12,11 @@ GridComponent.controller = function () {
     // Initialize position of pending chip to the leftmost column
     pendingChipX: 0,
     pendingChipY: 0,
+    // Booleans indicating when to transition the pending chip's movement in a
+    // particular direction (for example, the pending chip should never
+    // transition when resetting to its initial position after placing a chip)
+    transitionPendingChipX: false,
+    transitionPendingChipY: false,
     // Get the CSS translate string for the given coordinate map
     getTranslate: function (coords) {
       return 'translate(' + coords.x + 'px,' + coords.y + 'px)';
@@ -61,12 +66,14 @@ GridComponent.controller = function () {
     // Translate the pending chip to be aligned with the column nearest to the
     // user's pointer
     movePendingChipViaPointer: function (ctrl, game, event) {
-      if (game.pendingChip) {
+      if (game.pendingChip && !ctrl.transitionPendingChipY) {
         var pointerColumnIndex = ctrl.getLastVisitedColumnIndex(game.grid, event);
         ctrl.movePendingChipToColumn({
           game: game,
           column: pointerColumnIndex
         });
+      } else {
+        m.redraw.strategy('none');
       }
     },
     // Get the coordinates of the chip slot element at the given column/row
@@ -126,6 +133,8 @@ GridComponent.controller = function () {
           game: game,
           column: ctrl.getLastVisitedColumnIndex(game.grid, event)
         });
+      } else {
+        m.redraw.strategy('none');
       }
     },
     // Place the pending chip on the grid once the falling transition has ended
