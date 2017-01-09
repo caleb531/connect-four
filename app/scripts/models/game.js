@@ -2,6 +2,7 @@
 
 var Grid = require('./grid');
 var HumanPlayer = require('./human-player');
+var AIPlayer = require('./ai-player');
 var Chip = require('./chip');
 
 function Game(args) {
@@ -16,11 +17,10 @@ function Game(args) {
   if (args && args.players) {
     this.players = args.players;
   } else {
-    this.players = [
-      new HumanPlayer({color: 'red', name: 'Player 1'}),
-      new HumanPlayer({color: 'blue', name: 'Player 2'})
-    ];
+    this.players = [];
   }
+  // The number of human players (if 1, assume the other player is an AI)
+  this.humanPlayerCount = null;
   // The current player is null when a game is not in progress
   this.currentPlayer = null;
   // Whether or not the game is in progress
@@ -33,8 +33,8 @@ function Game(args) {
   this.winner = null;
 }
 
-Game.prototype.startGame = function () {
-  this.currentPlayer = this.players[0];
+Game.prototype.startGame = function (args) {
+  this.currentPlayer = args.startingPlayer;
   this.inProgress = true;
   this.startTurn();
 };
@@ -47,6 +47,7 @@ Game.prototype.endGame = function () {
   this.inProgress = false;
   this.currentPlayer = null;
   this.pendingChip = null;
+  this.humanPlayerCount = null;
 };
 
 // Reset the game and grid completely without starting a new game (endGame
@@ -55,6 +56,26 @@ Game.prototype.resetGame = function () {
   this.lastPlacedChip = null;
   this.winner = null;
   this.grid.resetGrid();
+};
+
+// Initialize or change the current set of players
+Game.prototype.setPlayers = function (newHumanPlayerCount) {
+  // If this is the very first game, initialize a set of players
+  if (this.players.length === 0) {
+    // At least one player will always be human
+    this.players.push(new HumanPlayer({name: 'Player 1', color: 'red'}));
+    if (newHumanPlayerCount === 1) {
+      // If user chose 1-Player mode, the user will play against the AI
+      this.players.push(new AIPlayer({name: 'Mr. AI', color: 'black'}));
+    } else {
+      // Otherwise, the user will play against another human
+      this.players.push(new HumanPlayer({name: 'Player 2', color: 'blue'}));
+    }
+    this.humanPlayerCount = newHumanPlayerCount;
+  } else {
+    // TODO: Otherwise, if user changes from 1-Player game to 2-Player game (or
+    // vice versa), swap out the AI Player for a human player (or vice versa)
+  }
 };
 
 // Start the turn of the current player
