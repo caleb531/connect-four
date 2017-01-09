@@ -46,6 +46,7 @@ GridComponent.controller = function () {
       pendingChipElem.addEventListener(eventName, function transitionend(event) {
         event.target.removeEventListener(eventName, transitionend);
         callback();
+        m.redraw();
       });
     },
     // Move the pending chip to be aligned with the specified column
@@ -114,7 +115,6 @@ GridComponent.controller = function () {
         // var ctrl = this;
         // ctrl.onPendingChipTransitionEnd(function () {
         //   ctrl.placePendingChip(args);
-        //   m.redraw();
         // });
       } else {
         // Otherwise, chip is already aligned; drop chip into place on grid
@@ -154,7 +154,6 @@ GridComponent.controller = function () {
           x: ctrl.lastVisitedColumnX,
           y: 0
         });
-        m.redraw();
       });
     }
   };
