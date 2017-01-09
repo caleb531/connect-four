@@ -98,6 +98,14 @@ GridComponent.controller = function () {
           game: args.game,
           column: args.column
         });
+        // Uncomment these lines if you want the chip, after realigning with the
+        // clicked column, to place itself in that column automatically (this
+        // will be the behavior for AI players if a game AI is ever implemented)
+        // var ctrl = this;
+        // ctrl.onPendingChipTransitionEnd(function () {
+        //   ctrl.placePendingChip(args);
+        //   m.redraw();
+        // });
       } else {
         // Otherwise, chip is already aligned; drop chip into place on grid
         this.transitionPendingChipX = false;
