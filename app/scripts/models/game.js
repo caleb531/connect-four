@@ -34,7 +34,11 @@ function Game(args) {
 }
 
 Game.prototype.startGame = function (args) {
-  this.currentPlayer = args.startingPlayer;
+  if (args && args.startingPlayer) {
+    this.currentPlayer = args.startingPlayer;
+  } else {
+    this.currentPlayer = this.players[0];
+  }
   this.inProgress = true;
   this.startTurn();
 };

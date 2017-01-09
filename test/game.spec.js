@@ -20,7 +20,7 @@ describe('game', function () {
     expect(game.grid).to.have.property('columnCount', 7);
     expect(game.grid).to.have.property('rowCount', 6);
     expect(game).to.have.property('players');
-    expect(game.players).to.have.length(2);
+    expect(game.players).to.have.length(0);
     expect(game).to.have.property('currentPlayer', null);
     expect(game).to.have.property('inProgress', false);
     expect(game).to.have.property('pendingChip', null);
@@ -50,6 +50,7 @@ describe('game', function () {
 
   it('should start', function () {
     var game = new Game();
+    game.setPlayers(2);
     game.startGame();
     expect(game.currentPlayer).to.equal(game.players[0]);
     expect(game.inProgress).to.be.true;
@@ -63,6 +64,7 @@ describe('game', function () {
 
   it('should end turn', function () {
     var game = new Game();
+    game.setPlayers(2);
     game.startGame();
     game.startTurn();
     game.endTurn();
@@ -71,6 +73,7 @@ describe('game', function () {
 
   it('should end', function () {
     var game = new Game();
+    game.setPlayers(2);
     game.startGame();
     game.endGame();
     expect(game.currentPlayer).to.be.null;
@@ -80,6 +83,7 @@ describe('game', function () {
 
   it('should increment winner\'s score when ending', function () {
     var game = new Game();
+    game.setPlayers(2);
     game.startGame();
     game.winner = game.players[0];
     expect(game.winner.score).to.equal(0);
@@ -89,6 +93,7 @@ describe('game', function () {
 
   it('should reset grid when resetting', function () {
     var game = new Game();
+    game.setPlayers(2);
     game.startGame();
     game.placePendingChip({column: 2});
     expect(game.grid.columns[2]).to.have.length(1);
@@ -99,6 +104,7 @@ describe('game', function () {
 
   it('should reset winner when resetting', function () {
     var game = new Game();
+    game.setPlayers(2);
     game.startGame();
     game.winner = game.players[0];
     game.endGame();
@@ -108,6 +114,7 @@ describe('game', function () {
 
   it('should win horizontally', function () {
     var game = new Game();
+    game.setPlayers(2);
     game.startGame();
     placeChips({
       game: game,
@@ -119,6 +126,7 @@ describe('game', function () {
 
   it('should win vertically', function () {
     var game = new Game();
+    game.setPlayers(2);
     game.startGame();
     placeChips({
       game: game,
@@ -130,6 +138,7 @@ describe('game', function () {
 
   it('should win diagonally', function () {
     var game = new Game();
+    game.setPlayers(2);
     game.startGame();
     placeChips({
       game: game,
@@ -141,6 +150,7 @@ describe('game', function () {
 
   it('should win with two connect-fours at once', function () {
     var game = new Game();
+    game.setPlayers(2);
     game.startGame();
     placeChips({
       game: game,
@@ -152,6 +162,7 @@ describe('game', function () {
 
   it('should win on connections of more than four', function () {
     var game = new Game();
+    game.setPlayers(2);
     game.startGame();
     placeChips({
       game: game,
@@ -162,6 +173,7 @@ describe('game', function () {
 
   it('should end when grid becomes full', function () {
     var game = new Game();
+    game.setPlayers(2);
     game.startGame();
     placeChips({
       game: game,
