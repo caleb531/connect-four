@@ -64,7 +64,7 @@ GridComponent.controller = function () {
     // Move the pending chip into alignment with the column nearest to the
     // user's cursor
     movePendingChipViaPointer: function (ctrl, game, event) {
-      if (game.pendingChip && !ctrl.transitionPendingChipY) {
+      if (game.pendingChip && game.currentPlayer.type === 'human' && !ctrl.transitionPendingChipY) {
         var pointerColumnIndex = ctrl.getLastVisitedColumnIndex(game.grid, event);
         ctrl.movePendingChipToColumn({
           game: game,
@@ -106,13 +106,14 @@ GridComponent.controller = function () {
           game: args.game,
           column: args.column
         });
-        // Uncomment these lines if you want the chip, after realigning with the
-        // clicked column, to place itself in that column automatically (this
-        // will be the behavior for AI players if a game AI is ever implemented)
-        // var ctrl = this;
-        // ctrl.onPendingChipTransitionEnd(function () {
-        //   ctrl.placePendingChip(args);
-        // });
+        // Since AI players can't click to place a chip after the chip realigns
+        // with the chosen column, place the chip automatically
+        if (args.game.currentPlayer.type === 'AI') {
+          var ctrl = this;
+          ctrl.onPendingChipTransitionEnd(function () {
+            ctrl.placePendingChip(args);
+          });
+        }
       } else {
         // Otherwise, chip is already aligned; drop chip into place on grid
         this.transitionPendingChipX = false;
@@ -128,7 +129,7 @@ GridComponent.controller = function () {
     },
     // Place the pending chip into the column where the user clicked
     placePendingChipViaPointer: function (ctrl, game, event) {
-      if (game.pendingChip && !ctrl.transitionPendingChipY) {
+      if (game.pendingChip && game.currentPlayer.type === 'human' && !ctrl.transitionPendingChipY) {
         ctrl.placePendingChip({
           game: game,
           column: ctrl.getLastVisitedColumnIndex(game.grid, event)
@@ -151,12 +152,32 @@ GridComponent.controller = function () {
           x: ctrl.lastVisitedColumnX,
           y: 0
         });
+        if (args.finish) {
+          args.finish();
+        }
       });
+    },
+    // Handle the placing of the pending chip on the AI player's turn
+    handleAIMoves: function (game) {
+      var ctrl = this;
+      if (game.pendingChip && game.currentPlayer.type === 'AI' && !ctrl.AIIsThinking) {
+        ctrl.AIIsThinking = true;
+        game.currentPlayer.getNextMove(game, function (chosenColumn) {
+          ctrl.placePendingChip({
+            game: game,
+            column: chosenColumn,
+            finish: function () {
+              ctrl.AIIsThinking = false;
+            }
+          });
+        });
+      }
     }
   };
 };
 GridComponent.view = function (ctrl, game) {
   var grid = game.grid;
+  ctrl.handleAIMoves(game);
   return m('div#grid', {
     class: classNames({'has-winner': game.winner !== null}),
     onmousemove: _.partial(ctrl.movePendingChipViaPointer, ctrl, game),
