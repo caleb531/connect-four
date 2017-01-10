@@ -58,6 +58,8 @@ describe('game', function () {
 
   it('should start turn', function () {
     var game = new Game();
+    game.setPlayers(2);
+    game.startGame();
     game.startTurn();
     expect(game.pendingChip).not.to.be.null;
   });
