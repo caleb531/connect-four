@@ -63,19 +63,19 @@ Game.prototype.resetGame = function () {
 };
 
 // Initialize or change the current set of players
-Game.prototype.setPlayers = function (humanPlayerCount) {
+Game.prototype.setPlayers = function (newHumanPlayerCount) {
   // If this is the very first game, initialize a set of players
   if (this.players.length === 0) {
     // At least one player will always be human
     this.players.push(new HumanPlayer({name: 'Player 1', color: 'red'}));
-    if (humanPlayerCount === 1) {
+    if (newHumanPlayerCount === 1) {
       // If user chose 1-Player mode, the user will play against the AI
       this.players.push(new AIPlayer({name: 'Mr. AI', color: 'black'}));
     } else {
       // Otherwise, the user will play against another human
       this.players.push(new HumanPlayer({name: 'Player 2', color: 'blue'}));
     }
-    this.humanPlayerCount = humanPlayerCount;
+    this.humanPlayerCount = newHumanPlayerCount;
   } else {
     // TODO: Otherwise, if user changes from 1-Player game to 2-Player game (or
     // vice versa), swap out the AI Player for a human player (or vice versa)
