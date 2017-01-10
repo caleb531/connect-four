@@ -150,8 +150,13 @@ GridComponent.controller = function (game) {
     },
     // Configure pending chip element when it's first created
     configurePendingChip: function (ctrl, game, pendingChipElem) {
-      if (!ctrl.boundPendingChipTransitionEnd) {
-        ctrl.boundPendingChipTransitionEnd = true;
+      // Only configure once per unique DOM element
+      if (ctrl.lastPendingChipElem !== pendingChipElem) {
+        ctrl.lastPendingChipElem = pendingChipElem;
+        // Ensure that any unfinished pending chip event listeners (from
+        // previous games) are unbound
+        game.emitter.off('pending-chip:transition-end');
+        // Listen for whenever a pending chip transition finishes
         var eventName = Browser.normalizeEventName('transitionend');
         pendingChipElem.addEventListener(eventName, function () {
           game.emitter.emit('pending-chip:transition-end');
