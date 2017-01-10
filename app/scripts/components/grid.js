@@ -100,7 +100,11 @@ GridComponent.controller = function (game) {
         // with the chosen column, place the chip automatically
         if (args.game.currentPlayer.type === 'AI') {
           var ctrl = this;
-          ctrl.placePendingChip(args);
+          game.emitter.once('pending-chip:transition-end', function () {
+            args.game.currentPlayer.wait(function () {
+              ctrl.placePendingChip(args);
+            });
+          });
         }
       } else {
         // Otherwise, chip is already aligned; drop chip into place on grid
@@ -114,6 +118,7 @@ GridComponent.controller = function (game) {
         // Perform insertion on internal game grid once transition has ended
         this.finishPlacingPendingChip(args);
       }
+      m.redraw();
     },
     // Place the pending chip into the column where the user clicked
     placePendingChipViaPointer: function (ctrl, game, event) {
@@ -130,7 +135,7 @@ GridComponent.controller = function (game) {
     // transition has ended
     finishPlacingPendingChip: function (args) {
       var ctrl = this;
-      game.emitter.on('pending-chip:transition-end', function finish() {
+      game.emitter.once('pending-chip:transition-end', function finish() {
         args.game.placePendingChip({column: args.column});
         ctrl.transitionPendingChipX = false;
         ctrl.transitionPendingChipY = false;
@@ -141,7 +146,6 @@ GridComponent.controller = function (game) {
           y: 0
         });
         m.redraw();
-        game.emitter.off('pending-chip:transition-end', finish);
       });
     },
     // Configure pending chip element when it's first created

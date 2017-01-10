@@ -8,10 +8,23 @@ function AIPlayer(args) {
 }
 AIPlayer.prototype = Object.create(Player.prototype);
 AIPlayer.prototype.type = 'AI';
+// The duration to wait (in ms) for the user to process the AI player's actions
+AIPlayer.waitDelay = 100;
 
+// Wait for a short moment to give the user time to see and process the AI
+// player's actions
+AIPlayer.prototype.wait = function (callback) {
+  setTimeout(function () {
+    callback();
+  }, AIPlayer.waitDelay);
+};
+
+// Compute the column where the AI player should place its next chip
 AIPlayer.prototype.computeNextMove = function (game) {
   var chosenColumn = Math.floor(game.grid.columnCount * Math.random());
-  game.emitter.emit('ai-player:compute-next-move', chosenColumn);
+  this.wait(function () {
+    game.emitter.emit('ai-player:compute-next-move', chosenColumn);
+  });
 };
 
 module.exports = AIPlayer;
