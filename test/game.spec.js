@@ -123,7 +123,7 @@ describe('game', function () {
       columns: [2, 2, 3, 3, 4, 4, 5]
     });
     expect(game.winner).not.to.be.null;
-    expect(game.winner.name).to.equal('Player 1');
+    expect(game.winner.name).to.equal('Human 1');
   });
 
   it('should win vertically', function () {
@@ -135,7 +135,7 @@ describe('game', function () {
       columns: [0, 1, 0, 1, 0, 1, 0]
     });
     expect(game.winner).not.to.be.null;
-    expect(game.winner.name).to.equal('Player 1');
+    expect(game.winner.name).to.equal('Human 1');
   });
 
   it('should win diagonally', function () {
@@ -147,7 +147,7 @@ describe('game', function () {
       columns: [3, 4, 4, 3, 5, 5, 5, 6, 6, 6, 6]
     });
     expect(game.winner).not.to.be.null;
-    expect(game.winner.name).to.equal('Player 1');
+    expect(game.winner.name).to.equal('Human 1');
   });
 
   it('should win with two connect-fours at once', function () {
@@ -159,7 +159,7 @@ describe('game', function () {
       columns: [0, 1, 1, 1, 2, 2, 2, 0, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 3]
     });
     expect(game.winner).not.to.be.null;
-    expect(game.winner.name).to.equal('Player 1');
+    expect(game.winner.name).to.equal('Human 1');
   });
 
   it('should win on connections of more than four', function () {
