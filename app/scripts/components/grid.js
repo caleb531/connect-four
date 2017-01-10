@@ -7,8 +7,8 @@ var Browser = require('../browser');
 
 var GridComponent = {};
 
-GridComponent.controller = function () {
-  return {
+GridComponent.controller = function (game) {
+  var ctrl = {
     // Initialize position of pending chip to the leftmost column
     pendingChipX: 0,
     pendingChipY: 0,
@@ -38,17 +38,6 @@ GridComponent.controller = function () {
       var chipWidth = this.getChipWidth(grid);
       return Math.max(0, Math.floor((event.pageX - event.currentTarget.offsetLeft) / chipWidth));
     },
-    // Execute the given callback when the current transition on the pending
-    // chip has finished
-    onPendingChipTransitionEnd: function (callback) {
-      var pendingChipElem = document.querySelector('.chip.pending');
-      var eventName = Browser.normalizeEventName('transitionend');
-      pendingChipElem.addEventListener(eventName, function transitionend(event) {
-        event.target.removeEventListener(eventName, transitionend);
-        callback();
-        m.redraw();
-      });
-    },
     // Move the pending chip to be aligned with the specified column
     movePendingChipToColumn: function (args) {
       // The last visited column is the grid column nearest to the cursor at
@@ -60,6 +49,7 @@ GridComponent.controller = function () {
         y: 0
       });
       this.transitionPendingChipX = true;
+      this.transitionPendingChipY = false;
     },
     // Move the pending chip into alignment with the column nearest to the
     // user's cursor
@@ -110,9 +100,7 @@ GridComponent.controller = function () {
         // with the chosen column, place the chip automatically
         if (args.game.currentPlayer.type === 'AI') {
           var ctrl = this;
-          ctrl.onPendingChipTransitionEnd(function () {
-            ctrl.placePendingChip(args);
-          });
+          ctrl.placePendingChip(args);
         }
       } else {
         // Otherwise, chip is already aligned; drop chip into place on grid
@@ -142,7 +130,7 @@ GridComponent.controller = function () {
     // transition has ended
     finishPlacingPendingChip: function (args) {
       var ctrl = this;
-      ctrl.onPendingChipTransitionEnd(function() {
+      game.emitter.on('pending-chip:transition-end', function finish() {
         args.game.placePendingChip({column: args.column});
         ctrl.transitionPendingChipX = false;
         ctrl.transitionPendingChipY = false;
@@ -152,32 +140,32 @@ GridComponent.controller = function () {
           x: ctrl.lastVisitedColumnX,
           y: 0
         });
-        if (args.finish) {
-          args.finish();
-        }
+        m.redraw();
+        game.emitter.off('pending-chip:transition-end', finish);
       });
     },
-    // Handle the placing of the pending chip on the AI player's turn
-    handleAIMoves: function (game) {
-      var ctrl = this;
-      if (game.pendingChip && game.currentPlayer.type === 'AI' && !ctrl.AIIsThinking) {
-        ctrl.AIIsThinking = true;
-        game.currentPlayer.getNextMove(game, function (chosenColumn) {
-          ctrl.placePendingChip({
-            game: game,
-            column: chosenColumn,
-            finish: function () {
-              ctrl.AIIsThinking = false;
-            }
-          });
+    // Configure pending chip element when it's first created
+    configurePendingChip: function (ctrl, game, pendingChipElem) {
+      if (!ctrl.boundPendingChipTransitionEnd) {
+        ctrl.boundPendingChipTransitionEnd = true;
+        var eventName = Browser.normalizeEventName('transitionend');
+        pendingChipElem.addEventListener(eventName, function () {
+          game.emitter.emit('pending-chip:transition-end');
         });
       }
     }
   };
+  // Place chip automatically when AI computes its next move on its turn
+  game.emitter.on('ai-player:compute-next-move', function (chosenColumn) {
+    ctrl.placePendingChip({
+      game: game,
+      column: chosenColumn
+    });
+  });
+  return ctrl;
 };
 GridComponent.view = function (ctrl, game) {
   var grid = game.grid;
-  ctrl.handleAIMoves(game);
   return m('div#grid', {
     class: classNames({'has-winner': game.winner !== null}),
     onmousemove: _.partial(ctrl.movePendingChipViaPointer, ctrl, game),
@@ -198,7 +186,8 @@ GridComponent.view = function (ctrl, game) {
             x: ctrl.pendingChipX,
             y: ctrl.pendingChipY
           })
-        })
+        }),
+        config: _.partial(ctrl.configurePendingChip, ctrl, game)
       }) : null,
     // Bottom grid of slots (indicating space chips can occupy)
     m('div#chip-slots', _.times(grid.columnCount, function (c) {

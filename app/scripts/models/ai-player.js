@@ -9,10 +9,9 @@ function AIPlayer(args) {
 AIPlayer.prototype = Object.create(Player.prototype);
 AIPlayer.prototype.type = 'AI';
 
-AIPlayer.prototype.getNextMove = function (game, callback) {
-
-  callback(Math.floor(game.grid.columnCount * Math.random()));
-
+AIPlayer.prototype.computeNextMove = function (game) {
+  var chosenColumn = Math.floor(game.grid.columnCount * Math.random());
+  game.emitter.emit('ai-player:compute-next-move', chosenColumn);
 };
 
 module.exports = AIPlayer;

@@ -1,5 +1,6 @@
 'use strict';
 
+var Emitter = require('tiny-emitter');
 var Grid = require('./grid');
 var HumanPlayer = require('./human-player');
 var AIPlayer = require('./ai-player');
@@ -31,6 +32,8 @@ function Game(args) {
   this.lastPlacedChip = null;
   // The winning player of the game
   this.winner = null;
+  // An emitter instance for capturing custom game events
+  this.emitter = new Emitter();
 }
 
 Game.prototype.startGame = function (args) {
@@ -89,6 +92,9 @@ Game.prototype.setPlayers = function (newHumanPlayerCount) {
 // Start the turn of the current player
 Game.prototype.startTurn = function () {
   this.pendingChip = new Chip({player: this.currentPlayer});
+  if (this.currentPlayer.type === 'AI') {
+    this.currentPlayer.computeNextMove(this);
+  }
 };
 
 // End the turn of the current player and switch to the next player
