@@ -28,27 +28,31 @@ DashboardComponent.controller = function () {
 DashboardComponent.view = function (ctrl, game) {
   return m('div', {id: 'game-dashboard'}, [
     m('p', {id: 'game-message'},
-      game.winner ?
-        game.winner.name + ' wins!' :
-      game.currentPlayer ?
-        game.currentPlayer.name + ', you\'re up!' :
-      game.grid.checkIfFull() ?
-        'Looks like the grid is full. We\'ll call it a draw!' :
-      game.humanPlayerCount === null ?
-        'How many players?' :
-      !game.inProgress ?
-        'Which player should start first?' :
+      // If user has not started any game yet
       game.players.length === 0 ?
         'Welcome! How many players?' :
-      'Game has ended.'
+      // If a game is in progress
+      game.currentPlayer ?
+        game.currentPlayer.name + ', your turn!' :
+      // If a player wins the game
+      game.winner ?
+        game.winner.name + ' wins! Play again?' :
+      // If the grid is completely full
+      game.grid.checkIfFull() ?
+        'We\'ll call it a draw! Play again?' :
+      // If the user just chose a number of players for the game to be started
+      game.humanPlayerCount !== null ?
+        'Which player should start first?' :
+      // Otherwise, if game was ended manually by the user
+      'Game ended. Play again?'
     ),
-    // Game is in progress; show option to end it
+    // If game is in progress, allow user to end game at any time
     game.inProgress ? [
       m('button', {
         onclick: _.partial(ctrl.endGame, ctrl, game)
       }, 'End Game')
     ] :
-    // Select a starting player
+    // If number of players has been chosen, ask user to choose starting player
     game.humanPlayerCount !== null ?
       game.players.map(function (player) {
         return m('button', {
