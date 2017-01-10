@@ -98,14 +98,14 @@ GridComponent.controller = function (game) {
         });
         // Since AI players can't click to place a chip after the chip realigns
         // with the chosen column, place the chip automatically
-        if (args.game.currentPlayer.type === 'AI') {
-          var ctrl = this;
-          game.emitter.once('pending-chip:transition-end', function () {
+        var ctrl = this;
+        game.emitter.once('pending-chip:transition-end', function () {
+          if (args.game.currentPlayer.type === 'AI') {
             args.game.currentPlayer.wait(function () {
               ctrl.placePendingChip(args);
             });
-          });
-        }
+          }
+        });
       } else {
         // Otherwise, chip is already aligned; drop chip into place on grid
         this.transitionPendingChipX = false;
