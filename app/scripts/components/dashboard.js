@@ -12,6 +12,11 @@ DashboardComponent.controller = function () {
     // Prepare game players by creating new players (if necessary) and deciding
     // which player has the starting move
     setPlayers: function (ctrl, game, humanPlayerCount) {
+      if (game.players.length > 0) {
+        // Reset new games before choosing number of players (no need to reset
+        // the very first game)
+        game.resetGame();
+      }
       game.setPlayers(humanPlayerCount);
     },
     setStartingPlayer: function (ctrl, game, newStartingPlayer) {
