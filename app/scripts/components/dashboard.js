@@ -14,9 +14,9 @@ DashboardComponent.controller = function () {
     setPlayers: function (ctrl, game, humanPlayerCount) {
       game.setPlayers(humanPlayerCount);
     },
-    setStartingPlayer: function (ctrl, game, newStartingPlayer) {
+    setStartingPlayer: function (ctrl, game, startingPlayer) {
       game.startGame({
-        startingPlayer: newStartingPlayer
+        startingPlayer: startingPlayer
       });
     },
     endGame: function (ctrl, game) {
