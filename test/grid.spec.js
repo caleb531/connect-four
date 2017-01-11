@@ -28,7 +28,7 @@ describe('grid', function () {
     });
     var player = new Player({color: 'red', name: 'Bob'});
     _.times(9, function (c) {
-      _.times(8, function (r) {
+      _.times(8, function () {
         grid.columns[c].push(new Chip({player: player}));
       });
     });
@@ -42,7 +42,7 @@ describe('grid', function () {
     });
     var player = new Player({color: 'red', name: 'Bob'});
     _.times(9, function (c) {
-      _.times(7, function (r) {
+      _.times(7, function () {
         grid.columns[c].push(new Chip({player: player}));
       });
     });
@@ -56,7 +56,7 @@ describe('grid', function () {
     });
     var player = new Player({color: 'red', name: 'Bob'});
     _.times(9, function (c) {
-      _.times(6, function (r) {
+      _.times(6, function () {
         grid.columns[c].push(new Chip({player: player}));
       });
     });
