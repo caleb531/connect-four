@@ -102,21 +102,14 @@ describe('grid', function () {
 
   describe('score', function () {
 
-    it('should be 0 for maximizing player empty grid', function () {
+    it('should be 0 for empty grid', function () {
       var grid = new Grid({
         columnCount: 7,
         rowCount: 6
       });
       var maximizingPlayer = new Player({color: 'red'});
-      expect(grid.getScore(maximizingPlayer, true)).to.equal(0);
-    });
-
-    it('should be 0 for minimizing player empty grid', function () {
-      var grid = new Grid({
-        columnCount: 7,
-        rowCount: 6
-      });
       var minimizingPlayer = new Player({color: 'blue'});
+      expect(grid.getScore(maximizingPlayer, true)).to.equal(0);
       expect(grid.getScore(minimizingPlayer, false)).to.equal(0);
     });
 
