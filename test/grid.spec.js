@@ -72,8 +72,8 @@ describe('grid', function () {
       rowCount: 6
     });
     var player = new Player({color: 'blue'});
-    grid.placeChip({chip: new Chip({player: player}), column: 2});
-    grid.placeChip({chip: new Chip({player: player}), column: 2});
+    grid.placeChip({column: 2, chip: new Chip({player: player})});
+    grid.placeChip({column: 2, chip: new Chip({player: player})});
     expect(grid.columns[2][0]).to.be.an.instanceof(Chip);
     expect(grid.columns[2][0]).to.have.property('column', 2);
     expect(grid.columns[2][0]).to.have.property('row', 0);
