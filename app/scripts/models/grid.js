@@ -131,8 +131,6 @@ Grid.prototype.getScore = function (currentPlayer, isMaxPlayer) {
       } else {
         // Give player the maximum/minimum score if a connection of four or more
         // is found
-        // Search for connections of three or more chips that are connected to
-        // the empty slot
         connections = this.getConnections({
           baseChip: this.columns[c][r],
           connectionSize: 4
