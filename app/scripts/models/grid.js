@@ -102,4 +102,36 @@ Grid.connectionDirections = [
   {x: -1, y: 1} // Top-left
 ];
 
+// Compute the grid's heuristic score for use by the AI player
+Grid.prototype.getScore = function (currentPlayer, isMaximizingPlayer) {
+  var gridScore = 0;
+  // The heuristic function needs to be fast, so use native loops
+  for (var c = 0; c < this.columnCount; c += 1) {
+    for (var r = 0; r < this.rowCount; r += 1) {
+      // If grid slot is empty
+      if (this.columns[c][r] === undefined) {
+        // Search for connections of three or more chips that are connected to
+        // the empty slot
+        var connections = this.getConnections({
+          // Pretend the empty slot is actually a chip so getConnections() can
+          // properly find neighboring connections
+          baseChip: {column: c, row: r, player: currentPlayer},
+          connectionSize: 3
+        });
+        // Give player a larger/smaller score for more connections (and give
+        // them the maximum/minimum score if a connection of four is found)
+        for (var i = 0; i < connections.length; i += 1) {
+          if (connections[i].length >= 4) {
+            gridScore = 1000 * (isMaximizingPlayer ? 1 : -1);
+            return gridScore;
+          } else {
+            gridScore += (isMaximizingPlayer ? 1 : -1);
+          }
+        }
+      }
+    }
+  }
+  return gridScore;
+};
+
 module.exports = Grid;
