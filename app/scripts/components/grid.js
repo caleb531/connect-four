@@ -149,10 +149,9 @@ GridComponent.controller = function (game) {
       });
     },
     // Configure pending chip element when it's first created
-    configurePendingChip: function (ctrl, game, pendingChipElem) {
+    configurePendingChip: function (ctrl, game, pendingChipElem, initialized) {
       // Only configure once per unique DOM element
-      if (ctrl.lastPendingChipElem !== pendingChipElem) {
-        ctrl.lastPendingChipElem = pendingChipElem;
+      if (!initialized) {
         // Ensure that any unfinished pending chip event listeners (from
         // previous games) are unbound
         game.emitter.off('pending-chip:transition-end');
