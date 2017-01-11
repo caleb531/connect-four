@@ -130,8 +130,12 @@ Grid.prototype.getScore = function (currentPlayer, isMaxPlayer) {
           baseChip: this.columns[c][r],
           connectionSize: 4
         });
-        if (connections.length >= 1) {
-          gridScore = 1000 * (isMaxPlayer ? 1 : -1);
+        if (connections.length >= 1 && this.columns[c][r].player === currentPlayer) {
+          if (isMaxPlayer) {
+            gridScore = 1000;
+          } else {
+            gridScore = -1000;
+          }
           return gridScore;
         }
       }

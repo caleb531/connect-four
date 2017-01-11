@@ -137,7 +137,7 @@ describe('grid', function () {
       var minPlayer = new Player({color: 'blue'});
       placeChips({
         grid: grid,
-        players: [maxPlayer, minPlayer],
+        players: [minPlayer, maxPlayer],
         columns: [2, 3, 3, 2, 4, 4, 4, 5, 5, 5, 5]
       });
       expect(grid.getScore(minPlayer, false)).to.equal(-1000);
