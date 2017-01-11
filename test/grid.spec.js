@@ -156,6 +156,7 @@ describe('grid', function () {
         columns: [2, 0, 3, 6, 4, 3]
       });
       expect(grid.getScore(maximizingPlayer, true)).to.equal(2);
+      expect(grid.getScore(minimizingPlayer, false)).to.equal(0);
     });
 
     it('should count connect-threes for minimizing player', function () {
@@ -170,6 +171,7 @@ describe('grid', function () {
         players: [minimizingPlayer, maximizingPlayer],
         columns: [2, 0, 3, 6, 4, 3]
       });
+      expect(grid.getScore(maximizingPlayer, true)).to.equal(0);
       expect(grid.getScore(minimizingPlayer, false)).to.equal(-2);
     });
 
