@@ -107,72 +107,72 @@ describe('grid', function () {
         columnCount: 7,
         rowCount: 6
       });
-      var maximizingPlayer = new Player({color: 'red'});
-      var minimizingPlayer = new Player({color: 'blue'});
-      expect(grid.getScore(maximizingPlayer, true)).to.equal(0);
-      expect(grid.getScore(minimizingPlayer, false)).to.equal(0);
+      var maxPlayer = new Player({color: 'red'});
+      var minPlayer = new Player({color: 'blue'});
+      expect(grid.getScore(maxPlayer, true)).to.equal(0);
+      expect(grid.getScore(minPlayer, false)).to.equal(0);
     });
 
-    it('should be 1000 for maximizing player win', function () {
+    it('should be 1000 for max player win', function () {
       var grid = new Grid({
         columnCount: 7,
         rowCount: 6
       });
-      var maximizingPlayer = new Player({color: 'red'});
-      var minimizingPlayer = new Player({color: 'blue'});
+      var maxPlayer = new Player({color: 'red'});
+      var minPlayer = new Player({color: 'blue'});
       placeChips({
         grid: grid,
-        players: [maximizingPlayer, minimizingPlayer],
+        players: [maxPlayer, minPlayer],
         columns: [2, 3, 3, 2, 4, 4, 4, 5, 5, 5, 5]
       });
-      expect(grid.getScore(maximizingPlayer, true)).to.equal(1000);
+      expect(grid.getScore(maxPlayer, true)).to.equal(1000);
     });
 
-    it('should be -1000 for minimizing player win', function () {
+    it('should be -1000 for min player win', function () {
       var grid = new Grid({
         columnCount: 7,
         rowCount: 6
       });
-      var maximizingPlayer = new Player({color: 'red'});
-      var minimizingPlayer = new Player({color: 'blue'});
+      var maxPlayer = new Player({color: 'red'});
+      var minPlayer = new Player({color: 'blue'});
       placeChips({
         grid: grid,
-        players: [maximizingPlayer, minimizingPlayer],
+        players: [maxPlayer, minPlayer],
         columns: [2, 3, 3, 2, 4, 4, 4, 5, 5, 5, 5]
       });
-      expect(grid.getScore(minimizingPlayer, false)).to.equal(-1000);
+      expect(grid.getScore(minPlayer, false)).to.equal(-1000);
     });
 
-    it('should count connect-threes for maximizing player', function () {
+    it('should count connect-threes for max player', function () {
       var grid = new Grid({
         columnCount: 7,
         rowCount: 6
       });
-      var maximizingPlayer = new Player({color: 'red'});
-      var minimizingPlayer = new Player({color: 'blue'});
+      var maxPlayer = new Player({color: 'red'});
+      var minPlayer = new Player({color: 'blue'});
       placeChips({
         grid: grid,
-        players: [maximizingPlayer, minimizingPlayer],
+        players: [maxPlayer, minPlayer],
         columns: [2, 0, 3, 6, 4, 3]
       });
-      expect(grid.getScore(maximizingPlayer, true)).to.equal(2);
-      expect(grid.getScore(minimizingPlayer, false)).to.equal(0);
+      expect(grid.getScore(maxPlayer, true)).to.equal(2);
+      expect(grid.getScore(minPlayer, false)).to.equal(0);
     });
 
-    it('should count connect-threes for minimizing player', function () {
+    it('should count connect-threes for min player', function () {
       var grid = new Grid({
         columnCount: 7,
         rowCount: 6
       });
-      var maximizingPlayer = new Player({color: 'red'});
-      var minimizingPlayer = new Player({color: 'blue'});
+      var maxPlayer = new Player({color: 'red'});
+      var minPlayer = new Player({color: 'blue'});
       placeChips({
         grid: grid,
-        players: [minimizingPlayer, maximizingPlayer],
+        players: [minPlayer, maxPlayer],
         columns: [2, 0, 3, 6, 4, 3]
       });
-      expect(grid.getScore(maximizingPlayer, true)).to.equal(0);
-      expect(grid.getScore(minimizingPlayer, false)).to.equal(-2);
+      expect(grid.getScore(maxPlayer, true)).to.equal(0);
+      expect(grid.getScore(minPlayer, false)).to.equal(-2);
     });
 
     it('should be 0 if neither player has an advantage', function () {
@@ -180,15 +180,15 @@ describe('grid', function () {
         columnCount: 7,
         rowCount: 6
       });
-      var maximizingPlayer = new Player({color: 'red'});
-      var minimizingPlayer = new Player({color: 'blue'});
+      var maxPlayer = new Player({color: 'red'});
+      var minPlayer = new Player({color: 'blue'});
       placeChips({
         grid: grid,
-        players: [maximizingPlayer, minimizingPlayer],
+        players: [maxPlayer, minPlayer],
         columns: [0, 2, 1, 3, 4, 6, 5]
       });
-      expect(grid.getScore(maximizingPlayer, true)).to.equal(0);
-      expect(grid.getScore(minimizingPlayer, false)).to.equal(0);
+      expect(grid.getScore(maxPlayer, true)).to.equal(0);
+      expect(grid.getScore(minPlayer, false)).to.equal(0);
     });
 
   });

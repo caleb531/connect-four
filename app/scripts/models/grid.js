@@ -103,7 +103,7 @@ Grid.connectionDirections = [
 ];
 
 // Compute the grid's heuristic score for use by the AI player
-Grid.prototype.getScore = function (currentPlayer, isMaximizingPlayer) {
+Grid.prototype.getScore = function (currentPlayer, isMaxPlayer) {
   var gridScore = 0;
   var connections;
   var c, r;
@@ -120,7 +120,7 @@ Grid.prototype.getScore = function (currentPlayer, isMaximizingPlayer) {
           baseChip: {column: c, row: r, player: currentPlayer},
           connectionSize: 4
         });
-        gridScore += connections.length * (isMaximizingPlayer ? 1 : -1);
+        gridScore += connections.length * (isMaxPlayer ? 1 : -1);
       } else {
         // Give player the maximum/minimum score if a connection of four or more
         // is found
@@ -131,7 +131,7 @@ Grid.prototype.getScore = function (currentPlayer, isMaximizingPlayer) {
           connectionSize: 4
         });
         if (connections.length >= 1) {
-          gridScore = 1000 * (isMaximizingPlayer ? 1 : -1);
+          gridScore = 1000 * (isMaxPlayer ? 1 : -1);
           return gridScore;
         }
       }
