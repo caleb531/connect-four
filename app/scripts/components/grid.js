@@ -38,6 +38,12 @@ GridComponent.controller = function (game) {
       var chipWidth = this.getChipWidth(grid);
       return Math.max(0, Math.floor((event.pageX - event.currentTarget.offsetLeft) / chipWidth));
     },
+    // Run the given callback when the next (and only the very next) pending
+    // chip transition finishes
+    waitForPendingChipTransitionEnd: function (game, callback) {
+      game.emitter.off('pending-chip:transition-end');
+      game.emitter.once('pending-chip:transition-end', callback);
+    },
     // Move the pending chip to be aligned with the specified column
     movePendingChipToColumn: function (args) {
       // The last visited column is the grid column nearest to the cursor at
@@ -99,8 +105,7 @@ GridComponent.controller = function (game) {
         // Since AI players can't click to place a chip after the chip realigns
         // with the chosen column, place the chip automatically
         var ctrl = this;
-        game.emitter.off('pending-chip:transition-end');
-        game.emitter.once('pending-chip:transition-end', function () {
+        ctrl.waitForPendingChipTransitionEnd(args.game, function () {
           if (args.game.currentPlayer.type === 'AI') {
             args.game.currentPlayer.wait(function () {
               ctrl.placePendingChip(args);
@@ -136,8 +141,7 @@ GridComponent.controller = function (game) {
     // transition has ended
     finishPlacingPendingChip: function (args) {
       var ctrl = this;
-      game.emitter.off('pending-chip:transition-end');
-      game.emitter.once('pending-chip:transition-end', function finish() {
+      ctrl.waitForPendingChipTransitionEnd(args.game, function () {
         args.game.placePendingChip({column: args.column});
         ctrl.transitionPendingChipX = false;
         ctrl.transitionPendingChipY = false;
