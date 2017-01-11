@@ -16,6 +16,8 @@ function Grid(args) {
     this.resetGrid();
   }
 }
+Grid.maxScore = 1000;
+Grid.minScore = -Grid.maxScore;
 
 // Return true if the grid is completely full; otherwise, return false
 Grid.prototype.checkIfFull = function () {
@@ -137,9 +139,9 @@ Grid.prototype.getScore = function (currentPlayer, isMaxPlayer) {
         });
         if (connections.length >= 1 && this.columns[c][r].player === currentPlayer) {
           if (isMaxPlayer) {
-            gridScore = 1000;
+            gridScore = Grid.maxScore;
           } else {
-            gridScore = -1000;
+            gridScore = Grid.minScore;
           }
           return gridScore;
         }
