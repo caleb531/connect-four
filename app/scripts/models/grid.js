@@ -105,28 +105,34 @@ Grid.connectionDirections = [
 // Compute the grid's heuristic score for use by the AI player
 Grid.prototype.getScore = function (currentPlayer, isMaximizingPlayer) {
   var gridScore = 0;
+  var connections;
+  var c, r;
   // The heuristic function needs to be fast, so use native loops
-  for (var c = 0; c < this.columnCount; c += 1) {
-    for (var r = 0; r < this.rowCount; r += 1) {
+  for (c = 0; c < this.columnCount; c += 1) {
+    for (r = 0; r < this.rowCount; r += 1) {
       // If grid slot is empty
       if (this.columns[c][r] === undefined) {
         // Search for connections of three or more chips that are connected to
         // the empty slot
-        var connections = this.getConnections({
-          // Pretend the empty slot is actually a chip so getConnections() can
-          // properly find neighboring connections
+        connections = this.getConnections({
+          // We want getConnections() to find connections of three chips and an
+          // empty slot, but to do so, we must pretend the empty slot is a chip
           baseChip: {column: c, row: r, player: currentPlayer},
-          connectionSize: 3
+          connectionSize: 4
         });
-        // Give player a larger/smaller score for more connections (and give
-        // them the maximum/minimum score if a connection of four is found)
-        for (var i = 0; i < connections.length; i += 1) {
-          if (connections[i].length >= 4) {
-            gridScore = 1000 * (isMaximizingPlayer ? 1 : -1);
-            return gridScore;
-          } else {
-            gridScore += (isMaximizingPlayer ? 1 : -1);
-          }
+        gridScore += connections.length * (isMaximizingPlayer ? 1 : -1);
+      } else {
+        // Give player the maximum/minimum score if a connection of four or more
+        // is found
+        // Search for connections of three or more chips that are connected to
+        // the empty slot
+        connections = this.getConnections({
+          baseChip: this.columns[c][r],
+          connectionSize: 4
+        });
+        if (connections.length >= 1) {
+          gridScore = 1000 * (isMaximizingPlayer ? 1 : -1);
+          return gridScore;
         }
       }
     }

@@ -100,4 +100,86 @@ describe('grid', function () {
     expect(grid.columns[2][1]).to.have.property('row', 1);
   });
 
+  describe('score', function () {
+
+    it('should be 0 for maximizing player empty grid', function () {
+      var grid = new Grid({
+        columnCount: 7,
+        rowCount: 6
+      });
+      var maximizingPlayer = new Player({color: 'red'});
+      expect(grid.getScore(maximizingPlayer, true)).to.equal(0);
+    });
+
+    it('should be 0 for minimizing player empty grid', function () {
+      var grid = new Grid({
+        columnCount: 7,
+        rowCount: 6
+      });
+      var minimizingPlayer = new Player({color: 'blue'});
+      expect(grid.getScore(minimizingPlayer, false)).to.equal(0);
+    });
+
+    it('should be 1000 for maximizing player win', function () {
+      var grid = new Grid({
+        columnCount: 7,
+        rowCount: 6
+      });
+      var maximizingPlayer = new Player({color: 'red'});
+      var minimizingPlayer = new Player({color: 'blue'});
+      placeChips({
+        grid: grid,
+        players: [maximizingPlayer, minimizingPlayer],
+        columns: [2, 3, 3, 2, 4, 4, 4, 5, 5, 5, 5]
+      });
+      expect(grid.getScore(maximizingPlayer, true)).to.equal(1000);
+    });
+
+    it('should be -1000 for minimizing player win', function () {
+      var grid = new Grid({
+        columnCount: 7,
+        rowCount: 6
+      });
+      var maximizingPlayer = new Player({color: 'red'});
+      var minimizingPlayer = new Player({color: 'blue'});
+      placeChips({
+        grid: grid,
+        players: [maximizingPlayer, minimizingPlayer],
+        columns: [2, 3, 3, 2, 4, 4, 4, 5, 5, 5, 5]
+      });
+      expect(grid.getScore(minimizingPlayer, false)).to.equal(-1000);
+    });
+
+    it('should count connect-threes for maximizing player', function () {
+      var grid = new Grid({
+        columnCount: 7,
+        rowCount: 6
+      });
+      var maximizingPlayer = new Player({color: 'red'});
+      var minimizingPlayer = new Player({color: 'blue'});
+      placeChips({
+        grid: grid,
+        players: [maximizingPlayer, minimizingPlayer],
+        columns: [2, 0, 3, 6, 4, 3]
+      });
+      expect(grid.getScore(maximizingPlayer, true)).to.equal(2);
+    });
+
+    it('should count connect-threes for minimizing player', function () {
+      var grid = new Grid({
+        columnCount: 7,
+        rowCount: 6
+      });
+      var maximizingPlayer = new Player({color: 'red'});
+      var minimizingPlayer = new Player({color: 'blue'});
+      placeChips({
+        grid: grid,
+        players: [maximizingPlayer, minimizingPlayer],
+        columns: [2, 0, 3, 6, 4, 3]
+      });
+      expect(grid.getScore(minimizingPlayer, false)).to.equal(0);
+    });
+
+  });
+
 });
