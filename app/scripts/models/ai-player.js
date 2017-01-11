@@ -7,7 +7,7 @@ function AIPlayer(args) {
   Player.call(this, args);
 }
 AIPlayer.prototype = Object.create(Player.prototype);
-AIPlayer.prototype.type = 'AI';
+AIPlayer.prototype.type = 'ai';
 // The duration to wait (in ms) for the user to process the AI player's actions
 AIPlayer.waitDelay = 100;
 

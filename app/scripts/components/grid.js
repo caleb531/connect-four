@@ -106,7 +106,7 @@ GridComponent.controller = function (game) {
         // with the chosen column, place the chip automatically
         var ctrl = this;
         ctrl.waitForPendingChipTransitionEnd(args.game, function () {
-          if (args.game.currentPlayer.type === 'AI') {
+          if (args.game.currentPlayer.type === 'ai') {
             args.game.currentPlayer.wait(function () {
               ctrl.placePendingChip(args);
             });

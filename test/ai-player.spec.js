@@ -13,7 +13,7 @@ describe('AI player', function () {
     expect(aiPlayer).to.have.property('name', 'HAL');
     expect(aiPlayer).to.have.property('color', 'red');
     expect(aiPlayer).to.have.property('score', 0);
-    expect(aiPlayer).to.have.property('type', 'AI');
+    expect(aiPlayer).to.have.property('type', 'ai');
   });
 
 });

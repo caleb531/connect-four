@@ -79,7 +79,7 @@ Game.prototype.setPlayers = function (newHumanPlayerCount) {
       // Otherwise, the user will play against another human
       this.players.push(new HumanPlayer({name: 'Human 2', color: 'blue'}));
     }
-  } else if ((newHumanPlayerCount === 1 && this.players[1].type !== 'AI') || (newHumanPlayerCount === 2 && this.players[1].type !== 'human')) {
+  } else if ((newHumanPlayerCount === 1 && this.players[1].type !== 'ai') || (newHumanPlayerCount === 2 && this.players[1].type !== 'human')) {
     // If user switches from 1-Player to 2-Player mode (or vice-versa), recreate
     // set of players
     this.players.length = 0;
@@ -92,7 +92,7 @@ Game.prototype.setPlayers = function (newHumanPlayerCount) {
 // Start the turn of the current player
 Game.prototype.startTurn = function () {
   this.pendingChip = new Chip({player: this.currentPlayer});
-  if (this.currentPlayer.type === 'AI') {
+  if (this.currentPlayer.type === 'ai') {
     this.currentPlayer.computeNextMove(this);
   }
 };
