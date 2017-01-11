@@ -167,10 +167,10 @@ describe('grid', function () {
       var minimizingPlayer = new Player({color: 'blue'});
       placeChips({
         grid: grid,
-        players: [maximizingPlayer, minimizingPlayer],
+        players: [minimizingPlayer, maximizingPlayer],
         columns: [2, 0, 3, 6, 4, 3]
       });
-      expect(grid.getScore(minimizingPlayer, false)).to.equal(0);
+      expect(grid.getScore(minimizingPlayer, false)).to.equal(-2);
     });
 
   });
