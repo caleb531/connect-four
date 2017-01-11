@@ -66,4 +66,20 @@ describe('grid', function () {
     });
   });
 
+  it('should place chip and set its column/row', function () {
+    var grid = new Grid({
+      columnCount: 9,
+      rowCount: 6
+    });
+    var player = new Player({color: 'blue'});
+    grid.placeChip({chip: new Chip({player: player}), column: 2});
+    grid.placeChip({chip: new Chip({player: player}), column: 2});
+    expect(grid.columns[2][0]).to.be.an.instanceof(Chip);
+    expect(grid.columns[2][0]).to.have.property('column', 2);
+    expect(grid.columns[2][0]).to.have.property('row', 0);
+    expect(grid.columns[2][1]).to.be.an.instanceof(Chip);
+    expect(grid.columns[2][1]).to.have.property('column', 2);
+    expect(grid.columns[2][1]).to.have.property('row', 1);
+  });
+
 });
