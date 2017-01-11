@@ -173,6 +173,22 @@ describe('grid', function () {
       expect(grid.getScore(minimizingPlayer, false)).to.equal(-2);
     });
 
+    it('should be 0 if neither player has an advantage', function () {
+      var grid = new Grid({
+        columnCount: 7,
+        rowCount: 6
+      });
+      var maximizingPlayer = new Player({color: 'red'});
+      var minimizingPlayer = new Player({color: 'blue'});
+      placeChips({
+        grid: grid,
+        players: [maximizingPlayer, minimizingPlayer],
+        columns: [0, 2, 1, 3, 4, 6, 5]
+      });
+      expect(grid.getScore(maximizingPlayer, true)).to.equal(0);
+      expect(grid.getScore(minimizingPlayer, false)).to.equal(0);
+    });
+
   });
 
 });
