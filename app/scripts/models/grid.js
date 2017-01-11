@@ -5,9 +5,16 @@ var _ = require('underscore');
 function Grid(args) {
   this.columnCount = args.columnCount;
   this.rowCount = args.rowCount;
-  // The columns array where columns containing placed chips are stored
-  this.columns = [];
-  this.resetGrid();
+  // If existing grid object is passed to constructor, copy it
+  if (args instanceof Grid) {
+    // The columns array where columns containing placed chips are stored
+    this.columns = args.columns.map(function (column) {
+      return column.slice(0);
+    });
+  } else {
+    this.columns = [];
+    this.resetGrid();
+  }
 }
 
 // Return true if the grid is completely full; otherwise, return false

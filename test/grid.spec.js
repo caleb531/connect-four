@@ -21,6 +21,24 @@ describe('grid', function () {
     });
   });
 
+  it('should be copiable', function () {
+    var grid1 = new Grid({
+      columnCount: 9,
+      rowCount: 8
+    });
+    var player = new Player({color: 'red'});
+    var chip = new Chip({player: player});
+    grid1.placeChip({column: 3, chip: chip});
+    var grid2 = new Grid(grid1);
+    expect(grid2).to.have.property('columnCount', 9);
+    expect(grid2).to.have.property('rowCount', 8);
+    expect(grid2).to.have.property('columns');
+    expect(grid2.columns).not.to.equal(grid1.columns);
+    expect(grid2.columns).to.have.length(9);
+    expect(grid2.columns[3]).not.to.equal(grid1.columns[3]);
+    expect(grid2.columns[3][0]).to.equal(chip);
+  });
+
   it('should know when it is full', function () {
     var grid = new Grid({
       columnCount: 9,
