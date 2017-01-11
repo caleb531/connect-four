@@ -99,6 +99,7 @@ GridComponent.controller = function (game) {
         // Since AI players can't click to place a chip after the chip realigns
         // with the chosen column, place the chip automatically
         var ctrl = this;
+        game.emitter.off('pending-chip:transition-end');
         game.emitter.once('pending-chip:transition-end', function () {
           if (args.game.currentPlayer.type === 'AI') {
             args.game.currentPlayer.wait(function () {
@@ -135,6 +136,7 @@ GridComponent.controller = function (game) {
     // transition has ended
     finishPlacingPendingChip: function (args) {
       var ctrl = this;
+      game.emitter.off('pending-chip:transition-end');
       game.emitter.once('pending-chip:transition-end', function finish() {
         args.game.placePendingChip({column: args.column});
         ctrl.transitionPendingChipX = false;
