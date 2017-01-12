@@ -162,10 +162,10 @@ Grid.prototype.getScore = function (currentPlayer, maxPlayer, minPlayer) {
         if (connections.length >= 1 && this.columns[c][r].player === currentPlayer) {
           if (currentPlayer === maxPlayer) {
             gridScore = Grid.maxScore;
+            return gridScore;
           } else {
             gridScore = Grid.minScore;
           }
-          return gridScore;
         }
       }
     }
