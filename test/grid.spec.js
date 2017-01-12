@@ -127,8 +127,8 @@ describe('grid', function () {
       });
       var maxPlayer = new Player({color: 'red'});
       var minPlayer = new Player({color: 'blue'});
-      expect(grid.getScore(maxPlayer, true)).to.equal(0);
-      expect(grid.getScore(minPlayer, false)).to.equal(0);
+      expect(grid.getScore(maxPlayer, maxPlayer, minPlayer)).to.equal(0);
+      expect(grid.getScore(minPlayer, maxPlayer, minPlayer)).to.equal(0);
     });
 
     it('should be 1000 for max player win', function () {
@@ -143,7 +143,7 @@ describe('grid', function () {
         players: [maxPlayer, minPlayer],
         columns: [2, 3, 3, 2, 4, 4, 4, 5, 5, 5, 5]
       });
-      expect(grid.getScore(maxPlayer, true)).to.equal(1000);
+      expect(grid.getScore(maxPlayer, maxPlayer, minPlayer)).to.equal(1000);
     });
 
     it('should be -1000 for min player win', function () {
@@ -158,7 +158,7 @@ describe('grid', function () {
         players: [minPlayer, maxPlayer],
         columns: [2, 3, 3, 2, 4, 4, 4, 5, 5, 5, 5]
       });
-      expect(grid.getScore(minPlayer, false)).to.equal(-1000);
+      expect(grid.getScore(minPlayer, maxPlayer, minPlayer)).to.equal(-1000);
     });
 
     it('should count connect-threes for max player', function () {
@@ -173,8 +173,8 @@ describe('grid', function () {
         players: [maxPlayer, minPlayer],
         columns: [2, 0, 3, 6, 4, 3]
       });
-      expect(grid.getScore(maxPlayer, true)).to.equal(2);
-      expect(grid.getScore(minPlayer, false)).to.equal(0);
+      expect(grid.getScore(maxPlayer, maxPlayer, minPlayer)).to.equal(8);
+      expect(grid.getScore(minPlayer, maxPlayer, minPlayer)).to.equal(8);
     });
 
     it('should count connect-threes for min player', function () {
@@ -189,8 +189,8 @@ describe('grid', function () {
         players: [minPlayer, maxPlayer],
         columns: [2, 0, 3, 6, 4, 3]
       });
-      expect(grid.getScore(maxPlayer, true)).to.equal(0);
-      expect(grid.getScore(minPlayer, false)).to.equal(-2);
+      expect(grid.getScore(maxPlayer, maxPlayer, minPlayer)).to.equal(-8);
+      expect(grid.getScore(minPlayer, maxPlayer, minPlayer)).to.equal(8);
     });
 
     it('should be 0 if neither player has an advantage', function () {
@@ -205,8 +205,8 @@ describe('grid', function () {
         players: [maxPlayer, minPlayer],
         columns: [0, 2, 1, 3, 4, 6, 5]
       });
-      expect(grid.getScore(maxPlayer, true)).to.equal(0);
-      expect(grid.getScore(minPlayer, false)).to.equal(0);
+      expect(grid.getScore(maxPlayer, maxPlayer, minPlayer)).to.equal(0);
+      expect(grid.getScore(minPlayer, maxPlayer, minPlayer)).to.equal(0);
     });
 
   });

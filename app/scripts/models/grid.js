@@ -134,7 +134,7 @@ Grid.prototype.getScore = function (currentPlayer, maxPlayer, minPlayer) {
         for (i = 0; i < connections.length; i += 1) {
           connection = connections[i];
           if (currentPlayer === maxPlayer) {
-            gridScore -= connection.length;
+            gridScore += connection.length;
           } else {
             gridScore += connection.length;
           }
