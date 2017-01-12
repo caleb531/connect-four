@@ -65,6 +65,17 @@ describe('AI player', function () {
     expect(game.players[1].computeNextMove(game)).to.equal(1);
   });
 
+  it('should win horizontally on turn', function () {
+    var game = new Game();
+    game.setPlayers(1);
+    game.startGame();
+    placeChips({
+      game: game,
+      columns: [1, 2, 1, 3, 1, 1, 2, 4, 2]
+    });
+    expect(game.players[1].computeNextMove(game)).to.equal(5);
+  });
+
   it('should win vertically on turn', function () {
     var game = new Game();
     game.setPlayers(1);
@@ -74,6 +85,17 @@ describe('AI player', function () {
       columns: [3, 2, 3, 2, 5, 2, 4]
     });
     expect(game.players[1].computeNextMove(game)).to.equal(2);
+  });
+
+  it('should win diagonally on turn', function () {
+    var game = new Game();
+    game.setPlayers(1);
+    game.startGame();
+    placeChips({
+      game: game,
+      columns: [2, 3, 3, 5, 5, 5, 4, 4, 4]
+    });
+    expect(game.players[1].computeNextMove(game)).to.equal(5);
   });
 
 });
