@@ -26,19 +26,19 @@ AIPlayer.prototype.wait = function (callback) {
 
 // Compute the column where the AI player should place its next chip
 AIPlayer.prototype.computeNextMove = function (game) {
-  var bestMove = this.maximizeMove(
+  var maxMove = this.maximizeMove(
     game.grid, game.players, AIPlayer.maxComputeDepth,
     Grid.minScore, Grid.maxScore);
-  if (bestMove === null) {
+  if (maxMove === null) {
     console.error('AI cannot decide on a column');
     return null;
   }
   // Choose next available column if original pick is full
-  while (game.grid.getNextAvailableSlot({column: bestMove.column}) === null) {
-    bestMove.column += 1;
+  while (game.grid.getNextAvailableSlot({column: maxMove.column}) === null) {
+    maxMove.column += 1;
   }
-  game.emitter.emit('ai-player:compute-next-move', bestMove.column);
-  return bestMove.column;
+  game.emitter.emit('ai-player:compute-next-move', maxMove.column);
+  return maxMove.column;
 };
 
 // Choose a column that will maximize the AI player's chances of winning
@@ -48,25 +48,25 @@ AIPlayer.prototype.maximizeMove = function (grid, players, depth, alpha, beta) {
   if (depth === 0 || Math.abs(gridScore) === Grid.maxScore) {
     return {column: null, score: gridScore};
   }
-  var bestMove = {column: null, score: Grid.minScore};
+  var maxMove = {column: null, score: Grid.minScore};
   for (var c = 0; c < grid.columnCount; c += 1) {
     // Clone the current grid and place a chip to generate a new permutation
     var nextGrid = new Grid(grid);
     nextGrid.placeChip({column: c, chip: new Chip({player: this})});
     // Minimize the opponent human player's chances of winning
-    var nextMove = this.minimizeMove(nextGrid, players, depth - 1, alpha, beta);
-    // If a better move is found, make that the tentative best move
-    if (bestMove.column === null || nextMove.score > bestMove.score) {
-      bestMove.column = c;
-      bestMove.score = nextMove.score;
-      alpha = nextMove.score;
+    var minMove = this.minimizeMove(nextGrid, players, depth - 1, alpha, beta);
+    // If a move yields a lower opponent score, make it the tentative max move
+    if (maxMove.column === null || minMove.score > maxMove.score) {
+      maxMove.column = c;
+      maxMove.score = minMove.score;
+      alpha = minMove.score;
     }
-    // Stop if there are no moves better than the current best move
+    // Stop if there are no moves better than the current max move
     if (alpha >= beta) {
-      return bestMove;
+      return maxMove;
     }
   }
-  return bestMove;
+  return maxMove;
 };
 
 
@@ -77,26 +77,25 @@ AIPlayer.prototype.minimizeMove = function (grid, players, depth, alpha, beta) {
   if (depth === 0 || Math.abs(gridScore) === Grid.maxScore) {
     return {column: null, score: gridScore};
   }
-  var worstMove = {column: null, score: Grid.maxScore};
+  var minMove = {column: null, score: Grid.maxScore};
   for (var c = 0; c < grid.columnCount; c += 1) {
-    // Clone the current grid and place a chip to generate a new permutation
     var nextGrid = new Grid(grid);
     // The human playing against the AI is always the first player
     nextGrid.placeChip({column: c, chip: new Chip({player: players[0]})});
-    // Minimize the opponent human player's chances of winning
-    var nextMove = this.maximizeMove(nextGrid, players, depth - 1, alpha, beta);
-    // If a worse move is found, make that the tentative worst move
-    if (worstMove.column === null || nextMove.score < worstMove.score) {
-      worstMove.column = c;
-      worstMove.score = nextMove.score;
-      beta = nextMove.score;
+    // Maximize the AI player's chances of winning
+    var maxMove = this.maximizeMove(nextGrid, players, depth - 1, alpha, beta);
+    // If a move yields a higher AI score, make it the tentative max move
+    if (minMove.column === null || maxMove.score < minMove.score) {
+      minMove.column = c;
+      minMove.score = maxMove.score;
+      beta = maxMove.score;
     }
-    // Stop if there are no moves worse than the current worst move
+    // Stop if there are no moves better than the current min move
     if (alpha >= beta) {
-      return worstMove;
+      return minMove;
     }
   }
-  return worstMove;
+  return minMove;
 };
 
 module.exports = AIPlayer;
