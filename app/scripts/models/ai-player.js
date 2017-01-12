@@ -31,15 +31,14 @@ AIPlayer.prototype.computeNextMove = function (game) {
     Grid.minScore, Grid.maxScore);
   if (bestMove === null) {
     console.error('AI cannot decide on a column');
-    return;
+    return null;
   }
   // Choose next available column if original pick is full
   while (game.grid.getNextAvailableSlot({column: bestMove.column}) === null) {
     bestMove.column += 1;
   }
-  this.wait(function () {
-    game.emitter.emit('ai-player:compute-next-move', bestMove.column);
-  });
+  game.emitter.emit('ai-player:compute-next-move', bestMove.column);
+  return bestMove.column;
 };
 
 // Choose a column that will maximize the AI player's chances of winning
