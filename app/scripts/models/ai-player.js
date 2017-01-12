@@ -44,7 +44,7 @@ AIPlayer.prototype.computeNextMove = function (game) {
 
 // Choose a column that will maximize the AI player's chances of winning
 AIPlayer.prototype.maximizeMove = function (grid, players, depth, alpha, beta) {
-  var gridScore = grid.getScore();
+  var gridScore = grid.getScore(this, this, players[0]);
   // If max search depth was reached or if winning grid was found
   if (depth === 0 || Math.abs(gridScore) === Grid.maxScore) {
     return {column: null, score: gridScore};
@@ -73,7 +73,7 @@ AIPlayer.prototype.maximizeMove = function (grid, players, depth, alpha, beta) {
 
 // Choose a column that will minimize the human player's chances of winning
 AIPlayer.prototype.minimizeMove = function (grid, players, depth, alpha, beta) {
-  var gridScore = grid.getScore();
+  var gridScore = grid.getScore(players[0], this, players[0]);
   // If max search depth was reached or if winning grid was found
   if (depth === 0 || Math.abs(gridScore) === Grid.maxScore) {
     return {column: null, score: gridScore};
@@ -87,7 +87,7 @@ AIPlayer.prototype.minimizeMove = function (grid, players, depth, alpha, beta) {
     // Minimize the opponent human player's chances of winning
     var nextMove = this.maximizeMove(nextGrid, players, depth - 1, alpha, beta);
     // If a worse move is found, make that the tentative worst move
-    if (worstMove.column === null || nextMove.score > worstMove.score) {
+    if (worstMove.column === null || nextMove.score < worstMove.score) {
       worstMove.column = c;
       worstMove.score = nextMove.score;
       beta = nextMove.score;

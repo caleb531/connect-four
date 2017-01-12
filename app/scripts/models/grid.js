@@ -112,24 +112,46 @@ Grid.connectionDirections = [
 ];
 
 // Compute the grid's heuristic score for use by the AI player
-Grid.prototype.getScore = function (currentPlayer, isMaxPlayer) {
+Grid.prototype.getScore = function (currentPlayer, maxPlayer, minPlayer) {
   var gridScore = 0;
   var connections;
   var c, r;
+  var connection, i;
   // The heuristic function needs to be fast, so use native loops
   for (c = 0; c < this.columnCount; c += 1) {
     for (r = 0; r < this.rowCount; r += 1) {
       // If grid slot is empty
       if (this.columns[c][r] === undefined) {
-        // Search for connections of three or more chips that are connected to
-        // the empty slot
+        // Search for AI's connections of three or more chips that are connected
+        // to the empty slot
         connections = this.getConnections({
           // We want getConnections() to find connections of three chips and an
-          // empty slot, but to do so, we must pretend the empty slot is a chip
-          baseChip: {column: c, row: r, player: currentPlayer},
+          // empty slot (in any order), but to do so, we must pretend the empty
+          // slot is a chip
+          baseChip: {column: c, row: r, player: maxPlayer},
           connectionSize: 4
         });
-        gridScore += connections.length * (isMaxPlayer ? 1 : -1);
+        for (i = 0; i < connections.length; i += 1) {
+          connection = connections[i];
+          if (currentPlayer === maxPlayer) {
+            gridScore -= connection.length;
+          } else {
+            gridScore += connection.length;
+          }
+        }
+        // Do the same as above, but for the human opponent instead of the AI
+        connections = this.getConnections({
+          baseChip: {column: c, row: r, player: minPlayer},
+          connectionSize: 4
+        });
+        for (i = 0; i < connections.length; i += 1) {
+          connection = connections[i];
+          if (currentPlayer === minPlayer) {
+            gridScore += connection.length;
+          } else {
+            gridScore -= connection.length;
+          }
+        }
       } else {
         // Give player the maximum/minimum score if a connection of four or more
         // is found
@@ -138,7 +160,7 @@ Grid.prototype.getScore = function (currentPlayer, isMaxPlayer) {
           connectionSize: 4
         });
         if (connections.length >= 1 && this.columns[c][r].player === currentPlayer) {
-          if (isMaxPlayer) {
+          if (currentPlayer === maxPlayer) {
             gridScore = Grid.maxScore;
           } else {
             gridScore = Grid.minScore;
