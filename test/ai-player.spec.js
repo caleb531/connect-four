@@ -43,6 +43,17 @@ describe('AI player', function () {
     expect(game.players[1].computeNextMove(game)).to.equal(4);
   });
 
+  it('should block horizontal connect-three open on both sides', function () {
+    var game = new Game();
+    game.setPlayers(1);
+    game.startGame();
+    placeChips({
+      game: game,
+      columns: [3, 3, 5]
+    });
+    expect(game.players[1].computeNextMove(game)).to.equal(4);
+  });
+
   it('should block vertical opponent win', function () {
     var game = new Game();
     game.setPlayers(1);
