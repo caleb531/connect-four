@@ -104,7 +104,7 @@ describe('AI player', function () {
     game.startGame();
     placeChips({
       game: game,
-      columns: [2, 3, 3, 5, 5, 5, 4, 4, 4]
+      columns: [1, 2, 3, 3, 2, 4, 4, 4, 5, 5, 5]
     });
     expect(game.players[1].computeNextMove(game)).to.equal(5);
   });
