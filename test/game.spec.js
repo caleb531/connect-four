@@ -173,21 +173,6 @@ describe('game', function () {
     expect(game.winner).not.to.be.null;
   });
 
-  it('should win on connections in complex grid', function () {
-    var game = new Game();
-    game.setPlayers(2);
-    game.startGame();
-    placeChips({
-      game: game,
-      columns: [2, 0, 3, 1, 4, 5, 1, 0, 2, 4, 3, 0, 5, 1, 3, 2, 4, 2, 0, 3, 1, 0, 3, 2, 2, 3, 4, 4, 5]
-    });
-    var connections = game.grid.getConnections({
-      baseChip: game.grid.columns[5][2],
-      connectionSize: 4
-    });
-    expect(connections).to.have.length(1);
-  });
-
   it('should end when grid becomes full', function () {
     var game = new Game();
     game.setPlayers(2);

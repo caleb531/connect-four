@@ -65,6 +65,17 @@ describe('AI player', function () {
     expect(game.players[1].computeNextMove(game)).to.equal(3);
   });
 
+  it('should block complex vertical opponent win', function () {
+    var game = new Game();
+    game.setPlayers(1);
+    game.startGame();
+    placeChips({
+      game: game,
+      columns: [2, 0, 4, 3, 3, 0, 4, 0, 0, 2, 4]
+    });
+    expect(game.players[1].computeNextMove(game)).to.equal(4);
+  });
+
   it('should block diagonal opponent win', function () {
     var game = new Game();
     game.setPlayers(1);
@@ -74,17 +85,6 @@ describe('AI player', function () {
       columns: [4, 3, 3, 2, 1, 2, 2, 1, 1]
     });
     expect(game.players[1].computeNextMove(game)).to.equal(1);
-  });
-
-  it('should win diagonally in complex grid', function () {
-    var game = new Game();
-    game.setPlayers(1);
-    game.startGame();
-    placeChips({
-      game: game,
-      columns: [2, 0, 3, 1, 4, 5, 1, 0, 2, 4, 3, 0, 5, 1, 3, 2, 4, 2, 0, 3, 1, 0, 3, 2, 2, 3, 4, 4]
-    });
-    expect(game.players[1].computeNextMove(game)).to.equal(5);
   });
 
   it('should win horizontally on turn', function () {
