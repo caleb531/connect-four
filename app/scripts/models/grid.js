@@ -115,8 +115,7 @@ Grid.connectionDirections = [
 Grid.prototype.getScore = function (currentPlayer, maxPlayer, minPlayer) {
   var gridScore = 0;
   var connections;
-  var c, r;
-  var connection, i;
+  var c, r, i;
   // The heuristic function needs to be fast, so use native loops
   for (c = 0; c < this.columnCount; c += 1) {
     for (r = 0; r < this.rowCount; r += 1) {
@@ -131,26 +130,18 @@ Grid.prototype.getScore = function (currentPlayer, maxPlayer, minPlayer) {
           baseChip: {column: c, row: r, player: maxPlayer},
           connectionSize: 4
         });
+        // Add to the grid score for every advantage the AI has
         for (i = 0; i < connections.length; i += 1) {
-          connection = connections[i];
-          if (currentPlayer === maxPlayer) {
-            gridScore += connection.length;
-          } else {
-            gridScore += connection.length;
-          }
+          gridScore += connections[i].length;
         }
         // Do the same as above, but for the human opponent instead of the AI
         connections = this.getConnections({
           baseChip: {column: c, row: r, player: minPlayer},
           connectionSize: 4
         });
+        // Subtract from the score for every advantage the human opponent has
         for (i = 0; i < connections.length; i += 1) {
-          connection = connections[i];
-          if (currentPlayer === minPlayer) {
-            gridScore += connection.length;
-          } else {
-            gridScore -= connection.length;
-          }
+          gridScore -= connections[i].length;
         }
       } else {
         // Give player the maximum/minimum score if a connection of four or more
@@ -161,8 +152,10 @@ Grid.prototype.getScore = function (currentPlayer, maxPlayer, minPlayer) {
         });
         if (connections.length >= 1 && this.columns[c][r].player === currentPlayer) {
           if (currentPlayer === maxPlayer) {
+            // The AI wins
             gridScore = Grid.maxScore;
           } else {
+            // The human opponent wins
             gridScore = Grid.minScore;
           }
           return gridScore;

@@ -14,7 +14,7 @@ AIPlayer.prototype.type = 'ai';
 AIPlayer.waitDelay = 100;
 // The maximum number of grid moves to look ahead (this determine's the AI's
 // intelligence)
-AIPlayer.maxComputeDepth = 4;
+AIPlayer.maxComputeDepth = 3;
 
 // Wait for a short moment to give the user time to see and process the AI
 // player's actions
