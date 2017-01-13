@@ -112,7 +112,7 @@ Grid.connectionDirections = [
 ];
 
 // Compute the grid's heuristic score for use by the AI player
-Grid.prototype.getScore = function (currentPlayer, maxPlayer, minPlayer) {
+Grid.prototype.getScore = function (args) {
   var gridScore = 0;
   var connections;
   var c, r, i;
@@ -127,21 +127,16 @@ Grid.prototype.getScore = function (currentPlayer, maxPlayer, minPlayer) {
           // We want getConnections() to find connections of three chips and an
           // empty slot (in any order), but to do so, we must pretend the empty
           // slot is a chip
-          baseChip: {column: c, row: r, player: maxPlayer},
+          baseChip: {column: c, row: r, player: args.currentPlayer},
           connectionSize: 4
         });
         // Add to the grid score for every advantage the AI has
         for (i = 0; i < connections.length; i += 1) {
-          gridScore += connections[i].length;
-        }
-        // Do the same as above, but for the human opponent instead of the AI
-        connections = this.getConnections({
-          baseChip: {column: c, row: r, player: minPlayer},
-          connectionSize: 4
-        });
-        // Subtract from the score for every advantage the human opponent has
-        for (i = 0; i < connections.length; i += 1) {
-          gridScore -= connections[i].length;
+          if (args.currentPlayerIsMaxPlayer) {
+            gridScore += connections[i].length;
+          } else {
+            gridScore -= connections[i].length;
+          }
         }
       } else {
         // Give player the maximum/minimum score if a connection of four or more
@@ -150,8 +145,8 @@ Grid.prototype.getScore = function (currentPlayer, maxPlayer, minPlayer) {
           baseChip: this.columns[c][r],
           connectionSize: 4
         });
-        if (connections.length >= 1 && this.columns[c][r].player === currentPlayer) {
-          if (currentPlayer === maxPlayer) {
+        if (connections.length >= 1 && this.columns[c][r].player === args.currentPlayer) {
+          if (args.currentPlayerIsMaxPlayer) {
             // The AI wins
             gridScore = Grid.maxScore;
           } else {

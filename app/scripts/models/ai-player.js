@@ -29,9 +29,9 @@ AIPlayer.prototype.computeNextMove = function (game) {
   var maxMove = this.maximizeMove(
     game.grid, game.players, AIPlayer.maxComputeDepth,
     Grid.minScore, Grid.maxScore);
-  if (maxMove === null) {
-    console.error('AI cannot decide on a column');
-    return null;
+  // If no particular column yields an advantage, default to column 3
+  if (maxMove.column === 0 && maxMove.score === 0) {
+    maxMove.column = 3;
   }
   // Choose next available column if original pick is full
   while (game.grid.getNextAvailableSlot({column: maxMove.column}) === null) {
@@ -43,7 +43,10 @@ AIPlayer.prototype.computeNextMove = function (game) {
 
 // Choose a column that will maximize the AI player's chances of winning
 AIPlayer.prototype.maximizeMove = function (grid, players, depth, alpha, beta) {
-  var gridScore = grid.getScore(this, this, players[0]);
+  var gridScore = grid.getScore({
+    currentPlayer: this,
+    currentPlayerIsMaxPlayer: true
+  });
   // If max search depth was reached or if winning grid was found
   if (depth === 0 || Math.abs(gridScore) === Grid.maxScore) {
     return {column: null, score: gridScore};
@@ -56,10 +59,13 @@ AIPlayer.prototype.maximizeMove = function (grid, players, depth, alpha, beta) {
     // Minimize the opponent human player's chances of winning
     var minMove = this.minimizeMove(nextGrid, players, depth - 1, alpha, beta);
     // If a move yields a lower opponent score, make it the tentative max move
-    if (maxMove.column === null || minMove.score > maxMove.score) {
+    if (minMove.score > maxMove.score) {
       maxMove.column = c;
       maxMove.score = minMove.score;
       alpha = minMove.score;
+    } else if (minMove.score === maxMove.score && maxMove.column === null) {
+      // Prefer the non-null column for moves with the same score
+      maxMove.column = minMove.column;
     }
     // Stop if there are no moves better than the current max move
     if (alpha >= beta) {
@@ -72,7 +78,10 @@ AIPlayer.prototype.maximizeMove = function (grid, players, depth, alpha, beta) {
 
 // Choose a column that will minimize the human player's chances of winning
 AIPlayer.prototype.minimizeMove = function (grid, players, depth, alpha, beta) {
-  var gridScore = grid.getScore(players[0], this, players[0]);
+  var gridScore = grid.getScore({
+    currentPlayer: players[0],
+    isMaxPlayer: false
+  });
   // If max search depth was reached or if winning grid was found
   if (depth === 0 || Math.abs(gridScore) === Grid.maxScore) {
     return {column: null, score: gridScore};
@@ -85,10 +94,13 @@ AIPlayer.prototype.minimizeMove = function (grid, players, depth, alpha, beta) {
     // Maximize the AI player's chances of winning
     var maxMove = this.maximizeMove(nextGrid, players, depth - 1, alpha, beta);
     // If a move yields a higher AI score, make it the tentative max move
-    if (minMove.column === null || maxMove.score < minMove.score) {
+    if (maxMove.score < minMove.score) {
       minMove.column = c;
       minMove.score = maxMove.score;
       beta = maxMove.score;
+    } else if (maxMove.score === minMove.score && minMove.column === null) {
+      // Prefer the non-null column for moves with the same score
+      minMove.column = maxMove.column;
     }
     // Stop if there are no moves better than the current min move
     if (alpha >= beta) {

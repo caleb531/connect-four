@@ -54,7 +54,7 @@ describe('AI player', function () {
     expect(game.players[1].computeNextMove(game)).to.be.oneOf([2, 4, 6]);
   });
 
-  it('should block horizontal connect-three trap (#1)', function () {
+  it('should block horizontal connect-three trap (#2)', function () {
     var game = new Game();
     game.setPlayers(1);
     game.startGame();
@@ -65,7 +65,7 @@ describe('AI player', function () {
     expect(game.players[1].computeNextMove(game)).to.be.oneOf([2, 4, 6]);
   });
 
-  it('should block horizontal connect-three trap (#2)', function () {
+  it('should block horizontal connect-three trap (#3)', function () {
     var game = new Game();
     game.setPlayers(1);
     game.startGame();
@@ -120,27 +120,27 @@ describe('AI player', function () {
     expect(game.players[1].computeNextMove(game)).to.equal(5);
   });
 
-  // it('should block diagonal opponent win (#3)', function () {
-  //   var game = new Game();
-  //   game.setPlayers(1);
-  //   game.startGame();
-  //   placeChips({
-  //     game: game,
-  //     columns: [2, 0, 3, 1, 4, 5, 1, 0, 2, 4, 3, 0, 5, 1, 3, 2, 4, 2, 0, 3, 1, 0, 3, 2, 2, 3, 4]
-  //   });
-  //   expect(game.players[1].computeNextMove(game)).to.equal(5);
-  // });
+  it('should block diagonal opponent win (#3)', function () {
+    var game = new Game();
+    game.setPlayers(1);
+    game.startGame();
+    placeChips({
+      game: game,
+      columns: [2, 0, 3, 1, 4, 5, 1, 0, 2, 4, 3, 0, 5, 1, 3, 2, 4, 2, 0, 3, 1, 0, 3, 2, 2, 3, 4]
+    });
+    expect(game.players[1].computeNextMove(game)).to.equal(5);
+  });
 
-  // it('should block one win of opponent double-win', function () {
-  //   var game = new Game();
-  //   game.setPlayers(1);
-  //   game.startGame();
-  //   placeChips({
-  //     game: game,
-  //     columns: [3, 0, 2, 1, 3, 0, 3, 3, 0, 0, 2, 1, 2]
-  //   });
-  //   expect(game.players[1].computeNextMove(game)).to.be.oneOf([1, 2]);
-  // });
+  it('should block one win of opponent double-win', function () {
+    var game = new Game();
+    game.setPlayers(1);
+    game.startGame();
+    placeChips({
+      game: game,
+      columns: [3, 0, 2, 1, 3, 0, 3, 3, 0, 0, 2, 1, 2]
+    });
+    expect(game.players[1].computeNextMove(game)).to.be.oneOf([1, 2]);
+  });
 
   it('should win horizontally on turn', function () {
     var game = new Game();
