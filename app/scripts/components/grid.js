@@ -49,13 +49,27 @@ GridComponent.controller = function (game) {
       // The last visited column is the grid column nearest to the cursor at
       // any given instant; keep track of the column's X position so the next
       // pending chip can instantaneously appear there
-      this.lastVisitedColumnX = this.getChipWidth(args.game.grid) * args.column;
-      this.setPendingChipCoords({
-        x: this.lastVisitedColumnX,
-        y: 0
-      });
-      this.transitionPendingChipX = true;
-      this.transitionPendingChipY = false;
+      var newLastVisitedColumnX = this.getChipWidth(args.game.grid) * args.column;
+      if (newLastVisitedColumnX !== this.lastVisitedColumnX) {
+        this.lastVisitedColumnX = newLastVisitedColumnX;
+        this.setPendingChipCoords({
+          x: this.lastVisitedColumnX,
+          y: 0
+        });
+        this.transitionPendingChipX = true;
+        this.transitionPendingChipY = false;
+        var ctrl = this;
+        ctrl.waitForPendingChipTransitionEnd(args.game, function () {
+          ctrl.transitionPendingChipX = false;
+          // Since AI players can't click to place a chip after the chip realigns
+          // with the chosen column, place the chip automatically
+          if (args.aiAutoPlace && args.game.currentPlayer.type === 'ai') {
+            args.game.currentPlayer.wait(function () {
+              ctrl.placePendingChip(args);
+            });
+          }
+        });
+      }
     },
     // Move the pending chip into alignment with the column nearest to the
     // user's cursor
@@ -100,17 +114,10 @@ GridComponent.controller = function (game) {
         // First move pending chip into alignment with column
         this.movePendingChipToColumn({
           game: args.game,
-          column: args.column
-        });
-        // Since AI players can't click to place a chip after the chip realigns
-        // with the chosen column, place the chip automatically
-        var ctrl = this;
-        ctrl.waitForPendingChipTransitionEnd(args.game, function () {
-          if (args.game.currentPlayer.type === 'ai') {
-            args.game.currentPlayer.wait(function () {
-              ctrl.placePendingChip(args);
-            });
-          }
+          column: args.column,
+          // On the AI's turn, automatically place the chip after aligning it
+          // with the specified column
+          aiAutoPlace: true
         });
       } else {
         // Otherwise, chip is already aligned; drop chip into place on grid
@@ -128,7 +135,7 @@ GridComponent.controller = function (game) {
     },
     // Place the pending chip into the column where the user clicked
     placePendingChipViaPointer: function (ctrl, game, event) {
-      if (game.pendingChip && game.currentPlayer.type === 'human' && !ctrl.transitionPendingChipY) {
+      if (game.pendingChip && game.currentPlayer.type === 'human' && !ctrl.transitionPendingChipX && !ctrl.transitionPendingChipY) {
         ctrl.placePendingChip({
           game: game,
           column: ctrl.getLastVisitedColumnIndex(game.grid, event)
