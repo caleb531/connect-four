@@ -34,6 +34,14 @@ function Game(args) {
   this.winner = null;
   // An emitter instance for capturing custom game events
   this.emitter = new Emitter();
+  // Keep track of the columns where chips are placed in debug mode (extremely
+  // useful for creating new unit tests from real games)
+  if (args && args.debug) {
+    this.debug = true;
+    this.columnHistory = [];
+  } else {
+    this.debug = false;
+  }
 }
 
 Game.prototype.startGame = function (args) {
@@ -55,6 +63,9 @@ Game.prototype.endGame = function () {
   this.currentPlayer = null;
   this.pendingChip = null;
   this.humanPlayerCount = null;
+  if (this.debug) {
+    this.columnHistory.length = 0;
+  }
 };
 
 // Reset the game and grid completely without starting a new game (endGame
@@ -117,6 +128,10 @@ Game.prototype.placePendingChip = function (args) {
       chip: this.pendingChip,
       column: args.column
     });
+    if (this.debug) {
+      this.columnHistory.push(args.column);
+      console.log(this.columnHistory.join(', '));
+    }
     this.lastPlacedChip = this.pendingChip;
     this.pendingChip = null;
     // Check for winning connections (i.e. four in a row)
