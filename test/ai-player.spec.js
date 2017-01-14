@@ -9,7 +9,12 @@ describe('AI player', function () {
 
   // Place chips at the given columns with the given players
   function placeChips(args) {
-    var currentPlayer = args.game.players[0];
+    var currentPlayer;
+    if (args && args.startingPlayer) {
+       currentPlayer = args.startingPlayer;
+    } else {
+      currentPlayer = args.game.players[0];
+    }
     args.columns.forEach(function (column) {
       var chip = new Chip({player: currentPlayer});
       args.game.grid.placeChip({column: column, chip: chip});
@@ -240,6 +245,17 @@ describe('AI player', function () {
       columns: [1, 2, 3, 3, 2, 4, 4, 4, 5, 5, 5]
     });
     expect(game.players[1].computeNextMove(game)).to.equal(5);
+  });
+
+  it('should wrap around if right side of grid is full', function () {
+    var game = new Game();
+    game.setPlayers(1);
+    placeChips({
+      game: game,
+      startingPlayer: game.players[1],
+      columns: [3, 4, 3, 3, 3, 4, 5, 1, 3, 4, 4, 1, 1, 1, 1, 4, 3, 5, 5, 0, 4, 5, 5, 1, 5, 2, 6, 6, 6, 6, 6, 6]
+    });
+    expect(game.players[1].computeNextMove(game)).to.be.oneOf([0, 2]);
   });
 
 });
