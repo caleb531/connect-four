@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A Connect Four web app implemented in JS using Mithril",
   "scripts": {
-    "test": "karma start"
+    "test": "karma start --single-run --reporters dots"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
     "classnames": "^2.2.5",
     "fastclick": "^1.0.6",
     "mithril": "^0.2.5",
+    "tiny-emitter": "^1.1.0",
     "underscore": "^1.8.3"
   },
   "devDependencies": {

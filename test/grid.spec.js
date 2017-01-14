@@ -21,6 +21,24 @@ describe('grid', function () {
     });
   });
 
+  it('should be copiable', function () {
+    var grid1 = new Grid({
+      columnCount: 9,
+      rowCount: 8
+    });
+    var player = new Player({color: 'red'});
+    var chip = new Chip({player: player});
+    grid1.placeChip({column: 3, chip: chip});
+    var grid2 = new Grid(grid1);
+    expect(grid2).to.have.property('columnCount', 9);
+    expect(grid2).to.have.property('rowCount', 8);
+    expect(grid2).to.have.property('columns');
+    expect(grid2.columns).not.to.equal(grid1.columns);
+    expect(grid2.columns).to.have.length(9);
+    expect(grid2.columns[3]).not.to.equal(grid1.columns[3]);
+    expect(grid2.columns[3][0]).to.equal(chip);
+  });
+
   it('should know when it is full', function () {
     var grid = new Grid({
       columnCount: 9,
@@ -28,7 +46,7 @@ describe('grid', function () {
     });
     var player = new Player({color: 'red', name: 'Bob'});
     _.times(9, function (c) {
-      _.times(8, function (r) {
+      _.times(8, function () {
         grid.columns[c].push(new Chip({player: player}));
       });
     });
@@ -42,7 +60,7 @@ describe('grid', function () {
     });
     var player = new Player({color: 'red', name: 'Bob'});
     _.times(9, function (c) {
-      _.times(7, function (r) {
+      _.times(7, function () {
         grid.columns[c].push(new Chip({player: player}));
       });
     });
@@ -56,7 +74,7 @@ describe('grid', function () {
     });
     var player = new Player({color: 'red', name: 'Bob'});
     _.times(9, function (c) {
-      _.times(6, function (r) {
+      _.times(6, function () {
         grid.columns[c].push(new Chip({player: player}));
       });
     });
@@ -64,6 +82,23 @@ describe('grid', function () {
     grid.columns.forEach(function (column) {
       expect(column).to.have.length(0);
     });
+  });
+
+  it('should place chip and set its column/row', function () {
+    var grid = new Grid({
+      columnCount: 9,
+      rowCount: 6
+    });
+    var player1 = new Player({color: 'red'});
+    var player2 = new Player({color: 'blue'});
+    grid.placeChip({column: 2, chip: new Chip({player: player1})});
+    grid.placeChip({column: 2, chip: new Chip({player: player2})});
+    expect(grid.columns[2][0]).to.be.an.instanceof(Chip);
+    expect(grid.columns[2][0]).to.have.property('column', 2);
+    expect(grid.columns[2][0]).to.have.property('row', 0);
+    expect(grid.columns[2][1]).to.be.an.instanceof(Chip);
+    expect(grid.columns[2][1]).to.have.property('column', 2);
+    expect(grid.columns[2][1]).to.have.property('row', 1);
   });
 
 });

@@ -11,7 +11,10 @@ var GameComponent = {};
 
 GameComponent.controller = function () {
   return {
-    game: new Game()
+    game: new Game({
+      // Only enable debug mode on non-production sites
+      debug: (window.location.host !== 'projects.calebevans.me')
+    })
   };
 };
 
