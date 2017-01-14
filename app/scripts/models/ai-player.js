@@ -74,7 +74,7 @@ AIPlayer.prototype.maximizeMove = function (grid, players, depth, alpha, beta) {
     }
     // Stop if there are no moves better than the current max move
     if (alpha >= beta) {
-      return maxMove;
+      break;
     }
   }
   return maxMove;
@@ -114,7 +114,7 @@ AIPlayer.prototype.minimizeMove = function (grid, players, depth, alpha, beta) {
     }
     // Stop if there are no moves better than the current min move
     if (alpha >= beta) {
-      return minMove;
+      break;
     }
   }
   return minMove;
