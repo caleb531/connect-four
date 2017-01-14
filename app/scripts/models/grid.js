@@ -54,9 +54,9 @@ Grid.prototype.placeChip = function (args) {
 };
 
 // Find same-color neighbors connected to the given chip in the given direction
-Grid.prototype.findConnectedNeighbors = function (chip, direction) {
-  var neighbor = chip;
-  var connectedNeighbors = [];
+Grid.prototype.getConnection = function (baseChip, direction) {
+  var neighbor = baseChip;
+  var connection = [];
   while (true) {
     var nextColumn = neighbor.column + direction.x;
     // Stop if the left/right edge of the grid has been reached
@@ -71,15 +71,15 @@ Grid.prototype.findConnectedNeighbors = function (chip, direction) {
       break;
     }
     // Stop if this neighbor is not the same color as the original chip
-    if (nextNeighbor.player !== chip.player) {
+    if (nextNeighbor.player !== baseChip.player) {
       break;
     }
     // Assume at this point that this neighbor chip is connected to the original
     // chip in the given direction
     neighbor = nextNeighbor;
-    connectedNeighbors.push(nextNeighbor);
+    connection.push(nextNeighbor);
   }
-  return connectedNeighbors;
+  return connection;
 };
 
 // Get all connections of four chips (including connections of four within
@@ -90,12 +90,18 @@ Grid.prototype.getConnections = function (args) {
   Grid.connectionDirections.forEach(function (direction) {
     var connection = [args.baseChip];
     // Check for connected neighbors in this direction
-    connection.push.apply(connection, grid.findConnectedNeighbors(args.baseChip, direction));
+    connection.push.apply(
+      connection,
+      grid.getConnection(args.baseChip, direction)
+    );
     // Check for connected neighbors in the opposite direction
-    connection.push.apply(connection, grid.findConnectedNeighbors(args.baseChip, {
-      x: -direction.x,
-      y: -direction.y
-    }));
+    connection.push.apply(
+      connection,
+      grid.getConnection(args.baseChip, {
+        x: -direction.x,
+        y: -direction.y
+      })
+    );
     if (connection.length >= args.connectionSize) {
       connections.push(connection);
     }
