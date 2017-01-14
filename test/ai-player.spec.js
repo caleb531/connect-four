@@ -11,7 +11,7 @@ describe('AI player', function () {
   function placeChips(args) {
     var currentPlayer;
     if (args && args.startingPlayer) {
-       currentPlayer = args.startingPlayer;
+      currentPlayer = args.startingPlayer;
     } else {
       currentPlayer = args.game.players[0];
     }
