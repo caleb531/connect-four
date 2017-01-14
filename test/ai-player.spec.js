@@ -109,6 +109,17 @@ describe('AI player', function () {
     expect(game.players[1].computeNextMove(game)).to.equal(4);
   });
 
+  it('should block vertical opponent win (#3)', function () {
+    var game = new Game();
+    game.setPlayers(1);
+    game.startGame();
+    placeChips({
+      game: game,
+      columns: [0, 3, 4, 4, 5, 4, 5, 4, 5, 5, 4, 5, 3, 3, 3, 3, 3, 4, 0, 5, 0]
+    });
+    expect(game.players[1].computeNextMove(game)).to.equal(0);
+  });
+
   it('should block diagonal opponent win (#1)', function () {
     var game = new Game();
     game.setPlayers(1);
@@ -162,6 +173,17 @@ describe('AI player', function () {
       columns: [1, 0, 4, 2, 5, 3, 6, 0, 2, 2, 3, 0, 0, 0, 4]
     });
     expect(game.players[1].computeNextMove(game)).to.be.oneOf([1, 5]);
+  });
+
+  it('should block one win of opponent double-win (#3)', function () {
+    var game = new Game();
+    game.setPlayers(1);
+    game.startGame();
+    placeChips({
+      game: game,
+      columns: [0, 3, 1, 3, 3, 3, 2, 5, 4, 5, 4, 5, 4, 4, 5, 5, 2, 4, 1, 3, 0, 4, 2]
+    });
+    expect(game.players[1].computeNextMove(game)).to.be.oneOf([1, 2]);
   });
 
   it('should win horizontally on turn', function () {

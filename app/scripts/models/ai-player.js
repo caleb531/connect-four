@@ -53,6 +53,10 @@ AIPlayer.prototype.maximizeMove = function (grid, players, depth, alpha, beta) {
   }
   var maxMove = {column: null, score: Grid.minScore};
   for (var c = 0; c < grid.columnCount; c += 1) {
+    // Continue to next possible move if this column is full
+    if (grid.columns[c].length === grid.rowCount) {
+      continue;
+    }
     // Clone the current grid and place a chip to generate a new permutation
     var nextGrid = new Grid(grid);
     nextGrid.placeChip({column: c, chip: new Chip({player: this})});
@@ -63,9 +67,10 @@ AIPlayer.prototype.maximizeMove = function (grid, players, depth, alpha, beta) {
       maxMove.column = c;
       maxMove.score = minMove.score;
       alpha = minMove.score;
-    } else if (minMove.score === maxMove.score && maxMove.column === null) {
-      // Prefer the non-null column for moves with the same score
+    } else if (maxMove.column === null || minMove.score === Grid.minScore) {
+      // Ensure that obvious column choices are not forgotten
       maxMove.column = minMove.column;
+      maxMove.score = minMove.score;
     }
     // Stop if there are no moves better than the current max move
     if (alpha >= beta) {
@@ -88,6 +93,10 @@ AIPlayer.prototype.minimizeMove = function (grid, players, depth, alpha, beta) {
   }
   var minMove = {column: null, score: Grid.maxScore};
   for (var c = 0; c < grid.columnCount; c += 1) {
+    // Continue to next possible move if this column is full
+    if (grid.columns[c].length === grid.rowCount) {
+      continue;
+    }
     var nextGrid = new Grid(grid);
     // The human playing against the AI is always the first player
     nextGrid.placeChip({column: c, chip: new Chip({player: players[0]})});
@@ -98,9 +107,10 @@ AIPlayer.prototype.minimizeMove = function (grid, players, depth, alpha, beta) {
       minMove.column = c;
       minMove.score = maxMove.score;
       beta = maxMove.score;
-    } else if (maxMove.score === minMove.score && minMove.column === null) {
-      // Prefer the non-null column for moves with the same score
+    } else if (minMove.column === null || maxMove.score === Grid.minScore) {
+      // Ensure that obvious column choices are not forgotten
       minMove.column = maxMove.column;
+      minMove.score = maxMove.score;
     }
     // Stop if there are no moves better than the current min move
     if (alpha >= beta) {
