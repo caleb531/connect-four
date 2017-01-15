@@ -8,7 +8,7 @@ describe('chip', function () {
 
   it('should initialize', function () {
     var player = new Player({
-      color: 'green',
+      color: 'blue',
       name: 'Super Player'
     });
     var chip = new Chip({
