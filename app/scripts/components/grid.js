@@ -9,14 +9,20 @@ var GridComponent = {};
 
 GridComponent.controller = function (game) {
   var ctrl = {
-    // Initialize position of pending chip to the leftmost column
-    pendingChipX: 0,
-    pendingChipY: 0,
-    // Booleans indicating when to transition the pending chip's movement in a
-    // particular direction (for example, the pending chip should never
-    // transition when resetting to its initial position after placing a chip)
-    transitionPendingChipX: false,
-    transitionPendingChipY: false,
+    // Reset/initialize the entire state of the controller
+    reset: function () {
+      // Current CSS position of the pending chip
+      ctrl.pendingChipX = 0;
+      ctrl.pendingChipY = 0;
+      // Booleans indicating when to transition the pending chip's movement in a
+      // particular direction (for example, the pending chip should never
+      // transition when resetting to its initial position after placing a chip)
+      ctrl.transitionPendingChipX = false;
+      ctrl.transitionPendingChipY = false;
+      // The current CSS position of the column where the user's cursor/finger
+      // last clicked/touched
+      ctrl.lastVisitedColumnX = 0;
+    },
     // Get the CSS translate string for the given coordinate map
     getTranslate: function (coords) {
       return 'translate(' + coords.x + 'px,' + coords.y + 'px)';
@@ -186,6 +192,12 @@ GridComponent.controller = function (game) {
       });
     });
   });
+  // Reset controller state when game ends
+  game.emitter.on('game:end-game', function () {
+    ctrl.reset();
+  });
+  // Reset controller state whenever controller is initialized
+  ctrl.reset();
   return ctrl;
 };
 GridComponent.view = function (ctrl, game) {

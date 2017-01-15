@@ -25,9 +25,6 @@ DashboardComponent.controller = function () {
       });
     },
     endGame: function (ctrl, game) {
-      // Reset the state of every controller everywhere for any next game
-      m.redraw.strategy('all');
-      m.redraw();
       game.endGame();
     }
   };
