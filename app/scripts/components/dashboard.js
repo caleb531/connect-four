@@ -17,7 +17,7 @@ DashboardComponent.controller = function () {
       }
       game.setPlayers(humanPlayerCount);
     },
-    setStartingPlayer: function (ctrl, game, newStartingPlayer) {
+    startGame: function (ctrl, game, newStartingPlayer) {
       game.startGame({
         startingPlayer: newStartingPlayer
       });
@@ -59,7 +59,7 @@ DashboardComponent.view = function (ctrl, game) {
     game.humanPlayerCount !== null ?
       game.players.map(function (player) {
         return m('button', {
-          onclick: _.partial(ctrl.setStartingPlayer, ctrl, game, player)
+          onclick: _.partial(ctrl.startGame, ctrl, game, player)
         }, player.name);
       }) :
     // Select a number of human players
