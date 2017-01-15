@@ -5,8 +5,9 @@
 
 [![Build Status](https://travis-ci.org/caleb531/connect-four.svg?branch=master)](https://travis-ci.org/caleb531/connect-four)
 
-This is the most advanced web app implementation of Connect Four, written using
-HTML5, JavaScript, and Mithril.
+This is the slickest Connect Four app around, written using HTML5,
+JavaScript, and Mithril. You can play on your phone or computer, with a friend
+or against Mr. AI. Just be sure to enjoy and have fun. :)
 
 You can play the app online at:  
 https://projects.calebevans.me/connect-four/
