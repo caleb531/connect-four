@@ -7,8 +7,6 @@ var DashboardComponent = {};
 
 DashboardComponent.controller = function () {
   return {
-    // Whether or not to show the welcome message
-    showWelcome: true,
     // Prepare game players by creating new players (if necessary) and deciding
     // which player has the starting move
     setPlayers: function (ctrl, game, humanPlayerCount) {
