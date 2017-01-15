@@ -192,6 +192,16 @@ describe('game', function () {
     expect(game.winner).to.be.null;
   });
 
+  it('should reset pending chip when resetting', function () {
+    var game = new Game();
+    game.setPlayers(2);
+    game.startGame();
+    expect(game.pendingChip).not.to.be.null;
+    game.endGame();
+    game.resetGame();
+    expect(game.pendingChip).to.be.null;
+  });
+
   it('should win horizontally', function () {
     var game = new Game();
     game.setPlayers(2);
