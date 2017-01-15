@@ -183,12 +183,12 @@ GridComponent.controller = function (game) {
     }
   };
   // Place chip automatically when AI computes its next move on its turn
-  game.emitter.on('ai-player:compute-next-move', function (chosenColumn) {
+  game.emitter.on('ai-player:compute-next-move', function (aiPlayer, bestMove) {
     // The AI is always the second of the two players
-    game.players[1].wait(function() {
+    aiPlayer.wait(function() {
       ctrl.placePendingChip({
         game: game,
-        column: chosenColumn
+        column: bestMove.column
       });
     });
   });

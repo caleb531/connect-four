@@ -26,23 +26,24 @@ AIPlayer.prototype.wait = function (callback) {
 
 // Compute the column where the AI player should place its next chip
 AIPlayer.prototype.computeNextMove = function (game) {
-  var maxMove = this.maximizeMove(
+  var bestMove = this.maximizeMove(
     game.grid, game.players, AIPlayer.maxComputeDepth,
     Grid.minScore, Grid.maxScore);
-  // If no particular column yields an advantage, default to column 3
-  if (maxMove.column === 0 && maxMove.score === 0) {
-    maxMove.column = 3;
+  // If no particular column yields an advantage or disadvantage, default to the
+  // center column
+  if (bestMove.column === 0 && bestMove.score === 0) {
+    bestMove.column = 3;
   }
   // Choose next available column if original pick is full
-  while (game.grid.getNextAvailableSlot({column: maxMove.column}) === null) {
-    maxMove.column += 1;
+  while (game.grid.getNextAvailableSlot({column: bestMove.column}) === null) {
+    bestMove.column += 1;
     // Wrap around if needed
-    if (maxMove.column === game.grid.columnCount) {
-      maxMove.column = 0;
+    if (bestMove.column === game.grid.columnCount) {
+      bestMove.column = 0;
     }
   }
-  game.emitter.emit('ai-player:compute-next-move', maxMove.column);
-  return maxMove.column;
+  game.emitter.emit('ai-player:compute-next-move', this, bestMove);
+  return bestMove.column;
 };
 
 // Choose a column that will maximize the AI player's chances of winning
