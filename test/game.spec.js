@@ -151,6 +151,13 @@ describe('game', function () {
     expect(game.currentPlayer).to.equal(game.players[1]);
   });
 
+  it('should get other player', function () {
+    var game = new Game();
+    game.setPlayers(2);
+    expect(game.getOtherPlayer(game.players[0])).to.equal(game.players[1]);
+    expect(game.getOtherPlayer(game.players[1])).to.equal(game.players[0]);
+  });
+
   it('should end', function () {
     var game = new Game();
     game.setPlayers(2);

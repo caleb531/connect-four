@@ -27,7 +27,7 @@ AIPlayer.prototype.wait = function (callback) {
 // Compute the column where the AI player should place its next chip
 AIPlayer.prototype.computeNextMove = function (game) {
   var bestMove = this.maximizeMove(
-    game.grid, game.players, AIPlayer.maxComputeDepth,
+    game.grid, game.getOtherPlayer(this), AIPlayer.maxComputeDepth,
     Grid.minScore, Grid.maxScore);
   // If no particular column yields an advantage or disadvantage, default to the
   // center column
@@ -47,7 +47,7 @@ AIPlayer.prototype.computeNextMove = function (game) {
 };
 
 // Choose a column that will maximize the AI player's chances of winning
-AIPlayer.prototype.maximizeMove = function (grid, players, depth, alpha, beta) {
+AIPlayer.prototype.maximizeMove = function (grid, minPlayer, depth, alpha, beta) {
   var gridScore = grid.getScore({
     currentPlayer: this,
     currentPlayerIsMaxPlayer: true
@@ -66,7 +66,7 @@ AIPlayer.prototype.maximizeMove = function (grid, players, depth, alpha, beta) {
     var nextGrid = new Grid(grid);
     nextGrid.placeChip({column: c, chip: new Chip({player: this})});
     // Minimize the opponent human player's chances of winning
-    var minMove = this.minimizeMove(nextGrid, players, depth - 1, alpha, beta);
+    var minMove = this.minimizeMove(nextGrid, minPlayer, depth - 1, alpha, beta);
     // If a move yields a lower opponent score, make it the tentative max move
     if (minMove.score > maxMove.score) {
       maxMove.column = c;
@@ -87,9 +87,9 @@ AIPlayer.prototype.maximizeMove = function (grid, players, depth, alpha, beta) {
 
 
 // Choose a column that will minimize the human player's chances of winning
-AIPlayer.prototype.minimizeMove = function (grid, players, depth, alpha, beta) {
+AIPlayer.prototype.minimizeMove = function (grid, minPlayer, depth, alpha, beta) {
   var gridScore = grid.getScore({
-    currentPlayer: players[0],
+    currentPlayer: minPlayer,
     isMaxPlayer: false
   });
   // If max search depth was reached or if winning grid was found
@@ -104,9 +104,9 @@ AIPlayer.prototype.minimizeMove = function (grid, players, depth, alpha, beta) {
     }
     var nextGrid = new Grid(grid);
     // The human playing against the AI is always the first player
-    nextGrid.placeChip({column: c, chip: new Chip({player: players[0]})});
+    nextGrid.placeChip({column: c, chip: new Chip({player: minPlayer})});
     // Maximize the AI player's chances of winning
-    var maxMove = this.maximizeMove(nextGrid, players, depth - 1, alpha, beta);
+    var maxMove = this.maximizeMove(nextGrid, minPlayer, depth - 1, alpha, beta);
     // If a move yields a higher AI score, make it the tentative max move
     if (maxMove.score < minMove.score) {
       minMove.column = c;

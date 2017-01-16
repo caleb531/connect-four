@@ -101,6 +101,15 @@ Game.prototype.setPlayers = function (newHumanPlayerCount) {
   this.humanPlayerCount = newHumanPlayerCount;
 };
 
+// Retrieve the player that isn't the given player
+Game.prototype.getOtherPlayer = function (player) {
+  if (player === this.players[0]) {
+    return this.players[1];
+  } else {
+    return this.players[0];
+  }
+};
+
 // Start the turn of the current player
 Game.prototype.startTurn = function () {
   this.pendingChip = new Chip({player: this.currentPlayer});
@@ -113,11 +122,7 @@ Game.prototype.startTurn = function () {
 Game.prototype.endTurn = function () {
   if (this.inProgress) {
     // Switch to next player's turn
-    if (this.currentPlayer === this.players[0]) {
-      this.currentPlayer = this.players[1];
-    } else {
-      this.currentPlayer = this.players[0];
-    }
+    this.currentPlayer = this.getOtherPlayer(this.currentPlayer);
     this.startTurn();
   }
 };
