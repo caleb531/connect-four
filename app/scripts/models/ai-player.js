@@ -90,7 +90,7 @@ AIPlayer.prototype.maximizeMove = function (grid, minPlayer, depth, alpha, beta)
 AIPlayer.prototype.minimizeMove = function (grid, minPlayer, depth, alpha, beta) {
   var gridScore = grid.getScore({
     currentPlayer: minPlayer,
-    isMaxPlayer: false
+    currentPlayerIsMaxPlayer: false
   });
   // If max search depth was reached or if winning grid was found
   if (depth === 0 || Math.abs(gridScore) === Grid.maxScore) {
