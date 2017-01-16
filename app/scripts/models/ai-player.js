@@ -29,10 +29,10 @@ AIPlayer.prototype.computeNextMove = function (game) {
   var bestMove = this.maximizeMove(
     game.grid, game.getOtherPlayer(this), AIPlayer.maxComputeDepth,
     Grid.minScore, Grid.maxScore);
-  // If no particular column yields an advantage or disadvantage, default to the
-  // center column
+  // If no particular column yields an advantage or disadvantage, choose a
+  // column at random
   if (bestMove.column === 0 && bestMove.score === 0) {
-    bestMove.column = 3;
+    bestMove.column = Math.floor(Math.random() * game.grid.columnCount);
   }
   // Choose next available column if original pick is full
   while (game.grid.getNextAvailableSlot({column: bestMove.column}) === null) {
