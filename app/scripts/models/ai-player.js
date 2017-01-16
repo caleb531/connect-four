@@ -43,7 +43,7 @@ AIPlayer.prototype.computeNextMove = function (game) {
     }
   }
   game.emitter.emit('ai-player:compute-next-move', this, bestMove);
-  return bestMove.column;
+  return bestMove;
 };
 
 // Choose a column that will maximize the AI player's chances of winning

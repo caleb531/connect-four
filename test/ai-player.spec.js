@@ -44,7 +44,7 @@ describe('AI player', function () {
       game: game,
       columns: [3, 2, 5, 2, 6]
     });
-    expect(game.players[1].computeNextMove(game)).to.equal(4);
+    expect(game.players[1].computeNextMove(game).column).to.equal(4);
   });
 
   it('should block horizontal opponent win (#2)', function () {
@@ -54,7 +54,7 @@ describe('AI player', function () {
       game: game,
       columns: [1, 0, 4, 2, 5, 3, 6, 0, 2, 2, 1, 0, 0, 0, 3]
     });
-    expect(game.players[1].computeNextMove(game)).to.equal(4);
+    expect(game.players[1].computeNextMove(game).column).to.equal(4);
   });
 
   it('should block horizontal opponent win (#3)', function () {
@@ -64,7 +64,7 @@ describe('AI player', function () {
       game: game,
       columns: [2, 0, 4, 1, 6, 3, 2, 0, 3, 1, 4, 5, 0, 3, 0, 3, 2, 2, 4, 4, 2, 6, 6, 4, 3, 4, 2, 3, 6]
     });
-    expect(game.players[1].computeNextMove(game)).to.equal(5);
+    expect(game.players[1].computeNextMove(game).column).to.equal(5);
   });
 
   it('should block horizontal connect-three trap (#1)', function () {
@@ -74,7 +74,7 @@ describe('AI player', function () {
       game: game,
       columns: [3, 3, 5]
     });
-    expect(game.players[1].computeNextMove(game)).to.be.oneOf([2, 4, 6]);
+    expect(game.players[1].computeNextMove(game).column).to.be.oneOf([2, 4, 6]);
   });
 
   it('should block horizontal connect-three trap (#2)', function () {
@@ -84,7 +84,7 @@ describe('AI player', function () {
       game: game,
       columns: [3, 1, 3, 3, 5]
     });
-    expect(game.players[1].computeNextMove(game)).to.be.oneOf([2, 4, 6]);
+    expect(game.players[1].computeNextMove(game).column).to.be.oneOf([2, 4, 6]);
   });
 
   it('should block horizontal connect-three trap (#3)', function () {
@@ -94,7 +94,7 @@ describe('AI player', function () {
       game: game,
       columns: [3, 1, 3, 3, 4]
     });
-    expect(game.players[1].computeNextMove(game)).to.be.oneOf([2, 5, 6]);
+    expect(game.players[1].computeNextMove(game).column).to.be.oneOf([2, 5, 6]);
   });
 
   it('should block vertical opponent win (#1)', function () {
@@ -104,7 +104,7 @@ describe('AI player', function () {
       game: game,
       columns: [3, 2, 3, 2, 3]
     });
-    expect(game.players[1].computeNextMove(game)).to.equal(3);
+    expect(game.players[1].computeNextMove(game).column).to.equal(3);
   });
 
   it('should block vertical opponent win (#2)', function () {
@@ -114,7 +114,7 @@ describe('AI player', function () {
       game: game,
       columns: [2, 0, 4, 3, 3, 0, 4, 0, 0, 2, 4]
     });
-    expect(game.players[1].computeNextMove(game)).to.equal(4);
+    expect(game.players[1].computeNextMove(game).column).to.equal(4);
   });
 
   it('should block vertical opponent win (#3)', function () {
@@ -124,7 +124,7 @@ describe('AI player', function () {
       game: game,
       columns: [0, 3, 4, 4, 5, 4, 5, 4, 5, 5, 4, 5, 3, 3, 3, 3, 3, 4, 0, 5, 0]
     });
-    expect(game.players[1].computeNextMove(game)).to.equal(0);
+    expect(game.players[1].computeNextMove(game).column).to.equal(0);
   });
 
   it('should block vertical opponent win (#4)', function () {
@@ -135,7 +135,7 @@ describe('AI player', function () {
       columns: [2, 3, 4, 3, 3, 3, 1, 2, 4, 5, 2, 4, 0, 2, 0, 3, 0, 0, 5, 0, 5, 0, 5]
     });
     game.players[1].debug = true;
-    expect(game.players[1].computeNextMove(game)).to.equal(5);
+    expect(game.players[1].computeNextMove(game).column).to.equal(5);
   });
 
   it('should block diagonal opponent win (#1)', function () {
@@ -145,7 +145,7 @@ describe('AI player', function () {
       game: game,
       columns: [4, 3, 3, 2, 1, 2, 2, 1, 1]
     });
-    expect(game.players[1].computeNextMove(game)).to.equal(1);
+    expect(game.players[1].computeNextMove(game).column).to.equal(1);
   });
 
   it('should block diagonal opponent win (#2)', function () {
@@ -155,7 +155,7 @@ describe('AI player', function () {
       game: game,
       columns: [2, 3, 3, 5, 5, 5, 4, 4, 4]
     });
-    expect(game.players[1].computeNextMove(game)).to.equal(5);
+    expect(game.players[1].computeNextMove(game).column).to.equal(5);
   });
 
   it('should block diagonal opponent win (#3)', function () {
@@ -165,7 +165,7 @@ describe('AI player', function () {
       game: game,
       columns: [2, 0, 3, 1, 4, 5, 1, 0, 2, 4, 3, 0, 5, 1, 3, 2, 4, 2, 0, 3, 1, 0, 3, 2, 2, 3, 4]
     });
-    expect(game.players[1].computeNextMove(game)).to.equal(5);
+    expect(game.players[1].computeNextMove(game).column).to.equal(5);
   });
 
   it('should block one win of opponent double-win (#1)', function () {
@@ -175,7 +175,7 @@ describe('AI player', function () {
       game: game,
       columns: [3, 0, 2, 1, 3, 0, 3, 3, 0, 0, 2, 1, 2]
     });
-    expect(game.players[1].computeNextMove(game)).to.be.oneOf([1, 2]);
+    expect(game.players[1].computeNextMove(game).column).to.be.oneOf([1, 2]);
   });
 
   it('should block one win of opponent double-win (#2)', function () {
@@ -185,7 +185,7 @@ describe('AI player', function () {
       game: game,
       columns: [1, 0, 4, 2, 5, 3, 6, 0, 2, 2, 3, 0, 0, 0, 4]
     });
-    expect(game.players[1].computeNextMove(game)).to.be.oneOf([1, 5]);
+    expect(game.players[1].computeNextMove(game).column).to.be.oneOf([1, 5]);
   });
 
   it('should block one win of opponent double-win (#3)', function () {
@@ -195,7 +195,7 @@ describe('AI player', function () {
       game: game,
       columns: [0, 3, 1, 3, 3, 3, 2, 5, 4, 5, 4, 5, 4, 4, 5, 5, 2, 4, 1, 3, 0, 4, 2]
     });
-    expect(game.players[1].computeNextMove(game)).to.be.oneOf([1, 2]);
+    expect(game.players[1].computeNextMove(game).column).to.be.oneOf([1, 2]);
   });
 
   it('should win horizontally on turn', function () {
@@ -205,7 +205,7 @@ describe('AI player', function () {
       game: game,
       columns: [1, 2, 1, 3, 1, 1, 2, 4, 2]
     });
-    expect(game.players[1].computeNextMove(game)).to.equal(5);
+    expect(game.players[1].computeNextMove(game).column).to.equal(5);
   });
 
   it('should win vertically on turn', function () {
@@ -215,7 +215,7 @@ describe('AI player', function () {
       game: game,
       columns: [3, 2, 3, 2, 5, 2, 4]
     });
-    expect(game.players[1].computeNextMove(game)).to.equal(2);
+    expect(game.players[1].computeNextMove(game).column).to.equal(2);
   });
 
   it('should win diagonally on turn', function () {
@@ -225,7 +225,7 @@ describe('AI player', function () {
       game: game,
       columns: [1, 2, 3, 3, 2, 4, 4, 4, 5, 5, 5]
     });
-    expect(game.players[1].computeNextMove(game)).to.equal(5);
+    expect(game.players[1].computeNextMove(game).column).to.equal(5);
   });
 
   it('should wrap around if right side of grid is full', function () {
@@ -236,7 +236,7 @@ describe('AI player', function () {
       startingPlayer: game.players[1],
       columns: [3, 4, 3, 3, 3, 4, 5, 1, 3, 4, 4, 1, 1, 1, 1, 4, 3, 5, 5, 0, 4, 5, 5, 1, 5, 2, 6, 6, 6, 6, 6, 6]
     });
-    expect(game.players[1].computeNextMove(game)).to.be.oneOf([0, 2]);
+    expect(game.players[1].computeNextMove(game).column).to.be.oneOf([0, 2]);
   });
 
 });
