@@ -76,6 +76,7 @@ AIPlayer.prototype.maximizeMove = function (grid, minPlayer, depth, alpha, beta)
       // Ensure that obvious column choices are not forgotten
       maxMove.column = minMove.column;
       maxMove.score = minMove.score;
+      alpha = minMove.score;
     }
     // Stop if there are no moves better than the current max move
     if (alpha >= beta) {
@@ -116,6 +117,7 @@ AIPlayer.prototype.minimizeMove = function (grid, minPlayer, depth, alpha, beta)
       // Ensure that obvious column choices are not forgotten
       minMove.column = maxMove.column;
       minMove.score = maxMove.score;
+      beta = maxMove.score;
     }
     // Stop if there are no moves better than the current min move
     if (alpha >= beta) {
