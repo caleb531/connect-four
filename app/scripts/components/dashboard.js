@@ -64,10 +64,14 @@ DashboardComponent.view = function (ctrl, game) {
     // Select a number of human players
     [
       m('button', {
-        onclick: function () {ctrl.setPlayers(1);}
+        onclick: function () {
+          ctrl.setPlayers(1);
+        }
       }, '1 Player'),
       m('button', {
-        onclick: function () {ctrl.setPlayers(2);}
+        onclick: function () {
+          ctrl.setPlayers(2);
+        }
       }, '2 Players')
     ]
   ]);
