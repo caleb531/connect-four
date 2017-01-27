@@ -12,16 +12,16 @@ GridComponent.controller = function (game) {
     // Reset/initialize the entire state of the controller
     reset: function () {
       // Current CSS position of the pending chip
-      ctrl.pendingChipX = 0;
-      ctrl.pendingChipY = 0;
+      this.pendingChipX = 0;
+      this.pendingChipY = 0;
       // Booleans indicating when to transition the pending chip's movement in a
       // particular direction (for example, the pending chip should never
       // transition when resetting to its initial position after placing a chip)
-      ctrl.transitionPendingChipX = false;
-      ctrl.transitionPendingChipY = false;
+      this.transitionPendingChipX = false;
+      this.transitionPendingChipY = false;
       // The current CSS position of the column where the user's cursor/finger
       // last clicked/touched
-      ctrl.lastVisitedColumnX = 0;
+      this.lastVisitedColumnX = 0;
     },
     // Get the CSS translate string for the given coordinate map
     getTranslate: function (coords) {
