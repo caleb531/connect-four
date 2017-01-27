@@ -1,15 +1,14 @@
 'use strict';
 
 var m = require('mithril');
-var _ = require('underscore');
 
 var DashboardComponent = {};
 
-DashboardComponent.controller = function () {
+DashboardComponent.controller = function (game) {
   return {
     // Prepare game players by creating new players (if necessary) and deciding
     // which player has the starting move
-    setPlayers: function (ctrl, game, humanPlayerCount) {
+    setPlayers: function (humanPlayerCount) {
       if (game.players.length > 0) {
         // Reset new games before choosing number of players (no need to reset
         // the very first game)
@@ -17,12 +16,12 @@ DashboardComponent.controller = function () {
       }
       game.setPlayers(humanPlayerCount);
     },
-    startGame: function (ctrl, game, newStartingPlayer) {
+    startGame: function (newStartingPlayer) {
       game.startGame({
         startingPlayer: newStartingPlayer
       });
     },
-    endGame: function (ctrl, game) {
+    endGame: function () {
       game.endGame();
     }
   };
@@ -51,24 +50,24 @@ DashboardComponent.view = function (ctrl, game) {
     ),
     // If game is in progress, allow user to end game at any time
     game.inProgress ? [
-      m('button', {
-        onclick: _.partial(ctrl.endGame, ctrl, game)
-      }, 'End Game')
+      m('button', {onclick: ctrl.endGame}, 'End Game')
     ] :
     // If number of players has been chosen, ask user to choose starting player
     game.humanPlayerCount !== null ?
       game.players.map(function (player) {
         return m('button', {
-          onclick: _.partial(ctrl.startGame, ctrl, game, player)
+          onclick: function () {
+            return ctrl.startGame(player);
+          }
         }, player.name);
       }) :
     // Select a number of human players
     [
       m('button', {
-        onclick: _.partial(ctrl.setPlayers, ctrl, game, 1)
+        onclick: function () {ctrl.setPlayers(1);}
       }, '1 Player'),
       m('button', {
-        onclick: _.partial(ctrl.setPlayers, ctrl, game, 2)
+        onclick: function () {ctrl.setPlayers(2);}
       }, '2 Players')
     ]
   ]);
