@@ -4,8 +4,9 @@ var m = require('mithril');
 
 var DashboardComponent = {};
 
-DashboardComponent.controller = function (game) {
-  return {
+DashboardComponent.oninit = function (vnode) {
+  var game = vnode.attrs.game;
+  Object.assign(vnode.state, {
     // Prepare game players by creating new players (if necessary) and deciding
     // which player has the starting move
     setPlayers: function (humanPlayerCount) {
@@ -24,10 +25,12 @@ DashboardComponent.controller = function (game) {
     endGame: function () {
       game.endGame();
     }
-  };
+  });
 };
 
-DashboardComponent.view = function (ctrl, game) {
+DashboardComponent.view = function (vnode) {
+  var state = vnode.state;
+  var game = vnode.attrs.game;
   return m('div', {id: 'game-dashboard'}, [
     m('p', {id: 'game-message'},
       // If user has not started any game yet
@@ -50,14 +53,14 @@ DashboardComponent.view = function (ctrl, game) {
     ),
     // If game is in progress, allow user to end game at any time
     game.inProgress ? [
-      m('button', {onclick: ctrl.endGame}, 'End Game')
+      m('button', {onclick: state.endGame}, 'End Game')
     ] :
     // If number of players has been chosen, ask user to choose starting player
     game.humanPlayerCount !== null ?
       game.players.map(function (player) {
         return m('button', {
           onclick: function () {
-            return ctrl.startGame(player);
+            return state.startGame(player);
           }
         }, player.name);
       }) :
@@ -65,12 +68,12 @@ DashboardComponent.view = function (ctrl, game) {
     [
       m('button', {
         onclick: function () {
-          ctrl.setPlayers(1);
+          state.setPlayers(1);
         }
       }, '1 Player'),
       m('button', {
         onclick: function () {
-          ctrl.setPlayers(2);
+          state.setPlayers(2);
         }
       }, '2 Players')
     ]

@@ -9,20 +9,18 @@ var ScoreboardComponent = require('./scoreboard');
 
 var GameComponent = {};
 
-GameComponent.controller = function () {
-  return {
-    game: new Game({
-      // Only enable debug mode on non-production sites
-      debug: (window.location.host !== 'projects.calebevans.me')
-    })
-  };
+GameComponent.oninit = function (vnode) {
+  vnode.state.game = new Game({
+    // Only enable debug mode on non-production sites
+    debug: (window.location.host !== 'projects.calebevans.me')
+  });
 };
 
-GameComponent.view = function (ctrl) {
+GameComponent.view = function (vnode) {
   return [
-    m(DashboardComponent, ctrl.game),
-    m(GridComponent, ctrl.game),
-    m(ScoreboardComponent, ctrl.game)
+    m(DashboardComponent, {game: vnode.state.game}),
+    m(GridComponent, {game: vnode.state.game}),
+    m(ScoreboardComponent, {game: vnode.state.game})
   ];
 };
 
