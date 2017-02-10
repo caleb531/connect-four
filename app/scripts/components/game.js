@@ -18,9 +18,9 @@ GameComponent.oninit = function (vnode) {
 
 GameComponent.view = function (vnode) {
   return [
-    m(DashboardComponent, {game: vnode.state.game}),
-    m(GridComponent, {game: vnode.state.game}),
-    m(ScoreboardComponent, {game: vnode.state.game})
+    m(DashboardComponent, vnode.state),
+    m(GridComponent, vnode.state),
+    m(ScoreboardComponent, vnode.state)
   ];
 };
 
