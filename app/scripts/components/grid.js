@@ -194,7 +194,6 @@ GridComponent.oninit = function (vnode) {
   });
   // Reset controller state whenever controller is initialized
   state.reset();
-  return state;
 };
 GridComponent.view = function (vnode) {
   var state = vnode.state;
