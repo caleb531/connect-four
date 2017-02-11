@@ -127,14 +127,12 @@ Grid.prototype.getScore = function (args) {
     for (r = 0; r < this.rowCount; r += 1) {
       // If grid slot is empty
       if (this.columns[c][r] === undefined) {
-        // Search for AI's connections of three or more chips that are connected
-        // to the empty slot
+        // Search for current player's connections of one or more chips that are
+        // connected to the empty slot
         connections = this.getConnections({
-          // We want getConnections() to find connections of three chips and an
-          // empty slot (in any order), but to do so, we must pretend the empty
-          // slot is a chip
+          // Treat the empty slot as a chip to appease the algorithm
           baseChip: {column: c, row: r, player: args.currentPlayer},
-          connectionSize: 4
+          connectionSize: 2
         });
         // Add to the grid score for every advantage the AI has
         for (i = 0; i < connections.length; i += 1) {
