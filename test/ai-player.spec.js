@@ -67,6 +67,16 @@ describe('AI player', function () {
     expect(game.players[1].computeNextMove(game).column).to.equal(5);
   });
 
+  // it('should block horizontal opponent win (#4)', function () {
+  //   var game = new Game();
+  //   game.setPlayers(1);
+  //   placeChips({
+  //     game: game,
+  //     columns: [1, 2, 3, 3, 2, 1, 3, 2, 3, 1, 2, 2, 1, 3, 4, 1, 5]
+  //   });
+  //   expect(game.players[1].computeNextMove(game).column).to.equal(6);
+  // });
+
   it('should block horizontal connect-three trap (#1)', function () {
     var game = new Game();
     game.setPlayers(1);
@@ -248,5 +258,16 @@ describe('AI player', function () {
     });
     expect(game.players[1].computeNextMove(game).column).to.be.oneOf([0, 2]);
   });
+
+  // it('should not make losing move if possible', function () {
+  //   var game = new Game();
+  //   game.setPlayers(1);
+  //   placeChips({
+  //     game: game,
+  //     startingPlayer: game.players[1],
+  //     columns: [3, 2, 3, 4, 3, 3, 2, 4, 2, 2, 4, 1, 4, 4, 3, 2, 6, 2, 6, 6, 6, 6, 4, 6, 3, 5, 0]
+  //   });
+  //   expect(game.players[1].computeNextMove(game).column).to.be.oneOf([0, 1]);
+  // });
 
 });
