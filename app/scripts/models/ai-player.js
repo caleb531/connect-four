@@ -72,7 +72,7 @@ AIPlayer.prototype.maximizeMove = function (grid, minPlayer, depth, alpha, beta)
       maxMove.column = c;
       maxMove.score = minMove.score;
       alpha = minMove.score;
-    } else if (maxMove.column === null || minMove.score === Grid.minScore) {
+    } else if (maxMove.column === null) {
       // Ensure that obvious column choices are not forgotten
       maxMove.column = minMove.column;
       maxMove.score = minMove.score;
@@ -113,7 +113,7 @@ AIPlayer.prototype.minimizeMove = function (grid, minPlayer, depth, alpha, beta)
       minMove.column = c;
       minMove.score = maxMove.score;
       beta = maxMove.score;
-    } else if (minMove.column === null || maxMove.score === Grid.minScore) {
+    } else if (minMove.column === null) {
       // Ensure that obvious column choices are not forgotten
       minMove.column = maxMove.column;
       minMove.score = maxMove.score;
