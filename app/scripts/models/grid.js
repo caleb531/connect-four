@@ -137,9 +137,9 @@ Grid.prototype.getScore = function (args) {
         // Add to the grid score for every advantage the AI has
         for (i = 0; i < connections.length; i += 1) {
           if (args.currentPlayerIsMaxPlayer) {
-            gridScore += connections[i].length;
+            gridScore += Math.pow(connections[i].length, 2);
           } else {
-            gridScore -= connections[i].length;
+            gridScore -= Math.pow(connections[i].length, 2);
           }
         }
       } else {
