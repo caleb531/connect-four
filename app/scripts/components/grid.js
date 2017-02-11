@@ -7,21 +7,23 @@ var Browser = require('../browser');
 
 var GridComponent = {};
 
-GridComponent.controller = function (game) {
-  var ctrl = {
+GridComponent.oninit = function (vnode) {
+  var game = vnode.attrs.game;
+  var state = vnode.state;
+  Object.assign(state, {
     // Reset/initialize the entire state of the controller
     reset: function () {
       // Current CSS position of the pending chip
-      ctrl.pendingChipX = 0;
-      ctrl.pendingChipY = 0;
+      state.pendingChipX = 0;
+      state.pendingChipY = 0;
       // Booleans indicating when to transition the pending chip's movement in a
       // particular direction (for example, the pending chip should never
       // transition when resetting to its initial position after placing a chip)
-      ctrl.transitionPendingChipX = false;
-      ctrl.transitionPendingChipY = false;
+      state.transitionPendingChipX = false;
+      state.transitionPendingChipY = false;
       // The current CSS position of the column where the user's cursor/finger
       // last clicked/touched
-      ctrl.lastVisitedColumnX = 0;
+      state.lastVisitedColumnX = 0;
     },
     // Get the CSS translate string for the given coordinate map
     getTranslate: function (coords) {
@@ -30,8 +32,8 @@ GridComponent.controller = function (game) {
     // Update the translation coordinates for the pending chip (this will take
     // effect on the next redraw)
     setPendingChipCoords: function (coords) {
-      ctrl.pendingChipX = coords.x;
-      ctrl.pendingChipY = coords.y;
+      state.pendingChipX = coords.x;
+      state.pendingChipY = coords.y;
     },
     // Retrieve the constant width of a single chip
     getChipWidth: function (grid) {
@@ -41,7 +43,7 @@ GridComponent.controller = function (game) {
     // Get the index of the last visited column (the column where the cursor was
     // last at or where the last chip was dropped)
     getLastVisitedColumnIndex: function (grid, event) {
-      var chipWidth = ctrl.getChipWidth(grid);
+      var chipWidth = state.getChipWidth(grid);
       return Math.max(0, Math.floor((event.pageX - event.currentTarget.offsetLeft) / chipWidth));
     },
     // Run the given callback when the next (and only the very next) pending
@@ -55,22 +57,22 @@ GridComponent.controller = function (game) {
       // The last visited column is the grid column nearest to the cursor at
       // any given instant; keep track of the column's X position so the next
       // pending chip can instantaneously appear there
-      var newLastVisitedColumnX = ctrl.getChipWidth(args.game.grid) * args.column;
-      if (newLastVisitedColumnX !== ctrl.lastVisitedColumnX) {
-        ctrl.lastVisitedColumnX = newLastVisitedColumnX;
-        ctrl.setPendingChipCoords({
-          x: ctrl.lastVisitedColumnX,
+      var newLastVisitedColumnX = state.getChipWidth(args.game.grid) * args.column;
+      if (newLastVisitedColumnX !== state.lastVisitedColumnX) {
+        state.lastVisitedColumnX = newLastVisitedColumnX;
+        state.setPendingChipCoords({
+          x: state.lastVisitedColumnX,
           y: 0
         });
-        ctrl.transitionPendingChipX = true;
-        ctrl.transitionPendingChipY = false;
-        ctrl.waitForPendingChipTransitionEnd(args.game, function () {
-          ctrl.transitionPendingChipX = false;
+        state.transitionPendingChipX = true;
+        state.transitionPendingChipY = false;
+        state.waitForPendingChipTransitionEnd(args.game, function () {
+          state.transitionPendingChipX = false;
           // Since AI players can't click to place a chip after the chip realigns
           // with the chosen column, place the chip automatically
           if (args.aiAutoPlace && args.game.currentPlayer.type === 'ai') {
             args.game.currentPlayer.wait(function () {
-              ctrl.placePendingChip(args);
+              state.placePendingChip(args);
             });
           }
         });
@@ -79,19 +81,19 @@ GridComponent.controller = function (game) {
     // Move the pending chip into alignment with the column nearest to the
     // user's cursor
     movePendingChipViaPointer: function (event) {
-      if (game.pendingChip && game.currentPlayer.type === 'human' && !ctrl.transitionPendingChipY) {
-        var pointerColumnIndex = ctrl.getLastVisitedColumnIndex(game.grid, event);
-        ctrl.movePendingChipToColumn({
+      if (game.pendingChip && game.currentPlayer.type === 'human' && !state.transitionPendingChipY) {
+        var pointerColumnIndex = state.getLastVisitedColumnIndex(game.grid, event);
+        state.movePendingChipToColumn({
           game: game,
           column: pointerColumnIndex
         });
       } else {
-        m.redraw.strategy('none');
+        event.redraw = false;
       }
     },
     // Get the coordinates of the chip slot element at the given column/row
     getSlotCoords: function (args) {
-      var chipWidth = ctrl.getChipWidth(args.grid);
+      var chipWidth = state.getChipWidth(args.grid);
       return {
         x: chipWidth * args.column,
         y: chipWidth * (args.grid.rowCount - args.row)
@@ -106,18 +108,17 @@ GridComponent.controller = function (game) {
       });
       // Do not allow user to place chip in column that is already full
       if (rowIndex === null) {
-        m.redraw.strategy('none');
         return;
       }
-      var slotCoords = ctrl.getSlotCoords({
+      var slotCoords = state.getSlotCoords({
         grid: args.game.grid,
         column: args.column,
         row: rowIndex
       });
       // If pending chip is not currently aligned with chosen column
-      if (ctrl.pendingChipX !== slotCoords.x) {
+      if (state.pendingChipX !== slotCoords.x) {
         // First move pending chip into alignment with column
-        ctrl.movePendingChipToColumn({
+        state.movePendingChipToColumn({
           game: args.game,
           column: args.column,
           // On the AI's turn, automatically place the chip after aligning it
@@ -126,65 +127,62 @@ GridComponent.controller = function (game) {
         });
       } else {
         // Otherwise, chip is already aligned; drop chip into place on grid
-        ctrl.transitionPendingChipX = false;
-        ctrl.transitionPendingChipY = true;
+        state.transitionPendingChipX = false;
+        state.transitionPendingChipY = true;
         // Keep track of where chip was dropped
-        ctrl.lastVisitedColumnX = slotCoords.x;
+        state.lastVisitedColumnX = slotCoords.x;
         // Translate chip to the visual position on the grid corresponding to
         // the above column and row
-        ctrl.setPendingChipCoords(slotCoords);
+        state.setPendingChipCoords(slotCoords);
         // Perform insertion on internal game grid once transition has ended
-        ctrl.finishPlacingPendingChip(args);
+        state.finishPlacingPendingChip(args);
       }
       m.redraw();
     },
     // Place the pending chip into the column where the user clicked
     placePendingChipViaPointer: function (event) {
-      if (game.pendingChip && game.currentPlayer.type === 'human' && !ctrl.transitionPendingChipX && !ctrl.transitionPendingChipY) {
-        ctrl.placePendingChip({
+      if (game.pendingChip && game.currentPlayer.type === 'human' && !state.transitionPendingChipX && !state.transitionPendingChipY) {
+        state.placePendingChip({
           game: game,
-          column: ctrl.getLastVisitedColumnIndex(game.grid, event)
+          column: state.getLastVisitedColumnIndex(game.grid, event)
         });
       } else {
-        m.redraw.strategy('none');
+        event.redraw = false;
       }
     },
     // Actually insert the pending chip into the internal grid once the falling
     // transition has ended
     finishPlacingPendingChip: function (args) {
-      ctrl.waitForPendingChipTransitionEnd(args.game, function () {
+      state.waitForPendingChipTransitionEnd(args.game, function () {
         args.game.placePendingChip({column: args.column});
-        ctrl.transitionPendingChipX = false;
-        ctrl.transitionPendingChipY = false;
+        state.transitionPendingChipX = false;
+        state.transitionPendingChipY = false;
         // Reset position of pending chip to the space directly above the last
         // visited column
-        ctrl.setPendingChipCoords({
-          x: ctrl.lastVisitedColumnX,
+        state.setPendingChipCoords({
+          x: state.lastVisitedColumnX,
           y: 0
         });
         m.redraw();
       });
     },
-    // Configure pending chip element when it's first created
-    configurePendingChip: function (pendingChipElem, initialized) {
-      // Only configure once per unique DOM element
-      if (!initialized) {
-        // Ensure that any unfinished pending chip event listeners (from
-        // previous games) are unbound
-        game.emitter.off('pending-chip:transition-end');
-        // Listen for whenever a pending chip transition finishes
-        var eventName = Browser.normalizeEventName('transitionend');
-        pendingChipElem.addEventListener(eventName, function () {
-          game.emitter.emit('pending-chip:transition-end');
-        });
-      }
+    // Initialize pending chip element when it's first created
+    initializePendingChip: function (vnode) {
+      // Ensure that any unfinished pending chip event listeners (from
+      // previous games) are unbound
+      game.emitter.off('pending-chip:transition-end');
+      // Listen for whenever a pending chip transition finishes
+      var eventName = Browser.normalizeEventName('transitionend');
+      vnode.dom.addEventListener(eventName, function () {
+        game.emitter.emit('pending-chip:transition-end');
+      });
     }
-  };
+  });
   // Place chip automatically when AI computes its next move on its turn
   game.emitter.on('ai-player:compute-next-move', function (aiPlayer, bestMove) {
     // The AI is always the second of the two players
     aiPlayer.wait(function() {
-      ctrl.placePendingChip({
+      state.placePendingChip({
         game: game,
         column: bestMove.column
       });
@@ -192,18 +190,19 @@ GridComponent.controller = function (game) {
   });
   // Reset controller state when game ends
   game.emitter.on('game:end-game', function () {
-    ctrl.reset();
+    state.reset();
   });
   // Reset controller state whenever controller is initialized
-  ctrl.reset();
-  return ctrl;
+  state.reset();
 };
-GridComponent.view = function (ctrl, game) {
+GridComponent.view = function (vnode) {
+  var state = vnode.state;
+  var game = vnode.attrs.game;
   var grid = game.grid;
   return m('div#grid', {
     class: classNames({'has-winner': game.winner !== null}),
-    onmousemove: ctrl.movePendingChipViaPointer,
-    onclick: ctrl.placePendingChipViaPointer
+    onmousemove: state.movePendingChipViaPointer,
+    onclick: state.placePendingChipViaPointer
   }, [
     // The chip that is about to be placed on the grid
     game.pendingChip ?
@@ -212,16 +211,16 @@ GridComponent.view = function (ctrl, game) {
           'chip',
           'pending',
           game.pendingChip.player.color,
-           {'transition-x': ctrl.transitionPendingChipX},
-           {'transition-y': ctrl.transitionPendingChipY}
+           {'transition-x': state.transitionPendingChipX},
+           {'transition-y': state.transitionPendingChipY}
         ),
         style: Browser.normalizeStyles({
-          transform: ctrl.getTranslate({
-            x: ctrl.pendingChipX,
-            y: ctrl.pendingChipY
+          transform: state.getTranslate({
+            x: state.pendingChipX,
+            y: state.pendingChipY
           })
         }),
-        config: ctrl.configurePendingChip
+        oncreate: state.initializePendingChip
       }) : null,
     // Bottom grid of slots (indicating space chips can occupy)
     m('div#chip-slots', _.times(grid.columnCount, function (c) {
