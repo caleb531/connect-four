@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.6.0",
-    "brunch": "brunch/brunch#ee73ef0f92add24b46c4478fa3f0b5bc206bbe7d",
+    "brunch": "^2.10.6",
     "chai": "^3.5.0",
     "javascript-brunch": "^2.0.0",
     "karma": "^1.3.0",
@@ -37,7 +37,7 @@
     "karma-sourcemap-loader": "^0.3.7",
     "mocha": "^3.2.0",
     "postcss-brunch": "jacksonrayhamilton/postcss-brunch#27ae06f5275079fb4fe6a24e09daa272141bec94",
-    "sass-brunch": "^2.9.0",
+    "sass-brunch": "^2.10.2",
     "uglify-js-brunch": "^2.0.1"
   }
 }
