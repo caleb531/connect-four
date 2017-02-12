@@ -22,18 +22,23 @@ management (models). All transitions are handled with pure CSS.
 
 ### AI Player
 
-Like any traditional board game AI, my Connect Four AI uses the Minimax
-algorithm (max. depth of 3), combined with alpha-beta pruning (to reduce the
-number of permutations searched by a considerable factor).
+Like many traditional board game AIs, my Connect Four AI uses the
+[minimax][minimax] algorithm. For my particular implementation, I've chosen to
+use a maximum search depth of three (meaning the AI examines possibilities up to
+three turns into the future). This is combined with [alpha-beta pruning][abp] to
+dramatically reduce the number of possibilities evaluated.
 
-For my scoring heuristic, I opted to count the number of incomplete
-connect-fours (*i.e.* three chips and an empty slot, aligned and in any order),
-along with giving connect-fours the maximum/minimum score, of course. If the
-scoring algorithm determines that no particular column yields an advantage or
-disadvantage (according to my heuristic, of course), then the AI will default to
-the center column (which tends to benefit the AI anyway).
+My scoring heuristic works by counting connections of chips that intersect with
+an empty slot, giving exponentially more weight to larger connections. For
+example, every single chip touching an empty slot is worth one point, a
+connect-two is worth four points, a connect-three is worth eight points, and so
+on. A winning connection of four or more chips is given the maximum/minimum
+score.
 
 In the app, the AI player is lovingly referred to as "Mr. AI".
+
+[minimax]: https://en.wikipedia.org/wiki/Minimax
+[abp]: https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning
 
 ## Run the project locally
 
