@@ -5,14 +5,13 @@
 module.exports = {
 
   /**
-   * Allowed global variables
+   * Allowed JavaScript environments
    */
 
-  globals: {
+  env: {
 
-    // Mocha test functions
-    'it': true,
-    'describe': true
+    // adds all of the Mocha testing global variables
+    'mocha': true
 
   }
 
