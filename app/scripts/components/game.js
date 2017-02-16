@@ -17,11 +17,11 @@ GameComponent.oninit = function (vnode) {
 };
 
 GameComponent.view = function (vnode) {
-  return [
+  return m('div#game', [
     m(DashboardComponent, vnode.state),
     m(GridComponent, vnode.state),
     m(ScoreboardComponent, vnode.state)
-  ];
+  ]);
 };
 
 module.exports = GameComponent;

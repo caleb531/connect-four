@@ -5,6 +5,10 @@ body {
   padding: 0;
   font-family: 'Ubuntu', sans-serif;
 }
+// Older browsers that don't recognize <main> will treat it as an inline element
+main {
+  display: block;
+}
 #app {
   margin: 0 auto;
   text-align: center;

@@ -2,7 +2,7 @@
 
 var m = require('mithril');
 var attachFastClick = require('fastclick');
-var GameComponent = require('./components/game');
+var AppComponent = require('./components/app');
 
-m.mount(document.getElementById('game'), GameComponent);
+m.mount(document.querySelector('main'), AppComponent);
 attachFastClick(document.body);
