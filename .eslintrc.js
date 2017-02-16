@@ -111,8 +111,6 @@ module.exports = {
     'no-implicit-globals': ['error'],
     // disallow the use of eval()-like methods
     'no-implied-eval': ['error'],
-    // disallow this keywords outside of classes or class-like objects
-    'no-invalid-this': ['error'],
     // disallow function declarations and expressions inside loop statements
     'no-loop-func': ['error'],
     // disallow multiple spaces
