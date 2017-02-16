@@ -208,8 +208,6 @@ module.exports = {
     'no-multi-assign': ['error'],
     // disallow the unary operators ++ and --
     'no-plusplus': ['error'],
-    // disallow specified syntax
-    'no-restricted-syntax': ['error', 'EmptyStatement', 'LabeledStatement', 'SwitchStatement', 'WithStatement'],
     // disallow whitespace before properties
     'no-whitespace-before-property': ['error'],
     // enforce consistent spacing inside braces
