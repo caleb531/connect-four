@@ -181,7 +181,7 @@ GridComponent.oninit = function (vnode) {
   // Place chip automatically when AI computes its next move on its turn
   game.emitter.on('ai-player:compute-next-move', function (aiPlayer, bestMove) {
     // The AI is always the second of the two players
-    aiPlayer.wait(function() {
+    aiPlayer.wait(function () {
       state.placePendingChip({
         game: game,
         column: bestMove.column

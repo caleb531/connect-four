@@ -12,3 +12,6 @@ before_install:
   - sh -e /etc/init.d/xvfb start
 before_script:
   - ./node_modules/brunch/bin/brunch build
+script:
+  - npm run lint --silent
+  - npm test

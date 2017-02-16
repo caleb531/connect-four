@@ -18,7 +18,7 @@ describe('AI player', function () {
     args.columns.forEach(function (column) {
       var chip = new Chip({player: currentPlayer});
       args.game.grid.placeChip({column: column, chip: chip});
-      if (currentPlayer == args.game.players[0]) {
+      if (currentPlayer === args.game.players[0]) {
         currentPlayer = args.game.players[1];
       } else {
         currentPlayer = args.game.players[0];

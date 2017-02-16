@@ -136,6 +136,9 @@ Game.prototype.placePendingChip = function (args) {
     });
     if (this.debug) {
       this.columnHistory.push(args.column);
+      // The column history will only be logged on non-production sites, so we
+      // can safely disable the ESLint error
+      // eslint-disable-next-line no-console
       console.log(this.columnHistory.join(', '));
     }
     this.lastPlacedChip = this.pendingChip;
