@@ -18,16 +18,6 @@ module.exports = {
   },
 
   /**
-   * Allowed global variables
-   */
-
-  globals: {
-    // Mocha test functions
-    'it': true,
-    'describe': true
-  },
-
-  /**
    * Enabled ESLint rules
    */
 
