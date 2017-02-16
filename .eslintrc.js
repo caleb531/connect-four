@@ -210,8 +210,6 @@ module.exports = {
     'no-plusplus': ['error'],
     // disallow specified syntax
     'no-restricted-syntax': ['error', 'EmptyStatement', 'LabeledStatement', 'SwitchStatement', 'WithStatement'],
-    // disallow dangling underscores in identifiers
-    'no-underscore-dangle': ['error'],
     // disallow whitespace before properties
     'no-whitespace-before-property': ['error'],
     // enforce consistent spacing inside braces
