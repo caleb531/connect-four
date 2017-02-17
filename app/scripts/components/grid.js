@@ -42,9 +42,9 @@ GridComponent.oninit = function (vnode) {
     },
     // Get the index of the last visited column (the column where the cursor was
     // last at or where the last chip was dropped)
-    getLastVisitedColumnIndex: function (grid, event) {
+    getLastVisitedColumnIndex: function (grid, mouseEvent) {
       var chipWidth = state.getChipWidth(grid);
-      return Math.max(0, Math.floor((event.pageX - event.currentTarget.offsetLeft) / chipWidth));
+      return Math.max(0, Math.floor((mouseEvent.pageX - mouseEvent.currentTarget.offsetLeft) / chipWidth));
     },
     // Run the given callback when the next (and only the very next) pending
     // chip transition finishes
@@ -80,14 +80,14 @@ GridComponent.oninit = function (vnode) {
     },
     // Move the pending chip into alignment with the column nearest to the
     // user's cursor
-    movePendingChipViaPointer: function (event) {
+    movePendingChipViaPointer: function (mousedownEvent) {
       if (game.pendingChip && game.currentPlayer.type === 'human' && !state.transitionPendingChipY) {
-        var pointerColumnIndex = state.getLastVisitedColumnIndex(game.grid, event);
+        var pointerColumnIndex = state.getLastVisitedColumnIndex(game.grid, mousedownEvent);
         state.movePendingChipToColumn({
           column: pointerColumnIndex
         });
       } else {
-        event.redraw = false;
+        mousedownEvent.redraw = false;
       }
     },
     // Get the coordinates of the chip slot element at the given column/row
@@ -137,13 +137,13 @@ GridComponent.oninit = function (vnode) {
       m.redraw();
     },
     // Place the pending chip into the column where the user clicked
-    placePendingChipViaPointer: function (event) {
+    placePendingChipViaPointer: function (clickEvent) {
       if (game.pendingChip && game.currentPlayer.type === 'human' && !state.transitionPendingChipX && !state.transitionPendingChipY) {
         state.placePendingChip({
-          column: state.getLastVisitedColumnIndex(game.grid, event)
+          column: state.getLastVisitedColumnIndex(game.grid, clickEvent)
         });
       } else {
-        event.redraw = false;
+        clickEvent.redraw = false;
       }
     },
     // Actually insert the pending chip into the internal grid once the falling
@@ -163,13 +163,13 @@ GridComponent.oninit = function (vnode) {
       });
     },
     // Initialize pending chip element when it's first created
-    initializePendingChip: function (vnode) {
+    initializePendingChip: function (pendingChipVnode) {
       // Ensure that any unfinished pending chip event listeners (from
       // previous games) are unbound
       game.emitter.off('pending-chip:transition-end');
       // Listen for whenever a pending chip transition finishes
       var eventName = Browser.normalizeEventName('transitionend');
-      vnode.dom.addEventListener(eventName, function () {
+      pendingChipVnode.dom.addEventListener(eventName, function () {
         game.emitter.emit('pending-chip:transition-end');
       });
     }

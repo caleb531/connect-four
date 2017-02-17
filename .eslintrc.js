@@ -162,6 +162,9 @@ module.exports = {
     'no-delete-var': ['error'],
     // disallow specified global variables
     'no-restricted-globals': ['error', 'event'],
+    // disallow variable declarations from shadowing variables declared in the
+    // outer scope
+    'no-shadow': ['error', {'builtinGlobals': true}],
     // disallow initializing variables to undefined
     'no-undef-init': ['error'],
     // disallow the use of undeclared variables unless mentioned in /*global */
