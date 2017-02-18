@@ -20,9 +20,9 @@ main {
 }
 .nav-link {
   position: absolute;
-  top: 6px;
+  top: 8px;
   font-size: 14px;
-  $position-x: 8px;
+  $position-x: 10px;
   &-left {
     left: $position-x;
   }
