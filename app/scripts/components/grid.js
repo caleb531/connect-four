@@ -36,14 +36,14 @@ GridComponent.oninit = function (vnode) {
       state.pendingChipY = coords.y;
     },
     // Retrieve the constant width of a single chip
-    getChipWidth: function (grid) {
+    getChipWidth: function () {
       var gridElem = document.getElementById('grid');
-      return gridElem.offsetWidth / grid.columnCount;
+      return gridElem.offsetWidth / game.grid.columnCount;
     },
     // Get the index of the last visited column (the column where the cursor was
     // last at or where the last chip was dropped)
-    getLastVisitedColumnIndex: function (grid, mouseEvent) {
-      var chipWidth = state.getChipWidth(grid);
+    getLastVisitedColumnIndex: function (mouseEvent) {
+      var chipWidth = state.getChipWidth();
       return Math.max(0, Math.floor((mouseEvent.pageX - mouseEvent.currentTarget.offsetLeft) / chipWidth));
     },
     // Run the given callback when the next (and only the very next) pending
@@ -82,7 +82,7 @@ GridComponent.oninit = function (vnode) {
     // user's cursor
     movePendingChipViaPointer: function (mousedownEvent) {
       if (game.pendingChip && game.currentPlayer.type === 'human' && !state.transitionPendingChipY) {
-        var pointerColumnIndex = state.getLastVisitedColumnIndex(game.grid, mousedownEvent);
+        var pointerColumnIndex = state.getLastVisitedColumnIndex(mousedownEvent);
         state.movePendingChipToColumn({
           column: pointerColumnIndex
         });
@@ -140,7 +140,7 @@ GridComponent.oninit = function (vnode) {
     placePendingChipViaPointer: function (clickEvent) {
       if (game.pendingChip && game.currentPlayer.type === 'human' && !state.transitionPendingChipX && !state.transitionPendingChipY) {
         state.placePendingChip({
-          column: state.getLastVisitedColumnIndex(game.grid, clickEvent)
+          column: state.getLastVisitedColumnIndex(clickEvent)
         });
       } else {
         clickEvent.redraw = false;
