@@ -29,12 +29,6 @@ GridComponent.oninit = function (vnode) {
     getTranslate: function (coords) {
       return 'translate(' + coords.x + 'px,' + coords.y + 'px)';
     },
-    // Update the translation coordinates for the pending chip (this will take
-    // effect on the next redraw)
-    setPendingChipCoords: function (coords) {
-      state.pendingChipX = coords.x;
-      state.pendingChipY = coords.y;
-    },
     // Retrieve the constant width of a single chip
     getChipWidth: function () {
       var gridElem = document.getElementById('grid');
@@ -60,10 +54,8 @@ GridComponent.oninit = function (vnode) {
       var newLastVisitedColumnX = state.getChipWidth(game.grid) * args.column;
       if (newLastVisitedColumnX !== state.lastVisitedColumnX) {
         state.lastVisitedColumnX = newLastVisitedColumnX;
-        state.setPendingChipCoords({
-          x: state.lastVisitedColumnX,
-          y: 0
-        });
+        state.pendingChipX = state.lastVisitedColumnX;
+        state.pendingChipY = 0;
         state.transitionPendingChipX = true;
         state.transitionPendingChipY = false;
         state.waitForPendingChipTransitionEnd(function () {
@@ -130,7 +122,8 @@ GridComponent.oninit = function (vnode) {
         state.lastVisitedColumnX = slotCoords.x;
         // Translate chip to the visual position on the grid corresponding to
         // the above column and row
-        state.setPendingChipCoords(slotCoords);
+        state.pendingChipX = slotCoords.x;
+        state.pendingChipY = slotCoords.y;
         // Perform insertion on internal game grid once transition has ended
         state.finishPlacingPendingChip(args);
       }
@@ -155,10 +148,8 @@ GridComponent.oninit = function (vnode) {
         state.transitionPendingChipY = false;
         // Reset position of pending chip to the space directly above the last
         // visited column
-        state.setPendingChipCoords({
-          x: state.lastVisitedColumnX,
-          y: 0
-        });
+        state.pendingChipX = state.lastVisitedColumnX;
+        state.pendingChipY = 0;
         m.redraw();
       });
     },
