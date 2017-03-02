@@ -31,8 +31,8 @@ DashboardComponent.oninit = function (vnode) {
 DashboardComponent.view = function (vnode) {
   var state = vnode.state;
   var game = vnode.attrs.game;
-  return m('div', {id: 'game-dashboard'}, [
-    m('p', {id: 'game-message'},
+  return m('div#game-dashboard', [
+    m('p#game-message',
       // If user has not started any game yet
       game.players.length === 0 ?
         'Welcome! How many players?' :
