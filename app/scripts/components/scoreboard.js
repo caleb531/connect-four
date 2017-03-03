@@ -3,6 +3,7 @@
 var m = require('mithril');
 var classNames = require('classnames');
 
+// The area of the game UI that displays each player's current score
 var ScoreboardComponent = {};
 
 ScoreboardComponent.view = function (vnode) {

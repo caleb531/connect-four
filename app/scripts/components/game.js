@@ -6,7 +6,7 @@ var GridComponent = require('./grid');
 var DashboardComponent = require('./dashboard');
 var ScoreboardComponent = require('./scoreboard');
 
-
+// The game UI, encompassing all UI pertaining to the game directly
 var GameComponent = {};
 
 GameComponent.oninit = function (vnode) {

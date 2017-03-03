@@ -2,6 +2,7 @@
 
 var _ = require('underscore');
 
+// The state of a particular game grid
 function Grid(args) {
   this.columnCount = args.columnCount;
   this.rowCount = args.rowCount;

@@ -5,6 +5,8 @@ var _ = require('underscore');
 var classNames = require('classnames');
 var Browser = require('../browser');
 
+// The grid UI, including the pending chip (i.e. the chip to be placed), as well
+// as all chips currently placed on the grid
 var GridComponent = {};
 
 GridComponent.oninit = function (vnode) {

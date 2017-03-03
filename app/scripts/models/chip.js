@@ -1,5 +1,7 @@
 'use strict';
 
+// An individual chip/checker that can be placed on a game grid; each chip
+// belongs to a single player
 function Chip(args) {
   // A reference to the player who placed this chip
   this.player = args.player;

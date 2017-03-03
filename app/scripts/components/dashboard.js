@@ -2,6 +2,7 @@
 
 var m = require('mithril');
 
+// The area of the game UI consisting of game UI controls and status messages
 var DashboardComponent = {};
 
 DashboardComponent.oninit = function (vnode) {

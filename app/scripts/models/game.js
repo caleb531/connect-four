@@ -6,6 +6,8 @@ var HumanPlayer = require('./human-player');
 var AIPlayer = require('./ai-player');
 var Chip = require('./chip');
 
+// A singleton representing a game between two players; the same Game instance
+// is re-used for successive "games"
 function Game(args) {
   if (args && args.grid) {
     this.grid = args.grid;

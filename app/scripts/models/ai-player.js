@@ -4,7 +4,8 @@ var Grid = require('./grid');
 var Player = require('./player');
 var Chip = require('./chip');
 
-// An AI player that can think for itself
+// An AI player that can think for itself; every AI player inherits from the
+// base Player model
 function AIPlayer(args) {
   Player.call(this, args);
 }

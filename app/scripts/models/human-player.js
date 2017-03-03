@@ -2,7 +2,8 @@
 
 var Player = require('./player');
 
-// A human player which requires user interaction
+// A human player that requires user interaction; every human player inherits
+// from the base Player model
 function HumanPlayer(args) {
   Player.call(this, args);
 }

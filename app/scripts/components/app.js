@@ -3,6 +3,7 @@
 var m = require('mithril');
 var GameComponent = require('./game');
 
+// The entire application UI, including static and dynamic app elements
 var AppComponent = {};
 
 AppComponent.view = function () {
