@@ -17,8 +17,6 @@ function Grid(args) {
     this.resetGrid();
   }
 }
-Grid.maxScore = 1000;
-Grid.minScore = -Grid.maxScore;
 
 // Return true if the grid is completely full; otherwise, return false
 Grid.prototype.checkIfFull = function () {
@@ -167,5 +165,8 @@ Grid.prototype.getScore = function (args) {
   }
   return gridScore;
 };
+
+Grid.maxScore = 1000;
+Grid.minScore = -Grid.maxScore;
 
 module.exports = Grid;
