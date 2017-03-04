@@ -166,7 +166,11 @@ Grid.prototype.getScore = function (args) {
   return gridScore;
 };
 
+// The maximum grid score possible (awarded for winning connections by the
+// maximizing player)
 Grid.maxScore = 1000;
+// The minimum grid score possible (awarded for winning connections by the
+// minimizing player)
 Grid.minScore = -Grid.maxScore;
 
 module.exports = Grid;
