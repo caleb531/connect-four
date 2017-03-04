@@ -62,12 +62,10 @@ GridComponent.oninit = function (vnode) {
         state.transitionPendingChipY = false;
         state.waitForPendingChipTransitionEnd(function () {
           state.transitionPendingChipX = false;
-          // Since AI players can't click to place a chip after the chip realigns
-          // with the chosen column, place the chip automatically
-          if (args.aiAutoPlace && game.currentPlayer.type === 'ai') {
-            game.currentPlayer.wait(function () {
-              state.placePendingChip(args);
-            });
+          // Allow the caller of movePendingChipToColumn() to provide an
+          // arbitrary callback to run when the pending chip transition ends
+          if (args.transitionEnd) {
+            args.transitionEnd();
           }
         });
       }
@@ -114,7 +112,13 @@ GridComponent.oninit = function (vnode) {
           column: args.column,
           // On the AI's turn, automatically place the chip after aligning it
           // with the specified column
-          aiAutoPlace: true
+          transitionEnd: function () {
+            if (game.currentPlayer.type === 'ai') {
+              game.currentPlayer.wait(function () {
+                state.placePendingChip(args);
+              });
+            }
+          }
         });
       } else {
         // Otherwise, chip is already aligned; drop chip into place on grid
