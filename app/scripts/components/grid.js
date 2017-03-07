@@ -12,7 +12,7 @@ var GridComponent = {};
 GridComponent.oninit = function (vnode) {
   var game = vnode.attrs.game;
   var state = vnode.state;
-  Object.assign(state, {
+  _.extend(state, {
     // Reset/initialize the entire state of the controller
     reset: function () {
       // Current CSS position of the pending chip

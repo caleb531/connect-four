@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('underscore');
 var m = require('mithril');
 
 // The area of the game UI consisting of game UI controls and status messages
@@ -7,7 +8,7 @@ var DashboardComponent = {};
 
 DashboardComponent.oninit = function (vnode) {
   var game = vnode.attrs.game;
-  Object.assign(vnode.state, {
+  _.extend(vnode.state, {
     // Prepare game players by creating new players (if necessary) and deciding
     // which player has the starting move
     setPlayers: function (humanPlayerCount) {
