@@ -4,7 +4,7 @@
   "description": "A Connect Four web app implemented in JS using Mithril",
   "scripts": {
     "lint": "eslint app/scripts/**/*.js test/*.js",
-    "test": "karma start --single-run --reporters dots"
+    "test": "mocha --reporter dot"
   },
   "repository": {
     "type": "git",
@@ -33,10 +33,6 @@
     "chai": "^3.5.0",
     "eslint": "^3.15.0",
     "javascript-brunch": "^2.0.0",
-    "karma": "^1.3.0",
-    "karma-chrome-launcher": "^2.0.0",
-    "karma-mocha": "^1.3.0",
-    "karma-sourcemap-loader": "^0.3.7",
     "mocha": "^3.2.0",
     "postcss-brunch": "jacksonrayhamilton/postcss-brunch#27ae06f5275079fb4fe6a24e09daa272141bec94",
     "sass-brunch": "^2.10.2",
