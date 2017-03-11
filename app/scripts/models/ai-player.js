@@ -30,14 +30,6 @@ AIPlayer.prototype.computeNextMove = function (game) {
   var bestMove = this.maximizeMove(
     game.grid, game.getOtherPlayer(this), AIPlayer.maxComputeDepth,
     Grid.minScore, Grid.maxScore);
-  // Choose next available column if original pick is full
-  while (game.grid.getNextAvailableSlot({column: bestMove.column}) === null) {
-    bestMove.column += 1;
-    // Wrap around if needed
-    if (bestMove.column === game.grid.columnCount) {
-      bestMove.column = 0;
-    }
-  }
   game.emitter.emit('ai-player:compute-next-move', this, bestMove);
   return bestMove;
 };
