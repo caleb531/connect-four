@@ -183,6 +183,8 @@ module.exports = {
     'block-spacing': ['error', 'never'],
     // enforce consistent brace style for blocks
     'brace-style': ['error', '1tbs', {'allowSingleLine': false}],
+    // require or disallow trailing commas
+    "comma-dangle": ["error", "never"],
     // enforce consistent spacing before and after commas
     'comma-spacing': ['error'],
     // enforce consistent comma style
