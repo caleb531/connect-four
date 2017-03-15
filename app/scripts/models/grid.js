@@ -121,7 +121,9 @@ Grid.prototype.getScore = function (args) {
   var gridScore = 0;
   var connections;
   var c, r, i;
-  // The heuristic function needs to be fast, so use native loops
+  // Use native for loops instead of forEach because the function will need to
+  // return immediately if a winning connection is found (there is no clean way
+  // to break out of forEach)
   for (c = 0; c < this.columnCount; c += 1) {
     for (r = 0; r < this.rowCount; r += 1) {
       // If grid slot is empty
