@@ -30,9 +30,9 @@ dramatically reduce the number of possibilities evaluated.
 
 My scoring heuristic works by counting connections of chips that intersect with
 an empty slot, giving exponentially more weight to larger connections. For
-example, every single chip touching an empty slot is worth one point, a
-connect-two is worth four points, a connect-three is worth eight points, and so
-on. A winning connection of four or more chips is given the maximum/minimum
+example, every single chip touching an empty slot is worth four points, a
+connect-two is worth nine points, a connect-three is worth sixteen points, and
+so on. A winning connection of four or more chips is given the maximum/minimum
 score.
 
 In the app, the AI player is lovingly referred to as "Mr. AI".
