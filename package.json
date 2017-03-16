@@ -29,13 +29,13 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.6.0",
-    "brunch": "^2.10.6",
+    "brunch": "^2.10.9",
     "chai": "^3.5.0",
     "eslint": "^3.15.0",
     "javascript-brunch": "^2.0.0",
     "mocha": "^3.2.0",
-    "postcss-brunch": "jacksonrayhamilton/postcss-brunch#27ae06f5275079fb4fe6a24e09daa272141bec94",
-    "sass-brunch": "^2.10.2",
+    "postcss-brunch": "github:caleb531/postcss-brunch",
+    "sass-brunch": "github:caleb531/sass-brunch",
     "uglify-js-brunch": "^2.0.1"
   }
 }
