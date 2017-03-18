@@ -14,31 +14,17 @@
   vertical-align: bottom;
   // This ensures that empty columns do not occupy any less space
   width: $chip-size + ($chip-margin * 2);
+  padding-top: $chip-size + ($chip-margin * 2);
   @include if-compact-layout() {
     width: $chip-size-compact + ($chip-margin-compact * 2);
+    padding-top: $chip-size-compact + ($chip-margin-compact * 2);
   }
 }
 // Container of chip outlines, each indicating space a chip may occupy
-#chip-slots {
+#chips {
   position: relative;
-  // The layer of chip slots should appear below all other grid elements
+  // The layer of chip slots should appear below the pending chip
   z-index: 10;
-  // Ensure that the grid columns for the chip slots flush with the pending chip
-  // area
-  .grid-column {
-    padding-top: $chip-size + ($chip-margin * 2);
-    @include if-compact-layout() {
-      padding-top: $chip-size-compact + ($chip-margin-compact * 2);
-    }
-  }
-}
-// Container for chips placed during the game
-#placed-chips {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  // The layer of placed chips should appear above all other grid elements
-  z-index: 30;
 }
 
 // Chips
@@ -65,14 +51,9 @@
 }
 
 // Fade out non-winning chips (and slots) when a connection has been found
-.has-winner .chip.placed {
+.has-winner .chip {
   transition: opacity 300ms ease-in-out;
   opacity: 0.3;
-}
-
-// Do not show chip slot outlines if slot has been filled by a chip
-.chip-slot.filled {
-  visibility: hidden;
 }
 
 .chip {

@@ -211,28 +211,22 @@ GridComponent.view = function (vnode) {
         }),
         oncreate: state.initializePendingChip
       }) : null,
-    // Bottom grid of slots (indicating space chips can occupy)
-    m('div#chip-slots', _.times(grid.columnCount, function (c) {
+    // The part of the grid containing both placed chips and empty chip slots
+    m('div#chips', _.times(grid.columnCount, function (c) {
       return m('div.grid-column', _.times(grid.rowCount, function (r) {
-        return m('div.chip-slot', {
-          class: classNames({
-            'filled': grid.columns[c][r] !== undefined
-          })
-        });
-      }));
-    })),
-    // Top grid of placed chips
-    m('div#placed-chips', _.times(grid.columnCount, function (c) {
-      return m('div.grid-column', _.map(grid.columns[c], function (chip, r) {
-        return m('div', {
-          key: 'chip-' + [c, r].join('-'),
-          class: classNames(
-            'chip',
-            'placed',
-            chip.player.color,
-            {'highlighted': chip.highlighted}
-          )
-        });
+        if (grid.columns[c][r]) {
+          // If this grid slot is occupied, display the corresponding chip
+          var chip = grid.columns[c][r];
+          return m('div.chip', {
+            class: classNames(
+              chip.player.color,
+              {'highlighted': chip.highlighted}
+            )
+          });
+        } else {
+          // If this grid slot is empty, display an empty slot circle
+          return m('div.chip-slot');
+        }
       }));
     }))
   ]);
