@@ -170,12 +170,13 @@ Game.prototype.checkForWin = function () {
     connectionSize: 4
   });
   if (connections.length > 0) {
-    // Highlight chips to indicate that they're part of a winning connection
+    // Mark chips in connection as part of a winning connection
     connections.forEach(function (connection) {
-      // Only highlight some group of exactly four chips within the connection
+      // Only mark the first four chips of this connection (since only a
+      // connect-four is needed to win
       connection.length = 4;
       connection.forEach(function (chip) {
-        chip.highlighted = true;
+        chip.winning = true;
       });
     });
     this.winner = this.lastPlacedChip.player;

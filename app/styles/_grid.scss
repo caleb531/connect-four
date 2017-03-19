@@ -66,7 +66,7 @@
       // Define color property for use by global highlight @keyframes definition
       // above (via currentColor)
       color: $border-color;
-      &.highlighted {
+      &.winning {
         // Ensure that winning chips are fully opaque when all other chips are
         // faded out
         opacity: 1;

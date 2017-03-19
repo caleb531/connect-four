@@ -17,7 +17,7 @@ describe('chip', function () {
     expect(chip).to.have.property('player', player);
     expect(chip).to.have.property('column', null);
     expect(chip).to.have.property('row', null);
-    expect(chip).to.have.property('highlighted', false);
+    expect(chip).to.have.property('winning', false);
   });
 
 });

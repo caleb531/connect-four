@@ -220,7 +220,7 @@ GridComponent.view = function (vnode) {
           return m('div.chip', {
             class: classNames(
               chip.player.color,
-              {'highlighted': chip.highlighted}
+              {'winning': chip.winning}
             )
           });
         } else {
