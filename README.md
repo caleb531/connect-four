@@ -16,9 +16,12 @@ https://projects.calebevans.me/connect-four/
 
 ### User interface
 
-The entire app is constructed using Mithril for managing the UI
-(views/controllers), with vanilla JavaScript constructors/inheritance for data
-management (models). All transitions are handled with pure CSS.
+The entire app UI is constructed and managed in JavaScript using
+[Mithril][mithril]. Chip transitions are handled by CSS to maximize performance
+and smoothness. The grid layout is styled with CSS Flexbox to enable the
+stacking of grid elements from the bottom up.
+
+[mithril]: http://mithril.js.org/
 
 ### AI Player
 
