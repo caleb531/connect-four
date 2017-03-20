@@ -226,8 +226,8 @@ GridComponent.view = function (vnode) {
           });
         } else {
           // If this grid slot is empty, display an empty slot circle
-          return m('div.chip-slot', {
-            key: 'chip-slot-' + [c, r].join('-')
+          return m('div.empty-chip-slot', {
+            key: 'empty-chip-slot-' + [c, r].join('-')
           });
         }
       }));
