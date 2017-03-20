@@ -13,8 +13,9 @@ function Grid(args) {
       return column.slice(0);
     });
   } else {
-    this.columns = [];
-    this.resetGrid();
+    this.columns = _.times(this.columnCount, function () {
+      return [];
+    });
   }
 }
 
@@ -28,10 +29,9 @@ Grid.prototype.checkIfFull = function () {
 
 // Reset the grid by removing all placed chips
 Grid.prototype.resetGrid = function () {
-  this.columns.length = 0;
-  for (var c = 0; c < this.columnCount; c += 1) {
-    this.columns.push([]);
-  }
+  this.columns.forEach(function (column) {
+    column.length = 0;
+  });
 };
 
 // Return the index of the next available slot for the given column
