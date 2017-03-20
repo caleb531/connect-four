@@ -212,7 +212,7 @@ GridComponent.view = function (vnode) {
         oncreate: state.initializePendingChip
       }) : null,
     // The part of the grid containing both placed chips and empty chip slots
-    m('div#chips', _.times(grid.columnCount, function (c) {
+    m('div#grid-columns', _.times(grid.columnCount, function (c) {
       return m('div.grid-column', _.times(grid.rowCount, function (r) {
         if (grid.columns[c][r]) {
           // If this grid slot is occupied, display the corresponding chip
