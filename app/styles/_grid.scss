@@ -20,12 +20,6 @@
     padding-top: $chip-size-compact + ($chip-margin-compact * 2);
   }
 }
-// Container containing chips placed on the grid, as well as empty chip slots
-#chips {
-  position: relative;
-  // The grid should appear below the pending chip
-  z-index: 10;
-}
 
 // Chips
 
