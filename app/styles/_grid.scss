@@ -44,12 +44,6 @@
   border-color: #bbb;
 }
 
-// Fade out non-winning chips (and slots) when a connection has been found
-.has-winner .chip {
-  transition: opacity 300ms ease-in-out;
-  opacity: 0.3;
-}
-
 .chip {
   @each $player-color-name, $player-color in $player-colors {
     &.#{$player-color-name} {
@@ -60,11 +54,6 @@
       // Define color property for use by global highlight @keyframes definition
       // above (via currentColor)
       color: $border-color;
-      &.winning {
-        // Ensure that winning chips are fully opaque when all other chips are
-        // faded out
-        opacity: 1;
-      }
     }
   }
   // The pending chip is the to-be-placed chip above the board
@@ -83,4 +72,16 @@
     // Set a falling transition with a rubber-banding effect at the end
     transition: transform 500ms $pending-chip-transition-easing;
   }
+}
+
+// Fade out non-winning chips when the game has ended
+
+@keyframes chip-fade-out {
+  100% {
+    opacity: 0.3;
+  }
+}
+
+#game:not(.in-progress) .chip:not(.winning) {
+  animation: chip-fade-out 300ms ease-in-out forwards;
 }

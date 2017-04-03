@@ -189,7 +189,6 @@ GridComponent.view = function (vnode) {
   var game = vnode.attrs.game;
   var grid = game.grid;
   return m('div#grid', {
-    class: classNames({'has-winner': game.winner !== null}),
     onmousemove: state.alignPendingChipViaPointer,
     onclick: state.placePendingChipViaPointer
   }, [
