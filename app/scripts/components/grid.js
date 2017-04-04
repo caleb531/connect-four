@@ -217,7 +217,6 @@ GridComponent.view = function (vnode) {
           // If this grid slot is occupied, display the corresponding chip
           var chip = grid.columns[c][r];
           return m('div.chip', {
-            key: 'chip-' + [c, r].join('-'),
             class: classNames(
               chip.player.color,
               {'winning': chip.winning}
