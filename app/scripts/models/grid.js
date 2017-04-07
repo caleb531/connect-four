@@ -12,10 +12,12 @@ function Grid(args) {
     this.columns = args.columns.map(function (column) {
       return column.slice(0);
     });
+    this.lastPlacedChip = args.lastPlacedChip;
   } else {
     this.columns = _.times(this.columnCount, function () {
       return [];
     });
+    this.lastPlacedChip = null;
   }
 }
 
@@ -32,6 +34,7 @@ Grid.prototype.resetGrid = function () {
   this.columns.forEach(function (column) {
     column.length = 0;
   });
+  this.lastPlacedChip = null;
 };
 
 // Return the index of the next available slot for the given column
@@ -48,6 +51,7 @@ Grid.prototype.getNextAvailableSlot = function (args) {
 // Place the given chip into the specified column on the grid
 Grid.prototype.placeChip = function (args) {
   this.columns[args.column].push(args.chip);
+  this.lastPlacedChip = args.chip;
   args.chip.column = args.column;
   args.chip.row = this.columns[args.column].length - 1;
 };

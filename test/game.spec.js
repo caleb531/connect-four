@@ -24,7 +24,6 @@ describe('game', function () {
     expect(game).to.have.property('currentPlayer', null);
     expect(game).to.have.property('inProgress', false);
     expect(game).to.have.property('pendingChip', null);
-    expect(game).to.have.property('lastPlacedChip', null);
     expect(game).to.have.property('winner', null);
   });
 
@@ -44,7 +43,6 @@ describe('game', function () {
     expect(game).to.have.property('currentPlayer', null);
     expect(game).to.have.property('inProgress', false);
     expect(game).to.have.property('pendingChip', null);
-    expect(game).to.have.property('lastPlacedChip', null);
     expect(game).to.have.property('winner', null);
   });
 

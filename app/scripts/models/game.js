@@ -30,8 +30,6 @@ function Game(args) {
   this.inProgress = false;
   // The chip above the grid that is about to be placed
   this.pendingChip = null;
-  // The chip that was most recently placed on the grid
-  this.lastPlacedChip = null;
   // The winning player of the game
   this.winner = null;
   // An emitter instance for capturing custom game events
@@ -74,7 +72,6 @@ Game.prototype.endGame = function () {
 // Reset the game and grid completely without starting a new game (endGame
 // should be called somewhere before this method is called)
 Game.prototype.resetGame = function () {
-  this.lastPlacedChip = null;
   this.winner = null;
   this.grid.resetGrid();
 };
@@ -143,7 +140,6 @@ Game.prototype.placePendingChip = function (args) {
       // eslint-disable-next-line no-console
       console.log(this.columnHistory.join(', '));
     }
-    this.lastPlacedChip = this.pendingChip;
     this.pendingChip = null;
     // Check for winning connections (i.e. four in a row)
     this.checkForWin();
@@ -166,7 +162,7 @@ Game.prototype.checkForFullGrid = function () {
 // vertically, or diagonally)
 Game.prototype.checkForWin = function () {
   var connections = this.grid.getConnections({
-    baseChip: this.lastPlacedChip,
+    baseChip: this.grid.lastPlacedChip,
     connectionSize: 4
   });
   if (connections.length > 0) {
@@ -179,7 +175,7 @@ Game.prototype.checkForWin = function () {
         chip.winning = true;
       });
     });
-    this.winner = this.lastPlacedChip.player;
+    this.winner = this.grid.lastPlacedChip.player;
     this.endGame();
   }
 };
