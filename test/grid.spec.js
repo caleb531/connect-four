@@ -97,12 +97,12 @@ describe('grid', function () {
     var chip1 = new Chip({player: player1});
     var chip2 = new Chip({player: player2});
     grid.placeChip({column: 2, chip: chip1});
-    expect(grid).to.have.property('lastPlacedChip', chip1);
-    grid.placeChip({column: 2, chip: chip2});
-    expect(grid.columns[2][0]).to.be.an.instanceof(Chip);
+    expect(grid.columns[2][0]).to.equal(chip1);
     expect(grid.columns[2][0]).to.have.property('column', 2);
     expect(grid.columns[2][0]).to.have.property('row', 0);
-    expect(grid.columns[2][1]).to.be.an.instanceof(Chip);
+    expect(grid).to.have.property('lastPlacedChip', chip1);
+    grid.placeChip({column: 2, chip: chip2});
+    expect(grid.columns[2][1]).to.equal(chip2);
     expect(grid.columns[2][1]).to.have.property('column', 2);
     expect(grid.columns[2][1]).to.have.property('row', 1);
     expect(grid).to.have.property('lastPlacedChip', chip2);
