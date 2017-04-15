@@ -52,7 +52,10 @@ AIPlayer.prototype.maximizeMove = function (grid, minPlayer, depth, alpha, beta)
     }
     // Clone the current grid and place a chip to generate a new permutation
     var nextGrid = new Grid(grid);
-    nextGrid.placeChip({column: c, chip: new Chip({player: this})});
+    nextGrid.placeChip({
+        column: c,
+        chip: new Chip({player: this})
+    });
     // Minimize the opponent human player's chances of winning
     var minMove = this.minimizeMove(nextGrid, minPlayer, depth - 1, alpha, beta);
     // If a move yields a lower opponent score, make it the tentative max move
@@ -93,7 +96,10 @@ AIPlayer.prototype.minimizeMove = function (grid, minPlayer, depth, alpha, beta)
     }
     var nextGrid = new Grid(grid);
     // The human playing against the AI is always the first player
-    nextGrid.placeChip({column: c, chip: new Chip({player: minPlayer})});
+    nextGrid.placeChip({
+        column: c,
+        chip: new Chip({player: minPlayer})
+    });
     // Maximize the AI player's chances of winning
     var maxMove = this.maximizeMove(nextGrid, minPlayer, depth - 1, alpha, beta);
     // If a move yields a higher AI score, make it the tentative max move
