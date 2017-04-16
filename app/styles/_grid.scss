@@ -15,7 +15,6 @@
 .grid-column {
   display: inline-flex;
   flex-direction: column-reverse;
-  vertical-align: bottom;
   // This ensures that empty columns do not occupy any less space
   width: $chip-size + ($chip-margin * 2);
   @include if-compact-layout() {
