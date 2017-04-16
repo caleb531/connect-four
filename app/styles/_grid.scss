@@ -53,9 +53,6 @@
       $background-color: $player-color;
       border-color: $border-color;
       background-color: $background-color;
-      // Define color property for use by global highlight @keyframes definition
-      // above (via currentColor)
-      color: $border-color;
     }
   }
   // The pending chip is the to-be-placed chip above the board
