@@ -113,7 +113,8 @@ Game.prototype.getOtherPlayer = function (player) {
 Game.prototype.startTurn = function () {
   this.pendingChip = new Chip({player: this.currentPlayer});
   if (this.currentPlayer.type === 'ai') {
-    this.currentPlayer.computeNextMove(this);
+    var bestMove = this.currentPlayer.computeNextMove(this);
+    this.emitter.emit('ai-player:compute-next-move', this.currentPlayer, bestMove);
   }
 };
 

@@ -30,7 +30,6 @@ AIPlayer.prototype.computeNextMove = function (game) {
   var bestMove = this.maximizeMove(
     game.grid, game.getOtherPlayer(this), AIPlayer.maxComputeDepth,
     Grid.minScore, Grid.maxScore);
-  game.emitter.emit('ai-player:compute-next-move', this, bestMove);
   return bestMove;
 };
 
