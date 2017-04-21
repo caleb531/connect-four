@@ -73,9 +73,8 @@ GridComponent.oninit = function (vnode) {
     // Align the pending chip with the column nearest to the user's cursor
     alignPendingChipViaPointer: function (mousedownEvent) {
       if (game.pendingChip && game.currentPlayer.type === 'human' && !state.transitionPendingChipY) {
-        var pointerColumnIndex = state.getLastVisitedColumnIndex(mousedownEvent);
         state.alignPendingChipWithColumn({
-          column: pointerColumnIndex
+          column: state.getLastVisitedColumnIndex(mousedownEvent)
         });
       } else {
         mousedownEvent.redraw = false;
