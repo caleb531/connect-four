@@ -139,13 +139,15 @@ Grid.prototype.getScore = function (args) {
           baseChip: {column: c, row: r, player: args.currentPlayer},
           connectionSize: 2
         });
-        for (i = 0; i < connections.length; i += 1) {
-          if (args.currentPlayerIsMaxPlayer) {
-            // Add to the grid score for every advantage the AI has
+        if (args.currentPlayerIsMaxPlayer) {
+          // Add to the grid score for every advantage the AI has
+          for (i = 0; i < connections.length; i += 1) {
             gridScore += Math.pow(connections[i].length, 2);
-          } else {
-            // Subtract from the grid score for every advantage the human
-            // opponent has
+          }
+        } else {
+          // Subtract from the grid score for every advantage the human opponent
+          // has
+          for (i = 0; i < connections.length; i += 1) {
             gridScore -= Math.pow(connections[i].length, 2);
           }
         }
