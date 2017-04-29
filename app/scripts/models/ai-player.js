@@ -13,8 +13,7 @@ AIPlayer.prototype = Object.create(Player.prototype);
 AIPlayer.prototype.type = 'ai';
 // The duration to wait (in ms) for the user to process the AI player's actions
 AIPlayer.waitDelay = 150;
-// The maximum number of grid moves to look ahead (this determines the AI's
-// intelligence)
+// The maximum number of grid moves to look ahead
 AIPlayer.maxComputeDepth = 3;
 
 // Wait for a short moment to give the user time to see and process the AI
