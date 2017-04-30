@@ -24,7 +24,7 @@ function Grid(args) {
 // Return true if the grid is completely full; otherwise, return false
 Grid.prototype.checkIfFull = function () {
   var grid = this;
-  return _.every(grid.columns, function (column) {
+  return grid.columns.every(function (column) {
     return column.length === grid.rowCount;
   });
 };
