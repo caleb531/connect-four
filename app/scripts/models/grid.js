@@ -120,11 +120,53 @@ Grid.connectionDirections = [
   {x: -1, y: 1} // Top-left
 ];
 
+// Calculate the intermediate grid score for the current slot, assuming neither
+// player has won yet
+Grid.prototype.getIntermediateScore = function (c, r, args) {
+  var gridScore = 0;
+  // Search for current player's connections of one or more chips that are
+  // connected to the empty slot
+  var connections = this.getConnections({
+    // Treat the empty slot as a chip to appease the algorithm
+    baseChip: {column: c, row: r, player: args.currentPlayer},
+    connectionSize: 2
+  });
+  for (var i = 0; i < connections.length; i += 1) {
+    gridScore += Math.pow(connections[i].length, 2);
+  }
+  // Negate the grid score of any advantage the human player has (as this is
+  // considered a disadvantage to the AI)
+  if (!args.currentPlayerIsMaxPlayer) {
+    gridScore *= -1;
+  }
+  return gridScore;
+};
+
+// Check the grid for winning connections are return the max or min score if a
+// player won (depending on who the current player is)
+Grid.prototype.getWinningScore = function (c, r, args) {
+  var gridScore;
+  var connections = this.getConnections({
+    baseChip: this.columns[c][r],
+    connectionSize: 4
+  });
+  if (connections.length >= 1 && this.columns[c][r].player === args.currentPlayer) {
+    if (args.currentPlayerIsMaxPlayer) {
+      // The AI wins
+      gridScore = Grid.maxScore;
+    } else {
+      // The human opponent wins
+      gridScore = Grid.minScore;
+    }
+    return gridScore;
+  }
+  return null;
+};
+
 // Compute the grid's heuristic score for use by the AI player
 Grid.prototype.getScore = function (args) {
   var gridScore = 0;
-  var connections;
-  var c, r, i;
+  var c, r;
   // Use native for loops instead of forEach because the function will need to
   // return immediately if a winning connection is found (there is no clean way
   // to break out of forEach)
@@ -132,41 +174,14 @@ Grid.prototype.getScore = function (args) {
     for (r = 0; r < this.rowCount; r += 1) {
       // If grid slot is empty
       if (this.columns[c][r] === undefined) {
-        // Search for current player's connections of one or more chips that are
-        // connected to the empty slot
-        connections = this.getConnections({
-          // Treat the empty slot as a chip to appease the algorithm
-          baseChip: {column: c, row: r, player: args.currentPlayer},
-          connectionSize: 2
-        });
-        if (args.currentPlayerIsMaxPlayer) {
-          // Add to the grid score for every advantage the AI has
-          for (i = 0; i < connections.length; i += 1) {
-            gridScore += Math.pow(connections[i].length, 2);
-          }
-        } else {
-          // Subtract from the grid score for every advantage the human opponent
-          // has
-          for (i = 0; i < connections.length; i += 1) {
-            gridScore -= Math.pow(connections[i].length, 2);
-          }
-        }
+        // Calculate the score normally assuming neither player has won yet
+        gridScore += this.getIntermediateScore(c, r, args);
       } else {
         // Give player the maximum/minimum score if a connection of four or more
         // is found
-        connections = this.getConnections({
-          baseChip: this.columns[c][r],
-          connectionSize: 4
-        });
-        if (connections.length >= 1 && this.columns[c][r].player === args.currentPlayer) {
-          if (args.currentPlayerIsMaxPlayer) {
-            // The AI wins
-            gridScore = Grid.maxScore;
-          } else {
-            // The human opponent wins
-            gridScore = Grid.minScore;
-          }
-          return gridScore;
+        var winningScore = this.getWinningScore(c, r, args);
+        if (winningScore) {
+          return winningScore;
         }
       }
     }
