@@ -3,6 +3,9 @@
 body {
   margin: 0;
   padding: 0;
+  // Ensure that the absolutely-positioned nav links do not get pushed out of
+  // the bounds of the <body> due to the <h1> margin-top
+  padding-top: 1px;
   font-family: 'Ubuntu', sans-serif;
   text-align: center;
 }
