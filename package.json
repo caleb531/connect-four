@@ -31,11 +31,13 @@
     "autoprefixer": "^6.6.0",
     "brunch": "^2.10.9",
     "chai": "^3.5.0",
+    "copycat-brunch": "^1.1.0",
     "eslint": "^3.15.0",
     "javascript-brunch": "^2.0.0",
     "mocha": "^3.2.0",
     "postcss-brunch": "github:caleb531/postcss-brunch",
     "sass-brunch": "github:caleb531/sass-brunch",
+    "typeface-ubuntu": "0.0.22",
     "uglify-js-brunch": "^2.0.1"
   }
 }

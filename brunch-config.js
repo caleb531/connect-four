@@ -25,6 +25,11 @@ module.exports = {
     watched: ['app']
   },
   plugins: {
+    copycat: {
+      fonts: ['node_modules/typeface-ubuntu/files'],
+      verbose: false,
+      onlyChanged: true
+    },
     postcss: {
       processors: [
         require('autoprefixer')({
