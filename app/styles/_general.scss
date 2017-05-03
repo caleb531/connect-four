@@ -4,19 +4,12 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Ubuntu', sans-serif;
-}
-// Older browsers that don't recognize <main> will treat it as an inline element
-main {
-  display: block;
-}
-#app {
-  margin: 0 auto;
   text-align: center;
-  h1 {
-    margin-top: 30px;
-    margin-bottom: 20px;
-    font-weight: 400;
-  }
+}
+h1 {
+  margin-top: 30px;
+  margin-bottom: 20px;
+  font-weight: 400;
 }
 .nav-link {
   position: absolute;
