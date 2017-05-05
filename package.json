@@ -4,7 +4,8 @@
   "description": "A Connect Four web app implemented in JS using Mithril",
   "scripts": {
     "lint": "eslint app/scripts/**/*.js test/*.js",
-    "test": "mocha --reporter dot"
+    "test": "mocha --reporter dot",
+    "generate-icons": "./app/generate-icons.sh"
   },
   "repository": {
     "type": "git",
