@@ -36,6 +36,15 @@ module.exports = {
           browsers: ['> 0.1%']
         })
       ]
+    },
+    swPrecache: {
+      swFileName: 'service-worker.js',
+      options: {
+        cacheId: 'connect-four',
+        staticFileGlobs: ['public/**/!(*map*)'],
+        stripPrefix: 'public',
+        replacePrefix: '/connect-four'
+      }
     }
   }
 };

@@ -38,6 +38,7 @@
     "mocha": "^3.2.0",
     "postcss-brunch": "github:caleb531/postcss-brunch",
     "sass-brunch": "github:caleb531/sass-brunch",
+    "sw-precache-brunch": "^1.2.1",
     "typeface-ubuntu": "0.0.22",
     "uglify-js-brunch": "^2.0.1"
   }
