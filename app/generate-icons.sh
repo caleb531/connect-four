@@ -13,7 +13,7 @@ SVG_PATH="$ICON_DIR"/app-icon.svg
 # The path to the directory where the PNG icons are generated
 PNG_DIR="$ICON_DIR"/png
 # The sizes to generate (all icons are square)
-PNG_SIZES=(32 48 64 96 192 256 384 512)
+PNG_SIZES=(32 48 64 96 180 192 256 384 512)
 
 mkdir -p "$PNG_DIR"
 for size in ${PNG_SIZES[@]}; do
