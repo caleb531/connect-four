@@ -4,7 +4,6 @@ language: node_js
 node_js:
   - "7"
   - "6"
-  - "5"
 before_script:
   - ./node_modules/brunch/bin/brunch build
 script:
