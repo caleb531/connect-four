@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# Do not proceed if rsvg-convert is not available
+if ! type rsvg-convert &> /dev/null; then
+  >&2 echo 'librsvg not installed (rsvg-convert not found in PATH)'
+  exit
+fi
+
 # The path to the directory where all icons reside
 ICON_DIR=app/assets/icons
 # The path to the SVG from which icon sizes are generated
