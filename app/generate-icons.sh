@@ -12,6 +12,7 @@ PNG_SIZES=(32 48 64 96 192 256 384 512)
 mkdir -p "$PNG_DIR"
 for size in ${PNG_SIZES[@]}; do
   rsvg-convert \
+    --format png \
     --width "$size" \
     "$SVG_PATH" \
     --output "$PNG_DIR"/app-icon-"$size".png
