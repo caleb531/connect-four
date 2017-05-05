@@ -26,7 +26,12 @@ module.exports = {
   },
   plugins: {
     copycat: {
-      fonts: ['node_modules/typeface-ubuntu/files'],
+      fonts: [
+        'node_modules/typeface-ubuntu/files/ubuntu-latin-400.woff2',
+        'node_modules/typeface-ubuntu/files/ubuntu-latin-400.woff',
+        'node_modules/typeface-ubuntu/files/ubuntu-latin-400.eot',
+        'node_modules/typeface-ubuntu/files/ubuntu-latin-400.svg'
+      ],
       verbose: false,
       onlyChanged: true
     },
