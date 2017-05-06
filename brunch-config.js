@@ -48,6 +48,7 @@ module.exports = {
         cacheId: 'connect-four',
         staticFileGlobs: [
           'public/index.html',
+          'public/manifest.json',
           'public/styles/main.css',
           'public/scripts/main.js',
           'public/icons/favicon.png',
