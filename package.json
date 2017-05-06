@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "eslint app/scripts/**/*.js test/*.js",
     "test": "mocha --reporter dot",
-    "generate-icons": "./app/generate-icons.sh"
+    "generate-icons": "brunch build && ./app/icons/generate-icons.sh"
   },
   "repository": {
     "type": "git",

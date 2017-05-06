@@ -6,16 +6,24 @@ if ! type rsvg-convert &> /dev/null; then
   exit
 fi
 
-# The path to the directory where all icons reside
-ICON_DIR=app/assets/icons
 # The path to the SVG from which icon sizes are generated
-SVG_PATH="$ICON_DIR"/app-icon.svg
+SVG_PATH=app/icons/app-icon.svg
 # The path to the directory where the PNG icons are generated
-PNG_DIR="$ICON_DIR"/png
+PNG_DIR=public/icons
 # The sizes to generate (all icons are square)
-PNG_SIZES=(32 180 192 256 384 512)
+PNG_SIZES=(180 192 256 384 512)
 
+# Create destination directory if it does not exist
 mkdir -p "$PNG_DIR"
+
+# Generate favicon separately for the sake of the filename
+rsvg-convert \
+  --format png \
+  --width 32 \
+  "$SVG_PATH" \
+  --output "$PNG_DIR"/favicon.png
+
+# Generate icon sizes for web app manifest
 for size in ${PNG_SIZES[@]}; do
   rsvg-convert \
     --format png \

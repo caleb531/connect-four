@@ -46,7 +46,13 @@ module.exports = {
       swFileName: 'service-worker.js',
       options: {
         cacheId: 'connect-four',
-        staticFileGlobs: ['public/**/!(*map*)'],
+        staticFileGlobs: [
+          'public/index.html',
+          'public/styles/main.css',
+          'public/scripts/main.js',
+          'public/icons/favicon.png',
+          'public/fonts'
+        ],
         stripPrefix: 'public',
         replacePrefix: '/connect-four'
       }
