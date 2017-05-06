@@ -51,7 +51,7 @@ module.exports = {
           'public/styles/main.css',
           'public/scripts/main.js',
           'public/icons/favicon.png',
-          'public/fonts'
+          'public/fonts/*.*'
         ],
         stripPrefix: 'public',
         replacePrefix: '/connect-four'
