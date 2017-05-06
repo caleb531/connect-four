@@ -8,11 +8,11 @@ var Browser = {};
 // Map of CSS properties to property names used by the DOM in this browser.
 var normalizedProperties = {
   'transform': (function () {
-    var property = _.find(['transform', 'WebkitTransform'], function (property) {
-      return document.documentElement.style[property] !== undefined;
+    var supportedProp = _.find(['transform', 'WebkitTransform'], function (prop) {
+      return document.documentElement.style[prop] !== undefined;
     });
-    if (property) {
-      return property;
+    if (supportedProp) {
+      return supportedProp;
     }
     return 'transform';
   }())
@@ -35,14 +35,14 @@ Browser.normalizeStyles = function (styles) {
 // Map of DOM event names to event names used by this browser.
 var normalizedEventNames = {
   'transitionend': (function () {
-    var pair = _.find([
+    var supportedPair = _.find([
       {property: 'ontransitionend', name: 'transitionend'},
       {property: 'onwebkittransitionend', name: 'webkitTransitionEnd'}
     ], function (pair) {
       return window[pair.property] !== undefined;
     });
-    if (pair) {
-      return pair.name;
+    if (supportedPair) {
+      return supportedPair.name;
     }
     return 'transitionend';
   }())

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A Connect Four web app implemented in JS using Mithril",
   "scripts": {
-    "lint": "eslint app/scripts/**/*.js test/*.js",
+    "lint": "eslint app/scripts/*.js app/scripts/*/*.js test/*.js",
     "test": "mocha --reporter dot",
     "generate-icons": "brunch build && ./app/icons/generate-icons.sh"
   },
