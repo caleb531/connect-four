@@ -57,6 +57,12 @@ brew install node
 npm install -g brunch
 ```
 
+Optionally, you can install librsvg if you want to build the application icons:
+
+```bash
+brew install librsvg
+```
+
 ### 2. Install project dependencies
 
 From the cloned project directory, run:
