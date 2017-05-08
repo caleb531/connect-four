@@ -5,6 +5,9 @@
 node_modules
 *.log
 
+# Generated PNG app icons
+app/assets/icons/png
+
 # Brunch
 public/
 
