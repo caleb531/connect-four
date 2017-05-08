@@ -4,6 +4,16 @@ language: node_js
 node_js:
   - "7"
   - "6"
+compiler:
+  - g++
+before_install:
+  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+  - sudo apt-get -qq update
+  - sudo apt-get install -y librsvg2-dev
+install:
+  - sudo apt-get install -qq g++-4.8
+  - export CXX='g++-4.8'
+  - npm install
 before_script:
   - ./node_modules/brunch/bin/brunch build
 script:
