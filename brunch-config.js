@@ -25,6 +25,7 @@ module.exports = {
     watched: ['app']
   },
   plugins: {
+    // Copy external fonts to build directory
     copycat: {
       fonts: [
         'node_modules/typeface-ubuntu/files/ubuntu-latin-400.woff2',
@@ -35,6 +36,7 @@ module.exports = {
       verbose: false,
       onlyChanged: true
     },
+    // Automatically add vendor-prefixed CSS declarations
     postcss: {
       processors: [
         require('autoprefixer')({
@@ -42,6 +44,7 @@ module.exports = {
         })
       ]
     },
+    // App icon generator
     rsvg: {
       conversions: [{
         input: 'app/icons/app-icon.svg',
@@ -56,6 +59,7 @@ module.exports = {
         ]
       }]
     },
+    // Service worker cache for offline access
     swPrecache: {
       swFileName: 'service-worker.js',
       options: {
