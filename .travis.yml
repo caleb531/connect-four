@@ -4,6 +4,7 @@ language: node_js
 node_js:
   - "7"
   - "6"
+# Installing rsvg-brunch requires a C++11 compiler and librsvg
 addons:
   apt:
     sources:
