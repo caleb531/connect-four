@@ -33,8 +33,12 @@ GridComponent.oninit = function (vnode) {
     },
     // Retrieve the constant width of a single chip
     getChipWidth: function () {
-      var gridElem = document.getElementById('grid');
-      return gridElem.offsetWidth / game.grid.columnCount;
+      // Cache the width to eliminate successive superfluous reflows
+      if (!state.chipWidth) {
+        var gridElem = document.getElementById('grid');
+        state.chipWidth = gridElem.offsetWidth / game.grid.columnCount;
+      }
+      return state.chipWidth;
     },
     // Get the index of the last visited column (the column where the cursor was
     // last at or where the last chip was dropped)
