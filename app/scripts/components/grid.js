@@ -53,7 +53,7 @@ GridComponent.oninit = function (vnode) {
       // The last visited column is the grid column nearest to the cursor at
       // any given instant; keep track of the column's X position so the next
       // pending chip can instantaneously appear there
-      var newLastVisitedColumnX = state.getChipWidth(game.grid) * args.column;
+      var newLastVisitedColumnX = state.getChipWidth() * args.column;
       if (newLastVisitedColumnX !== state.lastVisitedColumnX) {
         state.lastVisitedColumnX = newLastVisitedColumnX;
         state.pendingChipX = state.lastVisitedColumnX;
@@ -82,7 +82,7 @@ GridComponent.oninit = function (vnode) {
     },
     // Get the coordinates of the chip slot element at the given column/row
     getSlotCoords: function (args) {
-      var chipWidth = state.getChipWidth(game.grid);
+      var chipWidth = state.getChipWidth();
       return {
         x: chipWidth * args.column,
         y: chipWidth * (game.grid.rowCount - args.row)
