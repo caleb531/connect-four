@@ -15,6 +15,8 @@ GridComponent.oninit = function (vnode) {
   _.extend(state, {
     // Reset/initialize the entire state of the controller
     reset: function () {
+      // The cached width of a single chip
+      state.chipWidth = null;
       // Current CSS position of the pending chip
       state.pendingChipX = 0;
       state.pendingChipY = 0;
