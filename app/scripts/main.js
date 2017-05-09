@@ -8,6 +8,6 @@ m.mount(document.getElementById('app'), GameComponent);
 attachFastClick(document.body);
 
 // Load service worker to enable offline access
-if ('serviceWorker' in navigator) {
+if (navigator.serviceWorker) {
   navigator.serviceWorker.register('service-worker.js');
 }
