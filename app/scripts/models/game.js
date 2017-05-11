@@ -167,14 +167,12 @@ Game.prototype.checkForWin = function () {
     connectionSize: 4
   });
   if (connections.length > 0) {
-    // Mark chips in connection as part of a winning connection
-    connections.forEach(function (connection) {
-      // Only mark the first four chips of this connection (since only a
-      // connect-four is needed to win
-      connection.length = 4;
-      connection.forEach(function (chip) {
-        chip.winning = true;
-      });
+    // Mark chips in only the first winning connection, and // only mark the
+    // first four chips of this connection (since only a // connect-four is
+    // needed to win
+    connections[0].length = 4;
+    connections[0].forEach(function (chip) {
+      chip.winning = true;
     });
     this.winner = this.grid.lastPlacedChip.player;
     this.endGame();
