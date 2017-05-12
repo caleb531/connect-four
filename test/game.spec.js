@@ -1,6 +1,11 @@
 'use strict';
 
-var expect = require('chai').expect;
+var chai = require('chai');
+var sinon = require('sinon');
+var sinonChai = require('sinon-chai');
+var expect = chai.expect;
+chai.use(sinonChai);
+
 var Grid = require('../app/scripts/models/grid');
 var Player = require('../app/scripts/models/player');
 var Game = require('../app/scripts/models/game');
@@ -44,6 +49,14 @@ describe('game', function () {
     expect(game).to.have.property('inProgress', false);
     expect(game).to.have.property('pendingChip', null);
     expect(game).to.have.property('winner', null);
+  });
+
+  it('should initialize debug mode when set', function () {
+    var game = new Game({debug: true});
+    expect(game).to.have.property('debug', true);
+    expect(game).to.have.property('columnHistory');
+    expect(game.columnHistory).to.be.an('array');
+    expect(game.columnHistory).to.have.length(0);
   });
 
   it('should initialize 1P game', function () {
@@ -164,6 +177,23 @@ describe('game', function () {
     expect(game.currentPlayer).to.be.null;
     expect(game.inProgress).to.be.false;
     expect(game.pendingChip).to.be.null;
+  });
+
+  it('should reset debug mode when ended', function () {
+   var game = new Game({debug: true});
+   game.setPlayers(2);
+   game.startGame();
+   sinon.stub(console, 'log');
+   try {
+     game.placePendingChip({column: 2});
+     expect(game.columnHistory).to.have.length(1);
+     expect(game.columnHistory[0]).to.equal(2);
+   } finally {
+      // eslint-disable-next-line no-console
+     console.log.restore();
+   }
+   game.endGame();
+   expect(game.columnHistory).to.have.length(0);
   });
 
   it('should increment winner\'s score when ending', function () {
