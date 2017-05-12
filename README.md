@@ -4,6 +4,7 @@
 *Released under the MIT License*
 
 [![Build Status](https://travis-ci.org/caleb531/connect-four.svg?branch=master)](https://travis-ci.org/caleb531/connect-four)
+[![Coverage Status](https://coveralls.io/repos/github/caleb531/connect-four/badge.svg?branch=master)](https://coveralls.io/github/caleb531/connect-four?branch=master)
 
 This is the slickest Connect Four app around, written using HTML5, JavaScript,
 and Mithril. You can play on your phone or computer, with a friend or against

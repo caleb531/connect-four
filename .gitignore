@@ -5,6 +5,10 @@
 node_modules
 *.log
 
+# Coverage data
+coverage
+.nyc_output
+
 # Generated PNG app icons
 app/assets/icons/png
 
