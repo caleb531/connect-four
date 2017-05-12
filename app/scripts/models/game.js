@@ -129,27 +129,25 @@ Game.prototype.endTurn = function () {
 
 // Insert the current pending chip into the columns array at the given index
 Game.prototype.placePendingChip = function (args) {
-  if (this.pendingChip) {
-    this.grid.placeChip({
-      chip: this.pendingChip,
-      column: args.column
-    });
-    if (this.debug) {
-      this.columnHistory.push(args.column);
-      // The column history will only be logged on non-production sites, so we
-      // can safely disable the ESLint error
-      // eslint-disable-next-line no-console
-      console.log(this.columnHistory.join(', '));
-    }
-    this.pendingChip = null;
-    // Check for winning connections (i.e. four in a row)
-    this.checkForWin();
-    // Check if the grid is completely full
-    this.checkForFullGrid();
-    // If the above checks have not ended the game, continue to next player's
-    // turn
-    this.endTurn();
+  this.grid.placeChip({
+    chip: this.pendingChip,
+    column: args.column
+  });
+  if (this.debug) {
+    this.columnHistory.push(args.column);
+    // The column history will only be logged on non-production sites, so we
+    // can safely disable the ESLint error
+    // eslint-disable-next-line no-console
+    console.log(this.columnHistory.join(', '));
   }
+  this.pendingChip = null;
+  // Check for winning connections (i.e. four in a row)
+  this.checkForWin();
+  // Check if the grid is completely full
+  this.checkForFullGrid();
+  // If the above checks have not ended the game, continue to next player's
+  // turn
+  this.endTurn();
 };
 
 // Check if the grid is completely full of chips, and end the game if it is
