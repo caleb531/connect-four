@@ -237,6 +237,15 @@ describe('game', function () {
     expect(game.pendingChip).to.be.null;
   });
 
+  it('should place pending chip', function () {
+    var game = new Game();
+    game.setPlayers(2);
+    game.startGame();
+    game.placePendingChip({column: 2});
+    expect(game.grid.columns[2]).to.have.length(1);
+    expect(game.grid.columns[2][0].player).to.equal(game.players[0]);
+  });
+
   it('should win horizontally', function () {
     var game = new Game();
     game.setPlayers(2);
