@@ -15,7 +15,7 @@ addons:
 env:
   - CXX=g++-4.8
 before_script:
-  - ./node_modules/brunch/bin/brunch build
+  - brunch build
 script:
   - npm run lint
   - npm test
