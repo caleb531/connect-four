@@ -41,6 +41,8 @@
     "postcss-brunch": "github:caleb531/postcss-brunch",
     "rsvg-brunch": "^0.5.0",
     "sass-brunch": "github:caleb531/sass-brunch",
+    "sinon": "^2.2.0",
+    "sinon-chai": "^2.10.0",
     "sw-precache-brunch": "^2.0.0",
     "typeface-ubuntu": "0.0.22",
     "uglify-js-brunch": "^2.0.1"

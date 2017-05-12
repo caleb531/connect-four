@@ -1,6 +1,11 @@
 'use strict';
 
-var expect = require('chai').expect;
+var chai = require('chai');
+var sinon = require('sinon');
+var sinonChai = require('sinon-chai');
+var expect = chai.expect;
+chai.use(sinonChai);
+
 var AIPlayer = require('../app/scripts/models/ai-player');
 var Game = require('../app/scripts/models/game');
 var Chip = require('../app/scripts/models/chip');
@@ -35,6 +40,19 @@ describe('AI player', function () {
     expect(aiPlayer).to.have.property('color', 'red');
     expect(aiPlayer).to.have.property('score', 0);
     expect(aiPlayer).to.have.property('type', 'ai');
+  });
+
+  it('should wait when instructed', function () {
+    var aiPlayer = new AIPlayer({
+      name: 'HAL',
+      color: 'red'
+    });
+    var clock = sinon.useFakeTimers();
+    var callback = sinon.spy();
+    expect(aiPlayer.wait(callback));
+    clock.tick(500);
+    expect(callback).to.have.been.calledOnce;
+    clock.restore();
   });
 
   it('should block horizontal opponent win (#1)', function () {
