@@ -25,7 +25,6 @@
     "classnames": "^2.2.5",
     "fastclick": "^1.0.6",
     "mithril": "^1.0.1",
-    "sinon-chai": "^2.10.0",
     "tiny-emitter": "^1.1.0",
     "underscore": "^1.8.3"
   },
