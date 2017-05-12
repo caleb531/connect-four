@@ -77,7 +77,7 @@ describe('grid', function () {
     var player = new Player({color: 'red', name: 'Bob'});
     _.times(9, function (c) {
       _.times(6, function () {
-        grid.columns[c].push(new Chip({player: player}));
+        grid.placeChip({column: c, chip: new Chip({player: player})});
       });
     });
     grid.resetGrid();
