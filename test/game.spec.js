@@ -153,6 +153,27 @@ describe('game', function () {
     expect(game.pendingChip).not.to.be.null;
   });
 
+  it('should communicate with AI player on its turn', function () {
+    var game = new Game();
+    game.setPlayers(1);
+    sinon.spy(game.players[1], 'computeNextMove');
+    var eventEmitted = false;
+    // Events are emitted and callbacks and run synchronously
+    game.emitter.on('ai-player:compute-next-move', function (aiPlayer, bestMove) {
+      eventEmitted = true;
+      expect(aiPlayer).to.equal(game.players[1]);
+      expect(bestMove).to.have.property('column');
+      expect(bestMove).to.have.property('score');
+    });
+    game.startGame({
+      startingPlayer: game.players[1]
+    });
+    expect(game.players[1].computeNextMove).to.have.been.calledWith(game);
+    expect(game.players[1].computeNextMove).to.have.been.calledWith(game);
+    // Emitter event callbacks should have run at this point
+    expect(eventEmitted, 'ai-player:compute-next-move not emitted').to.be.true;
+  });
+
   it('should end turn', function () {
     var game = new Game();
     game.setPlayers(2);
