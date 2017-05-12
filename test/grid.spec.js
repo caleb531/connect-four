@@ -87,6 +87,21 @@ describe('grid', function () {
     expect(grid).to.have.property('lastPlacedChip', null);
   });
 
+  it('should get next available slot in column', function () {
+    var grid = new Grid({
+      columnCount: 7,
+      rowCount: 6
+    });
+    var player = new Player({color: 'red', name: 'Bob'});
+    _.times(6, function () {
+      grid.placeChip({column: 2, chip: new Chip({player: player})});
+    });
+    grid.placeChip({column: 4, chip: new Chip({player: player})});
+    expect(grid.getNextAvailableSlot({column: 1})).to.equal(0);
+    expect(grid.getNextAvailableSlot({column: 2})).to.equal(null);
+    expect(grid.getNextAvailableSlot({column: 4})).to.equal(1);
+  });
+
   it('should place chip and set its column/row', function () {
     var grid = new Grid({
       columnCount: 9,
