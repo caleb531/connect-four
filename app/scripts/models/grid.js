@@ -137,7 +137,7 @@ Grid.prototype.getIntermediateScore = function (c, r, args) {
   for (var i = 0; i < connections.length; i += 1) {
     gridScore += Math.pow(connections[i].length, 2);
   }
-  // Negate the grid score of any advantage the human player has (as this is
+  // Negate the grid score for any advantage the human player has (as this is
   // considered a disadvantage to the AI)
   if (!args.currentPlayerIsMaxPlayer) {
     gridScore *= -1;
