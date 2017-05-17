@@ -149,11 +149,15 @@ Grid.prototype.getIntermediateScore = function (c, r, args) {
 // player won (depending on who the current player is)
 Grid.prototype.getWinningScore = function (c, r, args) {
   var gridScore;
+  // Only check for winning connections by the current player
+  if (this.columns[c][r].player !== args.currentPlayer) {
+    return null;
+  }
   var connections = this.getConnections({
     baseChip: this.columns[c][r],
     connectionSize: 4
   });
-  if (connections.length >= 1 && this.columns[c][r].player === args.currentPlayer) {
+  if (connections.length >= 1) {
     if (args.currentPlayerIsMaxPlayer) {
       // The AI wins
       gridScore = Grid.maxScore;
