@@ -90,7 +90,10 @@ Grid.prototype.getConnection = function (baseChip, direction) {
 Grid.prototype.getConnections = function (args) {
   var grid = this;
   var connections = [];
-  Grid.connectionDirections.forEach(function (direction) {
+  // Use a native 'for' loop to maximize performance because the AI player will
+  // invoke this function many, many times
+  for (var d = 0; d < Grid.connectionDirections.length; d += 1) {
+    var direction = Grid.connectionDirections[d];
     var connection = [args.baseChip];
     // Check for connected neighbors in this direction
     connection.push.apply(
@@ -108,7 +111,7 @@ Grid.prototype.getConnections = function (args) {
     if (connection.length >= args.connectionSize) {
       connections.push(connection);
     }
-  });
+  }
   return connections;
 };
 
