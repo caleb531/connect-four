@@ -19,9 +19,7 @@ AIPlayer.maxComputeDepth = 3;
 // Wait for a short moment to give the user time to see and process the AI
 // player's actions
 AIPlayer.prototype.wait = function (callback) {
-  setTimeout(function () {
-    callback();
-  }, AIPlayer.waitDelay);
+  setTimeout(callback, AIPlayer.waitDelay);
 };
 
 // Compute the column where the AI player should place its next chip
