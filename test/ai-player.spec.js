@@ -125,6 +125,16 @@ describe('AI player', function () {
     expect(game.players[1].computeNextMove(game).column).to.be.oneOf([0, 2, 4]);
   });
 
+  it('should block horizontal connect-three trap (#5)', function () {
+    var game = new Game();
+    game.setPlayers(1);
+    placeChips({
+      game: game,
+      columns: [3, 3, 4]
+    });
+    expect(game.players[1].computeNextMove(game).column).to.be.oneOf([2, 5, 6]);
+  });
+
   it('should block vertical opponent win (#1)', function () {
     var game = new Game();
     game.setPlayers(1);
