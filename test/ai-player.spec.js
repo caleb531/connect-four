@@ -301,6 +301,16 @@ describe('AI player', function () {
     expect(game.players[1].computeNextMove(game).column).to.equal(4);
   });
 
+  it('should block one win of opponent double-win (#11)', function () {
+    var game = new Game();
+    game.setPlayers(1);
+    placeChips({
+      game: game,
+      columns: [1, 4, 1, 4, 2, 5, 2, 6, 3, 5, 3]
+    });
+    expect(game.players[1].computeNextMove(game).column).to.equal(0);
+  });
+
   it('should win horizontally on turn', function () {
     var game = new Game();
     game.setPlayers(1);
