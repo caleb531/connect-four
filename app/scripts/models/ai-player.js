@@ -61,7 +61,7 @@ AIPlayer.prototype.maximizeMove = function (grid, minPlayer, depth, alpha, beta)
       alpha = minMove.score;
     } else if (maxMove.score === Grid.minScore) {
       // Ensure that the AI always blocks an opponent win even if the opponent
-      // is guaranteed to win at this point (via some other connection)
+      // is guaranteed to win on its next turn
       maxMove.column = minMove.column;
       maxMove.score = minMove.score;
       alpha = minMove.score;
