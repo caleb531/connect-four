@@ -196,16 +196,6 @@ describe('AI player', function () {
     expect(game.players[1].computeNextMove(game).column).to.equal(5);
   });
 
-  it('should block diagonal opponent win (#3)', function () {
-    var game = new Game();
-    game.setPlayers(1);
-    placeChips({
-      game: game,
-      columns: [2, 0, 3, 1, 4, 5, 1, 0, 2, 4, 3, 0, 5, 1, 3, 2, 4, 2, 0, 3, 1, 0, 3, 2, 2, 3, 4]
-    });
-    expect(game.players[1].computeNextMove(game).column).to.equal(5);
-  });
-
   it('should block one win of opponent double-win (#1)', function () {
     var game = new Game();
     game.setPlayers(1);
@@ -256,25 +246,35 @@ describe('AI player', function () {
     expect(game.players[1].computeNextMove(game).column).to.equal(0);
   });
 
-  // it('should block one win of opponent double-win (#6)', function () {
-  //   var game = new Game();
-  //   game.setPlayers(1);
-  //   placeChips({
-  //     game: game,
-  //     columns: [2, 1, 3, 4, 3, 2, 3, 3, 2, 2, 1, 4, 4, 1, 1, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 0, 5, 5]
-  //   });
-  //   expect(game.players[1].computeNextMove(game).column).to.equal(5);
-  // });
-  //
-  // it('should block one win of opponent double-win (#7)', function () {
-  //   var game = new Game();
-  //   game.setPlayers(1);
-  //   placeChips({
-  //     game: game,
-  //     columns: [3, 2, 3, 4, 2, 4, 3, 3, 2, 2, 4, 1, 1, 1, 4, 4, 6, 1, 3, 2, 1, 2, 6, 5, 6, 6, 6, 6, 5]
-  //   });
-  //   expect(game.players[1].computeNextMove(game).column).to.equal(5);
-  // });
+  it('should block one win of opponent double-win (#6)', function () {
+    var game = new Game();
+    game.setPlayers(1);
+    placeChips({
+      game: game,
+      columns: [2, 1, 3, 4, 3, 2, 3, 3, 2, 2, 1, 4, 4, 1, 1, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 0, 5, 5]
+    });
+    expect(game.players[1].computeNextMove(game).column).to.equal(5);
+  });
+
+  it('should block one win of opponent double-win (#7)', function () {
+    var game = new Game();
+    game.setPlayers(1);
+    placeChips({
+      game: game,
+      columns: [3, 2, 3, 4, 2, 4, 3, 3, 2, 2, 4, 1, 1, 1, 4, 4, 6, 1, 3, 2, 1, 2, 6, 5, 6, 6, 6, 6, 5]
+    });
+    expect(game.players[1].computeNextMove(game).column).to.equal(5);
+  });
+
+  it('should block one win of opponent double-win (#8)', function () {
+    var game = new Game();
+    game.setPlayers(1);
+    placeChips({
+      game: game,
+      columns: [2, 0, 3, 1, 4, 5, 1, 0, 2, 4, 3, 0, 5, 1, 3, 2, 4, 2, 0, 3, 1, 0, 3, 2, 2, 3, 4]
+    });
+    expect(game.players[1].computeNextMove(game).column).to.equal(5);
+  });
 
   it('should win horizontally on turn', function () {
     var game = new Game();

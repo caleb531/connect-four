@@ -59,8 +59,9 @@ AIPlayer.prototype.maximizeMove = function (grid, minPlayer, depth, alpha, beta)
       maxMove.column = c;
       maxMove.score = minMove.score;
       alpha = minMove.score;
-    } else if (maxMove.column === null) {
-      // Ensure that obvious column choices are not forgotten
+    } else if (maxMove.score === Grid.minScore) {
+      // Ensure that the AI always blocks an opponent win even if the opponent
+      // is guaranteed to win at this point (via some other connection)
       maxMove.column = minMove.column;
       maxMove.score = minMove.score;
       alpha = minMove.score;
@@ -101,11 +102,6 @@ AIPlayer.prototype.minimizeMove = function (grid, minPlayer, depth, alpha, beta)
     // If a move yields a higher AI score, make it the tentative max move
     if (maxMove.score < minMove.score) {
       minMove.column = c;
-      minMove.score = maxMove.score;
-      beta = maxMove.score;
-    } else if (minMove.column === null) {
-      // Ensure that obvious column choices are not forgotten
-      minMove.column = maxMove.column;
       minMove.score = maxMove.score;
       beta = maxMove.score;
     }
