@@ -134,6 +134,7 @@ Grid.prototype.getIntermediateScore = function (c, r, args) {
     baseChip: {column: c, row: r, player: args.currentPlayer},
     connectionSize: 2
   });
+  // Sum up connections, giving exponentially more weight to larger connections
   for (var i = 0; i < connections.length; i += 1) {
     gridScore += Math.pow(connections[i].length, 2);
   }
