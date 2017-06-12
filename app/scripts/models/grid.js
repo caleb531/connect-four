@@ -140,8 +140,8 @@ Grid.prototype.getIntermediateScore = function (c, r, args) {
   }
   // Give exponentially more weight to slots that will be playable sooner
   gridScore *= Math.pow(4, this.rowCount - (r - this.columns[c].length) + 1);
-  // Negate the grid score for any advantage the human player has (as this is
-  // considered a disadvantage to the AI)
+  // Negate the grid score for any advantage the minimizing player has (as this
+  // is considered a disadvantage to the maximizing player)
   if (!args.currentPlayerIsMaxPlayer) {
     gridScore *= -1;
   }
@@ -162,10 +162,10 @@ Grid.prototype.getWinningScore = function (c, r, args) {
   });
   if (connections.length >= 1) {
     if (args.currentPlayerIsMaxPlayer) {
-      // The AI wins
+      // The maximizing player wins
       gridScore = Grid.maxScore;
     } else {
-      // The human opponent wins
+      // The minimizing player wins
       gridScore = Grid.minScore;
     }
     return gridScore;
