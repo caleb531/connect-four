@@ -69,6 +69,28 @@ describe('grid', function () {
     expect(grid.checkIfFull()).to.be.false;
   });
 
+  it('should count current number of chips when grid is empty', function () {
+    var grid = new Grid({
+      columnCount: 9,
+      rowCount: 8
+    });
+    expect(grid.getChipCount()).to.equal(0);
+  });
+
+  it('should count current number of chips', function () {
+    var grid = new Grid({
+      columnCount: 9,
+      rowCount: 8
+    });
+    var player = new Player({color: 'red', name: 'Bob'});
+    _.times(6, function (c) {
+      _.times(4, function () {
+        grid.placeChip({column: c, chip: new Chip({player: player})});
+      });
+    });
+    expect(grid.getChipCount()).to.equal(24);
+  });
+
   it('should reset', function () {
     var grid = new Grid({
       columnCount: 9,
