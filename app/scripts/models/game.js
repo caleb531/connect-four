@@ -173,6 +173,7 @@ Game.prototype.checkForWin = function () {
       chip.winning = true;
     });
     this.winner = this.grid.lastPlacedChip.player;
+    this.emitter.emit('game:declare-winner', this.winner);
     this.endGame();
   }
 };
