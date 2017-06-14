@@ -66,7 +66,7 @@ Game.prototype.endGame = function () {
   if (this.debug) {
     this.columnHistory.length = 0;
   }
-  this.emitter.emit('game:end-game', this);
+  this.emitter.emit('game:end-game');
 };
 
 // Reset the game and grid completely without starting a new game (endGame
