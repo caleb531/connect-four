@@ -144,15 +144,16 @@ Game.prototype.placePendingChip = function (args) {
   // Check for winning connections (i.e. four in a row)
   this.checkForWin();
   // Check if the grid is completely full
-  this.checkForFullGrid();
+  this.checkForTie();
   // If the above checks have not ended the game, continue to next player's
   // turn
   this.endTurn();
 };
 
-// Check if the grid is completely full of chips, and end the game if it is
-Game.prototype.checkForFullGrid = function () {
+// Check if the game has tied, and end the game if it is
+Game.prototype.checkForTie = function () {
   if (this.grid.checkIfFull()) {
+    this.emitter.emit('game:declare-tie');
     this.endGame();
   }
 };
