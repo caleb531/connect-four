@@ -51,6 +51,7 @@ Game.prototype.startGame = function (args) {
     this.currentPlayer = this.players[0];
   }
   this.inProgress = true;
+  this.emitter.emit('game:start');
   this.startTurn();
 };
 
@@ -62,11 +63,11 @@ Game.prototype.endGame = function () {
   this.inProgress = false;
   this.currentPlayer = null;
   this.pendingChip = null;
+  this.emitter.emit('game:end');
   this.humanPlayerCount = null;
   if (this.debug) {
     this.columnHistory.length = 0;
   }
-  this.emitter.emit('game:end-game');
 };
 
 // Reset the game and grid completely without starting a new game (endGame
