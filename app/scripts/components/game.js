@@ -25,7 +25,7 @@ GameComponent.oninit = function (vnode) {
     sendAnalytics: function (args) {
       if (typeof ga === 'function') {
         ga('send', 'event', _.extend({
-          eventCategory: this.humanPlayerCount === 1 ? '1-Player Game' : '2-Player Game'
+          eventCategory: game.humanPlayerCount === 1 ? '1-Player Game' : '2-Player Game'
         }, args));
       }
     }
