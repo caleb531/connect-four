@@ -46,7 +46,7 @@ GameComponent.oninit = function (vnode) {
     // Only send win analytics for 1-player games
     if (game.humanPlayerCount === 1) {
       state.sendAnalytics({
-        eventAction: 'Win',
+        eventAction: 'Win / Tie',
         eventLabel: winner.type === 'ai' ? 'AI Wins' : 'Human Wins',
         eventValue: game.grid.getChipCount(),
         nonInteraction: true
@@ -56,7 +56,7 @@ GameComponent.oninit = function (vnode) {
   game.on('game:declare-tie', function () {
     if (game.humanPlayerCount === 1) {
       state.sendAnalytics({
-        eventAction: 'Tie',
+        eventAction: 'Win / Tie',
         eventLabel: 'Tie',
         nonInteraction: true
       });
