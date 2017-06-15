@@ -51,8 +51,8 @@ GridComponent.oninit = function (vnode) {
     // Run the given callback when the next (and only the very next) pending
     // chip transition finishes
     waitForPendingChipTransitionEnd: function (callback) {
-      game.emitter.off('pending-chip:transition-end');
-      game.emitter.once('pending-chip:transition-end', callback);
+      game.off('pending-chip:transition-end');
+      game.once('pending-chip:transition-end', callback);
     },
     // Horizontally align the pending chip with the specified column
     alignPendingChipWithColumn: function (args) {
@@ -166,16 +166,16 @@ GridComponent.oninit = function (vnode) {
     initializePendingChip: function (pendingChipVnode) {
       // Ensure that any unfinished pending chip event listeners (from
       // previous games) are unbound
-      game.emitter.off('pending-chip:transition-end');
+      game.off('pending-chip:transition-end');
       // Listen for whenever a pending chip transition finishes
       var eventName = Browser.normalizeEventName('transitionend');
       pendingChipVnode.dom.addEventListener(eventName, function () {
-        game.emitter.emit('pending-chip:transition-end');
+        game.emit('pending-chip:transition-end');
       });
     }
   });
   // Place chip automatically when AI computes its next move on its turn
-  game.emitter.on('ai-player:compute-next-move', function (aiPlayer, bestMove) {
+  game.on('ai-player:compute-next-move', function (aiPlayer, bestMove) {
     aiPlayer.wait(function () {
       state.placePendingChip({
         column: bestMove.column
@@ -183,7 +183,7 @@ GridComponent.oninit = function (vnode) {
     });
   });
   // Reset controller state when game ends
-  game.emitter.on('game:end-game', function () {
+  game.on('game:end-game', function () {
     state.reset();
   });
   // Reset controller state whenever controller is initialized

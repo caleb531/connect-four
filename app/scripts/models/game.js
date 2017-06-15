@@ -32,8 +32,8 @@ function Game(args) {
   this.pendingChip = null;
   // The winning player of the game
   this.winner = null;
-  // An emitter instance for capturing custom game events
-  this.emitter = new Emitter();
+  // Game inherits from Emitter
+  Emitter.call(this);
   // Keep track of the columns where chips are placed in debug mode (extremely
   // useful for creating new unit tests from real games)
   if (args && args.debug) {
@@ -44,6 +44,8 @@ function Game(args) {
   }
 }
 
+Game.prototype = Object.create(Emitter.prototype);
+
 Game.prototype.startGame = function (args) {
   if (args && args.startingPlayer) {
     this.currentPlayer = args.startingPlayer;
@@ -51,7 +53,7 @@ Game.prototype.startGame = function (args) {
     this.currentPlayer = this.players[0];
   }
   this.inProgress = true;
-  this.emitter.emit('game:start');
+  this.emit('game:start');
   this.startTurn();
 };
 
@@ -63,7 +65,7 @@ Game.prototype.endGame = function () {
   this.inProgress = false;
   this.currentPlayer = null;
   this.pendingChip = null;
-  this.emitter.emit('game:end');
+  this.emit('game:end');
   this.humanPlayerCount = null;
   if (this.debug) {
     this.columnHistory.length = 0;
@@ -115,7 +117,7 @@ Game.prototype.startTurn = function () {
   this.pendingChip = new Chip({player: this.currentPlayer});
   if (this.currentPlayer.type === 'ai') {
     var bestMove = this.currentPlayer.computeNextMove(this);
-    this.emitter.emit('ai-player:compute-next-move', this.currentPlayer, bestMove);
+    this.emit('ai-player:compute-next-move', this.currentPlayer, bestMove);
   }
 };
 
@@ -154,7 +156,7 @@ Game.prototype.placePendingChip = function (args) {
 // Check if the game has tied, and end the game if it is
 Game.prototype.checkForTie = function () {
   if (this.grid.checkIfFull()) {
-    this.emitter.emit('game:declare-tie');
+    this.emit('game:declare-tie');
     this.endGame();
   }
 };
@@ -175,7 +177,7 @@ Game.prototype.checkForWin = function () {
       chip.winning = true;
     });
     this.winner = this.grid.lastPlacedChip.player;
-    this.emitter.emit('game:declare-winner', this.winner);
+    this.emit('game:declare-winner', this.winner);
     this.endGame();
   }
 };

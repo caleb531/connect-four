@@ -31,10 +31,10 @@ GameComponent.oninit = function (vnode) {
     }
   });
   // Configure hooks for analytics
-  game.emitter.on('game:start', function () {
+  game.on('game:start', function () {
     state.sendAnalytics({eventAction: 'Start Game'});
   });
-  game.emitter.on('game:end', function () {
+  game.on('game:end', function () {
     // The game ends automatically when a winner is declared or in the event of
     // a tie, but the game can also be ended at any time by the user; only
     // send analytics for when the user ends the game
@@ -42,7 +42,7 @@ GameComponent.oninit = function (vnode) {
       state.sendAnalytics({eventAction: 'End Game (User)'});
     }
   });
-  game.emitter.on('game:declare-winner', function (winner) {
+  game.on('game:declare-winner', function (winner) {
     // Only send win analytics for 1-player games
     if (game.humanPlayerCount === 1) {
       state.sendAnalytics({
@@ -53,7 +53,7 @@ GameComponent.oninit = function (vnode) {
       });
     }
   });
-  game.emitter.on('game:declare-tie', function () {
+  game.on('game:declare-tie', function () {
     if (game.humanPlayerCount === 1) {
       state.sendAnalytics({
         eventAction: 'Tie',
