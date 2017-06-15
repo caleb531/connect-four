@@ -29,6 +29,13 @@ Grid.prototype.checkIfFull = function () {
   });
 };
 
+// Return the total number of chips currently placed on the grid
+Grid.prototype.getChipCount = function () {
+  return this.columns.reduce(function (sum, column) {
+    return sum + column.length;
+  }, 0);
+};
+
 // Reset the grid by removing all placed chips
 Grid.prototype.resetGrid = function () {
   this.columns.forEach(function (column) {

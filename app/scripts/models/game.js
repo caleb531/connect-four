@@ -51,6 +51,7 @@ Game.prototype.startGame = function (args) {
     this.currentPlayer = this.players[0];
   }
   this.inProgress = true;
+  this.emitter.emit('game:start');
   this.startTurn();
 };
 
@@ -62,11 +63,11 @@ Game.prototype.endGame = function () {
   this.inProgress = false;
   this.currentPlayer = null;
   this.pendingChip = null;
+  this.emitter.emit('game:end');
   this.humanPlayerCount = null;
   if (this.debug) {
     this.columnHistory.length = 0;
   }
-  this.emitter.emit('game:end-game', this);
 };
 
 // Reset the game and grid completely without starting a new game (endGame
@@ -144,15 +145,16 @@ Game.prototype.placePendingChip = function (args) {
   // Check for winning connections (i.e. four in a row)
   this.checkForWin();
   // Check if the grid is completely full
-  this.checkForFullGrid();
+  this.checkForTie();
   // If the above checks have not ended the game, continue to next player's
   // turn
   this.endTurn();
 };
 
-// Check if the grid is completely full of chips, and end the game if it is
-Game.prototype.checkForFullGrid = function () {
+// Check if the game has tied, and end the game if it is
+Game.prototype.checkForTie = function () {
   if (this.grid.checkIfFull()) {
+    this.emitter.emit('game:declare-tie');
     this.endGame();
   }
 };
@@ -173,6 +175,7 @@ Game.prototype.checkForWin = function () {
       chip.winning = true;
     });
     this.winner = this.grid.lastPlacedChip.player;
+    this.emitter.emit('game:declare-winner', this.winner);
     this.endGame();
   }
 };
