@@ -57,6 +57,7 @@ GameComponent.oninit = function (vnode) {
     if (game.humanPlayerCount === 1) {
       state.sendAnalytics({
         eventAction: 'Tie',
+        eventLabel: 'Tie',
         nonInteraction: true
       });
     }
