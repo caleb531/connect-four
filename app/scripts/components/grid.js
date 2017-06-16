@@ -183,7 +183,7 @@ GridComponent.oninit = function (vnode) {
     });
   });
   // Reset controller state when game ends
-  game.on('game:end-game', function () {
+  game.on('game:end', function () {
     state.reset();
   });
   // Reset controller state whenever controller is initialized
