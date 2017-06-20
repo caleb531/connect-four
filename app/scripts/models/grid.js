@@ -145,8 +145,6 @@ Grid.prototype.getIntermediateScore = function (c, r, args) {
   for (var i = 0; i < connections.length; i += 1) {
     gridScore += Math.pow(connections[i].length, 2);
   }
-  // Give exponentially more weight to slots that will be playable sooner
-  gridScore *= Math.pow(4, this.rowCount - (r - this.columns[c].length) + 1);
   // Negate the grid score for any advantage the minimizing player has (as this
   // is considered a disadvantage to the maximizing player)
   if (!args.currentPlayerIsMaxPlayer) {
