@@ -1,6 +1,6 @@
 # Connect Four
 
-*Copyright 2017, Caleb Evans*  
+*Copyright 2016-2017, Caleb Evans*  
 *Released under the MIT License*
 
 [![Build Status](https://travis-ci.org/caleb531/connect-four.svg?branch=master)](https://travis-ci.org/caleb531/connect-four)
