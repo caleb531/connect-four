@@ -14,10 +14,17 @@ addons:
     - librsvg2-dev
 env:
   - CXX=g++-4.8
+before_install:
+  - export CHROME_BIN=chromium-browser
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+install:
+  - npm install
+  - npm install coveralls
 before_script:
   - brunch build
 script:
   - npm run lint
   - npm run coverage
 after_success:
-  - nyc report --reporter=text-lcov | coveralls
+  - cat coverage/lcov.info | coveralls
