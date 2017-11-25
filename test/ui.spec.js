@@ -8,6 +8,14 @@ var GameComponent = require('../app/scripts/components/game');
 
 describe('game UI', function () {
 
+  // Minimize the transition duration to speed up tests (interestingly, a
+  // duration of 0ms will prevent transitionEnd from firing)
+  before(function () {
+    var style = document.createElement('style');
+    style.innerHTML = '* {transition-duration: 1ms !important;}';
+    document.head.appendChild(style);
+  });
+
   beforeEach(function () {
     document.body.appendChild(document.createElement('main'));
     m.mount(document.querySelector('main'), GameComponent);
@@ -16,6 +24,23 @@ describe('game UI', function () {
   afterEach(function () {
     m.mount(document.querySelector('main'), null);
   });
+
+  // Wait for the next transition on the given element to complete, timing out
+  // and erroring if the transition never completes
+  function onPendingChipTransitionEnd(callback) {
+    var pendingChip = document.querySelector('.chip.pending');
+    pendingChip.addEventListener('transitionend', callback);
+    setTimeout(callback, 200);
+  }
+
+  // Simulate a mouse event at the specified coordinates, relative to the given
+  // element
+  function triggerMouseEvent(elem, eventType, x, y) {
+    elem.dispatchEvent(new MouseEvent(eventType, {
+      clientX: elem.offsetLeft + x,
+      clientY: elem.offsetTop + y
+    }));
+  }
 
   it('should mount on main', function () {
     m.mount(document.querySelector('main'), null);
@@ -89,15 +114,30 @@ describe('game UI', function () {
     expect(pendingChip).to.have.class('blue');
   });
 
-  it('should place chip in first column', function () {
+  it('should align chip to clicked column', function (done) {
     document.querySelector('#game-dashboard button:last-of-type').click();
     m.redraw.sync();
     document.querySelector('#game-dashboard button:first-of-type').click();
     m.redraw.sync();
-    var pendingChip = document.querySelector('.chip.pending');
-    pendingChip.click();
+    var grid = document.querySelector('#grid');
+    onPendingChipTransitionEnd(function () {
+      expect(this.style.transform).to.equal('translate(192px, 0px)');
+      done();
+    });
+    triggerMouseEvent(grid, 'click', 192, 0);
+  });
+
+  it('should align chip to hovered column', function (done) {
+    document.querySelector('#game-dashboard button:last-of-type').click();
     m.redraw.sync();
-    expect(pendingChip.style.transform).to.equal('translate(0px, 384px)');
+    document.querySelector('#game-dashboard button:first-of-type').click();
+    m.redraw.sync();
+    var grid = document.querySelector('#grid');
+    onPendingChipTransitionEnd(function () {
+      expect(this.style.transform).to.equal('translate(192px, 0px)');
+      done();
+    });
+    triggerMouseEvent(grid, 'mousemove', 192, 0);
   });
 
 });
