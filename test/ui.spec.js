@@ -3,6 +3,7 @@
 var chai = require('chai');
 chai.use(require('chai-dom'));
 var expect = chai.expect;
+var Assertion = chai.Assertion;
 var m = require('mithril');
 var GameComponent = require('../app/scripts/components/game');
 
@@ -32,6 +33,27 @@ describe('game UI', function () {
       clientY: elem.offsetTop + y
     }));
   }
+
+  // Add syntactic sugar assertion for testing CSS translate values
+  Assertion.addMethod('translate', function (coords) {
+    var translate = this._obj.style.transform;
+    var actualX = parseFloat(translate.slice(translate.indexOf('(') + 1));
+    var actualY = parseFloat(translate.slice(translate.indexOf(',') + 1));
+    this.assert(
+      actualX === coords.x,
+      'expected #{this} to have translate x #{exp} but got #{act}',
+      'expected #{this} not to have translate x #{exp}',
+      coords.x,
+      actualX
+    );
+    this.assert(
+      actualY === coords.y,
+      'expected #{this} to have translate y #{exp} but got #{act}',
+      'expected #{this} not to have translate y #{exp}',
+      coords.y,
+      actualY
+    );
+  });
 
   // Minimize the transition duration to speed up tests (interestingly, a
   // duration of 0ms will prevent transitionEnd from firing)
@@ -128,7 +150,7 @@ describe('game UI', function () {
     m.redraw.sync();
     var grid = qs('#grid');
     onPendingChipTransitionEnd(function () {
-      expect(this.style.transform).to.equal('translate(192px, 0px)');
+      expect(this).to.have.translate({x: 192, y: 0});
       done();
     });
     triggerMouseEvent(grid, 'click', 192, 0);
@@ -141,7 +163,7 @@ describe('game UI', function () {
     m.redraw.sync();
     var grid = qs('#grid');
     onPendingChipTransitionEnd(function () {
-      expect(this.style.transform).to.equal('translate(192px, 0px)');
+      expect(this).to.have.translate({x: 192, y: 0});
       done();
     });
     triggerMouseEvent(grid, 'mousemove', 192, 0);
