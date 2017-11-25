@@ -61,6 +61,15 @@ describe('game UI', function () {
     expect(pendingChip).to.have.class('red');
   });
 
+  it('should start with AI when chosen in 1-Player mode', function () {
+    document.querySelector('#game-dashboard button:first-of-type').click();
+    m.redraw.sync();
+    document.querySelector('#game-dashboard button:last-of-type').click();
+    m.redraw.sync();
+    var pendingChip = document.querySelector('.chip.pending');
+    expect(pendingChip).to.have.class('black');
+  });
+
   it('should start with Human 1 when chosen in 2-Player mode', function () {
     document.querySelector('#game-dashboard button:last-of-type').click();
     m.redraw.sync();
