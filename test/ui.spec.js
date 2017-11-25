@@ -143,6 +143,19 @@ describe('game UI', function () {
     expect(pendingChip).to.have.class('blue');
   });
 
+  it('should place chip in initial column', function (done) {
+    qsa('#game-dashboard button')[1].click();
+    m.redraw.sync();
+    qsa('#game-dashboard button')[0].click();
+    m.redraw.sync();
+    var grid = qs('#grid');
+    onPendingChipTransitionEnd(function () {
+      expect(this).to.have.translate(0, 384);
+      done();
+    });
+    triggerMouseEvent(grid, 'click', 0, 0);
+  });
+
   it('should align chip to clicked column', function (done) {
     qsa('#game-dashboard button')[1].click();
     m.redraw.sync();
