@@ -8,12 +8,6 @@ var GameComponent = require('../app/scripts/components/game');
 
 describe('game UI', function () {
 
-  before(function () {
-    var style = document.createElement('style');
-    style.innerHTML = '* {padding-top: 64px;}';
-    document.head.appendChild(style);
-  });
-
   beforeEach(function () {
     document.body.appendChild(document.createElement('main'));
     m.mount(document.querySelector('main'), GameComponent);
