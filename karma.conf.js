@@ -2,8 +2,6 @@
 
 'use strict';
 
-var path = require('path');
-
 module.exports = function (config) {
   config.set({
     basePath: 'public',
@@ -11,7 +9,6 @@ module.exports = function (config) {
     files: ['scripts/modules.js', 'scripts/test.js'],
     reporters: ['dots'].concat(process.env.COVERAGE ? ['coverage'] : []),
     frameworks: ['mocha'],
-    middleware: ['static'],
     preprocessors: {
       '**/*.js': ['sourcemap'],
       'scripts/modules.js': process.env.COVERAGE ? ['coverage'] : []
@@ -21,9 +18,6 @@ module.exports = function (config) {
       dir: '../coverage/',
       subdir: '.',
       file: 'coverage-unmapped.json'
-    },
-    static: {
-      path: path.join(__dirname, 'public')
     },
     customLaunchers: {
       Chrome_travis_ci: {
