@@ -8,23 +8,6 @@ var GameComponent = require('../app/scripts/components/game');
 
 describe('game UI', function () {
 
-  // Minimize the transition duration to speed up tests (interestingly, a
-  // duration of 0ms will prevent transitionEnd from firing)
-  before(function () {
-    var style = document.createElement('style');
-    style.innerHTML = '* {transition-duration: 1ms !important;}';
-    document.head.appendChild(style);
-  });
-
-  beforeEach(function () {
-    document.body.appendChild(document.createElement('main'));
-    m.mount(document.querySelector('main'), GameComponent);
-  });
-
-  afterEach(function () {
-    m.mount(document.querySelector('main'), null);
-  });
-
   // Wait for the next transition on the given element to complete, timing out
   // and erroring if the transition never completes
   function onPendingChipTransitionEnd(callback) {
@@ -41,6 +24,23 @@ describe('game UI', function () {
       clientY: elem.offsetTop + y
     }));
   }
+
+  // Minimize the transition duration to speed up tests (interestingly, a
+  // duration of 0ms will prevent transitionEnd from firing)
+  before(function () {
+    var style = document.createElement('style');
+    style.innerHTML = '* {transition-duration: 1ms !important;}';
+    document.head.appendChild(style);
+  });
+
+  beforeEach(function () {
+    document.body.appendChild(document.createElement('main'));
+    m.mount(document.querySelector('main'), GameComponent);
+  });
+
+  afterEach(function () {
+    m.mount(document.querySelector('main'), null);
+  });
 
   it('should mount on main', function () {
     m.mount(document.querySelector('main'), null);
