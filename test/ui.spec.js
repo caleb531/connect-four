@@ -95,4 +95,15 @@ describe('game UI', function () {
     expect(pendingChip).to.have.class('blue');
   });
 
+  it('should place chip in first column', function () {
+    document.querySelector('#game-dashboard button:last-of-type').click();
+    m.redraw.sync();
+    document.querySelector('#game-dashboard button:first-of-type').click();
+    m.redraw.sync();
+    var pendingChip = document.querySelector('.chip.pending');
+    pendingChip.click();
+    m.redraw.sync();
+    expect(pendingChip.style.transform).to.equal('translate(0px, 384px)');
+  });
+
 });
