@@ -92,7 +92,7 @@ describe('game UI', function () {
   });
 
   it('should ask for starting player in 1-Player mode', function () {
-    qs('#game-dashboard button:first-of-type').click();
+    qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
     var buttons = qsa('#game-dashboard button');
     expect(buttons[0]).to.have.text('Human');
@@ -100,7 +100,7 @@ describe('game UI', function () {
   });
 
   it('should ask for starting player in 2-Player mode', function () {
-    qs('#game-dashboard button:last-of-type').click();
+    qsa('#game-dashboard button')[1].click();
     m.redraw.sync();
     var buttons = qsa('#game-dashboard button');
     expect(buttons[0]).to.have.text('Human 1');
@@ -108,45 +108,45 @@ describe('game UI', function () {
   });
 
   it('should start with Human when chosen in 1-Player mode', function () {
-    qs('#game-dashboard button:first-of-type').click();
+    qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
-    qs('#game-dashboard button:first-of-type').click();
+    qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
     var pendingChip = qs('.chip.pending');
     expect(pendingChip).to.have.class('red');
   });
 
   it('should start with AI when chosen in 1-Player mode', function () {
-    qs('#game-dashboard button:first-of-type').click();
+    qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
-    qs('#game-dashboard button:last-of-type').click();
+    qsa('#game-dashboard button')[1].click();
     m.redraw.sync();
     var pendingChip = qs('.chip.pending');
     expect(pendingChip).to.have.class('black');
   });
 
   it('should start with Human 1 when chosen in 2-Player mode', function () {
-    qs('#game-dashboard button:last-of-type').click();
+    qsa('#game-dashboard button')[1].click();
     m.redraw.sync();
-    qs('#game-dashboard button:first-of-type').click();
+    qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
     var pendingChip = qs('.chip.pending');
     expect(pendingChip).to.have.class('red');
   });
 
   it('should start with Human 2 when chosen in 2-Player mode', function () {
-    qs('#game-dashboard button:last-of-type').click();
+    qsa('#game-dashboard button')[1].click();
     m.redraw.sync();
-    qs('#game-dashboard button:last-of-type').click();
+    qsa('#game-dashboard button')[1].click();
     m.redraw.sync();
     var pendingChip = qs('.chip.pending');
     expect(pendingChip).to.have.class('blue');
   });
 
   it('should align chip to clicked column', function (done) {
-    qs('#game-dashboard button:last-of-type').click();
+    qsa('#game-dashboard button')[1].click();
     m.redraw.sync();
-    qs('#game-dashboard button:first-of-type').click();
+    qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
     var grid = qs('#grid');
     onPendingChipTransitionEnd(function () {
@@ -157,9 +157,9 @@ describe('game UI', function () {
   });
 
   it('should align chip to hovered column', function (done) {
-    qs('#game-dashboard button:last-of-type').click();
+    qsa('#game-dashboard button')[1].click();
     m.redraw.sync();
-    qs('#game-dashboard button:first-of-type').click();
+    qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
     var grid = qs('#grid');
     onPendingChipTransitionEnd(function () {
