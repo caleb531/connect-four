@@ -47,7 +47,6 @@ describe('game UI', function () {
     document.body.appendChild(document.createElement('main'));
     require('../app/scripts/main');
     expect(document.querySelector('#game')).not.to.be.null;
-    m.mount(document.querySelector('main'), null);
   });
 
   it('should render initial buttons', function () {
