@@ -2,7 +2,6 @@
 // See http://brunch.io for documentation.
 'use strict';
 
-var modules = ['app/scripts/**/*.js', /^node_modules/];
 module.exports = {
   files: {
     javascripts: {
@@ -12,9 +11,12 @@ module.exports = {
         // of the application is loaded in a file (CSP-friendly) and in only one
         // file (latency-friendly) in the browser, and the modules are tested in
         // isolation in unit tests.
-        'scripts/main.js': modules,
-        'scripts/modules.js': modules,
+        'scripts/main.js': [/^node_modules\/(process)/],
+        'scripts/modules.js': ['app/scripts/**/*.js', /^node_modules/],
         'scripts/test.js': ['test/*.js']
+      },
+      entryPoints: {
+        'app/scripts/main.js': 'scripts/main.js'
       }
     },
     stylesheets: {
