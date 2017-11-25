@@ -26,7 +26,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "fastclick": "^1.0.6",
-    "mithril": "^1.0.1",
+    "mithril": "github:MithrilJS/mithril.js#deaf01c8e96446c97f31826b1d04ab4a4e757718",
     "tiny-emitter": "^1.1.0",
     "underscore": "^1.8.3"
   },

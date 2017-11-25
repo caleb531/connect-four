@@ -24,4 +24,59 @@ describe('game UI', function () {
     m.mount(document.querySelector('main'), null);
   });
 
+  it('should render initial buttons', function () {
+    var buttons = document.querySelectorAll('#game-dashboard button');
+    expect(buttons).to.have.length(2);
+    expect(buttons[0]).to.have.text('1 Player');
+    expect(buttons[1]).to.have.text('2 Players');
+  });
+
+  it('should render initial grid', function () {
+    var slots = document.querySelectorAll('.empty-chip-slot');
+    expect(slots).to.have.length(42);
+  });
+
+  it('should ask for starting player in 1-Player mode', function () {
+    document.querySelector('#game-dashboard button:first-of-type').click();
+    m.redraw.sync();
+    var buttons = document.querySelectorAll('#game-dashboard button');
+    expect(buttons[0]).to.have.text('Human');
+    expect(buttons[1]).to.have.text('Mr. AI');
+  });
+
+  it('should ask for starting player in 2-Player mode', function () {
+    document.querySelector('#game-dashboard button:last-of-type').click();
+    m.redraw.sync();
+    var buttons = document.querySelectorAll('#game-dashboard button');
+    expect(buttons[0]).to.have.text('Human 1');
+    expect(buttons[1]).to.have.text('Human 2');
+  });
+
+  it('should start with Human when chosen in 1-Player mode', function () {
+    document.querySelector('#game-dashboard button:first-of-type').click();
+    m.redraw.sync();
+    document.querySelector('#game-dashboard button:first-of-type').click();
+    m.redraw.sync();
+    var pendingChip = document.querySelector('.chip.pending');
+    expect(pendingChip).to.have.class('red');
+  });
+
+  it('should start with Human 1 when chosen in 2-Player mode', function () {
+    document.querySelector('#game-dashboard button:last-of-type').click();
+    m.redraw.sync();
+    document.querySelector('#game-dashboard button:first-of-type').click();
+    m.redraw.sync();
+    var pendingChip = document.querySelector('.chip.pending');
+    expect(pendingChip).to.have.class('red');
+  });
+
+  it('should start with Human 2 when chosen in 2-Player mode', function () {
+    document.querySelector('#game-dashboard button:last-of-type').click();
+    m.redraw.sync();
+    document.querySelector('#game-dashboard button:last-of-type').click();
+    m.redraw.sync();
+    var pendingChip = document.querySelector('.chip.pending');
+    expect(pendingChip).to.have.class('blue');
+  });
+
 });
