@@ -16,7 +16,7 @@ var GameComponent = {};
 GameComponent.oninit = function (vnode) {
   var game = new Game({
     // Only enable debug mode on non-production sites
-    debug: (window.location.host !== 'projects.calebevans.me')
+    debug: (window.location.host !== 'projects.calebevans.me' && !window.__karma__)
   });
   var state = vnode.state;
   _.extend(state, {
