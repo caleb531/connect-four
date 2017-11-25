@@ -8,10 +8,18 @@ var GameComponent = require('../app/scripts/components/game');
 
 describe('game UI', function () {
 
+  function qs(selector) {
+    return document.querySelector(selector);
+  }
+
+  function qsa(selector) {
+    return document.querySelectorAll(selector);
+  }
+
   // Wait for the next transition on the given element to complete, timing out
   // and erroring if the transition never completes
   function onPendingChipTransitionEnd(callback) {
-    var pendingChip = document.querySelector('.chip.pending');
+    var pendingChip = qs('.chip.pending');
     pendingChip.addEventListener('transitionend', callback);
     setTimeout(callback, 200);
   }
@@ -35,90 +43,90 @@ describe('game UI', function () {
 
   beforeEach(function () {
     document.body.appendChild(document.createElement('main'));
-    m.mount(document.querySelector('main'), GameComponent);
+    m.mount(qs('main'), GameComponent);
   });
 
   afterEach(function () {
-    m.mount(document.querySelector('main'), null);
+    m.mount(qs('main'), null);
   });
 
   it('should mount on main', function () {
-    m.mount(document.querySelector('main'), null);
+    m.mount(qs('main'), null);
     document.body.appendChild(document.createElement('main'));
     require('../app/scripts/main');
-    expect(document.querySelector('#game')).not.to.be.null;
+    expect(qs('#game')).not.to.be.null;
   });
 
   it('should render initial buttons', function () {
-    var buttons = document.querySelectorAll('#game-dashboard button');
+    var buttons = qsa('#game-dashboard button');
     expect(buttons).to.have.length(2);
     expect(buttons[0]).to.have.text('1 Player');
     expect(buttons[1]).to.have.text('2 Players');
   });
 
   it('should render initial grid', function () {
-    var slots = document.querySelectorAll('.empty-chip-slot');
+    var slots = qsa('.empty-chip-slot');
     expect(slots).to.have.length(42);
   });
 
   it('should ask for starting player in 1-Player mode', function () {
-    document.querySelector('#game-dashboard button:first-of-type').click();
+    qs('#game-dashboard button:first-of-type').click();
     m.redraw.sync();
-    var buttons = document.querySelectorAll('#game-dashboard button');
+    var buttons = qsa('#game-dashboard button');
     expect(buttons[0]).to.have.text('Human');
     expect(buttons[1]).to.have.text('Mr. AI');
   });
 
   it('should ask for starting player in 2-Player mode', function () {
-    document.querySelector('#game-dashboard button:last-of-type').click();
+    qs('#game-dashboard button:last-of-type').click();
     m.redraw.sync();
-    var buttons = document.querySelectorAll('#game-dashboard button');
+    var buttons = qsa('#game-dashboard button');
     expect(buttons[0]).to.have.text('Human 1');
     expect(buttons[1]).to.have.text('Human 2');
   });
 
   it('should start with Human when chosen in 1-Player mode', function () {
-    document.querySelector('#game-dashboard button:first-of-type').click();
+    qs('#game-dashboard button:first-of-type').click();
     m.redraw.sync();
-    document.querySelector('#game-dashboard button:first-of-type').click();
+    qs('#game-dashboard button:first-of-type').click();
     m.redraw.sync();
-    var pendingChip = document.querySelector('.chip.pending');
+    var pendingChip = qs('.chip.pending');
     expect(pendingChip).to.have.class('red');
   });
 
   it('should start with AI when chosen in 1-Player mode', function () {
-    document.querySelector('#game-dashboard button:first-of-type').click();
+    qs('#game-dashboard button:first-of-type').click();
     m.redraw.sync();
-    document.querySelector('#game-dashboard button:last-of-type').click();
+    qs('#game-dashboard button:last-of-type').click();
     m.redraw.sync();
-    var pendingChip = document.querySelector('.chip.pending');
+    var pendingChip = qs('.chip.pending');
     expect(pendingChip).to.have.class('black');
   });
 
   it('should start with Human 1 when chosen in 2-Player mode', function () {
-    document.querySelector('#game-dashboard button:last-of-type').click();
+    qs('#game-dashboard button:last-of-type').click();
     m.redraw.sync();
-    document.querySelector('#game-dashboard button:first-of-type').click();
+    qs('#game-dashboard button:first-of-type').click();
     m.redraw.sync();
-    var pendingChip = document.querySelector('.chip.pending');
+    var pendingChip = qs('.chip.pending');
     expect(pendingChip).to.have.class('red');
   });
 
   it('should start with Human 2 when chosen in 2-Player mode', function () {
-    document.querySelector('#game-dashboard button:last-of-type').click();
+    qs('#game-dashboard button:last-of-type').click();
     m.redraw.sync();
-    document.querySelector('#game-dashboard button:last-of-type').click();
+    qs('#game-dashboard button:last-of-type').click();
     m.redraw.sync();
-    var pendingChip = document.querySelector('.chip.pending');
+    var pendingChip = qs('.chip.pending');
     expect(pendingChip).to.have.class('blue');
   });
 
   it('should align chip to clicked column', function (done) {
-    document.querySelector('#game-dashboard button:last-of-type').click();
+    qs('#game-dashboard button:last-of-type').click();
     m.redraw.sync();
-    document.querySelector('#game-dashboard button:first-of-type').click();
+    qs('#game-dashboard button:first-of-type').click();
     m.redraw.sync();
-    var grid = document.querySelector('#grid');
+    var grid = qs('#grid');
     onPendingChipTransitionEnd(function () {
       expect(this.style.transform).to.equal('translate(192px, 0px)');
       done();
@@ -127,11 +135,11 @@ describe('game UI', function () {
   });
 
   it('should align chip to hovered column', function (done) {
-    document.querySelector('#game-dashboard button:last-of-type').click();
+    qs('#game-dashboard button:last-of-type').click();
     m.redraw.sync();
-    document.querySelector('#game-dashboard button:first-of-type').click();
+    qs('#game-dashboard button:first-of-type').click();
     m.redraw.sync();
-    var grid = document.querySelector('#grid');
+    var grid = qs('#grid');
     onPendingChipTransitionEnd(function () {
       expect(this.style.transform).to.equal('translate(192px, 0px)');
       done();
