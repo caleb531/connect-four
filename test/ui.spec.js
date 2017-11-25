@@ -35,22 +35,22 @@ describe('game UI', function () {
   }
 
   // Add syntactic sugar assertion for testing CSS translate values
-  Assertion.addMethod('translate', function (coords) {
+  Assertion.addMethod('translate', function (expectedX, expectedY) {
     var translate = this._obj.style.transform;
     var actualX = parseFloat(translate.slice(translate.indexOf('(') + 1));
     var actualY = parseFloat(translate.slice(translate.indexOf(',') + 1));
     this.assert(
-      actualX === coords.x,
+      actualX === expectedX,
       'expected #{this} to have translate x #{exp} but got #{act}',
       'expected #{this} not to have translate x #{exp}',
-      coords.x,
+      expectedX,
       actualX
     );
     this.assert(
-      actualY === coords.y,
+      actualY === expectedY,
       'expected #{this} to have translate y #{exp} but got #{act}',
       'expected #{this} not to have translate y #{exp}',
-      coords.y,
+      expectedY,
       actualY
     );
   });
@@ -150,7 +150,7 @@ describe('game UI', function () {
     m.redraw.sync();
     var grid = qs('#grid');
     onPendingChipTransitionEnd(function () {
-      expect(this).to.have.translate({x: 192, y: 0});
+      expect(this).to.have.translate(192, 0);
       done();
     });
     triggerMouseEvent(grid, 'click', 192, 0);
@@ -163,7 +163,7 @@ describe('game UI', function () {
     m.redraw.sync();
     var grid = qs('#grid');
     onPendingChipTransitionEnd(function () {
-      expect(this).to.have.translate({x: 192, y: 0});
+      expect(this).to.have.translate(192, 0);
       done();
     });
     triggerMouseEvent(grid, 'mousemove', 192, 0);
