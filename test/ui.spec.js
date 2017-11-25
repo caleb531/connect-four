@@ -8,16 +8,23 @@ var GameComponent = require('../app/scripts/components/game');
 
 describe('game UI', function () {
 
+  before(function () {
+    var style = document.createElement('style');
+    style.innerHTML = '* {padding-top: 64px;}';
+    document.head.appendChild(style);
+  });
+
   beforeEach(function () {
-    m.mount(document.body, GameComponent);
+    document.body.appendChild(document.createElement('main'));
+    m.mount(document.querySelector('main'), GameComponent);
   });
 
   afterEach(function () {
-    m.mount(document.body, null);
+    m.mount(document.querySelector('main'), null);
   });
 
   it('should mount on main', function () {
-    m.mount(document.body, null);
+    m.mount(document.querySelector('main'), null);
     document.body.appendChild(document.createElement('main'));
     require('../app/scripts/main');
     expect(document.querySelector('#game')).not.to.be.null;
