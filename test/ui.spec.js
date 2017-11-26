@@ -47,15 +47,15 @@ describe('game UI', function () {
     var actualY = parseFloat(translate.slice(translate.indexOf(',') + 1));
     this.assert(
       actualX === expectedX,
-      'expected #{this} to have translate x #{exp} but got #{act}',
-      'expected #{this} not to have translate x #{exp}',
+      'expected #{this} to have translateX #{exp} but got #{act}',
+      'expected #{this} not to have translateX #{exp}',
       expectedX,
       actualX
     );
     this.assert(
       actualY === expectedY,
-      'expected #{this} to have translate y #{exp} but got #{act}',
-      'expected #{this} not to have translate y #{exp}',
+      'expected #{this} to have translateY #{exp} but got #{act}',
+      'expected #{this} not to have translateY #{exp}',
       expectedY,
       actualY
     );
