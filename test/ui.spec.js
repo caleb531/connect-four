@@ -44,18 +44,11 @@ describe('game UI', function () {
     var actualX = parseFloat(translate.slice(translate.indexOf('(') + 1));
     var actualY = parseFloat(translate.slice(translate.indexOf(',') + 1));
     this.assert(
-      actualX === expectedX,
-      'expected #{this} to have translateX #{exp} but got #{act}',
-      'expected #{this} not to have translateX #{exp}',
-      expectedX,
-      actualX
-    );
-    this.assert(
-      actualY === expectedY,
-      'expected #{this} to have translateY #{exp} but got #{act}',
-      'expected #{this} not to have translateY #{exp}',
-      expectedY,
-      actualY
+      actualX === expectedX && actualY === expectedY,
+      'expected #{this} to have translate #{exp} but got #{act}',
+      'expected #{this} not to have translate #{exp}',
+      '(' + [expectedX, expectedY].join(', ') + ')',
+      '(' + [actualX, actualY].join(', ') + ')'
     );
   });
 
