@@ -22,12 +22,10 @@ describe('game UI', function () {
   function onPendingChipTransitionEnd() {
     return new Promise(function (resolve) {
       var pendingChip = qs('.chip.pending');
-      pendingChip.addEventListener('transitionend', function () {
+      pendingChip.addEventListener('transitionend', function transitionend() {
+        pendingChip.removeEventListener('transitionend', transitionend);
         resolve(pendingChip);
       });
-      setTimeout(function () {
-        resolve(pendingChip);
-      }, 200);
     });
   }
 
@@ -65,7 +63,7 @@ describe('game UI', function () {
   // duration of 0ms will prevent transitionEnd from firing)
   before(function () {
     var style = document.createElement('style');
-    style.innerHTML = '* {transition-duration: 1ms !important;}';
+    style.innerHTML = '* {transition-duration: 200ms !important;}';
     document.head.appendChild(style);
   });
 
@@ -194,6 +192,37 @@ describe('game UI', function () {
       })
       .then(function (pendingChip) {
         expect(pendingChip).to.have.translate(192, 384);
+        done();
+      })
+      .catch(done);
+    triggerMouseEvent(grid, 'click', 192, 0);
+  });
+
+  it('should signal AI to place chip on its turn', function (done) {
+    qsa('#game-dashboard button')[0].click();
+    m.redraw.sync();
+    qsa('#game-dashboard button')[0].click();
+    m.redraw.sync();
+    var grid = qs('#grid');
+    // Human's turn
+    onPendingChipTransitionEnd()
+      .then(function (pendingChip) {
+        expect(pendingChip).to.have.translate(192, 0);
+        triggerMouseEvent(grid, 'click', 192, 0);
+        return onPendingChipTransitionEnd();
+      })
+      .then(function (pendingChip) {
+        expect(pendingChip).to.have.translate(192, 384);
+        return onPendingChipTransitionEnd();
+      })
+      .then(function (pendingChip) {
+        // AI's turn
+        expect(pendingChip).to.have.class('black');
+        expect(pendingChip).to.have.translate(128, 0);
+        return onPendingChipTransitionEnd();
+      })
+      .then(function (pendingChip) {
+        expect(pendingChip).to.have.translate(128, 384);
         done();
       })
       .catch(done);
