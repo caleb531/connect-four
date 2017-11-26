@@ -12,6 +12,9 @@ module.exports = {
 
     // browser global variables
     'browser': true,
+    // enable all ECMAScript 6 features except for modules (this automatically
+    // sets the ecmaVersion parser option to 6)
+    'es6': true,
     // Node.js global variables and Node.js scoping
     'node': true
 

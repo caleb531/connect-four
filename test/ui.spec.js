@@ -19,10 +19,16 @@ describe('game UI', function () {
 
   // Wait for the next transition on the given element to complete, timing out
   // and erroring if the transition never completes
-  function onPendingChipTransitionEnd(callback) {
-    var pendingChip = qs('.chip.pending');
-    pendingChip.addEventListener('transitionend', callback);
-    setTimeout(callback, 200);
+  function onPendingChipTransitionEnd() {
+    return new Promise(function (resolve) {
+      var pendingChip = qs('.chip.pending');
+      pendingChip.addEventListener('transitionend', function () {
+        resolve(pendingChip);
+      });
+      setTimeout(function () {
+        resolve(pendingChip);
+      }, 200);
+    });
   }
 
   // Simulate a mouse event at the specified coordinates, relative to the given
@@ -149,10 +155,12 @@ describe('game UI', function () {
     qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
     var grid = qs('#grid');
-    onPendingChipTransitionEnd(function () {
-      expect(this).to.have.translate(0, 384);
-      done();
-    });
+    onPendingChipTransitionEnd()
+      .then(function (pendingChip) {
+        expect(pendingChip).to.have.translate(0, 384);
+        done();
+      })
+      .catch(done);
     triggerMouseEvent(grid, 'click', 0, 0);
   });
 
@@ -162,10 +170,33 @@ describe('game UI', function () {
     qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
     var grid = qs('#grid');
-    onPendingChipTransitionEnd(function () {
-      expect(this).to.have.translate(192, 0);
-      done();
-    });
+    onPendingChipTransitionEnd()
+      .then(function (pendingChip) {
+        expect(pendingChip).to.have.translate(192, 0);
+        done();
+      })
+      .catch(done);
+    triggerMouseEvent(grid, 'click', 192, 0);
+
+  });
+
+  it('should place chip after aligning', function (done) {
+    qsa('#game-dashboard button')[1].click();
+    m.redraw.sync();
+    qsa('#game-dashboard button')[0].click();
+    m.redraw.sync();
+    var grid = qs('#grid');
+    onPendingChipTransitionEnd()
+      .then(function (pendingChip) {
+        expect(pendingChip).to.have.translate(192, 0);
+        triggerMouseEvent(grid, 'click', 192, 0);
+        return onPendingChipTransitionEnd();
+      })
+      .then(function (pendingChip) {
+        expect(pendingChip).to.have.translate(192, 384);
+        done();
+      })
+      .catch(done);
     triggerMouseEvent(grid, 'click', 192, 0);
   });
 
@@ -175,10 +206,12 @@ describe('game UI', function () {
     qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
     var grid = qs('#grid');
-    onPendingChipTransitionEnd(function () {
-      expect(this).to.have.translate(192, 0);
-      done();
-    });
+    onPendingChipTransitionEnd()
+      .then(function (pendingChip) {
+        expect(pendingChip).to.have.translate(192, 0);
+        done();
+      })
+      .catch(done);
     triggerMouseEvent(grid, 'mousemove', 192, 0);
   });
 
