@@ -4,16 +4,6 @@ language: node_js
 node_js:
   - "7"
   - "6"
-# Installing rsvg-brunch requires a C++11 compiler and librsvg
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - g++-4.8
-    - librsvg2-dev
-env:
-  - CXX=g++-4.8
 before_install:
   - export CHROME_BIN=chromium-browser
   - export DISPLAY=:99.0
