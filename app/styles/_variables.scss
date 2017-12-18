@@ -12,9 +12,12 @@ $chip-margin: 6px;
 $chip-size-compact: 35px;
 $chip-margin-compact: 5px;
 
-// Page widths
-$page-max-width: ($chip-size + ($chip-margin * 2)) * $grid-column-count;
-$page-max-width-compact: ($chip-size-compact + ($chip-margin-compact * 2)) * $grid-column-count;
+// Page constants
+$page-spacing-top: 40px;
+$page-spacing-x: 20px;
+$hybrid-page-width: 700px;
+$compact-page-max-width: ($chip-size + ($chip-margin * 2)) * $grid-column-count;
+$compact-page-min-width: ($chip-size-compact + ($chip-margin-compact * 2)) * $grid-column-count;
 
 // Player/chip colors
 $player-colors: (

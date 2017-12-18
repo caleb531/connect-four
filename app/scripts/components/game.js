@@ -68,9 +68,14 @@ GameComponent.view = function (vnode) {
   return m('div#game', {
     class: classNames({'in-progress': vnode.state.game.inProgress})
   }, [
-    m(DashboardComponent, vnode.state),
-    m(GridComponent, vnode.state),
-    m(ScoreboardComponent, vnode.state)
+    m('div.game-column', [
+      m('h1', 'Connect Four'),
+      m(DashboardComponent, vnode.state)
+    ]),
+    m('div.game-column', [
+      m(GridComponent, vnode.state),
+      m(ScoreboardComponent, vnode.state)
+    ])
   ]);
 };
 
