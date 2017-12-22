@@ -52,22 +52,12 @@ main {
   padding: 0 $page-spacing-x;
   font-size: 0;
   @include if-hybrid-layout() {
-    display: block;
+    display: inline-block;
     margin-top: 0;
     padding: 0;
     text-align: center;
   }
   @include if-compact-layout() {
     max-width: $compact-page-min-width;
-  }
-}
-
-
-.game-column {
-  display: inline-block;
-  vertical-align: top;
-  @include if-hybrid-layout() {
-    display: block;
-    margin: 0 auto;
   }
 }
