@@ -77,13 +77,13 @@ GridComponent.oninit = function (vnode) {
       }
     },
     // Align the pending chip with the column nearest to the user's cursor
-    alignPendingChipViaPointer: function (mousedownEvent) {
+    alignPendingChipViaPointer: function (mousemoveEvent) {
       if (game.pendingChip && game.currentPlayer.type === 'human' && !state.transitionPendingChipY) {
         state.alignPendingChipWithColumn({
-          column: state.getLastVisitedColumnIndex(mousedownEvent)
+          column: state.getLastVisitedColumnIndex(mousemoveEvent)
         });
       } else {
-        mousedownEvent.redraw = false;
+        mousemoveEvent.redraw = false;
       }
     },
     // Get the coordinates of the chip slot element at the given column/row
