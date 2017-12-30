@@ -13,7 +13,7 @@ module.exports = {
         // isolation in unit tests.
         'scripts/main.js': [/^node_modules\/(process)/],
         'scripts/modules.js': ['app/scripts/**/*.js', /^node_modules/],
-        'scripts/test.js': ['test/*.js']
+        'scripts/test.js': ['test/**/*.js']
       },
       entryPoints: {
         'app/scripts/main.js': 'scripts/main.js'
