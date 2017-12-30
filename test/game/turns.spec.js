@@ -1,0 +1,55 @@
+'use strict';
+
+var chai = require('chai');
+var sinon = require('sinon');
+var sinonChai = require('sinon-chai');
+var expect = chai.expect;
+chai.use(sinonChai);
+
+var Game = require('../../app/scripts/models/game');
+
+describe('game', function () {
+
+  it('should start turn', function () {
+    var game = new Game();
+    game.setPlayers(2);
+    game.startGame();
+    game.startTurn();
+    expect(game.pendingChip).not.to.be.null;
+  });
+
+  it('should communicate with AI player on its turn', function () {
+    var game = new Game();
+    game.setPlayers(1);
+    var eventEmitted = false;
+    sinon.spy(game.players[1], 'computeNextMove');
+    try {
+      // Events are emitted and callbacks and run synchronously
+      game.on('ai-player:compute-next-move', function (aiPlayer, bestMove) {
+        eventEmitted = true;
+        expect(aiPlayer).to.equal(game.players[1]);
+        expect(bestMove).to.have.property('column');
+        expect(bestMove).to.have.property('score');
+      });
+      game.startGame({
+        startingPlayer: game.players[1]
+      });
+      expect(game.players[1].computeNextMove).to.have.been.calledWith(game);
+      expect(game.players[1].computeNextMove).to.have.been.calledWith(game);
+    } finally {
+      game.players[1].computeNextMove.restore();
+    }
+    // Emitter event callbacks should have run at this point
+    expect(eventEmitted, 'ai-player:compute-next-move not emitted').to.be.true;
+  });
+
+  it('should end turn', function () {
+    var game = new Game();
+    game.setPlayers(2);
+    game.startGame();
+    game.startTurn();
+    game.endTurn();
+    expect(game.currentPlayer).to.equal(game.players[1]);
+  });
+
+});
