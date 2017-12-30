@@ -6,6 +6,7 @@ var sinonChai = require('sinon-chai');
 var expect = chai.expect;
 chai.use(sinonChai);
 
+var Emitter = require('tiny-emitter');
 var Grid = require('../app/scripts/models/grid');
 var Player = require('../app/scripts/models/player');
 var Game = require('../app/scripts/models/game');
@@ -130,7 +131,13 @@ describe('game', function () {
   it('should start', function () {
     var game = new Game();
     game.setPlayers(2);
-    game.startGame();
+    sinon.spy(Emitter.prototype, 'emit');
+    try {
+      game.startGame();
+      expect(Emitter.prototype.emit).to.have.been.calledWith('game:start');
+    } finally {
+      Emitter.prototype.emit.restore();
+    }
     expect(game.currentPlayer).to.equal(game.players[0]);
     expect(game.inProgress).to.be.true;
   });
@@ -156,20 +163,24 @@ describe('game', function () {
   it('should communicate with AI player on its turn', function () {
     var game = new Game();
     game.setPlayers(1);
-    sinon.spy(game.players[1], 'computeNextMove');
     var eventEmitted = false;
-    // Events are emitted and callbacks and run synchronously
-    game.on('ai-player:compute-next-move', function (aiPlayer, bestMove) {
-      eventEmitted = true;
-      expect(aiPlayer).to.equal(game.players[1]);
-      expect(bestMove).to.have.property('column');
-      expect(bestMove).to.have.property('score');
-    });
-    game.startGame({
-      startingPlayer: game.players[1]
-    });
-    expect(game.players[1].computeNextMove).to.have.been.calledWith(game);
-    expect(game.players[1].computeNextMove).to.have.been.calledWith(game);
+    sinon.spy(game.players[1], 'computeNextMove');
+    try {
+      // Events are emitted and callbacks and run synchronously
+      game.on('ai-player:compute-next-move', function (aiPlayer, bestMove) {
+        eventEmitted = true;
+        expect(aiPlayer).to.equal(game.players[1]);
+        expect(bestMove).to.have.property('column');
+        expect(bestMove).to.have.property('score');
+      });
+      game.startGame({
+        startingPlayer: game.players[1]
+      });
+      expect(game.players[1].computeNextMove).to.have.been.calledWith(game);
+      expect(game.players[1].computeNextMove).to.have.been.calledWith(game);
+    } finally {
+      game.players[1].computeNextMove.restore();
+    }
     // Emitter event callbacks should have run at this point
     expect(eventEmitted, 'ai-player:compute-next-move not emitted').to.be.true;
   });
@@ -194,7 +205,13 @@ describe('game', function () {
     var game = new Game();
     game.setPlayers(2);
     game.startGame();
-    game.endGame();
+    sinon.spy(Emitter.prototype, 'emit');
+    try {
+      game.endGame();
+      expect(Emitter.prototype.emit).to.have.been.calledWith('game:end');
+    } finally {
+      Emitter.prototype.emit.restore();
+    }
     expect(game.currentPlayer).to.be.null;
     expect(game.inProgress).to.be.false;
     expect(game.pendingChip).to.be.null;
@@ -271,10 +288,16 @@ describe('game', function () {
     var game = new Game();
     game.setPlayers(2);
     game.startGame();
-    placeChips({
-      game: game,
-      columns: [2, 2, 3, 3, 4, 4, 5]
-    });
+    sinon.spy(Emitter.prototype, 'emit');
+    try {
+      placeChips({
+        game: game,
+        columns: [2, 2, 3, 3, 4, 4, 5]
+      });
+      expect(Emitter.prototype.emit).to.have.been.calledWith('game:declare-winner');
+    } finally {
+      Emitter.prototype.emit.restore();
+    }
     expect(game.winner).not.to.be.null;
     expect(game.winner.name).to.equal('Human 1');
   });
@@ -283,10 +306,16 @@ describe('game', function () {
     var game = new Game();
     game.setPlayers(2);
     game.startGame();
-    placeChips({
-      game: game,
-      columns: [0, 1, 0, 1, 0, 1, 0]
-    });
+    sinon.spy(Emitter.prototype, 'emit');
+    try {
+      placeChips({
+        game: game,
+        columns: [0, 1, 0, 1, 0, 1, 0]
+      });
+      expect(Emitter.prototype.emit).to.have.been.calledWith('game:declare-winner');
+    } finally {
+      Emitter.prototype.emit.restore();
+    }
     expect(game.winner).not.to.be.null;
     expect(game.winner.name).to.equal('Human 1');
   });
@@ -295,10 +324,16 @@ describe('game', function () {
     var game = new Game();
     game.setPlayers(2);
     game.startGame();
-    placeChips({
-      game: game,
-      columns: [3, 4, 4, 3, 5, 5, 5, 6, 6, 6, 6]
-    });
+    sinon.spy(Emitter.prototype, 'emit');
+    try {
+      placeChips({
+        game: game,
+        columns: [3, 4, 4, 3, 5, 5, 5, 6, 6, 6, 6]
+      });
+      expect(Emitter.prototype.emit).to.have.been.calledWith('game:declare-winner');
+    } finally {
+      Emitter.prototype.emit.restore();
+    }
     expect(game.winner).not.to.be.null;
     expect(game.winner.name).to.equal('Human 1');
   });
@@ -307,10 +342,16 @@ describe('game', function () {
     var game = new Game();
     game.setPlayers(2);
     game.startGame();
-    placeChips({
-      game: game,
-      columns: [0, 1, 1, 1, 2, 2, 2, 0, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 3]
-    });
+    sinon.spy(Emitter.prototype, 'emit');
+    try {
+      placeChips({
+        game: game,
+        columns: [0, 1, 1, 1, 2, 2, 2, 0, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 3]
+      });
+      expect(Emitter.prototype.emit).to.have.been.calledWith('game:declare-winner');
+    } finally {
+      Emitter.prototype.emit.restore();
+    }
     expect(game.winner).not.to.be.null;
     expect(game.winner.name).to.equal('Human 1');
   });
@@ -319,10 +360,16 @@ describe('game', function () {
     var game = new Game();
     game.setPlayers(2);
     game.startGame();
-    placeChips({
-      game: game,
-      columns: [2, 2, 3, 3, 4, 4, 6, 6, 5]
-    });
+    sinon.spy(Emitter.prototype, 'emit');
+    try {
+      placeChips({
+        game: game,
+        columns: [2, 2, 3, 3, 4, 4, 6, 6, 5]
+      });
+      expect(Emitter.prototype.emit).to.have.been.calledWith('game:declare-winner');
+    } finally {
+      Emitter.prototype.emit.restore();
+    }
     expect(game.winner).not.to.be.null;
     expect(game.winner.name).to.equal('Human 1');
   });
@@ -331,15 +378,21 @@ describe('game', function () {
     var game = new Game();
     game.setPlayers(2);
     game.startGame();
-    placeChips({
-      game: game,
-      columns: [
-        0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0,
-        2, 3, 2, 3, 2, 3, 3, 2, 3, 2, 3, 2,
-        4, 5, 4, 5, 4, 5, 5, 4, 5, 4, 5, 4,
-        6, 6, 6, 6, 6, 6
-      ]
-    });
+    sinon.spy(Emitter.prototype, 'emit');
+    try {
+      placeChips({
+        game: game,
+        columns: [
+          0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0,
+          2, 3, 2, 3, 2, 3, 3, 2, 3, 2, 3, 2,
+          4, 5, 4, 5, 4, 5, 5, 4, 5, 4, 5, 4,
+          6, 6, 6, 6, 6, 6
+        ]
+      });
+      expect(Emitter.prototype.emit).to.have.been.calledWith('game:declare-tie');
+    } finally {
+      Emitter.prototype.emit.restore();
+    }
     expect(game.winner).to.be.null;
     expect(game.inProgress).to.be.false;
     expect(game.players[0].score).to.equal(0);
