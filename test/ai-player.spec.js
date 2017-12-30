@@ -367,21 +367,6 @@ describe('AI player', function () {
     expect(game.players[1].computeNextMove(game).column).to.be.oneOf([0, 1]);
   });
 
-  it('should avoid losing move (#1)', function () {
-    var game = new Game();
-    game.setPlayers(1);
-    placeChips({
-      game: game,
-      columns: [
-        3, 6, 4, 1, 1, 4, 3, 3, 1, 1,
-        3, 0, 0, 3, 0, 0, 2, 2, 2, 5,
-        2, 4, 4, 4, 5, 0, 2, 2, 4, 6,
-        6, 6, 6, 6, 3
-      ]
-    });
-    expect(game.players[1].computeNextMove(game).column).to.be.oneOf([0, 1]);
-  });
-
   it('should avoid losing move (#2)', function () {
     var game = new Game();
     game.setPlayers(1);
