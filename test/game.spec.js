@@ -324,6 +324,7 @@ describe('game', function () {
       columns: [2, 2, 3, 3, 4, 4, 6, 6, 5]
     });
     expect(game.winner).not.to.be.null;
+    expect(game.winner.name).to.equal('Human 1');
   });
 
   it('should end when grid becomes full', function () {
