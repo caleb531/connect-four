@@ -1,8 +1,8 @@
-var Emitter = require('tiny-emitter');
-var Grid = require('./grid');
-var HumanPlayer = require('./human-player');
-var AIPlayer = require('./ai-player');
-var Chip = require('./chip');
+import Emitter from 'tiny-emitter';
+import Grid from './grid';
+import HumanPlayer from './human-player';
+import AIPlayer from './ai-player';
+import Chip from './chip';
 
 // A singleton representing a game between two players; the same Game instance
 // is re-used for successive "games"

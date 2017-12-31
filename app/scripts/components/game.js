@@ -1,12 +1,12 @@
 /* global ga:true */
 
-var _ = require('underscore');
-var m = require('mithril');
-var classNames = require('classnames');
-var Game = require('../models/game');
-var GridComponent = require('./grid');
-var DashboardComponent = require('./dashboard');
-var ScoreboardComponent = require('./scoreboard');
+import _ from 'underscore';
+import m from 'mithril';
+import classNames from 'classnames';
+import Game from '../models/game';
+import GridComponent from './grid';
+import DashboardComponent from './dashboard';
+import ScoreboardComponent from './scoreboard';
 
 // The game UI, encompassing all UI pertaining to the game directly
 var GameComponent = {};

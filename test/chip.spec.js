@@ -1,6 +1,6 @@
-var expect = require('chai').expect;
-var Player = require('../app/scripts/models/player');
-var Chip = require('../app/scripts/models/chip');
+import { expect } from 'chai';
+import Player from '../app/scripts/models/player';
+import Chip from '../app/scripts/models/chip';
 
 describe('chip', function () {
 

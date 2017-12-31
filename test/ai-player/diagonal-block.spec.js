@@ -1,8 +1,8 @@
-var chai = require('chai');
+import chai from 'chai';
 var expect = chai.expect;
-var utils = require('./utils');
+import utils from './utils';
 
-var Game = require('../../app/scripts/models/game');
+import Game from '../../app/scripts/models/game';
 
 describe('AI player', function () {
 

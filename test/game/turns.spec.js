@@ -1,10 +1,10 @@
-var chai = require('chai');
-var sinon = require('sinon');
-var sinonChai = require('sinon-chai');
-var expect = chai.expect;
+import chai from 'chai';
+import { expect } from 'chai';
+import sinon from 'sinon';
+import sinonChai from 'sinon-chai';
 chai.use(sinonChai);
 
-var Game = require('../../app/scripts/models/game');
+import Game from '../../app/scripts/models/game';
 
 describe('game', function () {
 

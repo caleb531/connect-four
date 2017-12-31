@@ -1,5 +1,5 @@
-var _ = require('underscore');
-var m = require('mithril');
+import _ from 'underscore';
+import m from 'mithril';
 
 // The area of the game UI consisting of game UI controls and status messages
 var DashboardComponent = {};

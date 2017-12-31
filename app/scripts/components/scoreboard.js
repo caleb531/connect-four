@@ -1,5 +1,5 @@
-var m = require('mithril');
-var classNames = require('classnames');
+import m from 'mithril';
+import classNames from 'classnames';
 
 // The area of the game UI that displays each player's current score
 var ScoreboardComponent = {};

@@ -1,11 +1,11 @@
-var chai = require('chai');
-var sinon = require('sinon');
-var sinonChai = require('sinon-chai');
+import chai from 'chai';
+import sinon from 'sinon';
+import sinonChai from 'sinon-chai';
 var expect = chai.expect;
 chai.use(sinonChai);
 
-var Emitter = require('tiny-emitter');
-var Game = require('../../app/scripts/models/game');
+import Emitter from 'tiny-emitter';
+import Game from '../../app/scripts/models/game';
 
 describe('game', function () {
 

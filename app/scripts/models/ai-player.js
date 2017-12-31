@@ -1,6 +1,6 @@
-var Grid = require('./grid');
-var Player = require('./player');
-var Chip = require('./chip');
+import Grid from './grid';
+import Player from './player';
+import Chip from './chip';
 
 // An AI player that can think for itself; every AI player inherits from the
 // base Player model

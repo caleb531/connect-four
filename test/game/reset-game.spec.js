@@ -1,7 +1,7 @@
-var chai = require('chai');
+import chai from 'chai';
 var expect = chai.expect;
 
-var Game = require('../../app/scripts/models/game');
+import Game from '../../app/scripts/models/game';
 
 describe('game', function () {
 

@@ -1,5 +1,5 @@
-var expect = require('chai').expect;
-var HumanPlayer = require('../app/scripts/models/human-player');
+import { expect } from 'chai';
+import HumanPlayer from '../app/scripts/models/human-player';
 
 describe('human player', function () {
 

@@ -1,9 +1,9 @@
-var chai = require('chai');
-chai.use(require('chai-dom'));
-var expect = chai.expect;
-var Assertion = chai.Assertion;
-var m = require('mithril');
-var GameComponent = require('../app/scripts/components/game');
+import chai from 'chai';
+import { expect, Assertion } from 'chai';
+import chaiDom from 'chai-dom';
+chai.use(chaiDom);
+import m from 'mithril';
+import GameComponent from '../app/scripts/components/game';
 
 describe('game UI', function () {
 

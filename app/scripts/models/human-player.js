@@ -1,4 +1,4 @@
-var Player = require('./player');
+import Player from './player';
 
 // A human player that requires user interaction; every human player inherits
 // from the base Player model

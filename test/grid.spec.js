@@ -1,8 +1,8 @@
-var _ = require('underscore');
-var expect = require('chai').expect;
-var Grid = require('../app/scripts/models/grid');
-var Player = require('../app/scripts/models/player');
-var Chip = require('../app/scripts/models/chip');
+import _ from 'underscore';
+import { expect } from 'chai';
+import Grid from '../app/scripts/models/grid';
+import Player from '../app/scripts/models/player';
+import Chip from '../app/scripts/models/chip';
 
 describe('grid', function () {
 

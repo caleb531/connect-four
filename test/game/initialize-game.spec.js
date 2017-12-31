@@ -1,9 +1,9 @@
-var chai = require('chai');
+import chai from 'chai';
 var expect = chai.expect;
 
-var Grid = require('../../app/scripts/models/grid');
-var Player = require('../../app/scripts/models/player');
-var Game = require('../../app/scripts/models/game');
+import Grid from '../../app/scripts/models/grid';
+import Player from '../../app/scripts/models/player';
+import Game from '../../app/scripts/models/game';
 
 describe('game', function () {
 

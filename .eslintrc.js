@@ -227,8 +227,6 @@ module.exports = {
     'no-plusplus': ['error'],
     // disallow whitespace before properties
     'no-whitespace-before-property': ['error'],
-    // enforce consistent spacing inside braces
-    'object-curly-spacing': ['error', 'never'],
     // enforce the consistent use of either backticks, double, or single quotes
     'quotes': ['error', 'single'],
     // require or disallow semicolons instead of ASI

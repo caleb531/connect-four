@@ -1,4 +1,4 @@
-var _ = require('underscore');
+import _ from 'underscore';
 
 // The state of a particular game grid
 function Grid(args) {

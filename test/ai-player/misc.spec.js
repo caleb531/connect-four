@@ -1,12 +1,12 @@
-var chai = require('chai');
-var sinon = require('sinon');
-var sinonChai = require('sinon-chai');
+import chai from 'chai';
+import sinon from 'sinon';
+import sinonChai from 'sinon-chai';
 var expect = chai.expect;
 chai.use(sinonChai);
-var utils = require('./utils');
+import utils from './utils';
 
-var AIPlayer = require('../../app/scripts/models/ai-player');
-var Game = require('../../app/scripts/models/game');
+import AIPlayer from '../../app/scripts/models/ai-player';
+import Game from '../../app/scripts/models/game';
 
 describe('AI player', function () {
 

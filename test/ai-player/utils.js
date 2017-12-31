@@ -1,4 +1,4 @@
-var Chip = require('../../app/scripts/models/chip');
+import Chip from '../../app/scripts/models/chip';
 
 // Place chips at the given columns with the given players
 function placeChips(args) {
