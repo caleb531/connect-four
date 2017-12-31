@@ -1,7 +1,7 @@
 import chai from 'chai';
+import { expect } from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-var expect = chai.expect;
 chai.use(sinonChai);
 
 import Emitter from 'tiny-emitter';

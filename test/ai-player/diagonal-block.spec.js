@@ -1,5 +1,4 @@
-import chai from 'chai';
-var expect = chai.expect;
+import { expect } from 'chai';
 import utils from './utils';
 
 import Game from '../../app/scripts/models/game';

@@ -1,5 +1,4 @@
-import chai from 'chai';
-var expect = chai.expect;
+import { expect } from 'chai';
 
 import Grid from '../../app/scripts/models/grid';
 import Player from '../../app/scripts/models/player';
