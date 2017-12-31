@@ -21,6 +21,17 @@ module.exports = {
   },
 
   /**
+   * Supported language options
+   */
+
+  parserOptions: {
+
+    // Enable ES6 modules
+    'sourceType': 'module'
+
+  },
+
+  /**
    * Enabled ESLint rules
    */
 
