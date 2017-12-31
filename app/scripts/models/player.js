@@ -1,5 +1,3 @@
-'use strict';
-
 // An abstract base model representing a player in a game
 function Player(args) {
   // The name of the player (e.g. 'Human 1')

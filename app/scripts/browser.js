@@ -1,5 +1,3 @@
-'use strict';
-
 var _ = require('underscore');
 
 // Utilities for cross-browser compatibility.

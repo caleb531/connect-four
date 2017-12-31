@@ -1,5 +1,3 @@
-'use strict';
-
 var m = require('mithril');
 var attachFastClick = require('fastclick');
 var GameComponent = require('./components/game');

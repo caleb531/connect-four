@@ -1,5 +1,3 @@
-'use strict';
-
 var m = require('mithril');
 var _ = require('underscore');
 var classNames = require('classnames');

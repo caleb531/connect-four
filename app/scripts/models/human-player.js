@@ -1,5 +1,3 @@
-'use strict';
-
 var Player = require('./player');
 
 // A human player that requires user interaction; every human player inherits

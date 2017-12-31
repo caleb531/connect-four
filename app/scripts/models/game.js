@@ -1,5 +1,3 @@
-'use strict';
-
 var Emitter = require('tiny-emitter');
 var Grid = require('./grid');
 var HumanPlayer = require('./human-player');

@@ -2,8 +2,6 @@
 
 // Generate an HTML coverage report from a sourcemap-remapped JSON one.
 
-'use strict';
-
 var istanbul = require('istanbul');
 
 var collector = new istanbul.Collector();

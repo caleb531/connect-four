@@ -1,5 +1,3 @@
-'use strict';
-
 var Chip = require('../../app/scripts/models/chip');
 
 // Place chips at the given columns with the given players

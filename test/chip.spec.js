@@ -1,5 +1,3 @@
-'use strict';
-
 var expect = require('chai').expect;
 var Player = require('../app/scripts/models/player');
 var Chip = require('../app/scripts/models/chip');

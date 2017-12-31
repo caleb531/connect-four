@@ -1,7 +1,5 @@
 /* global ga:true */
 
-'use strict';
-
 var _ = require('underscore');
 var m = require('mithril');
 var classNames = require('classnames');

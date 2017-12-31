@@ -1,5 +1,3 @@
-'use strict';
-
 var chai = require('chai');
 chai.use(require('chai-dom'));
 var expect = chai.expect;

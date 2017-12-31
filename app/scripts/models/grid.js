@@ -1,5 +1,3 @@
-'use strict';
-
 var _ = require('underscore');
 
 // The state of a particular game grid

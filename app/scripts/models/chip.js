@@ -1,5 +1,3 @@
-'use strict';
-
 // An individual chip/checker that can be placed on a game grid; each chip
 // belongs to a single player
 function Chip(args) {

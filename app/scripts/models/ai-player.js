@@ -1,5 +1,3 @@
-'use strict';
-
 var Grid = require('./grid');
 var Player = require('./player');
 var Chip = require('./chip');
