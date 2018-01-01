@@ -113,4 +113,4 @@ AIPlayer.prototype.minimizeMove = function (grid, minPlayer, depth, alpha, beta)
   return minMove;
 };
 
-module.exports = AIPlayer;
+export default AIPlayer;

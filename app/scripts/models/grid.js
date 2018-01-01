@@ -209,4 +209,4 @@ Grid.maxScore = Infinity;
 // minimizing player)
 Grid.minScore = -Grid.maxScore;
 
-module.exports = Grid;
+export default Grid;

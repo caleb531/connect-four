@@ -54,4 +54,4 @@ Browser.normalizeEventName = function (eventName) {
   return eventName;
 };
 
-module.exports = Browser;
+export default Browser;

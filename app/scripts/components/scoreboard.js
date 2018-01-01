@@ -14,4 +14,4 @@ ScoreboardComponent.view = function (vnode) {
   }));
 };
 
-module.exports = ScoreboardComponent;
+export default ScoreboardComponent;

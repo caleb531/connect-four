@@ -8,4 +8,4 @@ function Player(args) {
   this.score = 0;
 }
 
-module.exports = Player;
+export default Player;

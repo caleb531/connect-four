@@ -12,4 +12,4 @@ function Chip(args) {
   this.winning = false;
 }
 
-module.exports = Chip;
+export default Chip;

@@ -77,4 +77,4 @@ GameComponent.view = function (vnode) {
   ]);
 };
 
-module.exports = GameComponent;
+export default GameComponent;

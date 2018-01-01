@@ -8,4 +8,4 @@ function HumanPlayer(args) {
 HumanPlayer.prototype = Object.create(Player.prototype);
 HumanPlayer.prototype.type = 'human';
 
-module.exports = HumanPlayer;
+export default HumanPlayer;

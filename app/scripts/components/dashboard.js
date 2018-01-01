@@ -80,4 +80,4 @@ DashboardComponent.view = function (vnode) {
   ]);
 };
 
-module.exports = DashboardComponent;
+export default DashboardComponent;

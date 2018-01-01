@@ -180,4 +180,4 @@ Game.prototype.checkForWin = function () {
   }
 };
 
-module.exports = Game;
+export default Game;

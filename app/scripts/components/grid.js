@@ -236,4 +236,4 @@ GridComponent.view = function (vnode) {
   ]);
 };
 
-module.exports = GridComponent;
+export default GridComponent;
