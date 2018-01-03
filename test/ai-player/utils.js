@@ -2,14 +2,14 @@ import Chip from '../../app/scripts/models/chip';
 
 // Place chips at the given columns with the given players
 function placeChips(args) {
-  var currentPlayer;
+  let currentPlayer;
   if (args && args.startingPlayer) {
     currentPlayer = args.startingPlayer;
   } else {
     currentPlayer = args.game.players[0];
   }
   args.columns.forEach(function (column) {
-    var chip = new Chip({player: currentPlayer});
+    let chip = new Chip({player: currentPlayer});
     args.game.grid.placeChip({column: column, chip: chip});
     if (currentPlayer === args.game.players[0]) {
       currentPlayer = args.game.players[1];

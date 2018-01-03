@@ -23,7 +23,7 @@ class Grid {
 
   // Return true if the grid is completely full; otherwise, return false
   checkIfFull() {
-    var grid = this;
+    let grid = this;
     return grid.columns.every((column) => {
       return column.length === grid.rowCount;
     });
@@ -46,7 +46,7 @@ class Grid {
 
   // Return the index of the next available slot for the given column
   getNextAvailableSlot(args) {
-    var nextRowIndex = this.columns[args.column].length;
+    let nextRowIndex = this.columns[args.column].length;
     if (nextRowIndex < this.rowCount) {
       return nextRowIndex;
     } else {
@@ -65,16 +65,16 @@ class Grid {
 
   // Find same-color neighbors connected to the given chip in the given direction
   getConnection(baseChip, direction) {
-    var neighbor = baseChip;
-    var connection = [];
+    let neighbor = baseChip;
+    let connection = [];
     while (true) {
-      var nextColumn = neighbor.column + direction.x;
+      let nextColumn = neighbor.column + direction.x;
       // Stop if the left/right edge of the grid has been reached
       if (this.columns[nextColumn] === undefined) {
         break;
       }
-      var nextRow = neighbor.row + direction.y;
-      var nextNeighbor = this.columns[nextColumn][nextRow];
+      let nextRow = neighbor.row + direction.y;
+      let nextNeighbor = this.columns[nextColumn][nextRow];
       // Stop if the top/bottom edge of the grid has been reached or if the
       // neighboring slot is empty
       if (nextNeighbor === undefined) {
@@ -95,13 +95,13 @@ class Grid {
   // Get all connections of four chips (including connections of four within
   // larger connections) which the last placed chip is apart of
   getConnections(args) {
-    var grid = this;
-    var connections = [];
+    let grid = this;
+    let connections = [];
     // Use a native 'for' loop to maximize performance because the AI player will
     // invoke this function many, many times
-    for (var d = 0; d < Grid.connectionDirections.length; d += 1) {
-      var direction = Grid.connectionDirections[d];
-      var connection = [args.baseChip];
+    for (let d = 0; d < Grid.connectionDirections.length; d += 1) {
+      let direction = Grid.connectionDirections[d];
+      let connection = [args.baseChip];
       // Check for connected neighbors in this direction
       connection.push.apply(
         connection,
@@ -125,16 +125,16 @@ class Grid {
   // Calculate the intermediate grid score for the current slot, assuming neither
   // player has won yet
   getIntermediateScore(c, r, args) {
-    var gridScore = 0;
+    let gridScore = 0;
     // Search for current player's connections of one or more chips that are
     // connected to the empty slot
-    var connections = this.getConnections({
+    let connections = this.getConnections({
       // Treat the empty slot as a chip to appease the algorithm
       baseChip: {column: c, row: r, player: args.currentPlayer},
       connectionSize: 2
     });
     // Sum up connections, giving exponentially more weight to larger connections
-    for (var i = 0; i < connections.length; i += 1) {
+    for (let i = 0; i < connections.length; i += 1) {
       gridScore += Math.pow(connections[i].length, 2);
     }
     // Negate the grid score for any advantage the minimizing player has (as this
@@ -148,12 +148,12 @@ class Grid {
   // Check the grid for winning connections are return the max or min score if a
   // player won (depending on who the current player is)
   getWinningScore(c, r, args) {
-    var gridScore;
+    let gridScore;
     // Only check for winning connections by the current player
     if (this.columns[c][r].player !== args.currentPlayer) {
       return null;
     }
-    var connections = this.getConnections({
+    let connections = this.getConnections({
       baseChip: this.columns[c][r],
       connectionSize: 4
     });
@@ -172,8 +172,8 @@ class Grid {
 
   // Compute the grid's heuristic score for use by the AI player
   getScore(args) {
-    var gridScore = 0;
-    var c, r;
+    let gridScore = 0;
+    let c, r;
     // Use native for loops instead of forEach because the function will need to
     // return immediately if a winning connection is found (there is no clean way
     // to break out of forEach)
@@ -186,7 +186,7 @@ class Grid {
         } else {
           // Give player the maximum/minimum score if a connection of four or more
           // is found
-          var winningScore = this.getWinningScore(c, r, args);
+          let winningScore = this.getWinningScore(c, r, args);
           if (winningScore) {
             return winningScore;
           }

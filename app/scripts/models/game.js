@@ -115,7 +115,7 @@ class Game extends Emitter {
   startTurn() {
     this.pendingChip = new Chip({player: this.currentPlayer});
     if (this.currentPlayer.type === 'ai') {
-      var bestMove = this.currentPlayer.computeNextMove(this);
+      let bestMove = this.currentPlayer.computeNextMove(this);
       this.emit('ai-player:compute-next-move', this.currentPlayer, bestMove);
     }
   }
@@ -163,7 +163,7 @@ class Game extends Emitter {
   // Determine if a player won the game with four chips in a row (horizontally,
   // vertically, or diagonally)
   checkForWin() {
-    var connections = this.grid.getConnections({
+    let connections = this.grid.getConnections({
       baseChip: this.grid.lastPlacedChip,
       connectionSize: 4
     });

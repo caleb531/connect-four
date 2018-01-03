@@ -17,7 +17,7 @@ describe('game', function () {
   }
 
   it('should place pending chip', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(2);
     game.startGame();
     game.placePendingChip({column: 2});
@@ -26,7 +26,7 @@ describe('game', function () {
   });
 
   it('should win horizontally', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(2);
     game.startGame();
     sinon.spy(Emitter.prototype, 'emit');
@@ -44,7 +44,7 @@ describe('game', function () {
   });
 
   it('should win vertically', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(2);
     game.startGame();
     sinon.spy(Emitter.prototype, 'emit');
@@ -62,7 +62,7 @@ describe('game', function () {
   });
 
   it('should win diagonally', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(2);
     game.startGame();
     sinon.spy(Emitter.prototype, 'emit');
@@ -80,7 +80,7 @@ describe('game', function () {
   });
 
   it('should win with two connect-fours at once', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(2);
     game.startGame();
     sinon.spy(Emitter.prototype, 'emit');
@@ -98,7 +98,7 @@ describe('game', function () {
   });
 
   it('should win on connections of more than four', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(2);
     game.startGame();
     sinon.spy(Emitter.prototype, 'emit');
@@ -116,7 +116,7 @@ describe('game', function () {
   });
 
   it('should end when grid becomes full', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(2);
     game.startGame();
     sinon.spy(Emitter.prototype, 'emit');

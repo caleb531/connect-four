@@ -10,7 +10,7 @@ import Game from '../../app/scripts/models/game';
 describe('game', function () {
 
   it('should start', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(2);
     sinon.spy(Emitter.prototype, 'emit');
     try {
@@ -24,7 +24,7 @@ describe('game', function () {
   });
 
   it('should set starting player when starting', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(2);
     game.startGame({
       startingPlayer: game.players[1]

@@ -4,7 +4,7 @@ import HumanPlayer from '../app/scripts/models/human-player';
 describe('human player', function () {
 
   it('should initialize', function () {
-    var humanPlayer = new HumanPlayer({
+    let humanPlayer = new HumanPlayer({
       name: 'Super Player',
       color: 'blue'
     });

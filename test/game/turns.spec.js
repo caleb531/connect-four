@@ -9,7 +9,7 @@ import Game from '../../app/scripts/models/game';
 describe('game', function () {
 
   it('should start turn', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(2);
     game.startGame();
     game.startTurn();
@@ -17,9 +17,9 @@ describe('game', function () {
   });
 
   it('should communicate with AI player on its turn', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(1);
-    var eventEmitted = false;
+    let eventEmitted = false;
     sinon.spy(game.players[1], 'computeNextMove');
     try {
       // Events are emitted and callbacks and run synchronously
@@ -42,7 +42,7 @@ describe('game', function () {
   });
 
   it('should end turn', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(2);
     game.startGame();
     game.startTurn();

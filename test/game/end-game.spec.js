@@ -10,7 +10,7 @@ import Game from '../../app/scripts/models/game';
 describe('game', function () {
 
   it('should end', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(2);
     game.startGame();
     sinon.spy(Emitter.prototype, 'emit');
@@ -26,7 +26,7 @@ describe('game', function () {
   });
 
   it('should reset debug mode when ended', function () {
-   var game = new Game({debug: true});
+   let game = new Game({debug: true});
    game.setPlayers(2);
    game.startGame();
    sinon.stub(console, 'log');
@@ -43,7 +43,7 @@ describe('game', function () {
   });
 
   it('should increment winner\'s score when ending', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(2);
     game.startGame();
     game.winner = game.players[0];

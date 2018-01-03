@@ -19,7 +19,7 @@ describe('game UI', function () {
   // and erroring if the transition never completes
   function onPendingChipTransitionEnd() {
     return new Promise(function (resolve) {
-      var pendingChip = qs('.chip.pending');
+      let pendingChip = qs('.chip.pending');
       pendingChip.addEventListener('transitionend', function transitionend() {
         pendingChip.removeEventListener('transitionend', transitionend);
         resolve(pendingChip);
@@ -38,9 +38,9 @@ describe('game UI', function () {
 
   // Add syntactic sugar assertion for testing CSS translate values
   Assertion.addMethod('translate', function (expectedX, expectedY) {
-    var translate = this._obj.style.transform;
-    var actualX = parseFloat(translate.slice(translate.indexOf('(') + 1));
-    var actualY = parseFloat(translate.slice(translate.indexOf(',') + 1));
+    let translate = this._obj.style.transform;
+    let actualX = parseFloat(translate.slice(translate.indexOf('(') + 1));
+    let actualY = parseFloat(translate.slice(translate.indexOf(',') + 1));
     this.assert(
       actualX === expectedX && actualY === expectedY,
       'expected #{this} to have translate #{exp} but got #{act}',
@@ -53,7 +53,7 @@ describe('game UI', function () {
   // Minimize the transition duration to speed up tests (interestingly, a
   // duration of 0ms will prevent transitionEnd from firing)
   before(function () {
-    var style = document.createElement('style');
+    let style = document.createElement('style');
     style.innerHTML = '* {transition-duration: 200ms !important;}';
     document.head.appendChild(style);
   });
@@ -75,21 +75,21 @@ describe('game UI', function () {
   });
 
   it('should render initial buttons', function () {
-    var buttons = qsa('#game-dashboard button');
+    let buttons = qsa('#game-dashboard button');
     expect(buttons).to.have.length(2);
     expect(buttons[0]).to.have.text('1 Player');
     expect(buttons[1]).to.have.text('2 Players');
   });
 
   it('should render initial grid', function () {
-    var slots = qsa('.empty-chip-slot');
+    let slots = qsa('.empty-chip-slot');
     expect(slots).to.have.length(42);
   });
 
   it('should ask for starting player in 1-Player mode', function () {
     qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
-    var buttons = qsa('#game-dashboard button');
+    let buttons = qsa('#game-dashboard button');
     expect(buttons[0]).to.have.text('Human');
     expect(buttons[1]).to.have.text('Mr. AI');
   });
@@ -97,7 +97,7 @@ describe('game UI', function () {
   it('should ask for starting player in 2-Player mode', function () {
     qsa('#game-dashboard button')[1].click();
     m.redraw.sync();
-    var buttons = qsa('#game-dashboard button');
+    let buttons = qsa('#game-dashboard button');
     expect(buttons[0]).to.have.text('Human 1');
     expect(buttons[1]).to.have.text('Human 2');
   });
@@ -107,7 +107,7 @@ describe('game UI', function () {
     m.redraw.sync();
     qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
-    var pendingChip = qs('.chip.pending');
+    let pendingChip = qs('.chip.pending');
     expect(pendingChip).to.have.class('red');
   });
 
@@ -116,7 +116,7 @@ describe('game UI', function () {
     m.redraw.sync();
     qsa('#game-dashboard button')[1].click();
     m.redraw.sync();
-    var pendingChip = qs('.chip.pending');
+    let pendingChip = qs('.chip.pending');
     expect(pendingChip).to.have.class('black');
   });
 
@@ -125,7 +125,7 @@ describe('game UI', function () {
     m.redraw.sync();
     qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
-    var pendingChip = qs('.chip.pending');
+    let pendingChip = qs('.chip.pending');
     expect(pendingChip).to.have.class('red');
   });
 
@@ -134,7 +134,7 @@ describe('game UI', function () {
     m.redraw.sync();
     qsa('#game-dashboard button')[1].click();
     m.redraw.sync();
-    var pendingChip = qs('.chip.pending');
+    let pendingChip = qs('.chip.pending');
     expect(pendingChip).to.have.class('blue');
   });
 
@@ -143,7 +143,7 @@ describe('game UI', function () {
     m.redraw.sync();
     qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
-    var grid = qs('#grid');
+    let grid = qs('#grid');
     onPendingChipTransitionEnd()
       .then(function (pendingChip) {
         expect(pendingChip).to.have.translate(0, 384);
@@ -158,7 +158,7 @@ describe('game UI', function () {
     m.redraw.sync();
     qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
-    var grid = qs('#grid');
+    let grid = qs('#grid');
     onPendingChipTransitionEnd()
       .then(function (pendingChip) {
         expect(pendingChip).to.have.translate(192, 0);
@@ -174,7 +174,7 @@ describe('game UI', function () {
     m.redraw.sync();
     qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
-    var grid = qs('#grid');
+    let grid = qs('#grid');
     onPendingChipTransitionEnd()
       .then(function (pendingChip) {
         expect(pendingChip).to.have.translate(192, 0);
@@ -194,7 +194,7 @@ describe('game UI', function () {
     m.redraw.sync();
     qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
-    var grid = qs('#grid');
+    let grid = qs('#grid');
     // Human's turn
     onPendingChipTransitionEnd()
       .then(function (pendingChip) {
@@ -225,7 +225,7 @@ describe('game UI', function () {
     m.redraw.sync();
     qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
-    var grid = qs('#grid');
+    let grid = qs('#grid');
     onPendingChipTransitionEnd()
       .then(function (pendingChip) {
         expect(pendingChip).to.have.translate(192, 0);

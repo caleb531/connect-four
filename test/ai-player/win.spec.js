@@ -6,7 +6,7 @@ import Game from '../../app/scripts/models/game';
 describe('AI player', function () {
 
   it('should win horizontally on turn', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
       game: game,
@@ -16,7 +16,7 @@ describe('AI player', function () {
   });
 
   it('should win vertically on turn', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
       game: game,
@@ -26,7 +26,7 @@ describe('AI player', function () {
   });
 
   it('should win diagonally on turn', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
       game: game,
