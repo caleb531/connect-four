@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import utils from './utils';
+import utils from './utils.js';
 
-import Game from '../../app/scripts/models/game';
+import Game from '../../app/scripts/models/game.js';
 
 describe('AI player', function () {
 

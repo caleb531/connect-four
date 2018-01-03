@@ -3,7 +3,7 @@ import { expect, Assertion } from 'chai';
 import chaiDom from 'chai-dom';
 chai.use(chaiDom);
 import m from 'mithril';
-import GameComponent from '../app/scripts/components/game';
+import GameComponent from '../app/scripts/components/game.js';
 
 describe('game UI', function () {
 

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import HumanPlayer from '../app/scripts/models/human-player';
+import HumanPlayer from '../app/scripts/models/human-player.js';
 
 describe('human player', function () {
 

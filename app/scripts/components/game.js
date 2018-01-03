@@ -3,10 +3,10 @@
 import _ from 'underscore';
 import m from 'mithril';
 import classNames from 'classnames';
-import Game from '../models/game';
-import GridComponent from './grid';
-import DashboardComponent from './dashboard';
-import ScoreboardComponent from './scoreboard';
+import Game from '../models/game.js';
+import GridComponent from './grid.js';
+import DashboardComponent from './dashboard.js';
+import ScoreboardComponent from './scoreboard.js';
 
 // The game UI, encompassing all UI pertaining to the game directly
 class GameComponent {

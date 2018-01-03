@@ -1,8 +1,8 @@
 import _ from 'underscore';
 import { expect } from 'chai';
-import Grid from '../app/scripts/models/grid';
-import Player from '../app/scripts/models/player';
-import Chip from '../app/scripts/models/chip';
+import Grid from '../app/scripts/models/grid.js';
+import Player from '../app/scripts/models/player.js';
+import Chip from '../app/scripts/models/chip.js';
 
 describe('grid', function () {
 

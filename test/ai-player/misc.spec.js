@@ -3,10 +3,10 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 chai.use(sinonChai);
-import utils from './utils';
+import utils from './utils.js';
 
-import AIPlayer from '../../app/scripts/models/ai-player';
-import Game from '../../app/scripts/models/game';
+import AIPlayer from '../../app/scripts/models/ai-player.js';
+import Game from '../../app/scripts/models/game.js';
 
 describe('AI player', function () {
 

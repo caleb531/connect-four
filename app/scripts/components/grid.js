@@ -1,7 +1,7 @@
 import m from 'mithril';
 import _ from 'underscore';
 import classNames from 'classnames';
-import Browser from '../browser';
+import Browser from '../browser.js';
 
 // The grid UI, including the pending chip (i.e. the chip to be placed), as well
 // as all chips currently placed on the grid

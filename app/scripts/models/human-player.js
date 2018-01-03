@@ -1,4 +1,4 @@
-import Player from './player';
+import Player from './player.js';
 
 // A human player that requires user interaction; every human player inherits
 // from the base Player model

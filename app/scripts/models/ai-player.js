@@ -1,6 +1,6 @@
-import Grid from './grid';
-import Player from './player';
-import Chip from './chip';
+import Grid from './grid.js';
+import Player from './player.js';
+import Chip from './chip.js';
 
 // An AI player that can think for itself; every AI player inherits from the
 // base Player model

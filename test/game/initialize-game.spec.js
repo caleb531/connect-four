@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
-import Grid from '../../app/scripts/models/grid';
-import Player from '../../app/scripts/models/player';
-import Game from '../../app/scripts/models/game';
+import Grid from '../../app/scripts/models/grid.js';
+import Player from '../../app/scripts/models/player.js';
+import Game from '../../app/scripts/models/game.js';
 
 describe('game', function () {
 

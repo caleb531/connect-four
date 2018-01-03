@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 chai.use(sinonChai);
 
-import Game from '../../app/scripts/models/game';
+import Game from '../../app/scripts/models/game.js';
 
 describe('game', function () {
 

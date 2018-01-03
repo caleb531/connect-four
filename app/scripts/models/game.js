@@ -1,8 +1,8 @@
 import Emitter from 'tiny-emitter';
-import Grid from './grid';
-import HumanPlayer from './human-player';
-import AIPlayer from './ai-player';
-import Chip from './chip';
+import Grid from './grid.js';
+import HumanPlayer from './human-player.js';
+import AIPlayer from './ai-player.js';
+import Chip from './chip.js';
 
 // A game between two players; the same Game instance is re-used for successive
 // rounds
