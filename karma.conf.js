@@ -3,7 +3,7 @@
 module.exports = function (config) {
   config.set({
     basePath: 'public',
-    browsers: [process.env.TRAVIS ? 'Chrome_travis_ci' : 'Chrome'],
+    browsers: ['ChromeHeadless'],
     files: ['styles/main.css', 'scripts/modules.js', 'scripts/test.js'],
     reporters: ['dots'].concat(process.env.COVERAGE ? ['coverage'] : []),
     frameworks: ['mocha'],
@@ -16,12 +16,6 @@ module.exports = function (config) {
       dir: '../coverage/',
       subdir: '.',
       file: 'coverage-unmapped.json'
-    },
-    customLaunchers: {
-      Chrome_travis_ci: {
-        base: 'Chrome',
-        flags: ['--no-sandbox']
-      }
     }
   });
 };
