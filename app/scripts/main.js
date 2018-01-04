@@ -1,8 +1,6 @@
-'use strict';
-
-var m = require('mithril');
-var attachFastClick = require('fastclick');
-var GameComponent = require('./components/game');
+import m from 'mithril';
+import attachFastClick from 'fastclick';
+import GameComponent from './components/game.js';
 
 m.mount(document.querySelector('main'), GameComponent);
 attachFastClick(document.body);

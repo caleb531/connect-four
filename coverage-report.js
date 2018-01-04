@@ -2,15 +2,13 @@
 
 // Generate an HTML coverage report from a sourcemap-remapped JSON one.
 
-'use strict';
+let istanbul = require('istanbul');
 
-var istanbul = require('istanbul');
+let collector = new istanbul.Collector();
+let reporter = new istanbul.Reporter();
 
-var collector = new istanbul.Collector();
-var reporter = new istanbul.Reporter();
-
-var remappedJson = require('./coverage/coverage-remapped.json');
-var coverage = Object.keys(remappedJson).reduce(function (result, source) {
+let remappedJson = require('./coverage/coverage-remapped.json');
+let coverage = Object.keys(remappedJson).reduce(function (result, source) {
   // Only keep js files under app/.
   if (source.match(/^app\/.*\.js$/)) {
     result[source] = remappedJson[source];

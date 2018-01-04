@@ -1,7 +1,5 @@
 // Configured for ESLint 3.15.0
 
-'use strict';
-
 module.exports = {
 
   /**
@@ -17,6 +15,17 @@ module.exports = {
     'es6': true,
     // Node.js global variables and Node.js scoping
     'node': true
+
+  },
+
+  /**
+   * Supported language options
+   */
+
+  parserOptions: {
+
+    // Enable ES6 modules
+    'sourceType': 'module'
 
   },
 
@@ -218,8 +227,6 @@ module.exports = {
     'no-plusplus': ['error'],
     // disallow whitespace before properties
     'no-whitespace-before-property': ['error'],
-    // enforce consistent spacing inside braces
-    'object-curly-spacing': ['error', 'never'],
     // enforce the consistent use of either backticks, double, or single quotes
     'quotes': ['error', 'single'],
     // require or disallow semicolons instead of ASI

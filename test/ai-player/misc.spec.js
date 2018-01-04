@@ -1,19 +1,17 @@
-'use strict';
-
-var chai = require('chai');
-var sinon = require('sinon');
-var sinonChai = require('sinon-chai');
-var expect = chai.expect;
+import chai from 'chai';
+import { expect } from 'chai';
+import sinon from 'sinon';
+import sinonChai from 'sinon-chai';
 chai.use(sinonChai);
-var utils = require('./utils');
+import utils from './utils.js';
 
-var AIPlayer = require('../../app/scripts/models/ai-player');
-var Game = require('../../app/scripts/models/game');
+import AIPlayer from '../../app/scripts/models/ai-player.js';
+import Game from '../../app/scripts/models/game.js';
 
 describe('AI player', function () {
 
   it('should initialize', function () {
-    var aiPlayer = new AIPlayer({
+    let aiPlayer = new AIPlayer({
       name: 'HAL',
       color: 'red'
     });
@@ -24,12 +22,12 @@ describe('AI player', function () {
   });
 
   it('should wait when instructed', function () {
-    var aiPlayer = new AIPlayer({
+    let aiPlayer = new AIPlayer({
       name: 'HAL',
       color: 'red'
     });
-    var clock = sinon.useFakeTimers();
-    var callback = sinon.spy();
+    let clock = sinon.useFakeTimers();
+    let callback = sinon.spy();
     expect(aiPlayer.wait(callback));
     clock.tick(500);
     expect(callback).to.have.been.calledOnce;
@@ -37,7 +35,7 @@ describe('AI player', function () {
   });
 
   it('should wrap around if right side of grid is full', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
       game: game,

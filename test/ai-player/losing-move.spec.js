@@ -1,15 +1,12 @@
-'use strict';
+import { expect } from 'chai';
+import utils from './utils.js';
 
-var chai = require('chai');
-var expect = chai.expect;
-var utils = require('./utils');
-
-var Game = require('../../app/scripts/models/game');
+import Game from '../../app/scripts/models/game.js';
 
 describe('AI player', function () {
 
   it('should avoid losing move (#1)', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
       game: game,
@@ -24,7 +21,7 @@ describe('AI player', function () {
   });
 
   it('should avoid losing move (#2)', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
       game: game,
@@ -39,7 +36,7 @@ describe('AI player', function () {
   });
 
   it('should avoid losing move (#3)', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
       game: game,
@@ -53,7 +50,7 @@ describe('AI player', function () {
   });
 
   it('should avoid losing move (#4)', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
       game: game,

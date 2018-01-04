@@ -1,17 +1,15 @@
-'use strict';
-
-var chai = require('chai');
-var sinon = require('sinon');
-var sinonChai = require('sinon-chai');
-var expect = chai.expect;
+import chai from 'chai';
+import { expect } from 'chai';
+import sinon from 'sinon';
+import sinonChai from 'sinon-chai';
 chai.use(sinonChai);
 
-var Game = require('../../app/scripts/models/game');
+import Game from '../../app/scripts/models/game.js';
 
 describe('game', function () {
 
   it('should start turn', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(2);
     game.startGame();
     game.startTurn();
@@ -19,9 +17,9 @@ describe('game', function () {
   });
 
   it('should communicate with AI player on its turn', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(1);
-    var eventEmitted = false;
+    let eventEmitted = false;
     sinon.spy(game.players[1], 'computeNextMove');
     try {
       // Events are emitted and callbacks and run synchronously
@@ -44,7 +42,7 @@ describe('game', function () {
   });
 
   it('should end turn', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(2);
     game.startGame();
     game.startTurn();

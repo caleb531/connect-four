@@ -1,19 +1,22 @@
-'use strict';
-
-var m = require('mithril');
-var classNames = require('classnames');
+import m from 'mithril';
+import classNames from 'classnames';
 
 // The area of the game UI that displays each player's current score
-var ScoreboardComponent = {};
+class ScoreboardComponent {
 
-ScoreboardComponent.view = function (vnode) {
-  var game = vnode.attrs.game;
-  return m('div#game-scoreboard', game.players.map(function (player) {
-    return m('div.player-stats', {class: classNames(player.color)}, [
-      m('div.player-name', player.name),
-      m('div.player-score', player.score)
-    ]);
-  }));
-};
+  oninit(vnode) {
+    this.game = vnode.attrs.game;
+  }
 
-module.exports = ScoreboardComponent;
+  view() {
+    return m('div#game-scoreboard', this.game.players.map(function (player) {
+      return m('div.player-stats', {class: classNames(player.color)}, [
+        m('div.player-name', player.name),
+        m('div.player-score', player.score)
+      ]);
+    }));
+  }
+
+}
+
+export default ScoreboardComponent;

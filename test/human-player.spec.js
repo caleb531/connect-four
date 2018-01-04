@@ -1,12 +1,10 @@
-'use strict';
-
-var expect = require('chai').expect;
-var HumanPlayer = require('../app/scripts/models/human-player');
+import { expect } from 'chai';
+import HumanPlayer from '../app/scripts/models/human-player.js';
 
 describe('human player', function () {
 
   it('should initialize', function () {
-    var humanPlayer = new HumanPlayer({
+    let humanPlayer = new HumanPlayer({
       name: 'Super Player',
       color: 'blue'
     });

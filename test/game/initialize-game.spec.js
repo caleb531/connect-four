@@ -1,16 +1,13 @@
-'use strict';
+import { expect } from 'chai';
 
-var chai = require('chai');
-var expect = chai.expect;
-
-var Grid = require('../../app/scripts/models/grid');
-var Player = require('../../app/scripts/models/player');
-var Game = require('../../app/scripts/models/game');
+import Grid from '../../app/scripts/models/grid.js';
+import Player from '../../app/scripts/models/player.js';
+import Game from '../../app/scripts/models/game.js';
 
 describe('game', function () {
 
   it('should initialize with no arguments', function () {
-    var game = new Game();
+    let game = new Game();
     expect(game).to.have.property('grid');
     expect(game.grid).to.have.property('columnCount', 7);
     expect(game.grid).to.have.property('rowCount', 6);
@@ -23,7 +20,7 @@ describe('game', function () {
   });
 
   it('should initialize with arguments', function () {
-    var game = new Game({
+    let game = new Game({
       players: [
         new Player({color: 'blue', name: 'Bob'}),
         new Player({color: 'black', name: 'Larry'})
@@ -42,7 +39,7 @@ describe('game', function () {
   });
 
   it('should initialize debug mode when set', function () {
-    var game = new Game({debug: true});
+    let game = new Game({debug: true});
     expect(game).to.have.property('debug', true);
     expect(game).to.have.property('columnHistory');
     expect(game.columnHistory).to.be.an('array');
@@ -50,7 +47,7 @@ describe('game', function () {
   });
 
   it('should initialize 1P game', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(1);
     expect(game.players).to.have.length(2);
     expect(game.players[0].type).to.equal('human');
@@ -58,7 +55,7 @@ describe('game', function () {
   });
 
   it('should initialize 2P game', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(2);
     expect(game.players).to.have.length(2);
     expect(game.players[0].type).to.equal('human');

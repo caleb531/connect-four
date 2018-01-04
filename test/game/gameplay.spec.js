@@ -1,13 +1,11 @@
-'use strict';
-
-var chai = require('chai');
-var sinon = require('sinon');
-var sinonChai = require('sinon-chai');
-var expect = chai.expect;
+import chai from 'chai';
+import { expect } from 'chai';
+import sinon from 'sinon';
+import sinonChai from 'sinon-chai';
 chai.use(sinonChai);
 
-var Emitter = require('tiny-emitter');
-var Game = require('../../app/scripts/models/game');
+import Emitter from 'tiny-emitter';
+import Game from '../../app/scripts/models/game.js';
 
 describe('game', function () {
 
@@ -19,7 +17,7 @@ describe('game', function () {
   }
 
   it('should place pending chip', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(2);
     game.startGame();
     game.placePendingChip({column: 2});
@@ -28,7 +26,7 @@ describe('game', function () {
   });
 
   it('should win horizontally', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(2);
     game.startGame();
     sinon.spy(Emitter.prototype, 'emit');
@@ -46,7 +44,7 @@ describe('game', function () {
   });
 
   it('should win vertically', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(2);
     game.startGame();
     sinon.spy(Emitter.prototype, 'emit');
@@ -64,7 +62,7 @@ describe('game', function () {
   });
 
   it('should win diagonally', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(2);
     game.startGame();
     sinon.spy(Emitter.prototype, 'emit');
@@ -82,7 +80,7 @@ describe('game', function () {
   });
 
   it('should win with two connect-fours at once', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(2);
     game.startGame();
     sinon.spy(Emitter.prototype, 'emit');
@@ -100,7 +98,7 @@ describe('game', function () {
   });
 
   it('should win on connections of more than four', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(2);
     game.startGame();
     sinon.spy(Emitter.prototype, 'emit');
@@ -118,7 +116,7 @@ describe('game', function () {
   });
 
   it('should end when grid becomes full', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(2);
     game.startGame();
     sinon.spy(Emitter.prototype, 'emit');

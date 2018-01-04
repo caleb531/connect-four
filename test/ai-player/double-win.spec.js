@@ -1,15 +1,12 @@
-'use strict';
+import { expect } from 'chai';
+import utils from './utils.js';
 
-var chai = require('chai');
-var expect = chai.expect;
-var utils = require('./utils');
-
-var Game = require('../../app/scripts/models/game');
+import Game from '../../app/scripts/models/game.js';
 
 describe('AI player', function () {
 
   it('should block one win of opponent double-win (#1)', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
       game: game,
@@ -19,7 +16,7 @@ describe('AI player', function () {
   });
 
   it('should block one win of opponent double-win (#2)', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
       game: game,
@@ -29,7 +26,7 @@ describe('AI player', function () {
   });
 
   it('should block one win of opponent double-win (#3)', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
       game: game,
@@ -39,7 +36,7 @@ describe('AI player', function () {
   });
 
   it('should block one win of opponent double-win (#4)', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
       game: game,
@@ -49,7 +46,7 @@ describe('AI player', function () {
   });
 
   it('should block one win of opponent double-win (#5)', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
       game: game,
@@ -59,7 +56,7 @@ describe('AI player', function () {
   });
 
   it('should block one win of opponent double-win (#6)', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
       game: game,
@@ -69,7 +66,7 @@ describe('AI player', function () {
   });
 
   it('should block one win of opponent double-win (#7)', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
       game: game,
@@ -79,7 +76,7 @@ describe('AI player', function () {
   });
 
   it('should block one win of opponent double-win (#8)', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
       game: game,
@@ -89,7 +86,7 @@ describe('AI player', function () {
   });
 
   it('should block one win of opponent double-win (#9)', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
       game: game,
@@ -99,7 +96,7 @@ describe('AI player', function () {
   });
 
   it('should block one win of opponent double-win (#10)', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
       game: game,
@@ -114,7 +111,7 @@ describe('AI player', function () {
   });
 
   it('should block one win of opponent double-win (#11)', function () {
-    var game = new Game();
+    let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
       game: game,
