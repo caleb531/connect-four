@@ -57,18 +57,25 @@ module.exports = {
     },
     // App icon generator
     rsvg: {
-      conversions: [{
-        input: 'app/icons/app-icon.svg',
-        outputDefaults: {path: 'icons/app-icon-{width}.png'},
-        output: [
-          {width: 32, path: 'icons/favicon.png'},
-          {width: 180, path: 'icons/apple-touch-icon.png'},
-          {width: 192},
-          {width: 256},
-          {width: 384},
-          {width: 512}
-        ]
-      }]
+      conversions: [
+        {
+          input: 'app/icons/favicon.svg',
+          output: [
+            {width: 32, path: 'icons/favicon.png'}
+          ]
+        },
+        {
+          input: 'app/icons/app-icon.svg',
+          outputDefaults: {path: 'icons/app-icon-{width}.png'},
+          output: [
+            {width: 180, path: 'icons/apple-touch-icon.png'},
+            {width: 192},
+            {width: 256},
+            {width: 384},
+            {width: 512}
+          ]
+        }
+      ]
     },
     // Service worker cache for offline access
     swPrecache: {

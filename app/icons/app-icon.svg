@@ -1,13 +1,23 @@
-<svg viewBox="0 0 32 32" width="192" height="192" xmlns="http://www.w3.org/2000/svg"  xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg viewBox="0 0 288 288" xmlns="http://www.w3.org/2000/svg"  xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
-    <circle id="c4-circle" cx="0" cy="0" r="6" stroke-width="0.5" />
-    <use id="c4-empty-slot" xlink:href="#c4-circle" fill="none" stroke="#bbb" />
-    <use id="c4-blue-chip" xlink:href="#c4-circle" fill="#36c" stroke="#149" />
-    <use id="c4-red-chip" xlink:href="#c4-circle" fill="#c33" stroke="#900" />
+    <circle id="c4-chip" cx="0" cy="0" r="24" stroke-width="4" />
+    <use id="c4-blue-chip" xlink:href="#c4-chip" fill="#abe" stroke="#9ae" />
+    <use id="c4-red-chip" xlink:href="#c4-chip" fill="#eaa" stroke="#d99" />
+    <use id="c4-winning-red-chip" xlink:href="#c4-chip" fill="#c33" stroke="#900" />
   </defs>
-  <rect x="0" y="0" width="100%" height="100%" fill="#fff" rx="3" ry="3" />
-  <use xlink:href="#c4-red-chip" x="8" y="8" />
-  <use xlink:href="#c4-blue-chip" x="8" y="24" />
-  <use xlink:href="#c4-empty-slot" x="24" y="8" />
-  <use xlink:href="#c4-red-chip" x="24" y="24" />
+  <rect x="0" y="0" width="288" height="288" fill="#fff" rx="20" ry="20" />
+  <!-- first column -->
+  <use xlink:href="#c4-winning-red-chip" x="48" y="48" />
+  <use xlink:href="#c4-blue-chip" x="48" y="112" />
+  <use xlink:href="#c4-red-chip" x="48" y="176" />
+  <use xlink:href="#c4-blue-chip" x="48" y="240" />
+  <!-- second column -->
+  <use xlink:href="#c4-winning-red-chip" x="112" y="112" />
+  <use xlink:href="#c4-blue-chip" x="112" y="176" />
+  <use xlink:href="#c4-red-chip" x="112" y="240" />
+  <!-- third column -->
+  <use xlink:href="#c4-winning-red-chip" x="176" y="176" />
+  <use xlink:href="#c4-blue-chip" x="176" y="240" />
+  <!-- fourth column -->
+  <use xlink:href="#c4-winning-red-chip" x="240" y="240" />
 </svg>
