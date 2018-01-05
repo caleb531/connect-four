@@ -65,10 +65,18 @@ module.exports = {
           ]
         },
         {
+          input: 'app/icons/apple-touch-icon.svg',
+          output: [
+            {width: 76, path: 'icons/apple-touch-icon-76.png'},
+            {width: 120, path: 'icons/apple-touch-icon-120.png'},
+            {width: 152, path: 'icons/apple-touch-icon-152.png'},
+            {width: 180, path: 'icons/apple-touch-icon-180.png'}
+          ]
+        },
+        {
           input: 'app/icons/app-icon.svg',
           outputDefaults: {path: 'icons/app-icon-{width}.png'},
           output: [
-            {width: 180, path: 'icons/apple-touch-icon.png'},
             {width: 192},
             {width: 256},
             {width: 384},
