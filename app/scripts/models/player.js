@@ -1,11 +1,12 @@
 // An abstract base model representing a player in a game
 class Player {
 
-  constructor(args) {
+  /* eslint-disable no-shadow */
+  constructor({ name, color }) {
     // The name of the player (e.g. 'Human 1')
-    this.name = args.name;
+    this.name = name;
     // The player's chip color (supported colors are black, blue, and red)
-    this.color = args.color;
+    this.color = color;
     // The player's total number of wins across all games
     this.score = 0;
   }

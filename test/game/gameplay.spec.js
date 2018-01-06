@@ -10,9 +10,9 @@ import Game from '../../app/scripts/models/game.js';
 describe('game', function () {
 
   // Place chips at the given columns in the given order
-  function placeChips(args) {
-    args.columns.forEach(function (column) {
-      args.game.placePendingChip({column: column});
+  function placeChips({ game, columns }) {
+    columns.forEach(function (column) {
+      game.placePendingChip({column: column});
     });
   }
 

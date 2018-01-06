@@ -3,16 +3,16 @@ import _ from 'underscore';
 class Grid {
 
   // The state of a particular game grid
-  constructor(args) {
-    this.columnCount = args.columnCount;
-    this.rowCount = args.rowCount;
+  constructor({ columnCount, rowCount, columns, lastPlacedChip }) {
+    this.columnCount = columnCount;
+    this.rowCount = rowCount;
     // If existing grid object is passed to constructor, copy it
-    if (args instanceof Grid) {
+    if (arguments[0] instanceof Grid) {
       // The columns array where columns containing placed chips are stored
-      this.columns = args.columns.map((column) => {
+      this.columns = columns.map((column) => {
         return column.slice(0);
       });
-      this.lastPlacedChip = args.lastPlacedChip;
+      this.lastPlacedChip = lastPlacedChip;
     } else {
       this.columns = _.times(this.columnCount, () => {
         return [];
@@ -45,8 +45,8 @@ class Grid {
   }
 
   // Return the index of the next available slot for the given column
-  getNextAvailableSlot(args) {
-    let nextRowIndex = this.columns[args.column].length;
+  getNextAvailableSlot({ column }) {
+    let nextRowIndex = this.columns[column].length;
     if (nextRowIndex < this.rowCount) {
       return nextRowIndex;
     } else {
@@ -56,11 +56,11 @@ class Grid {
   }
 
   // Place the given chip into the specified column on the grid
-  placeChip(args) {
-    this.columns[args.column].push(args.chip);
-    this.lastPlacedChip = args.chip;
-    args.chip.column = args.column;
-    args.chip.row = this.columns[args.column].length - 1;
+  placeChip({ chip, column }) {
+    this.columns[column].push(chip);
+    this.lastPlacedChip = chip;
+    chip.column = column;
+    chip.row = this.columns[column].length - 1;
   }
 
   // Find same-color neighbors connected to the given chip in the given direction
@@ -94,28 +94,28 @@ class Grid {
 
   // Get all connections of four chips (including connections of four within
   // larger connections) which the last placed chip is apart of
-  getConnections(args) {
+  getConnections({ baseChip, connectionSize }) {
     let grid = this;
     let connections = [];
     // Use a native 'for' loop to maximize performance because the AI player will
     // invoke this function many, many times
     for (let d = 0; d < Grid.connectionDirections.length; d += 1) {
       let direction = Grid.connectionDirections[d];
-      let connection = [args.baseChip];
+      let connection = [baseChip];
       // Check for connected neighbors in this direction
       connection.push.apply(
         connection,
-        grid.getConnection(args.baseChip, direction)
+        grid.getConnection(baseChip, direction)
       );
       // Check for connected neighbors in the opposite direction
       connection.push.apply(
         connection,
-        grid.getConnection(args.baseChip, {
+        grid.getConnection(baseChip, {
           x: -direction.x,
           y: -direction.y
         })
       );
-      if (connection.length >= args.connectionSize) {
+      if (connection.length >= connectionSize) {
         connections.push(connection);
       }
     }
@@ -124,13 +124,13 @@ class Grid {
 
   // Calculate the intermediate grid score for the current slot, assuming neither
   // player has won yet
-  getIntermediateScore(c, r, args) {
+  getIntermediateScore({ currentPlayer, currentPlayerIsMaxPlayer, c, r }) {
     let gridScore = 0;
     // Search for current player's connections of one or more chips that are
     // connected to the empty slot
     let connections = this.getConnections({
       // Treat the empty slot as a chip to appease the algorithm
-      baseChip: {column: c, row: r, player: args.currentPlayer},
+      baseChip: {column: c, row: r, player: currentPlayer},
       connectionSize: 2
     });
     // Sum up connections, giving exponentially more weight to larger connections
@@ -139,7 +139,7 @@ class Grid {
     }
     // Negate the grid score for any advantage the minimizing player has (as this
     // is considered a disadvantage to the maximizing player)
-    if (!args.currentPlayerIsMaxPlayer) {
+    if (!currentPlayerIsMaxPlayer) {
       gridScore *= -1;
     }
     return gridScore;
@@ -147,10 +147,10 @@ class Grid {
 
   // Check the grid for winning connections are return the max or min score if a
   // player won (depending on who the current player is)
-  getWinningScore(c, r, args) {
+  getWinningScore({ currentPlayer, currentPlayerIsMaxPlayer, c, r }) {
     let gridScore;
     // Only check for winning connections by the current player
-    if (this.columns[c][r].player !== args.currentPlayer) {
+    if (this.columns[c][r].player !== currentPlayer) {
       return null;
     }
     let connections = this.getConnections({
@@ -158,7 +158,7 @@ class Grid {
       connectionSize: 4
     });
     if (connections.length >= 1) {
-      if (args.currentPlayerIsMaxPlayer) {
+      if (currentPlayerIsMaxPlayer) {
         // The maximizing player wins
         gridScore = Grid.maxScore;
       } else {
@@ -171,7 +171,7 @@ class Grid {
   }
 
   // Compute the grid's heuristic score for use by the AI player
-  getScore(args) {
+  getScore({ currentPlayer, currentPlayerIsMaxPlayer }) {
     let gridScore = 0;
     let c, r;
     // Use native for loops instead of forEach because the function will need to
@@ -182,11 +182,11 @@ class Grid {
         // If grid slot is empty
         if (this.columns[c][r] === undefined) {
           // Calculate the score normally assuming neither player has won yet
-          gridScore += this.getIntermediateScore(c, r, args);
+          gridScore += this.getIntermediateScore({ currentPlayer, currentPlayerIsMaxPlayer, c, r });
         } else {
           // Give player the maximum/minimum score if a connection of four or more
           // is found
-          let winningScore = this.getWinningScore(c, r, args);
+          let winningScore = this.getWinningScore({ currentPlayer, currentPlayerIsMaxPlayer, c, r });
           if (winningScore) {
             return winningScore;
           }

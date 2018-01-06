@@ -1,8 +1,8 @@
 // An individual chip/checker that can be placed on a game grid; each chip
 // belongs to a single player
-function Chip(args) {
+function Chip({ player }) {
   // A reference to the player who placed this chip
-  this.player = args.player;
+  this.player = player;
   // The index of the column on the grid where this chip was placed
   this.column = null;
   // The index of the row on the grid where this chip was placed

@@ -71,11 +71,11 @@ class GridComponent {
   }
 
   // Horizontally align the pending chip with the specified column
-  alignPendingChipWithColumn(args) {
+  alignPendingChipWithColumn({ column, transitionEnd }) {
     // The last visited column is the grid column nearest to the cursor at
     // any given instant; keep track of the column's X position so the next
     // pending chip can instantaneously appear there
-    let newLastVisitedColumnX = this.getChipWidth() * args.column;
+    let newLastVisitedColumnX = this.getChipWidth() * column;
     if (newLastVisitedColumnX !== this.lastVisitedColumnX) {
       this.lastVisitedColumnX = newLastVisitedColumnX;
       this.pendingChipX = this.lastVisitedColumnX;
@@ -86,8 +86,8 @@ class GridComponent {
         this.transitionPendingChipX = false;
         // Allow the caller of alignPendingChipWithColumn() to provide an
         // arbitrary callback to run when the pending chip transition ends
-        if (args.transitionEnd) {
-          args.transitionEnd();
+        if (transitionEnd) {
+          transitionEnd();
         }
       });
     }
@@ -105,39 +105,39 @@ class GridComponent {
   }
 
   // Get the coordinates of the chip slot element at the given column/row
-  getSlotCoords(args) {
+  getSlotCoords({ column, row }) {
     let chipWidth = this.getChipWidth();
     return {
-      x: chipWidth * args.column,
-      y: chipWidth * (this.game.grid.rowCount - args.row)
+      x: chipWidth * column,
+      y: chipWidth * (this.game.grid.rowCount - row)
     };
   }
 
   // Place the pending chip into the specified column (or, if the chip is not
   // currently aligned with said column, do so first without placing it)
-  placePendingChip(args) {
+  placePendingChip({ column }) {
     let rowIndex = this.game.grid.getNextAvailableSlot({
-      column: args.column
+      column: column
     });
     // Do not allow user to place chip in column that is already full
     if (rowIndex === null) {
       return;
     }
     let slotCoords = this.getSlotCoords({
-      column: args.column,
+      column: column,
       row: rowIndex
     });
     // If pending chip is not currently aligned with chosen column
     if (this.pendingChipX !== slotCoords.x) {
       // First align pending chip with column
       this.alignPendingChipWithColumn({
-        column: args.column,
+        column: column,
         // On the AI's turn, automatically place the chip after aligning it
         // with the specified column
         transitionEnd: () => {
           if (this.game.currentPlayer.type === 'ai') {
             this.game.currentPlayer.wait(() => {
-              this.placePendingChip(args);
+              this.placePendingChip({ column });
             });
           }
         }
@@ -153,7 +153,7 @@ class GridComponent {
       this.pendingChipX = slotCoords.x;
       this.pendingChipY = slotCoords.y;
       // Perform insertion on internal game grid once transition has ended
-      this.finishPlacingPendingChip(args);
+      this.finishPlacingPendingChip({ column });
     }
     m.redraw();
   }
@@ -171,9 +171,9 @@ class GridComponent {
 
   // Actually insert the pending chip into the internal grid once the falling
   // transition has ended
-  finishPlacingPendingChip(args) {
+  finishPlacingPendingChip({ column }) {
     this.waitForPendingChipTransitionEnd(() => {
-      this.game.placePendingChip({column: args.column});
+      this.game.placePendingChip({column: column});
       this.transitionPendingChipX = false;
       this.transitionPendingChipY = false;
       // Reset position of pending chip to the space directly above the last

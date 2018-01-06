@@ -8,18 +8,18 @@ import Chip from './chip.js';
 // rounds
 class Game extends Emitter {
 
-  constructor(args) {
+  constructor({ grid, players, debug = false } = {}) {
     super();
-    if (args && args.grid) {
-      this.grid = args.grid;
+    if (grid) {
+      this.grid = grid;
     } else {
       this.grid = new Grid({
         columnCount: 7,
         rowCount: 6
       });
     }
-    if (args && args.players) {
-      this.players = args.players;
+    if (players) {
+      this.players = players;
     } else {
       this.players = [];
     }
@@ -37,7 +37,7 @@ class Game extends Emitter {
     Emitter.call(this);
     // Keep track of the columns where chips are placed in debug mode (extremely
     // useful for creating new unit tests from real games)
-    if (args && args.debug) {
+    if (debug) {
       this.debug = true;
       this.columnHistory = [];
     } else {
@@ -45,9 +45,9 @@ class Game extends Emitter {
     }
   }
 
-  startGame(args) {
-    if (args && args.startingPlayer) {
-      this.currentPlayer = args.startingPlayer;
+  startGame({ startingPlayer } = {}) {
+    if (startingPlayer) {
+      this.currentPlayer = startingPlayer;
     } else {
       this.currentPlayer = this.players[0];
     }
@@ -130,13 +130,13 @@ class Game extends Emitter {
   }
 
   // Insert the current pending chip into the columns array at the given index
-  placePendingChip(args) {
+  placePendingChip({ column }) {
     this.grid.placeChip({
       chip: this.pendingChip,
-      column: args.column
+      column: column
     });
     if (this.debug) {
-      this.columnHistory.push(args.column);
+      this.columnHistory.push(column);
       // The column history will only be logged on non-production sites, so we
       // can safely disable the ESLint error
       // eslint-disable-next-line no-console
