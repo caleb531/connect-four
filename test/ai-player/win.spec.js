@@ -3,9 +3,9 @@ import utils from './utils.js';
 
 import Game from '../../app/scripts/models/game.js';
 
-describe('AI player', function () {
+describe('AI player', () => {
 
-  it('should win horizontally on turn', function () {
+  it('should win horizontally on turn', () => {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
@@ -15,7 +15,7 @@ describe('AI player', function () {
     expect(game.players[1].computeNextMove(game).column).to.equal(5);
   });
 
-  it('should win vertically on turn', function () {
+  it('should win vertically on turn', () => {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
@@ -25,7 +25,7 @@ describe('AI player', function () {
     expect(game.players[1].computeNextMove(game).column).to.equal(2);
   });
 
-  it('should win diagonally on turn', function () {
+  it('should win diagonally on turn', () => {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({

@@ -2,9 +2,9 @@ import { expect } from 'chai';
 
 import Game from '../../app/scripts/models/game.js';
 
-describe('game', function () {
+describe('game', () => {
 
-  it('should reset grid when resetting', function () {
+  it('should reset grid when resetting', () => {
     let game = new Game();
     game.setPlayers(2);
     game.startGame();
@@ -15,7 +15,7 @@ describe('game', function () {
     expect(game.grid.columns[2]).to.have.length(0);
   });
 
-  it('should reset winner when resetting', function () {
+  it('should reset winner when resetting', () => {
     let game = new Game();
     game.setPlayers(2);
     game.startGame();
@@ -25,7 +25,7 @@ describe('game', function () {
     expect(game.winner).to.be.null;
   });
 
-  it('should reset pending chip when resetting', function () {
+  it('should reset pending chip when resetting', () => {
     let game = new Game();
     game.setPlayers(2);
     game.startGame();

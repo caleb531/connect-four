@@ -2,9 +2,9 @@ import { expect } from 'chai';
 import Player from '../app/scripts/models/player.js';
 import Chip from '../app/scripts/models/chip.js';
 
-describe('chip', function () {
+describe('chip', () => {
 
-  it('should initialize', function () {
+  it('should initialize', () => {
     let player = new Player({
       color: 'blue',
       name: 'Super Player'

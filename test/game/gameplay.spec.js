@@ -7,16 +7,16 @@ chai.use(sinonChai);
 import Emitter from 'tiny-emitter';
 import Game from '../../app/scripts/models/game.js';
 
-describe('game', function () {
+describe('game', () => {
 
   // Place chips at the given columns in the given order
   function placeChips({ game, columns }) {
-    columns.forEach(function (column) {
+    columns.forEach((column) => {
       game.placePendingChip({column: column});
     });
   }
 
-  it('should place pending chip', function () {
+  it('should place pending chip', () => {
     let game = new Game();
     game.setPlayers(2);
     game.startGame();
@@ -25,7 +25,7 @@ describe('game', function () {
     expect(game.grid.columns[2][0].player).to.equal(game.players[0]);
   });
 
-  it('should win horizontally', function () {
+  it('should win horizontally', () => {
     let game = new Game();
     game.setPlayers(2);
     game.startGame();
@@ -43,7 +43,7 @@ describe('game', function () {
     expect(game.winner.name).to.equal('Human 1');
   });
 
-  it('should win vertically', function () {
+  it('should win vertically', () => {
     let game = new Game();
     game.setPlayers(2);
     game.startGame();
@@ -61,7 +61,7 @@ describe('game', function () {
     expect(game.winner.name).to.equal('Human 1');
   });
 
-  it('should win diagonally', function () {
+  it('should win diagonally', () => {
     let game = new Game();
     game.setPlayers(2);
     game.startGame();
@@ -79,7 +79,7 @@ describe('game', function () {
     expect(game.winner.name).to.equal('Human 1');
   });
 
-  it('should win with two connect-fours at once', function () {
+  it('should win with two connect-fours at once', () => {
     let game = new Game();
     game.setPlayers(2);
     game.startGame();
@@ -97,7 +97,7 @@ describe('game', function () {
     expect(game.winner.name).to.equal('Human 1');
   });
 
-  it('should win on connections of more than four', function () {
+  it('should win on connections of more than four', () => {
     let game = new Game();
     game.setPlayers(2);
     game.startGame();
@@ -115,7 +115,7 @@ describe('game', function () {
     expect(game.winner.name).to.equal('Human 1');
   });
 
-  it('should end when grid becomes full', function () {
+  it('should end when grid becomes full', () => {
     let game = new Game();
     game.setPlayers(2);
     game.startGame();

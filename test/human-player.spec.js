@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import HumanPlayer from '../app/scripts/models/human-player.js';
 
-describe('human player', function () {
+describe('human player', () => {
 
-  it('should initialize', function () {
+  it('should initialize', () => {
     let humanPlayer = new HumanPlayer({
       name: 'Super Player',
       color: 'blue'

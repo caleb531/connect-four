@@ -3,9 +3,9 @@ import utils from './utils.js';
 
 import Game from '../../app/scripts/models/game.js';
 
-describe('AI player', function () {
+describe('AI player', () => {
 
-  it('should block one win of opponent double-win (#1)', function () {
+  it('should block one win of opponent double-win (#1)', () => {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
@@ -15,7 +15,7 @@ describe('AI player', function () {
     expect(game.players[1].computeNextMove(game).column).to.be.oneOf([1, 2]);
   });
 
-  it('should block one win of opponent double-win (#2)', function () {
+  it('should block one win of opponent double-win (#2)', () => {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
@@ -25,7 +25,7 @@ describe('AI player', function () {
     expect(game.players[1].computeNextMove(game).column).to.be.oneOf([1, 5]);
   });
 
-  it('should block one win of opponent double-win (#3)', function () {
+  it('should block one win of opponent double-win (#3)', () => {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
@@ -35,7 +35,7 @@ describe('AI player', function () {
     expect(game.players[1].computeNextMove(game).column).to.be.oneOf([1, 2]);
   });
 
-  it('should block one win of opponent double-win (#4)', function () {
+  it('should block one win of opponent double-win (#4)', () => {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
@@ -45,7 +45,7 @@ describe('AI player', function () {
     expect(game.players[1].computeNextMove(game).column).to.be.oneOf([0, 3]);
   });
 
-  it('should block one win of opponent double-win (#5)', function () {
+  it('should block one win of opponent double-win (#5)', () => {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
@@ -55,7 +55,7 @@ describe('AI player', function () {
     expect(game.players[1].computeNextMove(game).column).to.equal(0);
   });
 
-  it('should block one win of opponent double-win (#6)', function () {
+  it('should block one win of opponent double-win (#6)', () => {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
@@ -65,7 +65,7 @@ describe('AI player', function () {
     expect(game.players[1].computeNextMove(game).column).to.equal(5);
   });
 
-  it('should block one win of opponent double-win (#7)', function () {
+  it('should block one win of opponent double-win (#7)', () => {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
@@ -75,7 +75,7 @@ describe('AI player', function () {
     expect(game.players[1].computeNextMove(game).column).to.equal(5);
   });
 
-  it('should block one win of opponent double-win (#8)', function () {
+  it('should block one win of opponent double-win (#8)', () => {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
@@ -85,7 +85,7 @@ describe('AI player', function () {
     expect(game.players[1].computeNextMove(game).column).to.equal(5);
   });
 
-  it('should block one win of opponent double-win (#9)', function () {
+  it('should block one win of opponent double-win (#9)', () => {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
@@ -95,7 +95,7 @@ describe('AI player', function () {
     expect(game.players[1].computeNextMove(game).column).to.equal(4);
   });
 
-  it('should block one win of opponent double-win (#10)', function () {
+  it('should block one win of opponent double-win (#10)', () => {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
@@ -110,7 +110,7 @@ describe('AI player', function () {
     expect(game.players[1].computeNextMove(game).column).to.equal(4);
   });
 
-  it('should block one win of opponent double-win (#11)', function () {
+  it('should block one win of opponent double-win (#11)', () => {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({

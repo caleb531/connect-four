@@ -4,9 +4,9 @@ import Grid from '../../app/scripts/models/grid.js';
 import Player from '../../app/scripts/models/player.js';
 import Game from '../../app/scripts/models/game.js';
 
-describe('game', function () {
+describe('game', () => {
 
-  it('should initialize with no arguments', function () {
+  it('should initialize with no arguments', () => {
     let game = new Game();
     expect(game).to.have.property('grid');
     expect(game.grid).to.have.property('columnCount', 7);
@@ -19,7 +19,7 @@ describe('game', function () {
     expect(game).to.have.property('winner', null);
   });
 
-  it('should initialize with arguments', function () {
+  it('should initialize with arguments', () => {
     let game = new Game({
       players: [
         new Player({color: 'blue', name: 'Bob'}),
@@ -38,7 +38,7 @@ describe('game', function () {
     expect(game).to.have.property('winner', null);
   });
 
-  it('should initialize debug mode when set', function () {
+  it('should initialize debug mode when set', () => {
     let game = new Game({debug: true});
     expect(game).to.have.property('debug', true);
     expect(game).to.have.property('columnHistory');
@@ -46,7 +46,7 @@ describe('game', function () {
     expect(game.columnHistory).to.have.length(0);
   });
 
-  it('should initialize 1P game', function () {
+  it('should initialize 1P game', () => {
     let game = new Game();
     game.setPlayers(1);
     expect(game.players).to.have.length(2);
@@ -54,7 +54,7 @@ describe('game', function () {
     expect(game.players[1].type).to.equal('ai');
   });
 
-  it('should initialize 2P game', function () {
+  it('should initialize 2P game', () => {
     let game = new Game();
     game.setPlayers(2);
     expect(game.players).to.have.length(2);

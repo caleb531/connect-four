@@ -7,9 +7,9 @@ chai.use(sinonChai);
 import Emitter from 'tiny-emitter';
 import Game from '../../app/scripts/models/game.js';
 
-describe('game', function () {
+describe('game', () => {
 
-  it('should end', function () {
+  it('should end', () => {
     let game = new Game();
     game.setPlayers(2);
     game.startGame();
@@ -25,7 +25,7 @@ describe('game', function () {
     expect(game.pendingChip).to.be.null;
   });
 
-  it('should reset debug mode when ended', function () {
+  it('should reset debug mode when ended', () => {
    let game = new Game({debug: true});
    game.setPlayers(2);
    game.startGame();
@@ -42,7 +42,7 @@ describe('game', function () {
    expect(game.columnHistory).to.have.length(0);
   });
 
-  it('should increment winner\'s score when ending', function () {
+  it('should increment winner\'s score when ending', () => {
     let game = new Game();
     game.setPlayers(2);
     game.startGame();
