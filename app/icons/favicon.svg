@@ -5,7 +5,7 @@
     <use id="c4-red-chip" xlink:href="#c4-chip" fill="#eaa" stroke="#d99" />
     <use id="c4-winning-red-chip" xlink:href="#c4-chip" fill="#c33" stroke="#900" />
   </defs>
-  <rect x="0" y="0" width="100%" height="100%" fill="#fff" rx="12" ry="12" />
+  <rect x="0" y="0" width="100%" height="100%" fill="#fff" rx="20" ry="20" />
   <!-- first column -->
   <use xlink:href="#c4-winning-red-chip" x="48" y="48" />
   <use xlink:href="#c4-blue-chip" x="48" y="112" />
