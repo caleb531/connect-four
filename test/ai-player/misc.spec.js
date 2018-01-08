@@ -8,9 +8,9 @@ import utils from './utils.js';
 import AIPlayer from '../../app/scripts/models/ai-player.js';
 import Game from '../../app/scripts/models/game.js';
 
-describe('AI player', () => {
+describe('AI player', function () {
 
-  it('should initialize', () => {
+  it('should initialize', function () {
     let aiPlayer = new AIPlayer({
       name: 'HAL',
       color: 'red'
@@ -21,7 +21,7 @@ describe('AI player', () => {
     expect(aiPlayer).to.have.property('type', 'ai');
   });
 
-  it('should wait when instructed', () => {
+  it('should wait when instructed', function () {
     let aiPlayer = new AIPlayer({
       name: 'HAL',
       color: 'red'
@@ -34,7 +34,7 @@ describe('AI player', () => {
     clock.restore();
   });
 
-  it('should wrap around if right side of grid is full', () => {
+  it('should wrap around if right side of grid is full', function () {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({

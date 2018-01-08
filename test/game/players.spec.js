@@ -2,9 +2,9 @@ import { expect } from 'chai';
 
 import Game from '../../app/scripts/models/game.js';
 
-describe('game', () => {
+describe('game', function () {
 
-  it('should preserve players when continuing in 1P mode', () => {
+  it('should preserve players when continuing in 1P mode', function () {
     let game = new Game();
     game.setPlayers(1);
     game.players[0].score = 10;
@@ -17,7 +17,7 @@ describe('game', () => {
     expect(game.players[1].score).to.equal(20);
   });
 
-  it('should preserve players when continuing in 2P mode', () => {
+  it('should preserve players when continuing in 2P mode', function () {
     let game = new Game();
     game.setPlayers(2);
     game.players[0].score = 12;
@@ -30,7 +30,7 @@ describe('game', () => {
     expect(game.players[1].score).to.equal(16);
   });
 
-  it('should initialize new players when switching from 1P to 2P', () => {
+  it('should initialize new players when switching from 1P to 2P', function () {
     let game = new Game();
     game.setPlayers(1);
     game.players[0].score = 10;
@@ -43,7 +43,7 @@ describe('game', () => {
     expect(game.players[1].score).to.equal(0);
   });
 
-  it('should initialize new players when switching from 2P to 1P', () => {
+  it('should initialize new players when switching from 2P to 1P', function () {
     let game = new Game();
     game.setPlayers(2);
     game.players[0].score = 10;
@@ -56,7 +56,7 @@ describe('game', () => {
     expect(game.players[1].score).to.equal(0);
   });
 
-  it('should get other player', () => {
+  it('should get other player', function () {
     let game = new Game();
     game.setPlayers(2);
     expect(game.getOtherPlayer(game.players[0])).to.equal(game.players[1]);

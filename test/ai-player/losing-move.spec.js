@@ -3,9 +3,9 @@ import utils from './utils.js';
 
 import Game from '../../app/scripts/models/game.js';
 
-describe('AI player', () => {
+describe('AI player', function () {
 
-  it('should avoid losing move (#1)', () => {
+  it('should avoid losing move (#1)', function () {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
@@ -20,7 +20,7 @@ describe('AI player', () => {
     expect(game.players[1].computeNextMove(game).column).to.be.oneOf([0, 1]);
   });
 
-  it('should avoid losing move (#2)', () => {
+  it('should avoid losing move (#2)', function () {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
@@ -35,7 +35,7 @@ describe('AI player', () => {
     expect(game.players[1].computeNextMove(game).column).to.equal(0);
   });
 
-  it('should avoid losing move (#3)', () => {
+  it('should avoid losing move (#3)', function () {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
@@ -49,7 +49,7 @@ describe('AI player', () => {
     expect(game.players[1].computeNextMove(game).column).to.be.oneOf([0, 1, 2]);
   });
 
-  it('should avoid losing move (#4)', () => {
+  it('should avoid losing move (#4)', function () {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({

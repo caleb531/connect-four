@@ -3,9 +3,9 @@ import utils from './utils.js';
 
 import Game from '../../app/scripts/models/game.js';
 
-describe('AI player', () => {
+describe('AI player', function () {
 
-  it('should block horizontal opponent win (#1)', () => {
+  it('should block horizontal opponent win (#1)', function () {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
@@ -15,7 +15,7 @@ describe('AI player', () => {
     expect(game.players[1].computeNextMove(game).column).to.equal(4);
   });
 
-  it('should block horizontal opponent win (#2)', () => {
+  it('should block horizontal opponent win (#2)', function () {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
@@ -25,7 +25,7 @@ describe('AI player', () => {
     expect(game.players[1].computeNextMove(game).column).to.equal(4);
   });
 
-  it('should block horizontal opponent win (#3)', () => {
+  it('should block horizontal opponent win (#3)', function () {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
@@ -35,7 +35,7 @@ describe('AI player', () => {
     expect(game.players[1].computeNextMove(game).column).to.equal(5);
   });
 
-  it('should block horizontal connect-three trap (#1)', () => {
+  it('should block horizontal connect-three trap (#1)', function () {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
@@ -45,7 +45,7 @@ describe('AI player', () => {
     expect(game.players[1].computeNextMove(game).column).to.be.oneOf([2, 4, 6]);
   });
 
-  it('should block horizontal connect-three trap (#2)', () => {
+  it('should block horizontal connect-three trap (#2)', function () {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
@@ -55,7 +55,7 @@ describe('AI player', () => {
     expect(game.players[1].computeNextMove(game).column).to.be.oneOf([2, 4, 6]);
   });
 
-  it('should block horizontal connect-three trap (#3)', () => {
+  it('should block horizontal connect-three trap (#3)', function () {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
@@ -65,7 +65,7 @@ describe('AI player', () => {
     expect(game.players[1].computeNextMove(game).column).to.be.oneOf([2, 5, 6]);
   });
 
-  it('should block horizontal connect-three trap (#4)', () => {
+  it('should block horizontal connect-three trap (#4)', function () {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({
@@ -75,7 +75,7 @@ describe('AI player', () => {
     expect(game.players[1].computeNextMove(game).column).to.be.oneOf([0, 2, 4]);
   });
 
-  it('should block horizontal connect-three trap (#5)', () => {
+  it('should block horizontal connect-three trap (#5)', function () {
     let game = new Game();
     game.setPlayers(1);
     utils.placeChips({

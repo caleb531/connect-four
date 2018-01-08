@@ -7,9 +7,9 @@ chai.use(sinonChai);
 import Emitter from 'tiny-emitter';
 import Game from '../../app/scripts/models/game.js';
 
-describe('game', () => {
+describe('game', function () {
 
-  it('should start', () => {
+  it('should start', function () {
     let game = new Game();
     game.setPlayers(2);
     sinon.spy(Emitter.prototype, 'emit');
@@ -23,7 +23,7 @@ describe('game', () => {
     expect(game.inProgress).to.be.true;
   });
 
-  it('should set starting player when starting', () => {
+  it('should set starting player when starting', function () {
     let game = new Game();
     game.setPlayers(2);
     game.startGame({
