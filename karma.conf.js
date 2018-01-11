@@ -3,7 +3,7 @@
 module.exports = function (config) {
   config.set({
     basePath: 'public',
-    browsers: ['ChromeHeadless'],
+    browsers: ['ChromeHeadlessCustom'],
     files: ['styles/main.css', 'scripts/modules.js', 'scripts/test.js'],
     reporters: ['dots'].concat(process.env.COVERAGE ? ['coverage'] : []),
     frameworks: ['mocha'],
@@ -16,6 +16,12 @@ module.exports = function (config) {
       dir: '../coverage/',
       subdir: '.',
       file: 'coverage-unmapped.json'
+    },
+    customLaunchers: {
+      ChromeHeadlessCustom: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox']
+      }
     }
   });
 };
