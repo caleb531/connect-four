@@ -1,4 +1,4 @@
-// General containers
+// Core containers
 
 body {
   min-width: 320px;
@@ -10,31 +10,6 @@ body {
   font-family: $sans-serif;
   text-align: center;
   overflow-y: scroll;
-}
-h1 {
-  margin-top: $chip-size + ($chip-margin * 2);
-  margin-bottom: 20px;
-  font-weight: 400;
-  font-size: 32px;
-  @include if-hybrid-layout() {
-    margin-top: $page-spacing-top;
-  }
-}
-.nav-link {
-  position: absolute;
-  top: 8px;
-  font-size: 14px;
-  $position-x: 10px;
-  &-left {
-    left: $position-x;
-  }
-  &-right {
-    right: $position-x;
-  }
-  a {
-    color: #36c;
-    text-decoration: none;
-  }
 }
 
 // Ensure that the <main> element renders correctly on browsers that don't fully
