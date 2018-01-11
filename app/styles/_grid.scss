@@ -41,13 +41,13 @@
 }
 
 .empty-chip-slot {
-  border-color: #bbb;
+  border-color: #ccc;
 }
 
 .chip {
   @each $player-color-name, $player-color in $player-colors {
     &.#{$player-color-name} {
-      $border-color: darken($player-color, 20%);
+      $border-color: darken($player-color, 15%);
       $background-color: $player-color;
       border-color: $border-color;
       background-color: $background-color;
