@@ -1,4 +1,4 @@
-// Configured for ESLint 3.15.0
+// Configured for ESLint 4.16.0
 
 module.exports = {
 
