@@ -22,14 +22,14 @@ class GameComponent {
   initializeAnalytics() {
     // Configure hooks for analytics
     this.game.on('game:start', () => {
-      this.sendAnalytics({eventAction: 'Start Game'});
+      this.sendAnalytics({ eventAction: 'Start Game' });
     });
     this.game.on('game:end', () => {
       // The game ends automatically when a winner is declared or in the event of
       // a tie, but the game can also be ended at any time by the user; only
       // send analytics for when the user ends the game
       if (!this.game.winner && !this.game.grid.checkIfFull()) {
-        this.sendAnalytics({eventAction: 'End Game (User)'});
+        this.sendAnalytics({ eventAction: 'End Game (User)' });
       }
     });
     this.game.on('game:declare-winner', (winner) => {
@@ -65,15 +65,15 @@ class GameComponent {
 
   view() {
     return m('div#game', {
-      class: classNames({'in-progress': this.game.inProgress})
+      class: classNames({ 'in-progress': this.game.inProgress })
     }, [
       m('div.game-column', [
         m('h1', 'Connect Four'),
-        m(DashboardComponent, {game: this.game})
+        m(DashboardComponent, { game: this.game })
       ]),
       m('div.game-column', [
-        m(GridComponent, {game: this.game}),
-        m(ScoreboardComponent, {game: this.game})
+        m(GridComponent, { game: this.game }),
+        m(ScoreboardComponent, { game: this.game })
       ])
     ]);
   }

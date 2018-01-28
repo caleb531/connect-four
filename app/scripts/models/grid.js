@@ -130,7 +130,7 @@ class Grid {
     // connected to the empty slot
     let connections = this.getConnections({
       // Treat the empty slot as a chip to appease the algorithm
-      baseChip: {column: c, row: r, player: currentPlayer},
+      baseChip: { column: c, row: r, player: currentPlayer },
       connectionSize: 2
     });
     // Sum up connections, giving exponentially more weight to larger connections
@@ -200,10 +200,10 @@ class Grid {
 
 // The relative directions to check when checking for connected chip neighbors
 Grid.connectionDirections = [
-  {x: 0, y: -1}, // Bottom-middle
-  {x: -1, y: -1}, // Bottom-left
-  {x: -1, y: 0}, // Left-middle
-  {x: -1, y: 1} // Top-left
+  { x: 0, y: -1 }, // Bottom-middle
+  { x: -1, y: -1 }, // Bottom-left
+  { x: -1, y: 0 }, // Left-middle
+  { x: -1, y: 1 } // Top-left
 ];
 
 // The maximum grid score possible (awarded for winning connections by the

@@ -140,7 +140,7 @@ module.exports = {
     // disallow the use of the __proto__ property
     'no-proto': ['error'],
     // disallow variable redeclaration
-    'no-redeclare': ['error', {'builtinGlobals': true}],
+    'no-redeclare': ['error', { 'builtinGlobals': true }],
     // disallow assignment operators in return statements
     'no-return-assign': ['error', 'always'],
     // disallow assignments where both sides are exactly the same
@@ -176,7 +176,7 @@ module.exports = {
     'no-restricted-globals': ['error', 'event'],
     // disallow variable declarations from shadowing variables declared in the
     // outer scope
-    'no-shadow': ['error', {'builtinGlobals': true}],
+    'no-shadow': ['error', { 'builtinGlobals': true }],
     // disallow initializing variables to undefined
     'no-undef-init': ['error'],
     // disallow the use of undeclared variables unless mentioned in /*global */
@@ -185,7 +185,7 @@ module.exports = {
     // disallow unused variables
     'no-unused-vars': ['error'],
     // disallow the use of variables before they are defined
-    'no-use-before-define': ['error', {'functions': false}],
+    'no-use-before-define': ['error', { 'functions': false }],
 
     /**
      * Stylistic Issues
@@ -196,7 +196,7 @@ module.exports = {
     // enforce consistent spacing inside single-line blocks
     'block-spacing': ['error', 'never'],
     // enforce consistent brace style for blocks
-    'brace-style': ['error', '1tbs', {'allowSingleLine': false}],
+    'brace-style': ['error', '1tbs', { 'allowSingleLine': false }],
     // require or disallow trailing commas
     'comma-dangle': ['error', 'never'],
     // enforce consistent spacing before and after commas
@@ -208,11 +208,11 @@ module.exports = {
     'func-call-spacing': ['error', 'never'],
     // enforce consistent spacing between keys and values in object literal
     // properties
-    'key-spacing': ['error', {'beforeColon': false, 'afterColon': true}],
+    'key-spacing': ['error', { 'beforeColon': false, 'afterColon': true }],
     // enforce consistent spacing before and after keywords
-    'keyword-spacing': ['error', {'before': true, 'after': true}],
+    'keyword-spacing': ['error', { 'before': true, 'after': true }],
     // enforce a maximum number of statements allowed per line
-    'max-statements-per-line': ['error', {'max': 1}],
+    'max-statements-per-line': ['error', { 'max': 1 }],
     // require constructor names to begin with a capital letter
     'new-cap': ['error'],
     // require parentheses when invoking a constructor with no arguments
@@ -229,6 +229,8 @@ module.exports = {
     'no-plusplus': ['error'],
     // disallow whitespace before properties
     'no-whitespace-before-property': ['error'],
+    // enforce consistent spacing inside braces
+    'object-curly-spacing': ['error', 'always'],
     // enforce the consistent use of either backticks, double, or single quotes
     'quotes': ['error', 'single'],
     // require or disallow semicolons instead of ASI
@@ -236,13 +238,13 @@ module.exports = {
     // enforce consistent spacing before blocks
     'space-before-blocks': ['error', 'always'],
     // enforce consistent spacing before function definition opening parenthesis
-    'space-before-function-paren': ['error', {'anonymous': 'always', 'named': 'never'}],
+    'space-before-function-paren': ['error', { 'anonymous': 'always', 'named': 'never' }],
     // enforce consistent spacing inside parentheses
     'space-in-parens': ['error', 'never'],
     // require spacing around infix operators
     'space-infix-ops': ['error'],
     // enforce consistent spacing before or after unary operators
-    'space-unary-ops': ['error', {'words': true, 'nonwords': false}],
+    'space-unary-ops': ['error', { 'words': true, 'nonwords': false }],
     // enforce consistent spacing after the // or /* in a comment
     'spaced-comment': ['error', 'always']
 

@@ -25,9 +25,9 @@ describe('grid', function () {
       columnCount: 9,
       rowCount: 8
     });
-    let player = new Player({color: 'red'});
-    let chip = new Chip({player: player});
-    grid1.placeChip({column: 3, chip: chip});
+    let player = new Player({ color: 'red' });
+    let chip = new Chip({ player: player });
+    grid1.placeChip({ column: 3, chip: chip });
     let grid2 = new Grid(grid1);
     expect(grid2).to.have.property('columnCount', 9);
     expect(grid2).to.have.property('rowCount', 8);
@@ -44,10 +44,10 @@ describe('grid', function () {
       columnCount: 9,
       rowCount: 8
     });
-    let player = new Player({color: 'red', name: 'Bob'});
+    let player = new Player({ color: 'red', name: 'Bob' });
     _.times(9, function (c) {
       _.times(8, function () {
-        grid.placeChip({column: c, chip: new Chip({player: player})});
+        grid.placeChip({ column: c, chip: new Chip({ player: player }) });
       });
     });
     expect(grid.checkIfFull()).to.be.true;
@@ -58,10 +58,10 @@ describe('grid', function () {
       columnCount: 9,
       rowCount: 8
     });
-    let player = new Player({color: 'red', name: 'Bob'});
+    let player = new Player({ color: 'red', name: 'Bob' });
     _.times(9, function (c) {
       _.times(7, function () {
-        grid.placeChip({column: c, chip: new Chip({player: player})});
+        grid.placeChip({ column: c, chip: new Chip({ player: player }) });
       });
     });
     expect(grid.checkIfFull()).to.be.false;
@@ -80,10 +80,10 @@ describe('grid', function () {
       columnCount: 9,
       rowCount: 8
     });
-    let player = new Player({color: 'red', name: 'Bob'});
+    let player = new Player({ color: 'red', name: 'Bob' });
     _.times(6, function (c) {
       _.times(4, function () {
-        grid.placeChip({column: c, chip: new Chip({player: player})});
+        grid.placeChip({ column: c, chip: new Chip({ player: player }) });
       });
     });
     expect(grid.getChipCount()).to.equal(24);
@@ -94,10 +94,10 @@ describe('grid', function () {
       columnCount: 9,
       rowCount: 8
     });
-    let player = new Player({color: 'red', name: 'Bob'});
+    let player = new Player({ color: 'red', name: 'Bob' });
     _.times(9, function (c) {
       _.times(6, function () {
-        grid.placeChip({column: c, chip: new Chip({player: player})});
+        grid.placeChip({ column: c, chip: new Chip({ player: player }) });
       });
     });
     grid.resetGrid();
@@ -112,14 +112,14 @@ describe('grid', function () {
       columnCount: 7,
       rowCount: 6
     });
-    let player = new Player({color: 'red', name: 'Bob'});
+    let player = new Player({ color: 'red', name: 'Bob' });
     _.times(6, function () {
-      grid.placeChip({column: 2, chip: new Chip({player: player})});
+      grid.placeChip({ column: 2, chip: new Chip({ player: player }) });
     });
-    grid.placeChip({column: 4, chip: new Chip({player: player})});
-    expect(grid.getNextAvailableSlot({column: 1})).to.equal(0);
-    expect(grid.getNextAvailableSlot({column: 2})).to.equal(null);
-    expect(grid.getNextAvailableSlot({column: 4})).to.equal(1);
+    grid.placeChip({ column: 4, chip: new Chip({ player: player }) });
+    expect(grid.getNextAvailableSlot({ column: 1 })).to.equal(0);
+    expect(grid.getNextAvailableSlot({ column: 2 })).to.equal(null);
+    expect(grid.getNextAvailableSlot({ column: 4 })).to.equal(1);
   });
 
   it('should place chip and set its column/row', function () {
@@ -127,16 +127,16 @@ describe('grid', function () {
       columnCount: 9,
       rowCount: 6
     });
-    let player1 = new Player({color: 'red'});
-    let player2 = new Player({color: 'blue'});
-    let chip1 = new Chip({player: player1});
-    let chip2 = new Chip({player: player2});
-    grid.placeChip({column: 2, chip: chip1});
+    let player1 = new Player({ color: 'red' });
+    let player2 = new Player({ color: 'blue' });
+    let chip1 = new Chip({ player: player1 });
+    let chip2 = new Chip({ player: player2 });
+    grid.placeChip({ column: 2, chip: chip1 });
     expect(grid.columns[2][0]).to.equal(chip1);
     expect(grid.columns[2][0]).to.have.property('column', 2);
     expect(grid.columns[2][0]).to.have.property('row', 0);
     expect(grid).to.have.property('lastPlacedChip', chip1);
-    grid.placeChip({column: 2, chip: chip2});
+    grid.placeChip({ column: 2, chip: chip2 });
     expect(grid.columns[2][1]).to.equal(chip2);
     expect(grid.columns[2][1]).to.have.property('column', 2);
     expect(grid.columns[2][1]).to.have.property('row', 1);

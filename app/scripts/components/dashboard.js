@@ -51,7 +51,7 @@ class DashboardComponent {
       ),
       // If game is in progress, allow user to end game at any time
       this.game.inProgress ? [
-        m('button', {onclick: () => this.endGame()}, 'End Game')
+        m('button', { onclick: () => this.endGame() }, 'End Game')
       ] :
       // If number of players has been chosen, ask user to choose starting player
       this.game.humanPlayerCount !== null ?

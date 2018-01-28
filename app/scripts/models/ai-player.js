@@ -28,9 +28,9 @@ class AIPlayer extends Player {
     });
     // If max search depth was reached or if winning grid was found
     if (depth === 0 || Math.abs(gridScore) === Grid.maxScore) {
-      return {column: null, score: gridScore};
+      return { column: null, score: gridScore };
     }
-    let maxMove = {column: null, score: Grid.minScore};
+    let maxMove = { column: null, score: Grid.minScore };
     for (let c = 0; c < grid.columnCount; c += 1) {
       // Continue to next possible move if this column is full
       if (grid.columns[c].length === grid.rowCount) {
@@ -40,7 +40,7 @@ class AIPlayer extends Player {
       let nextGrid = new Grid(grid);
       nextGrid.placeChip({
           column: c,
-          chip: new Chip({player: this})
+          chip: new Chip({ player: this })
       });
       // Minimize the opponent human player's chances of winning
       let minMove = this.minimizeMove(nextGrid, minPlayer, depth - 1, alpha, beta);
@@ -73,9 +73,9 @@ class AIPlayer extends Player {
     });
     // If max search depth was reached or if winning grid was found
     if (depth === 0 || Math.abs(gridScore) === Grid.maxScore) {
-      return {column: null, score: gridScore};
+      return { column: null, score: gridScore };
     }
-    let minMove = {column: null, score: Grid.maxScore};
+    let minMove = { column: null, score: Grid.maxScore };
     for (let c = 0; c < grid.columnCount; c += 1) {
       // Continue to next possible move if this column is full
       if (grid.columns[c].length === grid.rowCount) {
@@ -85,7 +85,7 @@ class AIPlayer extends Player {
       // The human playing against the AI is always the first player
       nextGrid.placeChip({
           column: c,
-          chip: new Chip({player: minPlayer})
+          chip: new Chip({ player: minPlayer })
       });
       // Maximize the AI player's chances of winning
       let maxMove = this.maximizeMove(nextGrid, minPlayer, depth - 1, alpha, beta);

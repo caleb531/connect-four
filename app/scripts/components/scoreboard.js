@@ -10,7 +10,7 @@ class ScoreboardComponent {
 
   view() {
     return m('div#game-scoreboard', this.game.players.map(function (player) {
-      return m('div.player-stats', {class: classNames(player.color)}, [
+      return m('div.player-stats', { class: classNames(player.color) }, [
         m('div.player-name', player.name),
         m('div.player-score', player.score)
       ]);

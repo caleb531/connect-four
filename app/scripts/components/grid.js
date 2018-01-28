@@ -173,7 +173,7 @@ class GridComponent {
   // transition has ended
   finishPlacingPendingChip({ column }) {
     this.waitForPendingChipTransitionEnd(() => {
-      this.game.placePendingChip({column: column});
+      this.game.placePendingChip({ column: column });
       this.transitionPendingChipX = false;
       this.transitionPendingChipY = false;
       // Reset position of pending chip to the space directly above the last
@@ -208,8 +208,8 @@ class GridComponent {
             'chip',
             'pending',
             this.game.pendingChip.player.color,
-             {'transition-x': this.transitionPendingChipX},
-             {'transition-y': this.transitionPendingChipY}
+             { 'transition-x': this.transitionPendingChipX },
+             { 'transition-y': this.transitionPendingChipY }
           ),
           style: Browser.normalizeStyles({
             transform: this.getTranslate({
@@ -228,7 +228,7 @@ class GridComponent {
             return m('div.chip', {
               class: classNames(
                 chip.player.color,
-                {'winning': chip.winning}
+                { 'winning': chip.winning }
               )
             });
           } else {
