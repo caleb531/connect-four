@@ -103,18 +103,12 @@ class Grid {
       let direction = Grid.connectionDirections[d];
       let connection = [baseChip];
       // Check for connected neighbors in this direction
-      connection.push.apply(
-        connection,
-        grid.getConnection(baseChip, direction)
-      );
+      connection.push(...grid.getConnection(baseChip, direction));
       // Check for connected neighbors in the opposite direction
-      connection.push.apply(
-        connection,
-        grid.getConnection(baseChip, {
-          x: -direction.x,
-          y: -direction.y
-        })
-      );
+      connection.push(...grid.getConnection(baseChip, {
+        x: -direction.x,
+        y: -direction.y
+      }));
       if (connection.length >= connectionSize) {
         connections.push(connection);
       }
