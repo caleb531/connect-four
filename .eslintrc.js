@@ -191,7 +191,7 @@ module.exports = {
      * Stylistic Issues
      */
 
-    //  enforce consistent spacing inside single-line blocks
+    // enforce consistent spacing inside single-line blocks
     'block-spacing': ['error', 'never'],
     // enforce consistent brace style for blocks
     'brace-style': ['error', '1tbs', {'allowSingleLine': false}],
