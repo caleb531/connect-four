@@ -9,13 +9,9 @@ class Grid {
     // If existing grid object is passed to constructor, copy it
     if (columns) {
       // The columns array where columns containing placed chips are stored
-      this.columns = columns.map((column) => {
-        return column.slice(0);
-      });
+      this.columns = columns.map((column) => column.slice(0));
     } else {
-      this.columns = _.times(this.columnCount, () => {
-        return [];
-      });
+      this.columns = _.times(this.columnCount, () => []);
     }
     this.lastPlacedChip = lastPlacedChip;
   }
@@ -23,9 +19,7 @@ class Grid {
   // Return true if the grid is completely full; otherwise, return false
   checkIfFull() {
     let grid = this;
-    return grid.columns.every((column) => {
-      return column.length === grid.rowCount;
-    });
+    return grid.columns.every((column) => column.length === grid.rowCount);
   }
 
   // Return the total number of chips currently placed on the grid
