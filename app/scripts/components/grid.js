@@ -1,11 +1,12 @@
 import m from 'mithril';
 import _ from 'underscore';
+import Emitter from 'tiny-emitter';
 import classNames from 'classnames';
 import Browser from '../browser.js';
 
 // The grid UI, including the pending chip (i.e. the chip to be placed), as well
 // as all chips currently placed on the grid
-class GridComponent {
+class GridComponent extends Emitter {
 
   oninit(vnode) {
     this.game = vnode.attrs.game;
@@ -66,8 +67,8 @@ class GridComponent {
   // Run the given callback when the next (and only the very next) pending
   // chip transition finishes
   waitForPendingChipTransitionEnd(callback) {
-    this.game.off('pending-chip:transition-end');
-    this.game.once('pending-chip:transition-end', callback);
+    this.off('pending-chip:transition-end');
+    this.once('pending-chip:transition-end', callback);
   }
 
   // Horizontally align the pending chip with the specified column
@@ -188,11 +189,11 @@ class GridComponent {
   initializePendingChip(vnode) {
     // Ensure that any unfinished pending chip event listeners (from
     // previous games) are unbound
-    this.game.off('pending-chip:transition-end');
+    this.off('pending-chip:transition-end');
     // Listen for whenever a pending chip transition finishes
     let eventName = Browser.normalizeEventName('transitionend');
     vnode.dom.addEventListener(eventName, () => {
-      this.game.emit('pending-chip:transition-end');
+      this.emit('pending-chip:transition-end');
     });
   }
 
