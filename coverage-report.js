@@ -10,7 +10,7 @@ let reporter = new istanbul.Reporter();
 let remappedJson = require('./coverage/coverage-remapped.json');
 let coverage = Object.keys(remappedJson).reduce(function (result, source) {
   // Only keep js files under app/.
-  if (source.match(/^app\/.*\.js$/)) {
+  if (/^app\/.*\.js$/.test(source)) {
     result[source] = remappedJson[source];
   }
   return result;
