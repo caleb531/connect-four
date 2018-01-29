@@ -7,7 +7,7 @@ class Grid {
     this.columnCount = columnCount;
     this.rowCount = rowCount;
     // If existing grid object is passed to constructor, copy it
-    if (arguments[0] instanceof Grid) {
+    if (columns) {
       // The columns array where columns containing placed chips are stored
       this.columns = columns.map((column) => {
         return column.slice(0);
