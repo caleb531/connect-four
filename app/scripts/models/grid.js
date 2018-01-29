@@ -3,7 +3,7 @@ import _ from 'underscore';
 class Grid {
 
   // The state of a particular game grid
-  constructor({ columnCount, rowCount, columns, lastPlacedChip }) {
+  constructor({ columnCount, rowCount, columns, lastPlacedChip = null }) {
     this.columnCount = columnCount;
     this.rowCount = rowCount;
     // If existing grid object is passed to constructor, copy it
@@ -12,13 +12,12 @@ class Grid {
       this.columns = columns.map((column) => {
         return column.slice(0);
       });
-      this.lastPlacedChip = lastPlacedChip;
     } else {
       this.columns = _.times(this.columnCount, () => {
         return [];
       });
-      this.lastPlacedChip = null;
     }
+    this.lastPlacedChip = lastPlacedChip;
   }
 
   // Return true if the grid is completely full; otherwise, return false
