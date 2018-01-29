@@ -61,26 +61,26 @@ module.exports = {
         {
           input: 'app/icons/favicon.svg',
           output: [
-            {width: 32, path: 'icons/favicon.png'}
+            { width: 32, path: 'icons/favicon.png' }
           ]
         },
         {
           input: 'app/icons/apple-touch-icon.svg',
           output: [
-            {width: 76, path: 'icons/apple-touch-icon-76.png'},
-            {width: 120, path: 'icons/apple-touch-icon-120.png'},
-            {width: 152, path: 'icons/apple-touch-icon-152.png'},
-            {width: 180, path: 'icons/apple-touch-icon-180.png'}
+            { width: 76, path: 'icons/apple-touch-icon-76.png' },
+            { width: 120, path: 'icons/apple-touch-icon-120.png' },
+            { width: 152, path: 'icons/apple-touch-icon-152.png' },
+            { width: 180, path: 'icons/apple-touch-icon-180.png' }
           ]
         },
         {
           input: 'app/icons/app-icon.svg',
-          outputDefaults: {path: 'icons/app-icon-{width}.png'},
+          outputDefaults: { path: 'icons/app-icon-{width}.png' },
           output: [
-            {width: 192},
-            {width: 256},
-            {width: 384},
-            {width: 512}
+            { width: 192 },
+            { width: 256 },
+            { width: 384 },
+            { width: 512 }
           ]
         }
       ]
