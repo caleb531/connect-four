@@ -36,6 +36,10 @@ module.exports = {
     }
   },
   plugins: {
+    babel: {
+      presets: ['es2016'],
+      plugins: ['babel-plugin-transform-es2015-modules-commonjs']
+    },
     // Copy external fonts to build directory
     copycat: {
       fonts: [
