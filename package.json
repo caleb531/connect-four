@@ -38,7 +38,6 @@
     "chai": "^3.5.0",
     "chai-dom": "^1.6.0",
     "copycat-brunch": "^1.1.0",
-    "coveralls": "^2.13.1",
     "eslint": "^4.16.0",
     "istanbul": "jacksonrayhamilton/istanbul#09f9660",
     "javascript-brunch": "^2.0.0",
