@@ -104,6 +104,9 @@ module.exports = {
         stripPrefix: 'public',
         replacePrefix: '/connect-four'
       }
+    },
+    uglify: {
+      ignored: /(modules|test)\.js/
     }
   }
 };
