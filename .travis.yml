@@ -19,7 +19,7 @@ install:
   - npm install
   - npm install coveralls
 before_script:
-  - brunch build --production
+  - brunch build
 script:
   - npm run lint
   - npm run coverage
