@@ -191,7 +191,7 @@ class GridComponent extends Emitter {
     // previous games) are unbound
     this.off('pending-chip:transition-end');
     // Listen for whenever a pending chip transition finishes
-    let eventName = Browser.normalizeEventName('transitionend');
+    let eventName = Browser.getNormalizedEventName('transitionend');
     vnode.dom.addEventListener(eventName, () => {
       this.emit('pending-chip:transition-end');
     });
@@ -212,7 +212,7 @@ class GridComponent extends Emitter {
              { 'transition-x': this.transitionPendingChipX },
              { 'transition-y': this.transitionPendingChipY }
           ),
-          style: Browser.normalizeStyles({
+          style: Browser.getNormalizedStyles({
             transform: this.getTranslate({
               x: this.pendingChipX,
               y: this.pendingChipY

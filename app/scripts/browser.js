@@ -1,57 +1,59 @@
 import _ from 'underscore';
 
 // Utilities for cross-browser compatibility.
-let Browser = {};
+class Browser {
 
-// Map of CSS properties to property names used by the DOM in this browser.
-let normalizedProperties = {
-  'transform': (function () {
-    let supportedProp = _.find(['transform', 'WebkitTransform'], function (prop) {
+  static getNormalizedTransformProperty() {
+    let supportedProp = ['transform', 'WebkitTransform'].find((prop) => {
       return document.documentElement.style[prop] !== undefined;
     });
     if (supportedProp) {
       return supportedProp;
     }
     return 'transform';
-  }())
-};
+  }
 
-// Convert CSS properties and values to equivalent properties and values for
-// this browser.
-Browser.normalizeStyles = function (styles) {
-  let normalized = {};
-  _.keys(styles).forEach(function (property) {
-    if (Object.prototype.hasOwnProperty.call(normalizedProperties, property)) {
-      normalized[normalizedProperties[property]] = styles[property];
-    } else {
-      normalized[property] = styles[property];
-    }
-  });
-  return normalized;
-};
-
-// Map of DOM event names to event names used by this browser.
-let normalizedEventNames = {
-  'transitionend': (function () {
-    let supportedPair = _.find([
-      {property: 'ontransitionend', name: 'transitionend'},
-      {property: 'onwebkittransitionend', name: 'webkitTransitionEnd'}
-    ], function (pair) {
-      return window[pair.property] !== undefined;
+  static getNormalizedTransitionEndEventName() {
+    let supportedEventName = _.find(['transitionend', 'webkitTransitionEnd'], (handlerName) => {
+      return window[`on${handlerName.toLowerCase()}`] !== undefined;
     });
-    if (supportedPair) {
-      return supportedPair.name;
+    if (supportedEventName) {
+      return supportedEventName.name;
     }
     return 'transitionend';
-  }())
-};
-
-// Convert a DOM event name to an equivalent event name for this browser.
-Browser.normalizeEventName = function (eventName) {
-  if (Object.prototype.hasOwnProperty.call(normalizedEventNames, eventName)) {
-    return normalizedEventNames[eventName];
   }
-  return eventName;
+
+  // Convert a DOM event name to an equivalent event name for this browser.
+  static getNormalizedEventName(eventName) {
+    if (Browser.normalizedEventNames[eventName] !== undefined) {
+      return Browser.normalizedEventNames[eventName];
+    }
+    return eventName;
+  }
+
+  // Convert CSS properties and values to equivalent properties and values for
+  // this browser.
+  static getNormalizedStyles(styles) {
+    let normalized = {};
+    Object.keys(styles).forEach((property) => {
+      if (Browser.normalizedProperties[property] !== undefined) {
+        normalized[Browser.normalizedProperties[property]] = styles[property];
+      } else {
+        normalized[property] = styles[property];
+      }
+    });
+    return normalized;
+  }
+
+}
+
+// Map of CSS properties to property names used by the DOM in this browser.
+Browser.normalizedProperties = {
+  transform: Browser.getNormalizedTransformProperty()
+};
+// Map of DOM event names to event names used by this browser.
+Browser.normalizedEventNames = {
+  transitionend: Browser.getNormalizedTransitionEndEventName()
 };
 
 export default Browser;
