@@ -47,7 +47,7 @@
 .chip {
   @each $player-color-name, $player-color in $player-colors {
     &.#{$player-color-name} {
-      $border-color: darken($player-color, 15%);
+      $border-color: darken($player-color, 10%);
       $background-color: $player-color;
       border-color: $border-color;
       background-color: $background-color;
