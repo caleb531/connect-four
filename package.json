@@ -36,7 +36,7 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "brunch": "^2.10.17",
     "chai": "^3.5.0",
-    "chai-dom": "^1.8.0",
+    "chai-dom": "^1.8.1",
     "copycat-brunch": "^1.1.0",
     "eslint": "^4.19.1",
     "istanbul": "github:jacksonrayhamilton/istanbul#09f9660",
