@@ -11,7 +11,7 @@ gulp.task('assets', () => {
     .pipe(gulp.dest('public'));
 });
 gulp.task('assets:watch', () => {
-  return gulp.watch('app/assets/**/*', gulp.series('assets:core', 'sw'));
+  return gulp.watch('app/assets/**/*', gulp.series('assets', 'sw'));
 });
 
 gulp.task('sass', () => {
