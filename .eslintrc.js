@@ -30,6 +30,22 @@ module.exports = {
   },
 
   /**
+   * Per-file overrides
+   */
+
+  overrides: {
+
+    files: ['service-worker.js'],
+    env: {
+      'serviceworker': true
+    },
+    globals: {
+      'workbox': true
+    }
+
+  },
+
+  /**
    * Enabled ESLint rules
    */
 
@@ -42,7 +58,7 @@ module.exports = {
     // disallow assignment operators in conditional expressions
     'no-cond-assign': ['error', 'always'],
     // disallow the use of console
-    'no-console': ['error'],
+    'no-console': ['error', { 'allow': ['warn'] }],
     // disallow the use of debugger
     'no-debugger': ['error'],
     // disallow duplicate arguments in function definitions
