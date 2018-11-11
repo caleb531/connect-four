@@ -7,7 +7,7 @@ module.exports = {
   input: 'test/index.js',
   output: {
     file: 'public/scripts/test.js',
-    name: 'flipBook',
+    name: 'connectFour',
     sourcemap: true,
     format: 'iife'
   },
