@@ -12,7 +12,7 @@ coverage
 # Generated PNG app icons
 app/assets/icons/png
 
-# Brunch
+# Gulp
 public/
 
 # Private environment variables for deployment

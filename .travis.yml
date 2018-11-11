@@ -5,21 +5,11 @@ node_js:
   - "8"
   - "7"
   - "6"
-# Installing rsvg-brunch requires a C++11 compiler and librsvg
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - g++-4.8
-    - librsvg2-dev
-env:
-  - CXX=g++-4.8
 install:
   - npm install
   - npm install coveralls
 before_script:
-  - brunch build
+  - gulp build
 script:
   - npm run lint
   - npm run coverage
