@@ -1,7 +1,7 @@
 let commonjs = require('rollup-plugin-commonjs');
 let resolve = require('rollup-plugin-node-resolve');
 let json = require('rollup-plugin-json');
-let uglify = require('rollup-plugin-uglify-es');
+let terser = require('rollup-plugin-terser').terser;
 
 module.exports = {
   input: 'app/scripts/index.js',
@@ -18,6 +18,6 @@ module.exports = {
     }),
     commonjs(),
     json(),
-    uglify()
+    terser()
   ]
 };
