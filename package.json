@@ -6,7 +6,7 @@
     "lint": "eslint app/scripts/**/*.js test/*.js",
     "test": "karma start --single-run",
     "coverage": "COVERAGE=true npm test && npm run remap-coverage && npm run coverage-report",
-    "remap-coverage": "remap-istanbul -i coverage/coverage-unmapped.json -o coverage/coverage-remapped.json -e test/",
+    "remap-coverage": "remap-istanbul -i coverage/coverage-unmapped.json -o coverage/coverage-remapped.json -e test/ -e node_modules/",
     "coverage-report": "istanbul report --include coverage/coverage-remapped.json lcov text html"
   },
   "repository": {
@@ -40,6 +40,7 @@
     "gulp-sourcemaps": "^2.6.4",
     "istanbul": "^0.4.5",
     "karma": "^3.0.0",
+    "karma-chai-dom": "^1.1.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-coverage": "^1.1.2",
     "karma-mocha": "^1.3.0",

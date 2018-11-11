@@ -1,9 +1,3 @@
-import chai from 'chai';
-import { expect } from 'chai';
-import sinon from 'sinon';
-import sinonChai from 'sinon-chai';
-chai.use(sinonChai);
-
 import Emitter from 'tiny-emitter';
 import Game from '../../app/scripts/models/game.js';
 

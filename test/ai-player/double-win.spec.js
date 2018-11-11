@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import utils from './utils.js';
 
 import Game from '../../app/scripts/models/game.js';

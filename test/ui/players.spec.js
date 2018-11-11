@@ -1,7 +1,3 @@
-import chai from 'chai';
-import { expect } from 'chai';
-import chaiDom from 'chai-dom';
-chai.use(chaiDom);
 import m from 'mithril';
 import { _before, _beforeEach, _afterEach } from './fixtures.js';
 import { qs, qsa } from './utils.js';

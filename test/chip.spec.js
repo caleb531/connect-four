@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import Player from '../app/scripts/models/player.js';
 import Chip from '../app/scripts/models/chip.js';
 
