@@ -11,7 +11,6 @@ install:
 before_script:
   - gulp build
 script:
-  - npm run lint
   - npm run coverage
 after_success:
   - cat coverage/lcov.info | coveralls
