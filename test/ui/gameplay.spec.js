@@ -83,21 +83,25 @@ describe('game UI', function () {
     // Human's turn
     onPendingChipTransitionEnd()
       .then(function (pendingChip) {
+        // Human chip's initial position
         expect(pendingChip).to.have.translate(192, 0);
         triggerMouseEvent(grid, 'click', 192, 0);
         return onPendingChipTransitionEnd();
       })
       .then(function (pendingChip) {
+        // Human chip's final position
         expect(pendingChip).to.have.translate(192, 384);
         return onPendingChipTransitionEnd();
       })
+      // AI's turn
       .then(function (pendingChip) {
-        // AI's turn
+        // AI chip's initial position
         expect(pendingChip).to.have.class('black');
         expect(pendingChip).to.have.translate(128, 0);
         return onPendingChipTransitionEnd();
       })
       .then(function (pendingChip) {
+        // AI chip's final position
         expect(pendingChip).to.have.translate(128, 384);
         done();
       })
