@@ -6,7 +6,7 @@ describe('game', function () {
     let game = new Game();
     game.setPlayers(2);
     game.startGame();
-    game.placePendingChip({column: 2});
+    game.placePendingChip({ column: 2 });
     expect(game.grid.columns[2]).to.have.length(1);
     game.endGame();
     game.resetGame();

@@ -6,7 +6,7 @@ describe('game', function () {
   // Place chips at the given columns in the given order
   function placeChips({ game, columns }) {
     columns.forEach(function (column) {
-      game.placePendingChip({column: column});
+      game.placePendingChip({ column: column });
     });
   }
 
@@ -14,7 +14,7 @@ describe('game', function () {
     let game = new Game();
     game.setPlayers(2);
     game.startGame();
-    game.placePendingChip({column: 2});
+    game.placePendingChip({ column: 2 });
     expect(game.grid.columns[2]).to.have.length(1);
     expect(game.grid.columns[2][0].player).to.equal(game.players[0]);
   });

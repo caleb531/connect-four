@@ -1,6 +1,5 @@
-import m from 'mithril';
 import { _before, _beforeEach, _afterEach } from './fixtures.js';
-import { qs, qsa } from './utils.js';
+import { qsa } from './utils.js';
 
 describe('game UI', function () {
 

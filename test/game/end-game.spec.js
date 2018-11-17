@@ -20,12 +20,12 @@ describe('game', function () {
   });
 
   it('should reset debug mode when ended', function () {
-   let game = new Game({debug: true});
+   let game = new Game({ debug: true });
    game.setPlayers(2);
    game.startGame();
    sinon.stub(console, 'log');
    try {
-     game.placePendingChip({column: 2});
+     game.placePendingChip({ column: 2 });
      expect(game.columnHistory).to.have.length(1);
      expect(game.columnHistory[0]).to.equal(2);
    } finally {
