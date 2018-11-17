@@ -87,7 +87,7 @@ class Grid {
 
   // Get all connections of four chips (including connections of four within
   // larger connections) which the last placed chip is apart of
-  getConnections({ baseChip, connectionSize }) {
+  getConnections({ baseChip, minConnectionSize }) {
     let grid = this;
     let connections = [];
     // Use a native 'for' loop to maximize performance because the AI player will
@@ -102,7 +102,7 @@ class Grid {
         x: -direction.x,
         y: -direction.y
       }));
-      if (connection.length >= connectionSize) {
+      if (connection.length >= minConnectionSize) {
         connections.push(connection);
       }
     }
@@ -118,7 +118,7 @@ class Grid {
     let connections = this.getConnections({
       // Treat the empty slot as a chip to appease the algorithm
       baseChip: { column: c, row: r, player: currentPlayer },
-      connectionSize: 2
+      minConnectionSize: 2
     });
     // Sum up connections, giving exponentially more weight to larger connections
     for (let i = 0; i < connections.length; i += 1) {
@@ -142,7 +142,7 @@ class Grid {
     }
     let connections = this.getConnections({
       baseChip: this.columns[c][r],
-      connectionSize: 4
+      minConnectionSize: 4
     });
     if (connections.length >= 1) {
       if (currentPlayerIsMaxPlayer) {

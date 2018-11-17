@@ -165,7 +165,7 @@ class Game extends Emitter {
   checkForWin() {
     let connections = this.grid.getConnections({
       baseChip: this.grid.lastPlacedChip,
-      connectionSize: 4
+      minConnectionSize: 4
     });
     if (connections.length > 0) {
       // Mark chips in only the first winning connection, and // only mark the
