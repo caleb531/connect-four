@@ -139,7 +139,7 @@ class Grid {
       if (connection.length >= 4) {
         return (currentPlayerIsMaxPlayer ? Grid.maxScore : Grid.minScore);
       } else if (connection.emptySlotCount >= 1) {
-        gridScore += Math.pow(connection.length, 2) * Math.pow(connection.emptySlotCount, 3);
+        gridScore += Math.pow(connection.length, 2);
       }
     }
     // Negate the grid score for any advantage the minimizing player has (as this

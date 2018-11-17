@@ -95,14 +95,14 @@ describe('game UI', function () {
       })
       // AI's turn
       .then(function (pendingChip) {
-        // AI chip's initial position
+        // AI chip's final position
         expect(pendingChip).to.have.class('black');
-        expect(pendingChip).to.have.translate(128, 0);
+        expect(pendingChip).to.have.translate(192, 320);
         return onPendingChipTransitionEnd();
       })
       .then(function (pendingChip) {
-        // AI chip's final position
-        expect(pendingChip).to.have.translate(128, 384);
+        // Human chip's next initial position
+        expect(pendingChip).to.have.translate(192, 0);
         done();
       })
       .catch(done);
