@@ -51,7 +51,7 @@ gulp.task('sw', () => {
   return workboxBuild.injectManifest({
     globDirectory: 'public',
     globPatterns: [
-      '**\/*.{html,js,css,svg,png}'
+      '**\/*.{html,js,css,png}'
     ],
     swSrc: 'app/scripts/service-worker.js',
     swDest: 'public/service-worker.js'
