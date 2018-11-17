@@ -4,12 +4,12 @@ module.exports = function (config) {
   config.set({
     basePath: 'public',
     browsers: ['ChromeHeadlessCustom'],
-    files: ['styles/main.css', 'scripts/modules.js', 'scripts/test.js'],
+    files: ['styles/index.css', 'scripts/test.js'],
     reporters: ['dots'].concat(process.env.COVERAGE ? ['coverage'] : []),
-    frameworks: ['mocha'],
+    frameworks: ['mocha', 'chai-dom', 'sinon-chai'],
     preprocessors: {
       '**/*.js': ['sourcemap'],
-      'scripts/modules.js': process.env.COVERAGE ? ['coverage'] : []
+      'scripts/test.js': process.env.COVERAGE ? ['coverage'] : []
     },
     coverageReporter: {
       type: 'json',

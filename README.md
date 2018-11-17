@@ -48,20 +48,14 @@ In the app, the AI player is lovingly referred to as "Mr. AI".
 
 ### 1. Install global dependencies
 
-The project requires Node.js and Brunch, so make sure you have both.
+The project requires Node.js and Gulp, so make sure you have both.
 
 ```bash
 brew install node
 ```
 
 ```bash
-npm install -g brunch
-```
-
-Optionally, you can install librsvg if you want to build the application icons:
-
-```bash
-brew install librsvg
+npm install -g gulp-cli
 ```
 
 ### 2. Install project dependencies
@@ -77,7 +71,5 @@ npm install
 To serve the app locally, run:
 
 ```bash
-brunch watch --server
+gulp build:watch
 ```
-
-When run, the app will be accessible at `http://localhost:3333`.

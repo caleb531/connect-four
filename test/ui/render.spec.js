@@ -1,7 +1,3 @@
-import chai from 'chai';
-import { expect } from 'chai';
-import chaiDom from 'chai-dom';
-chai.use(chaiDom);
 import m from 'mithril';
 import { _before, _beforeEach, _afterEach } from './fixtures.js';
 import { qs, qsa } from './utils.js';
@@ -11,13 +7,6 @@ describe('game UI', function () {
   before(_before);
   beforeEach(_beforeEach);
   afterEach(_afterEach);
-
-  it('should mount on main', function () {
-    m.mount(qs('main'), null);
-    document.body.appendChild(document.createElement('main'));
-    require('../../app/scripts/main');
-    expect(qs('#game')).not.to.be.null;
-  });
 
   it('should render initial buttons', function () {
     let buttons = qsa('#game-dashboard button');

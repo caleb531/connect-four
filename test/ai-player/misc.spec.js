@@ -1,8 +1,3 @@
-import chai from 'chai';
-import { expect } from 'chai';
-import sinon from 'sinon';
-import sinonChai from 'sinon-chai';
-chai.use(sinonChai);
 import utils from './utils.js';
 
 import AIPlayer from '../../app/scripts/models/ai-player.js';

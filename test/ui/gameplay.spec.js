@@ -1,7 +1,3 @@
-import chai from 'chai';
-import { expect, Assertion } from 'chai';
-import chaiDom from 'chai-dom';
-chai.use(chaiDom);
 import m from 'mithril';
 import { _before, _beforeEach, _afterEach } from './fixtures.js';
 import { qs, qsa } from './utils.js';
@@ -14,7 +10,7 @@ describe('game UI', function () {
   afterEach(_afterEach);
 
   // Add syntactic sugar assertion for testing CSS translate values
-  Assertion.addMethod('translate', function (expectedX, expectedY) {
+  chai.Assertion.addMethod('translate', function (expectedX, expectedY) {
     let translate = this._obj.style.transform;
     let actualX = parseFloat(translate.slice(translate.indexOf('(') + 1));
     let actualY = parseFloat(translate.slice(translate.indexOf(',') + 1));

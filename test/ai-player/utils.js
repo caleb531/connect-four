@@ -19,6 +19,6 @@ function placeChips({ game, startingPlayer, columns }) {
   });
 }
 
-module.exports = {
+export default {
   placeChips: placeChips
 };
