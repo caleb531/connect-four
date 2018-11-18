@@ -3,8 +3,8 @@ import m from 'mithril';
 // The area of the game UI consisting of game UI controls and status messages
 class DashboardComponent {
 
-  oninit(vnode) {
-    this.game = vnode.attrs.game;
+  oninit({ attrs: { game } }) {
+    this.game = game;
   }
 
   // Prepare game players by creating new players (if necessary) and deciding

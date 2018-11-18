@@ -8,8 +8,8 @@ import Browser from '../browser.js';
 // as all chips currently placed on the grid
 class GridComponent extends Emitter {
 
-  oninit(vnode) {
-    this.game = vnode.attrs.game;
+  oninit({ attrs: { game } }) {
+    this.game = game;
     this.grid = this.game.grid;
     // Place chip automatically when AI computes its next move on its turn
     this.game.on('ai-player:compute-next-move', (aiPlayer, bestMove) => {
@@ -186,13 +186,13 @@ class GridComponent extends Emitter {
   }
 
   // Initialize pending chip element when it's first created
-  initializePendingChip(vnode) {
+  initializePendingChip({ dom }) {
     // Ensure that any unfinished pending chip event listeners (from
     // previous games) are unbound
     this.off('pending-chip:transition-end');
     // Listen for whenever a pending chip transition finishes
     let eventName = Browser.getNormalizedEventName('transitionend');
-    vnode.dom.addEventListener(eventName, () => {
+    dom.addEventListener(eventName, () => {
       this.emit('pending-chip:transition-end');
     });
   }
@@ -218,7 +218,7 @@ class GridComponent extends Emitter {
               y: this.pendingChipY
             })
           }),
-          oncreate: (vnode) => this.initializePendingChip(vnode)
+          oncreate: ({ dom }) => this.initializePendingChip({ dom })
         }) : null,
       // The part of the grid containing both placed chips and empty chip slots
       m('div#grid-columns', _.times(this.grid.columnCount, (c) => {

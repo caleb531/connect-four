@@ -4,8 +4,8 @@ import classNames from 'classnames';
 // The area of the game UI that displays each player's current score
 class ScoreboardComponent {
 
-  oninit(vnode) {
-    this.game = vnode.attrs.game;
+  oninit({ attrs: { game } }) {
+    this.game = game;
   }
 
   view() {
