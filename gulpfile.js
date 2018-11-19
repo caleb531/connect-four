@@ -6,10 +6,23 @@ let rollupAppConfig = require('./rollup.config.app.js');
 let rollupTestConfig = require('./rollup.config.test.js');
 let workboxBuild = require('workbox-build');
 
-gulp.task('assets', () => {
+gulp.task('assets:core', () => {
   return gulp.src('app/assets/**/*')
     .pipe(gulp.dest('public'));
 });
+gulp.task('assets:fonts', () => {
+  return gulp.src([
+      'node_modules/typeface-ubuntu/files/ubuntu-latin-400.woff2',
+      'node_modules/typeface-ubuntu/files/ubuntu-latin-400.woff',
+      'node_modules/typeface-ubuntu/files/ubuntu-latin-400.eot',
+      'node_modules/typeface-ubuntu/files/ubuntu-latin-400.svg'
+    ])
+    .pipe(gulp.dest('public/fonts'));
+});
+gulp.task('assets', gulp.parallel(
+  'assets:core',
+  'assets:fonts'
+));
 gulp.task('assets:watch', () => {
   return gulp.watch('app/assets/**/*', gulp.series('assets', 'sw'));
 });
