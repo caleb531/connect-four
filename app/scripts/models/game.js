@@ -86,7 +86,7 @@ class Game extends Emitter {
       if (newHumanPlayerCount === 1) {
         // If user chose 1-Player mode, the user will play against the AI
         this.players.push(new HumanPlayer({ name: 'Human', color: 'red' }));
-        this.players.push(new AIPlayer({ name: 'Mr. AI', color: 'black' }));
+        this.players.push(new AIPlayer({ name: 'Mr. A.I.', color: 'black' }));
       } else {
         // Otherwise, the user will play against another human
         this.players.push(new HumanPlayer({ name: 'Human 1', color: 'red' }));

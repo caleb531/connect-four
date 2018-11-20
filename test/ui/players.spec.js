@@ -13,7 +13,7 @@ describe('game UI', function () {
     m.redraw.sync();
     let buttons = qsa('#game-dashboard button');
     expect(buttons[0]).to.have.text('Human');
-    expect(buttons[1]).to.have.text('Mr. AI');
+    expect(buttons[1]).to.have.text('Mr. A.I.');
   });
 
   it('should ask for starting player in 2-Player mode', function () {
