@@ -1,11 +1,6 @@
 import m from 'mithril';
 import attachFastClick from 'fastclick';
-import GameComponent from './components/game.js';
+import AppComponent from './components/app.js';
 
-m.mount(document.querySelector('main'), GameComponent);
+m.mount(document.querySelector('main'), AppComponent);
 attachFastClick(document.body);
-
-// Load service worker to enable offline access
-if (navigator.serviceWorker && !window.__karma__) {
-  navigator.serviceWorker.register('service-worker.js');
-}

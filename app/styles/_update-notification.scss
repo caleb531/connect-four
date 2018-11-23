@@ -1,0 +1,25 @@
+.update-notification {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  padding: 10px 15px;
+  box-sizing: border-box;
+  background-color: #5be;
+  transform: translateY(-100%);
+  transition: transform 400ms ease-in-out;
+  text-align: center;
+  color: #fff;
+  cursor: pointer;
+  &.update-available {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.update-notification-message {
+  font-size: 1rem;
+  font-weight: 400;
+}
