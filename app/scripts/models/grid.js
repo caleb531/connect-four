@@ -72,7 +72,6 @@ class Grid {
       // neighboring slot is empty
       if (nextNeighbor === undefined) {
         if (nextRow >= 0 && nextRow < this.rowCount) {
-          //
           connection.hasEmptySlot = true;
         }
         break;
