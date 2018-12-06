@@ -59,7 +59,7 @@ class Grid {
   // Find same-color neighbors connected to the given chip in the given direction
   getSubConnection(baseChip, direction) {
     let neighbor = baseChip;
-    let connection = [];
+    let subConnection = [];
     while (true) {
       let nextColumn = neighbor.column + direction.x;
       // Stop if the left/right edge of the grid has been reached
@@ -72,7 +72,7 @@ class Grid {
       // neighboring slot is empty
       if (nextNeighbor === undefined) {
         if (nextRow >= 0 && nextRow < this.rowCount) {
-          connection.hasEmptySlot = true;
+          subConnection.hasEmptySlot = true;
         }
         break;
       }
@@ -83,9 +83,9 @@ class Grid {
       // Assume at this point that this neighbor chip is connected to the original
       // chip in the given direction
       neighbor = nextNeighbor;
-      connection.push(nextNeighbor);
+      subConnection.push(nextNeighbor);
     }
-    return connection;
+    return subConnection;
   }
 
   // Add a sub-connection (in the given direction) to a larger connection
