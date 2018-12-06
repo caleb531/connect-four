@@ -8,21 +8,12 @@ import Chip from './chip.js';
 // rounds
 class Game extends Emitter {
 
-  constructor({ grid, players, debug = false } = {}) {
+  constructor({ grid = new Grid({ columnCount: 7, rowCount: 6 }), players = [], debug = false } = {}) {
     super();
-    if (grid) {
-      this.grid = grid;
-    } else {
-      this.grid = new Grid({
-        columnCount: 7,
-        rowCount: 6
-      });
-    }
-    if (players) {
-      this.players = players;
-    } else {
-      this.players = [];
-    }
+    // The two-dimensional array representing the entire game grid
+    this.grid = grid;
+    // The list of all players for this game
+    this.players = players;
     // The number of human players (if 1, assume the other player is an AI)
     this.humanPlayerCount = null;
     // The current player is null when a game is not in progress

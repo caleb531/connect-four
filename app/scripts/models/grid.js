@@ -18,15 +18,12 @@ class Grid {
 
   // Return true if the grid is completely full; otherwise, return false
   checkIfFull() {
-    let grid = this;
-    return grid.columns.every((column) => column.length === grid.rowCount);
+    return this.columns.every((column) => column.length === this.rowCount);
   }
 
   // Return the total number of chips currently placed on the grid
   getChipCount() {
-    return this.columns.reduce((sum, column) => {
-      return sum + column.length;
-    }, 0);
+    return this.columns.reduce((sum, column) => sum + column.length, 0);
   }
 
   // Reset the grid by removing all placed chips
