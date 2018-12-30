@@ -48,15 +48,7 @@ In the app, the AI player is lovingly referred to as "Mr. AI".
 
 ### 1. Install global dependencies
 
-The project requires Node.js and Gulp, so make sure you have both.
-
-```bash
-brew install node
-```
-
-```bash
-npm install -g gulp-cli
-```
+The project requires Node (>= 8) and Gulp, so make sure you have both installed.
 
 ### 2. Install project dependencies
 
@@ -71,5 +63,9 @@ npm install
 To serve the app locally, run:
 
 ```bash
-gulp build:watch
+gulp serve
 ```
+
+You will then be able to view the app at `http://localhost:8080`. Any app files
+will be recompiled automatically when you make changes to them (as long as `gulp
+serve` is still running).
