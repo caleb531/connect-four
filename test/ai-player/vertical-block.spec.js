@@ -41,7 +41,6 @@ describe('AI player', function () {
       game: game,
       columns: [2, 3, 4, 3, 3, 3, 1, 2, 4, 5, 2, 4, 0, 2, 0, 3, 0, 0, 5, 0, 5, 0, 5]
     });
-    game.players[1].debug = true;
     expect(game.players[1].computeNextMove(game).column).to.equal(5);
   });
 
