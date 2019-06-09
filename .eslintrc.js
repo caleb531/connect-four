@@ -229,8 +229,6 @@ module.exports = {
     'keyword-spacing': ['error', { 'before': true, 'after': true }],
     // enforce a maximum number of statements allowed per line
     'max-statements-per-line': ['error', { 'max': 1 }],
-    // require constructor names to begin with a capital letter
-    'new-cap': ['error'],
     // require parentheses when invoking a constructor with no arguments
     'new-parens': ['error'],
     // disallow bitwise operators

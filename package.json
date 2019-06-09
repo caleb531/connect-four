@@ -2,6 +2,7 @@
   "name": "connect-four",
   "version": "1.0.0",
   "description": "A Connect Four web app implemented in JS using Mithril",
+  "main": "public/server.js",
   "scripts": {
     "lint": "eslint app/scripts/**/*.js test/**/*.js",
     "test": "karma start --single-run",
@@ -27,6 +28,8 @@
     "classnames": "^2.2.6",
     "fastclick": "^1.0.6",
     "mithril": "github:MithrilJS/mithril.js#deaf01c8e96446c97f31826b1d04ab4a4e757718",
+    "socket.io": "^2.2.0",
+    "socket.io-client": "^2.2.0",
     "sw-update-manager": "^1.0.0",
     "tiny-emitter": "^1.1.0",
     "underscore": "^1.9.1"
@@ -36,8 +39,8 @@
     "chai": "^3.5.0",
     "chai-dom": "^1.8.1",
     "eslint": "^4.19.1",
+    "express": "^4.17.1",
     "gulp": "^4.0.0",
-    "gulp-connect": "^5.7.0",
     "gulp-sass": "^4.0.1",
     "gulp-sourcemaps": "^2.6.4",
     "istanbul": "^0.4.5",

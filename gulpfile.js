@@ -5,7 +5,6 @@ let rollup = require('rollup');
 let rollupAppConfig = require('./rollup.config.app.js');
 let rollupTestConfig = require('./rollup.config.test.js');
 let workboxBuild = require('workbox-build');
-let connect = require('gulp-connect');
 
 gulp.task('assets:core', () => {
   return gulp.src('app/assets/**/*')
@@ -102,9 +101,7 @@ gulp.task('build:watch', gulp.series(
 ));
 
 gulp.task('connect', () => {
-  connect.server({
-    root: 'public'
-  });
+  require('./public/server.js');
 });
 gulp.task('serve', gulp.series(
   'build',
