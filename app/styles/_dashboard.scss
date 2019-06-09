@@ -23,3 +23,20 @@
   margin: 0;
   margin-bottom: 10px;
 }
+
+#current-player-name {
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  width: 150px;
+  padding: 6px 8px;
+  border: solid 1px #aaa;
+  box-sizing: border-box;
+  font-size: 16px;
+  text-align: center;
+  &:focus {
+    outline-width: 0;
+    border-color: #36c;
+    box-shadow: 0 0 3px 1px #9cf;
+  }
+}

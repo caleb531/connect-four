@@ -3,8 +3,9 @@ import m from 'mithril';
 // The area of the game UI consisting of game UI controls and status messages
 class DashboardComponent {
 
-  oninit({ attrs: { game } }) {
+  oninit({ attrs: { game, session } }) {
     this.game = game;
+    this.session = session;
   }
 
   // Prepare game players by creating new players (if necessary) and deciding
@@ -28,9 +29,33 @@ class DashboardComponent {
     this.game.endGame();
   }
 
+  promptForPlayerName() {
+    this.currentPlayerName = null;
+  }
+
+  setOnlinePlayerName(changeEvent) {
+    this.currentPlayerName = changeEvent.target.value;
+    changeEvent.redraw = false;
+  }
+
+  startOnlineGame(submitEvent) {
+    console.log('start online game!');
+    this.session.connect();
+    this.session.on('connect', () => {
+      console.log('session connect');
+      this.game.setPlayers(2);
+      m.redraw();
+    });
+    submitEvent.preventDefault();
+    submitEvent.redraw = false;
+  }
+
   view() {
     return m('div#game-dashboard', [
       m('p#game-message',
+        // If the current player needs to enter a name
+        this.currentPlayerName === null ?
+          'Enter your player name:' :
         // If user has not started any game yet
         this.game.players.length === 0 ?
           'Welcome! How many players?' :
@@ -53,6 +78,18 @@ class DashboardComponent {
       this.game.inProgress ? [
         m('button', { onclick: () => this.endGame() }, 'End Game')
       ] :
+      this.currentPlayerName === null ? [
+        m('form', {
+          onsubmit: (submitEvent) => this.startOnlineGame(submitEvent)
+        }, [
+          m('input[type=text]#current-player-name', {
+            name: 'current-player-name',
+            autofocus: true,
+            onchange: (changeEvent) => this.setOnlinePlayerName(changeEvent)
+          }),
+          m('button[type=submit]', 'Start Game')
+        ])
+      ] :
       // If number of players has been chosen, ask user to choose starting player
       this.game.humanPlayerCount !== null ?
         this.game.players.map((player) => {
@@ -67,7 +104,10 @@ class DashboardComponent {
           }, '1 Player'),
           m('button', {
             onclick: () => this.setPlayers(2)
-          }, '2 Players')
+          }, '2 Players'),
+          m('button', {
+            onclick: () => this.promptForPlayerName()
+          }, 'Online')
         ]
     ]);
   }
