@@ -7,7 +7,10 @@ let rollupTestConfig = require('./rollup.config.test.js');
 let workboxBuild = require('workbox-build');
 
 gulp.task('assets:core', () => {
-  return gulp.src('app/assets/**/*')
+  return gulp.src([
+      'app/assets/**/*',
+      'app/server/*'
+    ])
     .pipe(gulp.dest('public'));
 });
 gulp.task('assets:fonts', () => {
