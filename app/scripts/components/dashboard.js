@@ -33,18 +33,25 @@ class DashboardComponent {
     this.currentPlayerName = null;
   }
 
-  setOnlinePlayerName(changeEvent) {
-    this.currentPlayerName = changeEvent.target.value;
-    changeEvent.redraw = false;
+  setOnlinePlayerName(inputEvent) {
+    this.currentPlayerName = inputEvent.target.value;
+    inputEvent.redraw = false;
   }
 
   startOnlineGame(submitEvent) {
-    console.log('start online game!');
+    console.log('start online game!', this);
     this.session.connect();
     this.session.on('connect', () => {
-      console.log('session connect');
+      this.waitingForOtherPlayer = true;
       this.game.setPlayers(2);
+      this.game.players[0].name = this.currentPlayerName;
       m.redraw();
+      this.session.emit('new-room', {
+        currentPlayer: this.game.players[0]
+      });
+      this.session.on('new-room', (room) => {
+        console.log(room.code);
+      });
     });
     submitEvent.preventDefault();
     submitEvent.redraw = false;
@@ -56,6 +63,8 @@ class DashboardComponent {
         // If the current player needs to enter a name
         this.currentPlayerName === null ?
           'Enter your player name:' :
+        this.waitingForOtherPlayer ?
+          'Waiting for other player to join...' :
         // If user has not started any game yet
         this.game.players.length === 0 ?
           'Welcome! How many players?' :
@@ -69,7 +78,7 @@ class DashboardComponent {
         this.game.grid.checkIfFull() ?
           'We\'ll call it a draw! Play again?' :
         // If the user just chose a number of players for the game to be started
-        this.game.humanPlayerCount !== null ?
+        !this.waitingForOtherPlayer && this.game.humanPlayerCount !== null ?
           'Which player should start first?' :
         // Otherwise, if game was ended manually by the user
         'Game ended. Play again?'
@@ -85,30 +94,32 @@ class DashboardComponent {
           m('input[type=text]#current-player-name', {
             name: 'current-player-name',
             autofocus: true,
-            onchange: (changeEvent) => this.setOnlinePlayerName(changeEvent)
+            oninput: (inputEvent) => this.setOnlinePlayerName(inputEvent)
           }),
           m('button[type=submit]', 'Start Game')
         ])
       ] :
-      // If number of players has been chosen, ask user to choose starting player
-      this.game.humanPlayerCount !== null ?
-        this.game.players.map((player) => {
-          return m('button', {
-            onclick: () => this.startGame(player)
-          }, player.name);
-        }) :
-        // Select a number of human players
-        [
-          m('button', {
-            onclick: () => this.setPlayers(1)
-          }, '1 Player'),
-          m('button', {
-            onclick: () => this.setPlayers(2)
-          }, '2 Players'),
-          m('button', {
-            onclick: () => this.promptForPlayerName()
-          }, 'Online')
-        ]
+      !this.waitingForOtherPlayer ? [
+        // If number of players has been chosen, ask user to choose starting player
+        this.game.humanPlayerCount !== null ?
+          this.game.players.map((player) => {
+            return m('button', {
+              onclick: () => this.startGame(player)
+            }, player.name);
+          }) :
+          // Select a number of human players
+          [
+            m('button', {
+              onclick: () => this.setPlayers(1)
+            }, '1 Player'),
+            m('button', {
+              onclick: () => this.setPlayers(2)
+            }, '2 Players'),
+            m('button', {
+              onclick: () => this.promptForPlayerName()
+            }, 'Online')
+          ]
+        ] : null
     ]);
   }
 
