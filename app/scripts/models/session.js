@@ -5,7 +5,6 @@ class Session {
 
   constructor({ url }) {
     this.url = url;
-    console.log('session init');
   }
 
   connect() {
