@@ -9,6 +9,13 @@ class Player {
     this.score = 0;
   }
 
+  toJSON() {
+    return {
+      name: this.name,
+      score: this.score
+    };
+  }
+
 }
 
 module.exports = Player;
