@@ -6,14 +6,18 @@ class RoomManager {
     this.roomsById = {};
   }
 
-  openNewRoom({ currentPlayer }) {
+  openRoom({ firstPlayer }) {
     let roomCode = this.obtainRoomCode();
     let room = new Room({
-      players: [currentPlayer],
+      players: [firstPlayer],
       code: roomCode
     });
     this.roomsById[roomCode] = room;
     return room;
+  }
+
+  closeRoom({ roomCode }) {
+    delete this.roomsById[roomCode];
   }
 
   obtainRoomCode() {

@@ -40,21 +40,23 @@ class DashboardComponent {
 
   startOnlineGame(submitEvent) {
     console.log('start online game!', this);
+    submitEvent.preventDefault();
+    this.connectingToServer = true;
     this.session.connect();
     this.session.on('connect', () => {
+      this.connectingToServer = false;
       this.waitingForOtherPlayer = true;
       this.game.setPlayers(2);
       this.game.players[0].name = this.currentPlayerName;
       m.redraw();
-      this.session.emit('new-room', {
-        currentPlayer: this.game.players[0]
-      });
-      this.session.on('new-room', (room) => {
-        console.log(room.code);
+      // Request a new room and retrieve the room code returned from the server
+      this.session.emit('new-room', { firstPlayer: this.game.players[0] }, ({ room }) => {
+        console.log(room);
+        var playerIds = JSON.parse(localStorage.getItem('c4-player-ids'));
+        playerIds[room.code] = 0;
+        localStorage.setItem('c4-player-ids', JSON.stringify(playerIds));
       });
     });
-    submitEvent.preventDefault();
-    submitEvent.redraw = false;
   }
 
   view() {
@@ -64,7 +66,9 @@ class DashboardComponent {
         this.currentPlayerName === null ?
           'Enter your player name:' :
         this.waitingForOtherPlayer ?
-          'Waiting for other player to join...' :
+          'Waiting for other player...' :
+        this.connectingToServer ?
+          'Connecting to server...' :
         // If user has not started any game yet
         this.game.players.length === 0 ?
           'Welcome! How many players?' :
@@ -99,7 +103,7 @@ class DashboardComponent {
           m('button[type=submit]', 'Start Game')
         ])
       ] :
-      !this.waitingForOtherPlayer ? [
+      !this.connectingToServer && !this.waitingForOtherPlayer ? [
         // If number of players has been chosen, ask user to choose starting player
         this.game.humanPlayerCount !== null ?
           this.game.players.map((player) => {

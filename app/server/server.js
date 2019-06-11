@@ -5,7 +5,6 @@ let server = require('http').Server(app);
 let io = require('socket.io')(server);
 
 let RoomManager = require('./room-manager.js');
-let PlayerManager = require('./player-manager.js');
 
 // Express server
 
@@ -19,17 +18,16 @@ app.use(express.static(__dirname));
 // Socket.IO
 
 let roomManager = new RoomManager();
-let playerManager = new PlayerManager();
 
 io.on('connection', function (socket) {
 
   console.log('new connection', socket.id);
-  playerManager.addNewPlayer({ socket });
 
-  socket.on('new-room', ({ currentPlayer }) => {
-    let room = roomManager.openNewRoom({ currentPlayer });
-    console.log(room.code);
+  socket.on('new-room', ({ firstPlayer }, fn) => {
+    firstPlayer.socket = socket;
+    let room = roomManager.openRoom({ firstPlayer });
     socket.join(room.code);
+    fn({ room });
   });
 
   socket.on('disconnect', () => {
