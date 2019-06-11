@@ -4,6 +4,7 @@ import _ from 'underscore';
 import m from 'mithril';
 import classNames from 'classnames';
 import Game from '../models/game.js';
+import Session from '../models/session.js';
 import GridComponent from './grid.js';
 import DashboardComponent from './dashboard.js';
 import ScoreboardComponent from './scoreboard.js';
@@ -11,8 +12,10 @@ import ScoreboardComponent from './scoreboard.js';
 // The game UI, encompassing all UI pertaining to the game directly
 class GameComponent {
 
-  oninit({ attrs: { session } }) {
-    this.session = session;
+  oninit() {
+    this.session = new Session({
+      url: window.location.origin
+    });
     this.game = new Game({
       // Only enable debug mode on non-production sites
       debug: (window.location.host !== 'projects.calebevans.me' && !window.__karma__)
