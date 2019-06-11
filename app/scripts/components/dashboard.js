@@ -39,7 +39,6 @@ class DashboardComponent {
   }
 
   startOnlineGame(submitEvent) {
-    console.log('start online game!', this);
     submitEvent.preventDefault();
     this.connectingToServer = true;
     this.session.connect();
