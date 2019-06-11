@@ -51,10 +51,7 @@ class DashboardComponent {
       m.redraw();
       // Request a new room and retrieve the room code returned from the server
       this.session.emit('new-room', { firstPlayer: this.game.players[0] }, ({ room }) => {
-        console.log(room);
-        var playerIds = JSON.parse(localStorage.getItem('c4-player-ids'));
-        playerIds[room.code] = 0;
-        localStorage.setItem('c4-player-ids', JSON.stringify(playerIds));
+        console.log('new room', room);
       });
     });
   }
