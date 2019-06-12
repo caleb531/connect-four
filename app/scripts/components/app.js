@@ -6,7 +6,7 @@ import SWUpdateManager from 'sw-update-manager';
 
 class AppComponent {
 
-  oninit({ attrs: { roomCode } = {} } = {}) {
+  oninit() {
     this.session = new Session({
       url: window.location.origin
     });
