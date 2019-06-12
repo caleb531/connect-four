@@ -50,7 +50,8 @@ class DashboardComponent {
       m.redraw();
       // Request a new room and retrieve the room code returned from the server
       this.session.emit('new-room', { firstPlayer: this.game.players[0] }, ({ room }) => {
-        console.log('new room', room);
+        console.log('new room', room.code);
+        m.route.set(`/room/${room.code}`);
       });
     });
   }

@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import express from 'express';
 import http from 'http';
+import path from 'path';
 import socketio from 'socket.io';
 
 import RoomManager from './room-manager.js';
@@ -14,6 +15,10 @@ let io = socketio(server);
 // Warning: app.listen(8080) will not work here
 server.listen(8080, () => {
   console.log('Server started. Listening on port 8080');
+});
+
+app.get('/room/:roomCode', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.use(express.static(__dirname));
