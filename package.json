@@ -25,7 +25,9 @@
   },
   "homepage": "https://github.com/caleb531/connect-four#readme",
   "dependencies": {
+    "compression": "^1.7.4",
     "esm": "^3.2.25",
+    "express": "^4.17.1",
     "fastclick": "^1.0.6",
     "mithril": "github:MithrilJS/mithril.js#deaf01c8e96446c97f31826b1d04ab4a4e757718",
     "socket.io": "^2.2.0",
@@ -39,7 +41,6 @@
     "chai": "^3.5.0",
     "chai-dom": "^1.8.1",
     "eslint": "^4.19.1",
-    "express": "^4.17.1",
     "gulp": "^4.0.0",
     "gulp-sass": "^4.0.1",
     "gulp-sourcemaps": "^2.6.4",

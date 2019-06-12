@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import express from 'express';
+import compression from 'compression';
 import http from 'http';
 import path from 'path';
 import socketio from 'socket.io';
@@ -11,6 +12,9 @@ import RoomManager from './room-manager.js';
 let app = express();
 let server = http.Server(app);
 let io = socketio(server);
+
+// Serve assets using gzip compression
+app.use(compression());
 
 // Warning: app.listen(8080) will not work here
 server.listen(8080, () => {
