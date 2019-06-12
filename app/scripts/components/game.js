@@ -2,7 +2,7 @@
 
 import _ from 'underscore';
 import m from 'mithril';
-import classNames from 'classnames';
+import classNames from '../classnames.js';
 import Game from '../models/game.js';
 import GridComponent from './grid.js';
 import DashboardComponent from './dashboard.js';

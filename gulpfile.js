@@ -1,6 +1,7 @@
 let gulp = require('gulp');
 let sourcemaps = require('gulp-sourcemaps');
 let sass = require('gulp-sass');
+let terser = require('gulp-terser');
 let rollup = require('rollup');
 let rollupAppConfig = require('./rollup.config.app.js');
 let rollupTestConfig = require('./rollup.config.test.js');
@@ -13,6 +14,15 @@ gulp.task('assets:core', () => {
     ])
     .pipe(gulp.dest('public'));
 });
+gulp.task('assets:js', () => {
+  return gulp.src([
+      'node_modules/mithril/mithril.min.js',
+      'node_modules/underscore/underscore-min.js',
+      'node_modules/tiny-emitter/dist/tinyemitter.min.js',
+      'node_modules/socket.io-client/dist/socket.io.slim.js'
+    ])
+    .pipe(gulp.dest('public/scripts'));
+});
 gulp.task('assets:fonts', () => {
   return gulp.src([
       'node_modules/typeface-ubuntu/files/ubuntu-latin-400.woff2',
@@ -24,10 +34,11 @@ gulp.task('assets:fonts', () => {
 });
 gulp.task('assets', gulp.parallel(
   'assets:core',
+  'assets:js',
   'assets:fonts'
 ));
 gulp.task('assets:watch', () => {
-  return gulp.watch('app/assets/**/*', gulp.series('assets', 'sw'));
+  return gulp.watch('app/assets/**/*', gulp.series('assets:core', 'sw'));
 });
 
 gulp.task('sass', () => {
@@ -62,6 +73,14 @@ gulp.task('rollup', gulp.parallel(
   'rollup:test'
 ));
 
+gulp.task('uglify', () => {
+  return gulp.src([
+      'node_modules/fastclick/lib/fastclick.js',
+      'node_modules/sw-update-manager/sw-update-manager.js'
+    ])
+    .pipe(terser())
+    .pipe(gulp.dest('public/scripts'));
+});
 
 gulp.task('sw', () => {
   return workboxBuild.injectManifest({
@@ -88,6 +107,7 @@ gulp.task('sw', () => {
 gulp.task('build', gulp.series(
   gulp.parallel(
     'assets',
+    'uglify',
     'sass',
     'rollup'
   ),

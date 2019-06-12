@@ -1,7 +1,7 @@
 import m from 'mithril';
 import _ from 'underscore';
 import Emitter from 'tiny-emitter';
-import classNames from 'classnames';
+import classNames from '../classnames.js';
 import Browser from '../browser.js';
 
 // The grid UI, including the pending chip (i.e. the chip to be placed), as well
@@ -204,14 +204,11 @@ class GridComponent extends Emitter {
     }, [
       // The chip that is about to be placed on the grid
       this.game.pendingChip ?
-        m('div', {
-          class: classNames(
-            'chip',
-            'pending',
-            this.game.pendingChip.player.color,
-             { 'transition-x': this.transitionPendingChipX },
-             { 'transition-y': this.transitionPendingChipY }
-          ),
+        m(`div.chip.pending.${this.game.pendingChip.player.color}`, {
+          class: classNames({
+            'transition-x': this.transitionPendingChipX,
+            'transition-y': this.transitionPendingChipY
+          }),
           style: Browser.getNormalizedStyles({
             transform: this.getTranslate({
               x: this.pendingChipX,
@@ -226,11 +223,10 @@ class GridComponent extends Emitter {
           if (this.grid.columns[c][r]) {
             // If this grid slot is occupied, display the corresponding chip
             let chip = this.grid.columns[c][r];
-            return m('div.chip', {
-              class: classNames(
-                chip.player.color,
-                { 'winning': chip.winning }
-              )
+            return m(`div.chip.${chip.player.color}`, {
+              class: classNames({
+                'winning': chip.winning
+              })
             });
           } else {
             // If this grid slot is empty, display an empty slot circle

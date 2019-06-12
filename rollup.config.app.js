@@ -9,8 +9,25 @@ module.exports = {
     file: 'public/scripts/index.js',
     name: 'connectFour',
     sourcemap: true,
-    format: 'iife'
+    format: 'iife',
+    globals: {
+      'mithril': 'm',
+      'underscore': '_',
+      'tiny-emitter': 'TinyEmitter',
+      'fastclick': 'FastClick',
+      'sw-update-manager': 'SWUpdateManager',
+      'socket.io-client': 'io'
+    }
   },
+  external: [
+    'mithril',
+    'underscore',
+    'classnames',
+    'tiny-emitter',
+    'fastclick',
+    'sw-update-manager',
+    'socket.io-client'
+  ],
   plugins: [
     resolve({
       browser: true,
