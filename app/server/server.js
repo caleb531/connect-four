@@ -1,12 +1,15 @@
 /* eslint-disable no-console */
-let express = require('express');
-let app = express();
-let server = require('http').Server(app);
-let io = require('socket.io')(server);
+import express from 'express';
+import http from 'http';
+import socketio from 'socket.io';
 
-let RoomManager = require('./room-manager.js');
+import RoomManager from './room-manager.js';
 
 // Express server
+
+let app = express();
+let server = http.Server(app);
+let io = socketio(server);
 
 // Warning: app.listen(8080) will not work here
 server.listen(8080, () => {

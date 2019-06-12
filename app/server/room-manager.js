@@ -1,4 +1,4 @@
-let Room = require('./room.js');
+import Room from './room.js';
 
 class RoomManager {
 
@@ -43,4 +43,4 @@ class RoomManager {
 // The number of characters is a given room code
 RoomManager.roomCodeLength = 4;
 
-module.exports = RoomManager;
+export default RoomManager;

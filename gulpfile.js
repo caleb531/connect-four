@@ -104,7 +104,7 @@ gulp.task('build:watch', gulp.series(
 ));
 
 gulp.task('connect', () => {
-  require('./public/server.js');
+  require('esm')(module)('./public/server.js');
 });
 gulp.task('serve', gulp.series(
   'build',

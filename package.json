@@ -26,6 +26,7 @@
   "homepage": "https://github.com/caleb531/connect-four#readme",
   "dependencies": {
     "classnames": "^2.2.6",
+    "esm": "^3.2.25",
     "fastclick": "^1.0.6",
     "mithril": "github:MithrilJS/mithril.js#deaf01c8e96446c97f31826b1d04ab4a4e757718",
     "socket.io": "^2.2.0",

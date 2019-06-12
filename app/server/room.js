@@ -1,4 +1,4 @@
-let Player = require('./player.js');
+import Player from './player.js';
 
 class Room {
 
@@ -10,4 +10,4 @@ class Room {
 
 }
 
-module.exports = Room;
+export default Room;
