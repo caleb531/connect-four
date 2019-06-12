@@ -1,5 +1,5 @@
 import m from 'mithril';
-import GameComponent from '../../app/scripts/components/game.js';
+import AppComponent from '../../app/scripts/components/app.js';
 import { qs } from './utils.js';
 
 // Minimize the transition duration to speed up tests (interestingly, a
@@ -12,7 +12,7 @@ function _before() {
 
 function _beforeEach() {
   document.body.appendChild(document.createElement('main'));
-  m.mount(qs('main'), GameComponent);
+  m.mount(qs('main'), AppComponent);
 }
 
 function _afterEach() {
