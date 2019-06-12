@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.6.0",
-    "chai": "^3.5.0",
+    "chai": "^4.2.0",
     "chai-dom": "^1.8.1",
     "eslint": "^4.19.1",
     "gulp": "^4.0.0",
@@ -56,13 +56,13 @@
     "mocha": "^3.5.3",
     "remap-istanbul": "^0.12.0",
     "rollup": "^0.67.0",
-    "rollup-plugin-commonjs": "^9.1.8",
+    "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-glob-import": "^0.3.0",
     "rollup-plugin-json": "^3.1.0",
     "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-terser": "3.0.0",
-    "sinon": "^2.4.1",
-    "sinon-chai": "^2.14.0",
+    "sinon": "^7.3.2",
+    "sinon-chai": "^3.3.0",
     "typeface-ubuntu": "0.0.22",
     "workbox-build": "^3.6.1"
   }
