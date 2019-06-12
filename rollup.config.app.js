@@ -22,7 +22,6 @@ module.exports = {
   external: [
     'mithril',
     'underscore',
-    'classnames',
     'tiny-emitter',
     'fastclick',
     'sw-update-manager',

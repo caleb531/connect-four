@@ -14,18 +14,18 @@ module.exports = {
       'mithril': 'm',
       'underscore': '_',
       'tiny-emitter': 'TinyEmitter',
-      'socket.io-client': 'io',
       'fastclick': 'FastClick',
-      'sw-update-manager': 'SWUpdateManager'
+      'sw-update-manager': 'SWUpdateManager',
+      'socket.io-client': 'io'
     }
   },
   external: [
     'mithril',
     'underscore',
     'tiny-emitter',
-    'socket.io-client',
     'fastclick',
-    'sw-update-manager'
+    'sw-update-manager',
+    'socket.io-client'
   ],
   plugins: [
     resolve({
