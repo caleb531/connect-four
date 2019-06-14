@@ -33,7 +33,7 @@ let roomManager = new RoomManager();
 
 io.on('connection', function (socket) {
 
-  console.log('new connection', socket.id);
+  console.log('connected:', socket.id);
 
   socket.on('new-room', ({ firstPlayer }, fn) => {
     firstPlayer.socket = socket;
@@ -43,7 +43,7 @@ io.on('connection', function (socket) {
   });
 
   socket.on('disconnect', () => {
-    console.log('disconnect', socket.id);
+    console.log('disconnected:', socket.id);
   });
 
 });
