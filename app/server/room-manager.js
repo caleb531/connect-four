@@ -6,10 +6,10 @@ class RoomManager {
     this.roomsById = {};
   }
 
-  openRoom({ firstPlayer }) {
+  openRoom() {
     let roomCode = this.obtainRoomCode();
     let room = new Room({
-      players: [firstPlayer],
+      players: [],
       code: roomCode
     });
     this.roomsById[roomCode] = room;

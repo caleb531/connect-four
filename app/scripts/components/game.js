@@ -64,13 +64,17 @@ class GameComponent {
     }
   }
 
-  view() {
+  view({ attrs: { roomCode } }) {
     return m('div#game', {
       class: classNames({ 'in-progress': this.game.inProgress })
     }, [
       m('div.game-column', [
         m('h1', 'Connect Four'),
-        m(DashboardComponent, { game: this.game, session: this.session })
+        m(DashboardComponent, {
+          game: this.game,
+          session: this.session,
+          roomCode
+        })
       ]),
       m('div.game-column', [
         m(GridComponent, { game: this.game, session: this.session }),

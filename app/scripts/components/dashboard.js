@@ -3,9 +3,21 @@ import m from 'mithril';
 // The area of the game UI consisting of game UI controls and status messages
 class DashboardComponent {
 
-  oninit({ attrs: { game, session } }) {
+  oninit({ attrs: { game, session, roomCode } }) {
     this.game = game;
     this.session = session;
+    this.joinExistingRoom(roomCode);
+  }
+
+  joinExistingRoom(roomCode) {
+    if (roomCode) {
+      this.session.connect();
+      this.session.on('connect', () => {
+        this.session.emit('join-room', { playerId: this.playerId }, () => {
+          console.log('join room', roomCode);
+        });
+      });
+    }
   }
 
   // Prepare game players by creating new players (if necessary) and deciding

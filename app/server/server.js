@@ -31,19 +31,32 @@ app.use(express.static(__dirname));
 
 let roomManager = new RoomManager();
 
-io.on('connection', function (socket) {
+io.on('connection', (socket) => {
 
   console.log('connected:', socket.id);
 
   socket.on('new-room', ({ firstPlayer }, fn) => {
+    console.log(firstPlayer);
+    let room = roomManager.openRoom();
+    firstPlayer = room.addPlayer(firstPlayer);
     firstPlayer.socket = socket;
-    let room = roomManager.openRoom({ firstPlayer });
+    socket.player = firstPlayer;
     socket.join(room.code);
     fn({ room });
   });
 
+  socket.on('join-room', ({ playerId }, fn) => {
+    console.log('join room by player', playerId);
+    fn();
+  });
+
   socket.on('disconnect', () => {
     console.log('disconnected:', socket.id);
+    // Indicate that this player is now disconnected
+    if (socket.player) {
+      console.log('unset player socket');
+      socket.player.socket = null;
+    }
   });
 
 });

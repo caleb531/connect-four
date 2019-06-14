@@ -18,12 +18,12 @@ class AppComponent {
     }
   }
 
-  view() {
+  view({ attrs = { roomCode: null } }) {
     return m('div#app', [
       this.updateManager ? m(UpdateNotificationComponent, {
         updateManager: this.updateManager
       }) : null,
-      m(GameComponent, { session: this.session })
+      m(GameComponent, { session: this.session, roomCode: attrs.roomCode })
     ]);
   }
 
