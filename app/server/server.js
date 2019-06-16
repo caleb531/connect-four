@@ -41,7 +41,7 @@ io.on('connection', (socket) => {
     player = room.addPlayer({ player, socket });
     socket.join(room.code);
     fn({
-      status: 'waitingForOtherPlayer',
+      status: 'waiting-for-players',
       room, player
     });
   });
@@ -54,12 +54,12 @@ io.on('connection', (socket) => {
     console.log(player && player.name, room.players.length);
     if (player) {
       if (room.players.length === 1) {
-        status = 'waitingForOtherPlayer';
+        status = 'waiting-for-players';
       } else {
-        status = 'returningPlayer';
+        status = 'returning-player';
       }
     } else {
-      status = 'newPlayer';
+      status = 'new-player';
     }
     fn({ status, room, player });
   });

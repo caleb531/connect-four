@@ -30,7 +30,7 @@ class DashboardComponent {
   }
 
   createNewPlayer() {
-    this.session.status = 'newPlayer';
+    this.session.status = 'new-player';
   }
 
   setNewPlayerName(inputEvent) {
@@ -63,9 +63,9 @@ class DashboardComponent {
     return m('div#game-dashboard', [
       m('p#game-message',
         // If the current player needs to enter a name
-        this.session.status === 'newPlayer' ?
+        this.session.status === 'new-player' ?
           'Enter your player name:' :
-        this.session.status === 'waitingForOtherPlayer' ?
+        this.session.status === 'waiting-for-players' ?
           'Waiting for other player...' :
         this.session.status === 'connecting' ?
           'Connecting to server...' :
@@ -91,7 +91,7 @@ class DashboardComponent {
       this.game.inProgress ? [
         m('button', { onclick: () => this.endGame() }, 'End Game')
       ] :
-      this.session.status === 'newPlayer' ? [
+      this.session.status === 'new-player' ? [
         m('form', {
           onsubmit: (submitEvent) => this.submitNewPlayer(submitEvent)
         }, [

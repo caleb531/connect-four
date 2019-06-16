@@ -30,9 +30,9 @@ class GameComponent {
         this.session.emit('join-room', { roomCode, playerId }, ({ status, player }) => {
           console.log('join room', roomCode);
           this.session.status = status;
-          if (this.session.status === 'returningPlayer') {
+          if (this.session.status === 'returning-player') {
             console.log('resume existing game', player);
-          } else if (this.session.status === 'newPlayer') {
+          } else if (this.session.status === 'new-player') {
             console.log('new player');
           }
           m.redraw();
