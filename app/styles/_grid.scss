@@ -96,12 +96,12 @@
 
 // Fade out non-winning chips when the game has ended
 
-@keyframes chip-fade-out {
+@keyframes fade-out-chip {
   100% {
     opacity: 0.3;
   }
 }
 
 #game:not(.in-progress) .chip:not(.winning) {
-  animation: chip-fade-out 300ms ease-in-out forwards;
+  animation: fade-out-chip 300ms ease-in-out forwards;
 }
