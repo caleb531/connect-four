@@ -190,7 +190,7 @@ module.exports = {
     'no-restricted-globals': ['error', 'event'],
     // disallow variable declarations from shadowing variables declared in the
     // outer scope
-    'no-shadow': ['error', { 'builtinGlobals': true }],
+    'no-shadow': ['error'],
     // disallow initializing variables to undefined
     'no-undef-init': ['error'],
     // disallow the use of undeclared variables unless mentioned in /*global */

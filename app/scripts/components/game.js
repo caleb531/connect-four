@@ -26,7 +26,6 @@ class GameComponent {
       this.session.connect();
       this.session.on('connect', () => {
         let playerId = this.session.playerId;
-        /* eslint-disable-next-line no-shadow */
         this.session.emit('join-room', { roomCode, playerId }, ({ status, player }) => {
           console.log('join room', roomCode);
           this.session.status = status;
