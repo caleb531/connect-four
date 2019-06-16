@@ -35,19 +35,33 @@ io.on('connection', (socket) => {
 
   console.log('connected:', socket.id);
 
-  socket.on('new-room', ({ firstPlayer }, fn) => {
-    console.log(firstPlayer);
+  socket.on('new-room', ({ player }, fn) => {
+    console.log(player);
     let room = roomManager.openRoom();
-    firstPlayer = room.addPlayer(firstPlayer);
-    firstPlayer.socket = socket;
-    socket.player = firstPlayer;
+    player = room.addPlayer({ player, socket });
     socket.join(room.code);
-    fn({ room });
+    fn({
+      status: 'waitingForOtherPlayer',
+      room, player
+    });
   });
 
-  socket.on('join-room', ({ playerId }, fn) => {
+  socket.on('join-room', ({ roomCode, playerId }, fn) => {
     console.log('join room by player', playerId);
-    fn();
+    let room = roomManager.getRoom(roomCode);
+    let player = room.connectPlayer({ playerId, socket });
+    let status;
+    console.log(player && player.name, room.players.length);
+    if (player) {
+      if (room.players.length === 1) {
+        status = 'waitingForOtherPlayer';
+      } else {
+        status = 'returningPlayer';
+      }
+    } else {
+      status = 'newPlayer';
+    }
+    fn({ status, room, player });
   });
 
   socket.on('disconnect', () => {

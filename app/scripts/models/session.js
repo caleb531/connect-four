@@ -9,6 +9,7 @@ class Session {
 
   connect() {
     this.socket = io.connect(this.url);
+    this.status = 'connecting';
   }
 
   on(...args) {

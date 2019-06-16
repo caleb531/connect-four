@@ -6,6 +6,10 @@ class RoomManager {
     this.roomsById = {};
   }
 
+  getRoom(roomCode) {
+    return this.roomsById[roomCode];
+  }
+
   openRoom() {
     let roomCode = this.obtainRoomCode();
     let room = new Room({

@@ -11,13 +11,34 @@ import ScoreboardComponent from './scoreboard.js';
 // The game UI, encompassing all UI pertaining to the game directly
 class GameComponent {
 
-  oninit({ attrs: { session } }) {
+  oninit({ attrs: { session, roomCode } }) {
     this.session = session;
     this.game = new Game({
       // Only enable debug mode on non-production sites
       debug: (window.location.host !== 'projects.calebevans.me' && !window.__karma__)
     });
     this.initializeAnalytics();
+    this.joinExistingRoom(roomCode);
+  }
+
+  joinExistingRoom(roomCode) {
+    if (roomCode) {
+      this.session.connect();
+      this.session.on('connect', () => {
+        let playerId = this.session.playerId;
+        /* eslint-disable-next-line no-shadow */
+        this.session.emit('join-room', { roomCode, playerId }, ({ status, player }) => {
+          console.log('join room', roomCode);
+          this.session.status = status;
+          if (this.session.status === 'returningPlayer') {
+            console.log('resume existing game', player);
+          } else if (this.session.status === 'newPlayer') {
+            console.log('new player');
+          }
+          m.redraw();
+        });
+      });
+    }
   }
 
   initializeAnalytics() {

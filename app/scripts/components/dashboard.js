@@ -3,21 +3,9 @@ import m from 'mithril';
 // The area of the game UI consisting of game UI controls and status messages
 class DashboardComponent {
 
-  oninit({ attrs: { game, session, roomCode } }) {
+  oninit({ attrs: { game, session } }) {
     this.game = game;
     this.session = session;
-    this.joinExistingRoom(roomCode);
-  }
-
-  joinExistingRoom(roomCode) {
-    if (roomCode) {
-      this.session.connect();
-      this.session.on('connect', () => {
-        this.session.emit('join-room', { playerId: this.playerId }, () => {
-          console.log('join room', roomCode);
-        });
-      });
-    }
   }
 
   // Prepare game players by creating new players (if necessary) and deciding
@@ -41,42 +29,45 @@ class DashboardComponent {
     this.game.endGame();
   }
 
-  promptForPlayerName() {
-    this.currentPlayerName = null;
+  createNewPlayer() {
+    this.session.status = 'newPlayer';
   }
 
-  setOnlinePlayerName(inputEvent) {
+  setNewPlayerName(inputEvent) {
     this.currentPlayerName = inputEvent.target.value;
     inputEvent.redraw = false;
   }
 
-  startOnlineGame(submitEvent) {
+  submitNewPlayer(submitEvent) {
     submitEvent.preventDefault();
-    this.connectingToServer = true;
+    this.startOnlineGame();
+  }
+
+  startOnlineGame() {
+    this.session.status = 'connecting';
+    this.game.setPlayers(2);
+    this.game.players[0].name = this.currentPlayerName;
     this.session.connect();
     this.session.on('connect', () => {
-      this.connectingToServer = false;
-      this.waitingForOtherPlayer = true;
-      this.game.setPlayers(2);
-      this.game.players[0].name = this.currentPlayerName;
-      m.redraw();
       // Request a new room and retrieve the room code returned from the server
-      this.session.emit('new-room', { firstPlayer: this.game.players[0] }, ({ room }) => {
+      this.session.emit('new-room', { player: this.game.players[0] }, ({ status, room, player }) => {
+        this.session.status = status;
         console.log('new room', room.code);
+        this.session.playerId = player.id;
         m.route.set(`/room/${room.code}`);
       });
     });
   }
 
-  view() {
+  view({ attrs: { roomCode } }) {
     return m('div#game-dashboard', [
       m('p#game-message',
         // If the current player needs to enter a name
-        this.currentPlayerName === null ?
+        this.session.status === 'newPlayer' ?
           'Enter your player name:' :
-        this.waitingForOtherPlayer ?
+        this.session.status === 'waitingForOtherPlayer' ?
           'Waiting for other player...' :
-        this.connectingToServer ?
+        this.session.status === 'connecting' ?
           'Connecting to server...' :
         // If user has not started any game yet
         this.game.players.length === 0 ?
@@ -91,7 +82,7 @@ class DashboardComponent {
         this.game.grid.checkIfFull() ?
           'We\'ll call it a draw! Play again?' :
         // If the user just chose a number of players for the game to be started
-        !this.waitingForOtherPlayer && this.game.humanPlayerCount !== null ?
+        !this.session.status && this.game.humanPlayerCount !== null ?
           'Which player should start first?' :
         // Otherwise, if game was ended manually by the user
         'Game ended. Play again?'
@@ -100,19 +91,19 @@ class DashboardComponent {
       this.game.inProgress ? [
         m('button', { onclick: () => this.endGame() }, 'End Game')
       ] :
-      this.currentPlayerName === null ? [
+      this.session.status === 'newPlayer' ? [
         m('form', {
-          onsubmit: (submitEvent) => this.startOnlineGame(submitEvent)
+          onsubmit: (submitEvent) => this.submitNewPlayer(submitEvent)
         }, [
-          m('input[type=text]#current-player-name', {
-            name: 'current-player-name',
+          m('input[type=text]#new-player-name', {
+            name: 'new-player-name',
             autofocus: true,
-            oninput: (inputEvent) => this.setOnlinePlayerName(inputEvent)
+            oninput: (inputEvent) => this.setNewPlayerName(inputEvent)
           }),
           m('button[type=submit]', 'Start Game')
         ])
       ] :
-      !this.connectingToServer && !this.waitingForOtherPlayer ? [
+      !this.session.status ? [
         // If number of players has been chosen, ask user to choose starting player
         this.game.humanPlayerCount !== null ?
           this.game.players.map((player) => {
@@ -121,7 +112,7 @@ class DashboardComponent {
             }, player.name);
           }) :
           // Select a number of human players
-          [
+          !roomCode ? [
             m('button', {
               onclick: () => this.setPlayers(1)
             }, '1 Player'),
@@ -129,9 +120,9 @@ class DashboardComponent {
               onclick: () => this.setPlayers(2)
             }, '2 Players'),
             m('button', {
-              onclick: () => this.promptForPlayerName()
+              onclick: () => this.createNewPlayer()
             }, 'Online')
-          ]
+          ] : null
         ] : null
     ]);
   }
