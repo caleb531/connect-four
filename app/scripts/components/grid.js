@@ -216,7 +216,11 @@ class GridComponent extends Emitter {
             })
           }),
           oncreate: ({ dom }) => this.initializePendingChip({ dom })
-        }) : null,
+        }, [
+          m('div.chip-inner.chip-inner-real'),
+          // See _grid.scss for how the pending chip inner clone is used
+          m('div.chip-inner.chip-inner-clone')
+        ]) : null,
       // The part of the grid containing both placed chips and empty chip slots
       m('div#grid-columns', _.times(this.grid.columnCount, (c) => {
         return m('div.grid-column', _.times(this.grid.rowCount, (r) => {
@@ -227,12 +231,12 @@ class GridComponent extends Emitter {
               class: classNames({
                 'winning': chip.winning
               })
-            });
+            }, m('div.chip-inner'));
           } else {
             // If this grid slot is empty, display an empty slot circle
             return m('div.empty-chip-slot', {
               key: 'empty-chip-slot-' + [c, r].join('-')
-            });
+            }, m('div.empty-chip-slot-inner'));
           }
         }));
       }))
