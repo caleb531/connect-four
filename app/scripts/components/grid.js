@@ -192,8 +192,14 @@ class GridComponent extends Emitter {
     this.off('pending-chip:transition-end');
     // Listen for whenever a pending chip transition finishes
     let eventName = Browser.getNormalizedEventName('transitionend');
-    dom.addEventListener(eventName, () => {
-      this.emit('pending-chip:transition-end');
+    dom.addEventListener(eventName, (event) => {
+      // The transitionend DOM event can fire multiple times (undesirably) if
+      // the children also have transitions; ensure that the
+      // pending-chip:transition-end event is only emitted for the parent's
+      // transition; see https://stackoverflow.com/q/26309838/560642
+      if (event.target === dom) {
+        this.emit('pending-chip:transition-end');
+      }
     });
   }
 

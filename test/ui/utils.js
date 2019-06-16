@@ -11,9 +11,12 @@ export function qsa(selector) {
 export function onPendingChipTransitionEnd() {
   return new Promise(function (resolve) {
     let pendingChip = qs('.chip.pending');
-    pendingChip.addEventListener('transitionend', function transitionend() {
-      pendingChip.removeEventListener('transitionend', transitionend);
-      resolve(pendingChip);
+    pendingChip.addEventListener('transitionend', function transitionend(event) {
+      // Prevent transitionend from firing on child elements
+      if (event.target === pendingChip) {
+        pendingChip.removeEventListener('transitionend', transitionend);
+        resolve(pendingChip);
+      }
     });
   });
 }
