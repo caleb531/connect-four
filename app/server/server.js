@@ -50,6 +50,7 @@ io.on('connection', (socket) => {
     console.log('join room by player', playerId);
     let room = roomManager.getRoom(roomCode);
     let player = room.connectPlayer({ playerId, socket });
+    socket.join(room.code);
     let status;
     console.log(player && player.name, room.players.length);
     if (player) {
@@ -62,6 +63,16 @@ io.on('connection', (socket) => {
       status = 'new-player';
     }
     fn({ status, room, player });
+  });
+
+  socket.on('new-player', ({ roomCode, player }, fn) => {
+    let room = roomManager.getRoom(roomCode);
+    player = room.addPlayer({ player, socket });
+    room.startGame();
+    fn({
+      status: 'startGame',
+      room, player
+    });
   });
 
   socket.on('disconnect', () => {

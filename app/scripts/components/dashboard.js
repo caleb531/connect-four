@@ -38,9 +38,27 @@ class DashboardComponent {
     inputEvent.redraw = false;
   }
 
-  submitNewPlayer(submitEvent) {
+  submitNewPlayer(submitEvent, roomCode) {
     submitEvent.preventDefault();
-    this.startOnlineGame();
+    if (roomCode) {
+      this.addNewPlayerToGame(roomCode);
+    } else {
+      this.startOnlineGame();
+    }
+  }
+
+  addNewPlayerToGame(roomCode) {
+    this.game.setPlayers(2);
+    this.game.players[1].name = this.newPlayerName;
+    this.session.emit('new-player', { roomCode, player: this.game.players[1] }, ({ status, room, player }) => {
+      this.session.status = status;
+      this.session.playerId = player.id;
+      Object.assign(this.game.players[0], room.players[0]);
+      this.game.startGame({
+        startingPlayer: this.game.players[room.startingPlayer]
+      });
+      m.redraw();
+    });
   }
 
   startOnlineGame() {
@@ -92,14 +110,14 @@ class DashboardComponent {
       ] :
       this.session.status === 'new-player' ? [
         m('form', {
-          onsubmit: (submitEvent) => this.submitNewPlayer(submitEvent)
+          onsubmit: (submitEvent) => this.submitNewPlayer(submitEvent, roomCode)
         }, [
           m('input[type=text]#new-player-name', {
             name: 'new-player-name',
             autofocus: true,
             oninput: (inputEvent) => this.setNewPlayerName(inputEvent)
           }),
-          m('button[type=submit]', 'Start Game')
+          m('button[type=submit]', roomCode ? 'Join Game' : 'Start Game')
         ])
       ] :
       !this.session.status ? [
