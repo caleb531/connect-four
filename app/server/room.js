@@ -25,10 +25,7 @@ class Room {
   }
 
   getFirstDisconnectedPlayer() {
-    return this.players.find((player) => {
-      console.log('socket i', player.socket && player.socket.id);
-      return player.socket === null;
-    });
+    return this.players.find((player) => player.socket === null);
   }
 
   connectPlayer({ playerId, socket }) {

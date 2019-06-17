@@ -52,7 +52,6 @@ io.on('connection', (socket) => {
     let player = room.connectPlayer({ playerId, socket });
     socket.join(room.code);
     let status;
-    console.log(player && player.name, room.players.length);
     if (player) {
       if (room.players.length === 1) {
         status = 'waiting-for-players';
