@@ -74,10 +74,10 @@ class DashboardComponent {
           'Welcome! How many players?' :
         // If a game is in progress
         this.game.currentPlayer ?
-          this.game.currentPlayer.name + ', your turn!' :
+          `${this.game.currentPlayer.name}, your turn!` :
         // If a player wins the game
         this.game.winner ?
-          this.game.winner.name + ' wins! Play again?' :
+          `${this.game.winner.name} wins! Play again?` :
         // If the grid is completely full
         this.game.grid.checkIfFull() ?
           'We\'ll call it a draw! Play again?' :
