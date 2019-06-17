@@ -34,7 +34,7 @@ class DashboardComponent {
   }
 
   setNewPlayerName(inputEvent) {
-    this.currentPlayerName = inputEvent.target.value;
+    this.newPlayerName = inputEvent.target.value;
     inputEvent.redraw = false;
   }
 
@@ -45,7 +45,7 @@ class DashboardComponent {
 
   startOnlineGame() {
     this.game.setPlayers(2);
-    this.game.players[0].name = this.currentPlayerName;
+    this.game.players[0].name = this.newPlayerName;
     this.session.connect();
     this.session.on('connect', () => {
       // Request a new room and retrieve the room code returned from the server
