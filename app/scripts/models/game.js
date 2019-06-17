@@ -24,8 +24,6 @@ class Game extends Emitter {
     this.pendingChip = null;
     // The winning player of the game
     this.winner = null;
-    // Game inherits from Emitter
-    Emitter.call(this);
     // Keep track of the columns where chips are placed in debug mode (extremely
     // useful for creating new unit tests from real games)
     if (debug) {
