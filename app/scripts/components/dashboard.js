@@ -50,7 +50,7 @@ class DashboardComponent {
   addNewPlayerToGame(roomCode) {
     this.game.setPlayers(2);
     this.game.players[1].name = this.newPlayerName;
-    this.session.emit('new-player', { roomCode, player: this.game.players[1] }, ({ status, room, player }) => {
+    this.session.emit('add-player', { roomCode, player: this.game.players[1] }, ({ status, room, player }) => {
       this.session.status = status;
       this.session.playerId = player.id;
       Object.assign(this.game.players[0], room.players[0]);
@@ -67,7 +67,7 @@ class DashboardComponent {
     this.session.connect();
     this.session.on('connect', () => {
       // Request a new room and retrieve the room code returned from the server
-      this.session.emit('new-room', { player: this.game.players[0] }, ({ status, room, player }) => {
+      this.session.emit('open-room', { player: this.game.players[0] }, ({ status, room, player }) => {
         this.session.status = status;
         this.session.playerId = player.id;
         console.log('new room', room.code);

@@ -35,7 +35,7 @@ io.on('connection', (socket) => {
 
   console.log('connected:', socket.id);
 
-  socket.on('new-room', ({ player }, fn) => {
+  socket.on('open-room', ({ player }, fn) => {
     console.log(player);
     let room = roomManager.openRoom();
     player = room.addPlayer({ player, socket });
@@ -65,7 +65,7 @@ io.on('connection', (socket) => {
     fn({ status, room, player });
   });
 
-  socket.on('new-player', ({ roomCode, player }, fn) => {
+  socket.on('add-player', ({ roomCode, player }, fn) => {
     let room = roomManager.getRoom(roomCode);
     player = room.addPlayer({ player, socket });
     room.startGame();
