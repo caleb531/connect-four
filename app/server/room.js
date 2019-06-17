@@ -37,7 +37,6 @@ class Room {
       player.socket = socket;
       socket.player = player;
     }
-    console.log('displayer', this.getFirstDisconnectedPlayer());
     return player;
   }
 
