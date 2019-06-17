@@ -44,7 +44,6 @@ class DashboardComponent {
   }
 
   startOnlineGame() {
-    this.session.status = 'connecting';
     this.game.setPlayers(2);
     this.game.players[0].name = this.currentPlayerName;
     this.session.connect();
