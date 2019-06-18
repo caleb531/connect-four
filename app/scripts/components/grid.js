@@ -174,14 +174,26 @@ class GridComponent extends Emitter {
   // transition has ended
   finishPlacingPendingChip({ column }) {
     this.waitForPendingChipTransitionEnd(() => {
-      this.game.placePendingChip({ column: column });
-      this.transitionPendingChipX = false;
-      this.transitionPendingChipY = false;
-      // Reset position of pending chip to the space directly above the last
-      // visited column
-      this.pendingChipX = this.lastVisitedColumnX;
-      this.pendingChipY = 0;
-      m.redraw();
+      // Normally, this callback should only ever fire if transitionPendingChipY
+      // is true; however, due to strange circumstances (which occur
+      // occasionally but not consistently), this callback runs with
+      // transitionPendingChipY equal to false, causing the current pending chip
+      // to be instantly and unexpectedly placed on the board without any notice
+      // or transition; to resolve, we must detect this situation and reset the
+      // transition x and y variables
+      if (this.transitionPendingChipX && !this.transitionPendingChipY) {
+        this.transitionPendingChipX = false;
+        this.transitionPendingChipY = false;
+      } else {
+        this.game.placePendingChip({ column: column });
+        this.transitionPendingChipX = false;
+        this.transitionPendingChipY = false;
+        // Reset position of pending chip to the space directly above the last
+        // visited column
+        this.pendingChipX = this.lastVisitedColumnX;
+        this.pendingChipY = 0;
+        m.redraw();
+      }
     });
   }
 
