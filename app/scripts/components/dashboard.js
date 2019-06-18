@@ -10,13 +10,13 @@ class DashboardComponent {
 
   // Prepare game players by creating new players (if necessary) and deciding
   // which player has the starting move
-  setPlayers(humanPlayerCount) {
+  setPlayers(gameType) {
     if (this.game.players.length > 0) {
       // Reset new games before choosing number of players (no need to reset
       // the very first game)
       this.game.resetGame();
     }
-    this.game.setPlayers(humanPlayerCount);
+    this.game.setPlayers(gameType);
   }
 
   startGame(newStartingPlayer) {
@@ -48,7 +48,7 @@ class DashboardComponent {
   }
 
   addNewPlayerToGame(roomCode) {
-    this.game.setPlayers(2);
+    this.game.setPlayers('2P');
     this.game.players[1].name = this.newPlayerName;
     this.session.emit('add-player', { roomCode, player: this.game.players[1] }, ({ status, room, player }) => {
       this.session.status = status;
@@ -62,7 +62,7 @@ class DashboardComponent {
   }
 
   startOnlineGame() {
-    this.game.setPlayers(2);
+    this.game.setPlayers('2P');
     this.game.players[0].name = this.newPlayerName;
     this.session.connect();
     this.session.on('connect', () => {
@@ -99,7 +99,7 @@ class DashboardComponent {
         this.game.grid.checkIfFull() ?
           'We\'ll call it a draw! Play again?' :
         // If the user just chose a number of players for the game to be started
-        !this.session.status && this.game.humanPlayerCount !== null ?
+        !this.session.status && this.game.type !== null ?
           'Which player should start first?' :
         // Otherwise, if game was ended manually by the user
         'Game ended. Play again?'
@@ -122,7 +122,7 @@ class DashboardComponent {
       ] :
       !this.session.status ? [
         // If number of players has been chosen, ask user to choose starting player
-        this.game.humanPlayerCount !== null ?
+        this.game.type !== null ?
           this.game.players.map((player) => {
             return m('button', {
               onclick: () => this.startGame(player)
@@ -131,10 +131,10 @@ class DashboardComponent {
           // Select a number of human players
           !roomCode ? [
             m('button', {
-              onclick: () => this.setPlayers(1)
+              onclick: () => this.setPlayers('1P')
             }, '1 Player'),
             m('button', {
-              onclick: () => this.setPlayers(2)
+              onclick: () => this.setPlayers('2P')
             }, '2 Players'),
             m('button', {
               onclick: () => this.createNewPlayer()

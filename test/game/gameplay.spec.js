@@ -12,7 +12,7 @@ describe('game', function () {
 
   it('should place pending chip', function () {
     let game = new Game();
-    game.setPlayers(2);
+    game.setPlayers('2P');
     game.startGame();
     game.placePendingChip({ column: 2 });
     expect(game.grid.columns[2]).to.have.length(1);
@@ -21,7 +21,7 @@ describe('game', function () {
 
   it('should win horizontally', function () {
     let game = new Game();
-    game.setPlayers(2);
+    game.setPlayers('2P');
     game.startGame();
     sinon.spy(Emitter.prototype, 'emit');
     try {
@@ -39,7 +39,7 @@ describe('game', function () {
 
   it('should win vertically', function () {
     let game = new Game();
-    game.setPlayers(2);
+    game.setPlayers('2P');
     game.startGame();
     sinon.spy(Emitter.prototype, 'emit');
     try {
@@ -57,7 +57,7 @@ describe('game', function () {
 
   it('should win diagonally', function () {
     let game = new Game();
-    game.setPlayers(2);
+    game.setPlayers('2P');
     game.startGame();
     sinon.spy(Emitter.prototype, 'emit');
     try {
@@ -75,7 +75,7 @@ describe('game', function () {
 
   it('should win with two connect-fours at once', function () {
     let game = new Game();
-    game.setPlayers(2);
+    game.setPlayers('2P');
     game.startGame();
     sinon.spy(Emitter.prototype, 'emit');
     try {
@@ -93,7 +93,7 @@ describe('game', function () {
 
   it('should win on connections of more than four', function () {
     let game = new Game();
-    game.setPlayers(2);
+    game.setPlayers('2P');
     game.startGame();
     sinon.spy(Emitter.prototype, 'emit');
     try {
@@ -111,7 +111,7 @@ describe('game', function () {
 
   it('should end when grid becomes full', function () {
     let game = new Game();
-    game.setPlayers(2);
+    game.setPlayers('2P');
     game.startGame();
     sinon.spy(Emitter.prototype, 'emit');
     try {

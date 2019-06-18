@@ -14,8 +14,8 @@ class Game extends Emitter {
     this.grid = grid;
     // The list of all players for this game
     this.players = players;
-    // The number of human players (if 1, assume the other player is an AI)
-    this.humanPlayerCount = null;
+    // The type of game (e.g. 1-Player, 2-Player, or Online)
+    this.type = null;
     // The current player is null when a game is not in progress
     this.currentPlayer = null;
     // Whether or not the game is in progress
@@ -54,7 +54,7 @@ class Game extends Emitter {
     this.currentPlayer = null;
     this.pendingChip = null;
     this.emit('game:end');
-    this.humanPlayerCount = null;
+    this.type = null;
     if (this.debug) {
       this.columnHistory.length = 0;
     }
@@ -68,27 +68,28 @@ class Game extends Emitter {
   }
 
   // Initialize or change the current set of players
-  setPlayers(newHumanPlayerCount) {
+  setPlayers(newGameType) {
     // Instantiate new players as needed (if user is about to play the first game
     // or if the user is switching modes)
     if (this.players.length === 0) {
-      if (newHumanPlayerCount === 1) {
+      if (newGameType === '1P') {
         // If user chose 1-Player mode, the user will play against the AI
         this.players.push(new HumanPlayer({ name: 'Human', color: 'red' }));
         this.players.push(new AIPlayer({ name: 'Mr. A.I.', color: 'black' }));
-      } else {
-        // Otherwise, the user will play against another human
+      } else if (newGameType === '2P') {
+        // If user chooses 2-Player mode, the user will play against another
+        // human
         this.players.push(new HumanPlayer({ name: 'Human 1', color: 'red' }));
         this.players.push(new HumanPlayer({ name: 'Human 2', color: 'blue' }));
       }
-    } else if ((newHumanPlayerCount === 1 && this.players[1].type !== 'ai') || (newHumanPlayerCount === 2 && this.players[1].type !== 'human')) {
-      // If user switches from 1-Player to 2-Player mode (or vice-versa), recreate
-      // set of players
+    } else if (newGameType !== this.type) {
+      // If user switches game type (e.g. from 1-Player to 2-Player mode),
+      // recreate set of players
       this.players.length = 0;
-      this.setPlayers(newHumanPlayerCount);
+      this.setPlayers(newGameType);
       return;
     }
-    this.humanPlayerCount = newHumanPlayerCount;
+    this.type = newGameType;
   }
 
   // Retrieve the player that isn't the given player

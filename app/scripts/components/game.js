@@ -55,7 +55,7 @@ class GameComponent {
     });
     this.game.on('game:declare-winner', (winner) => {
       // Only send win analytics for 1-player games
-      if (this.game.humanPlayerCount === 1) {
+      if (this.game.type === '1P') {
         this.sendAnalytics({
           eventAction: 'Win / Tie',
           eventLabel: winner.type === 'ai' ? 'AI Wins' : 'Human Wins',
@@ -65,7 +65,7 @@ class GameComponent {
       }
     });
     this.game.on('game:declare-tie', () => {
-      if (this.game.humanPlayerCount === 1) {
+      if (this.game.type === '1P') {
         this.sendAnalytics({
           eventAction: 'Win / Tie',
           eventLabel: 'Tie',
@@ -79,7 +79,7 @@ class GameComponent {
   sendAnalytics(args) {
     if (typeof ga === 'function' && !this.game.debug) {
       ga('send', 'event', _.extend({
-        eventCategory: this.game.humanPlayerCount === 1 ? '1-Player Game' : '2-Player Game'
+        eventCategory: this.game.type === '1P' ? '1-Player Game' : '2-Player Game'
       }, args));
     }
   }

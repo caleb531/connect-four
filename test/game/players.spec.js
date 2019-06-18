@@ -4,10 +4,10 @@ describe('game', function () {
 
   it('should preserve players when continuing in 1P mode', function () {
     let game = new Game();
-    game.setPlayers(1);
+    game.setPlayers('1P');
     game.players[0].score = 10;
     game.players[1].score = 20;
-    game.setPlayers(1);
+    game.setPlayers('1P');
     expect(game.players).to.have.length(2);
     expect(game.players[0].type).to.equal('human');
     expect(game.players[0].score).to.equal(10);
@@ -17,10 +17,10 @@ describe('game', function () {
 
   it('should preserve players when continuing in 2P mode', function () {
     let game = new Game();
-    game.setPlayers(2);
+    game.setPlayers('2P');
     game.players[0].score = 12;
     game.players[1].score = 16;
-    game.setPlayers(2);
+    game.setPlayers('2P');
     expect(game.players).to.have.length(2);
     expect(game.players[0].type).to.equal('human');
     expect(game.players[0].score).to.equal(12);
@@ -30,10 +30,10 @@ describe('game', function () {
 
   it('should initialize new players when switching from 1P to 2P', function () {
     let game = new Game();
-    game.setPlayers(1);
+    game.setPlayers('1P');
     game.players[0].score = 10;
     game.players[1].score = 15;
-    game.setPlayers(2);
+    game.setPlayers('2P');
     expect(game.players).to.have.length(2);
     expect(game.players[0].type).to.equal('human');
     expect(game.players[0].score).to.equal(0);
@@ -43,10 +43,10 @@ describe('game', function () {
 
   it('should initialize new players when switching from 2P to 1P', function () {
     let game = new Game();
-    game.setPlayers(2);
+    game.setPlayers('2P');
     game.players[0].score = 10;
     game.players[1].score = 15;
-    game.setPlayers(1);
+    game.setPlayers('1P');
     expect(game.players).to.have.length(2);
     expect(game.players[0].type).to.equal('human');
     expect(game.players[0].score).to.equal(0);
@@ -56,7 +56,7 @@ describe('game', function () {
 
   it('should get other player', function () {
     let game = new Game();
-    game.setPlayers(2);
+    game.setPlayers('2P');
     expect(game.getOtherPlayer(game.players[0])).to.equal(game.players[1]);
     expect(game.getOtherPlayer(game.players[1])).to.equal(game.players[0]);
   });
