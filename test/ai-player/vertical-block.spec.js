@@ -8,7 +8,7 @@ describe('AI player', function () {
     let game = new Game();
     game.setPlayers('1P');
     utils.placeChips({
-      game: game,
+      game,
       columns: [3, 2, 3, 2, 3]
     });
     expect(game.players[1].computeNextMove(game).column).to.equal(3);
@@ -18,7 +18,7 @@ describe('AI player', function () {
     let game = new Game();
     game.setPlayers('1P');
     utils.placeChips({
-      game: game,
+      game,
       columns: [2, 0, 4, 3, 3, 0, 4, 0, 0, 2, 4]
     });
     expect(game.players[1].computeNextMove(game).column).to.equal(4);
@@ -28,7 +28,7 @@ describe('AI player', function () {
     let game = new Game();
     game.setPlayers('1P');
     utils.placeChips({
-      game: game,
+      game,
       columns: [0, 3, 4, 4, 5, 4, 5, 4, 5, 5, 4, 5, 3, 3, 3, 3, 3, 4, 0, 5, 0]
     });
     expect(game.players[1].computeNextMove(game).column).to.equal(0);
@@ -38,7 +38,7 @@ describe('AI player', function () {
     let game = new Game();
     game.setPlayers('1P');
     utils.placeChips({
-      game: game,
+      game,
       columns: [2, 3, 4, 3, 3, 3, 1, 2, 4, 5, 2, 4, 0, 2, 0, 3, 0, 0, 5, 0, 5, 0, 5]
     });
     expect(game.players[1].computeNextMove(game).column).to.equal(5);

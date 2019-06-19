@@ -8,7 +8,7 @@ describe('AI player', function () {
     let game = new Game();
     game.setPlayers('1P');
     utils.placeChips({
-      game: game,
+      game,
       columns: [
         3, 6, 4, 1, 1, 4, 3, 3, 1, 1,
         3, 0, 0, 3, 0, 0, 2, 2, 2, 5,
@@ -23,7 +23,7 @@ describe('AI player', function () {
     let game = new Game();
     game.setPlayers('1P');
     utils.placeChips({
-      game: game,
+      game,
       columns: [
         3, 6, 0, 5, 3, 3, 0, 4, 6, 3,
         6, 1, 1, 4, 1, 3, 3, 1, 4, 1,
@@ -38,7 +38,7 @@ describe('AI player', function () {
     let game = new Game();
     game.setPlayers('1P');
     utils.placeChips({
-      game: game,
+      game,
       columns: [
         3, 2, 6, 4, 6, 5, 5, 6, 6, 4,
         4, 5, 5, 3, 5, 4, 4, 4, 2, 5,
@@ -52,7 +52,7 @@ describe('AI player', function () {
     let game = new Game();
     game.setPlayers('1P');
     utils.placeChips({
-      game: game,
+      game,
       columns: [
         3, 2, 6, 4, 3, 2, 5, 4, 5, 6,
         4, 5, 5, 5, 4, 4, 6

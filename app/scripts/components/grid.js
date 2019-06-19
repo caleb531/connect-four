@@ -118,21 +118,21 @@ class GridComponent extends Emitter {
   // currently aligned with said column, do so first without placing it)
   placePendingChip({ column }) {
     let rowIndex = this.game.grid.getNextAvailableSlot({
-      column: column
+      column
     });
     // Do not allow user to place chip in column that is already full
     if (rowIndex === null) {
       return;
     }
     let slotCoords = this.getSlotCoords({
-      column: column,
+      column,
       row: rowIndex
     });
     // If pending chip is not currently aligned with chosen column
     if (this.pendingChipX !== slotCoords.x) {
       // First align pending chip with column
       this.alignPendingChipWithColumn({
-        column: column,
+        column,
         // On the AI's turn, automatically place the chip after aligning it
         // with the specified column
         transitionEnd: () => {
@@ -185,7 +185,7 @@ class GridComponent extends Emitter {
         this.transitionPendingChipX = false;
         this.transitionPendingChipY = false;
       } else {
-        this.game.placePendingChip({ column: column });
+        this.game.placePendingChip({ column });
         this.transitionPendingChipX = false;
         this.transitionPendingChipY = false;
         // Reset position of pending chip to the space directly above the last

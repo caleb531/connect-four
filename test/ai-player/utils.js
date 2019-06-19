@@ -10,7 +10,7 @@ function placeChips({ game, startingPlayer, columns }) {
   }
   columns.forEach(function (column) {
     let chip = new Chip({ player: currentPlayer });
-    game.grid.placeChip({ column: column, chip: chip });
+    game.grid.placeChip({ column, chip });
     if (currentPlayer === game.players[0]) {
       currentPlayer = game.players[1];
     } else {
@@ -20,5 +20,5 @@ function placeChips({ game, startingPlayer, columns }) {
 }
 
 export default {
-  placeChips: placeChips
+  placeChips
 };

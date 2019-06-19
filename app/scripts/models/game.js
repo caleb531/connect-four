@@ -123,7 +123,7 @@ class Game extends Emitter {
   placePendingChip({ column }) {
     this.grid.placeChip({
       chip: this.pendingChip,
-      column: column
+      column
     });
     if (this.debug) {
       this.columnHistory.push(column);
