@@ -1,7 +1,7 @@
 let commonjs = require('rollup-plugin-commonjs');
 let resolve = require('rollup-plugin-node-resolve');
 let json = require('rollup-plugin-json');
-let terser = require('rollup-plugin-terser').terser;
+// let terser = require('rollup-plugin-terser').terser;
 
 module.exports = {
   input: 'app/scripts/index.js',
@@ -33,7 +33,7 @@ module.exports = {
       preferBuiltins: true
     }),
     commonjs(),
-    json(),
-    terser()
+    json()
+    // terser()
   ]
 };

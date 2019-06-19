@@ -1,7 +1,7 @@
 let gulp = require('gulp');
 let sourcemaps = require('gulp-sourcemaps');
 let sass = require('gulp-sass');
-let terser = require('gulp-terser');
+// let terser = require('gulp-terser');
 let rollup = require('rollup');
 let rollupAppConfig = require('./rollup.config.app.js');
 let rollupTestConfig = require('./rollup.config.test.js');
@@ -78,7 +78,7 @@ gulp.task('uglify', () => {
       'node_modules/fastclick/lib/fastclick.js',
       'node_modules/sw-update-manager/sw-update-manager.js'
     ])
-    .pipe(terser())
+    // .pipe(terser())
     .pipe(gulp.dest('public/scripts'));
 });
 
