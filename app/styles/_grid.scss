@@ -47,7 +47,7 @@
 // Pulse the pending chip to indicate that the app hasn't frozen
 @keyframes pulse-chip {
   50% {
-    opacity: (1 / 3);
+    opacity: (2 / 3);
   }
 }
 
@@ -68,7 +68,7 @@
     // The falling pending chip should appear below the layer of placed chips
     z-index: 20;
     .chip-inner-real {
-      animation: pulse-chip 1000ms ease-in-out infinite forwards;
+      animation: pulse-chip 1500ms ease-in-out infinite forwards;
     }
     // The clone is used to restore full opacity from the pulse animation of the
     // real inner chip
