@@ -1,23 +1,20 @@
 import Grid from './grid.js';
-import Player from './player.js';
+import AsyncPlayer from './async-player.js';
 import Chip from './chip.js';
 
 // An AI player that can think for itself; every AI player inherits from the
 // base Player model
-class AIPlayer extends Player {
-
-  // Wait for a short moment to give the user time to see and process the AI
-  // player's actions
-  wait(callback) {
-    setTimeout(callback, AIPlayer.waitDelay);
-  }
+class AIPlayer extends AsyncPlayer {
 
   // Compute the column where the AI player should place its next chip
-  computeNextMove(game) {
-    let bestMove = this.maximizeMove(
-      game.grid, game.getOtherPlayer(this), AIPlayer.maxComputeDepth,
-      Grid.minScore, Grid.maxScore);
-    return bestMove;
+  getNextMove({ game }) {
+    return new Promise((resolve) => {
+      let nextMove = this.maximizeMove(
+        game.grid, game.getOtherPlayer(this), AIPlayer.maxComputeDepth,
+        Grid.minScore, Grid.maxScore
+      );
+      resolve(nextMove);
+    });
   }
 
   // Choose a column that will maximize the AI player's chances of winning

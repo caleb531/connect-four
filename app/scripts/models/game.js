@@ -104,9 +104,10 @@ class Game extends Emitter {
   // Start the turn of the current player
   startTurn() {
     this.pendingChip = new Chip({ player: this.currentPlayer });
-    if (this.currentPlayer.type === 'ai') {
-      let bestMove = this.currentPlayer.computeNextMove(this);
-      this.emit('ai-player:compute-next-move', this.currentPlayer, bestMove);
+    if (this.currentPlayer.getNextMove) {
+      this.currentPlayer.getNextMove({ game: this }).then((nextMove) => {
+        this.emit('async-player:get-next-move', this.currentPlayer, nextMove);
+      });
     }
   }
 

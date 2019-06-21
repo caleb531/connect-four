@@ -16,7 +16,9 @@ describe('AI player', function () {
         6, 6, 6, 6, 3
       ]
     });
-    expect(game.players[1].computeNextMove(game).column).to.be.oneOf([0, 1]);
+    game.players[1].getNextMove({ game }).then((nextMove) => {
+      expect(nextMove.column).to.be.oneOf([0, 1]);
+    });
   });
 
   it('should avoid losing move (#2)', function () {
@@ -31,7 +33,9 @@ describe('AI player', function () {
         6, 6, 0, 0, 0
       ]
     });
-    expect(game.players[1].computeNextMove(game).column).to.equal(0);
+    game.players[1].getNextMove({ game }).then((nextMove) => {
+      expect(nextMove.column).to.equal(0);
+    });
   });
 
   it('should avoid losing move (#3)', function () {
@@ -45,7 +49,9 @@ describe('AI player', function () {
         2, 6, 6
       ]
     });
-    expect(game.players[1].computeNextMove(game).column).to.be.oneOf([0, 1, 2]);
+    game.players[1].getNextMove({ game }).then((nextMove) => {
+      expect(nextMove.column).to.be.oneOf([0, 1, 2]);
+    });
   });
 
   it('should avoid losing move (#4)', function () {
@@ -58,7 +64,9 @@ describe('AI player', function () {
         4, 5, 5, 5, 4, 4, 6
       ]
     });
-    expect(game.players[1].computeNextMove(game).column).to.be.oneOf([0, 1, 2, 3, 4, 5]);
+    game.players[1].getNextMove({ game }).then((nextMove) => {
+      expect(nextMove.column).to.be.oneOf([0, 1, 2, 3, 4, 5]);
+    });
   });
 
 });

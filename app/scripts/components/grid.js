@@ -12,10 +12,10 @@ class GridComponent extends Emitter {
     this.game = game;
     this.grid = this.game.grid;
     // Place chip automatically when AI computes its next move on its turn
-    this.game.on('ai-player:compute-next-move', (aiPlayer, bestMove) => {
-      aiPlayer.wait(() => {
+    this.game.on('async-player:get-next-move', (player, nextMove) => {
+      player.wait(() => {
         this.placePendingChip({
-          column: bestMove.column
+          column: nextMove.column
         });
       });
     });
@@ -133,10 +133,10 @@ class GridComponent extends Emitter {
       // First align pending chip with column
       this.alignPendingChipWithColumn({
         column,
-        // On the AI's turn, automatically place the chip after aligning it
-        // with the specified column
+        // When it's the AI's turn or any async player's turn, automatically
+        // place the chip after aligning it with the specified column
         transitionEnd: () => {
-          if (this.game.currentPlayer.type === 'ai') {
+          if (this.game.currentPlayer.wait) {
             this.game.currentPlayer.wait(() => {
               this.placePendingChip({ column });
             });

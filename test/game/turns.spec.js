@@ -10,14 +10,14 @@ describe('game', function () {
     expect(game.pendingChip).not.to.be.null;
   });
 
-  it('should communicate with AI player on its turn', function () {
+  it('should communicate with AI player on its turn', function (done) {
     let game = new Game();
     game.setPlayers('1P');
     let eventEmitted = false;
-    sinon.spy(game.players[1], 'computeNextMove');
+    sinon.spy(game.players[1], 'getNextMove');
     try {
       // Events are emitted and callbacks and run synchronously
-      game.on('ai-player:compute-next-move', function (aiPlayer, bestMove) {
+      game.on('async-player:get-next-move', (aiPlayer, bestMove) => {
         eventEmitted = true;
         expect(aiPlayer).to.equal(game.players[1]);
         expect(bestMove).to.have.property('column');
@@ -26,13 +26,16 @@ describe('game', function () {
       game.startGame({
         startingPlayer: game.players[1]
       });
-      expect(game.players[1].computeNextMove).to.have.been.calledWith(game);
-      expect(game.players[1].computeNextMove).to.have.been.calledWith(game);
+      expect(game.players[1].getNextMove).to.have.been.calledWith({ game });
+      expect(game.players[1].getNextMove).to.have.been.calledWith({ game });
     } finally {
-      game.players[1].computeNextMove.restore();
+      game.players[1].getNextMove.restore();
     }
-    // Emitter event callbacks should have run at this point
-    expect(eventEmitted, 'ai-player:compute-next-move not emitted').to.be.true;
+    setTimeout(function () {
+      // Emitter event callbacks should have run at this point
+      expect(eventEmitted, 'async-player:get-next-move not emitted').to.be.true;
+      done();
+    }, 100);
   });
 
   it('should end turn', function () {
