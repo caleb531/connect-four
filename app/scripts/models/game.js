@@ -120,7 +120,10 @@ class Game extends Emitter {
     this.pendingChip = new Chip({ player: this.currentPlayer });
     if (this.currentPlayer.getNextMove) {
       this.currentPlayer.getNextMove({ game: this }).then((nextMove) => {
-        this.emit('async-player:get-next-move', this.currentPlayer, nextMove);
+        this.emit('async-player:get-next-move', {
+          player: this.currentPlayer,
+          nextMove
+        });
       });
     }
   }

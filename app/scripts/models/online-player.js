@@ -8,8 +8,8 @@ class OnlinePlayer extends AsyncPlayer {
     // opponent (online) player during the course of the game; when we receive a
     // move from the opponent, TinyEmitter will help us resolve the promise
     // created in the last call to getNextMove()
-    game.session.on('receive-next-move', ({ column }) => {
-      game.emit('online-player:receive-next-move', { column });
+    game.session.on('receive-next-move', (nextMove) => {
+      game.emit('online-player:receive-next-move', nextMove);
     });
   }
 
@@ -25,8 +25,8 @@ class OnlinePlayer extends AsyncPlayer {
         game.session.status = status;
         // Resolve the promise when the game's TinyEmitter listener receives the
         // move from the opponent, passing it to the local (human) player
-        game.once('online-player:receive-next-move', () => {
-          resolve();
+        game.once('online-player:receive-next-move', (nextMove) => {
+          resolve(nextMove);
         });
       });
     });

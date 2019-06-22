@@ -17,7 +17,7 @@ describe('game', function () {
     sinon.spy(game.players[1], 'getNextMove');
     try {
       // Events are emitted and callbacks and run synchronously
-      game.on('async-player:get-next-move', (aiPlayer, bestMove) => {
+      game.on('async-player:get-next-move', ({ aiPlayer, bestMove }) => {
         eventEmitted = true;
         expect(aiPlayer).to.equal(game.players[1]);
         expect(bestMove).to.have.property('column');

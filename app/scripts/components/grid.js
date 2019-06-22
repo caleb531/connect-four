@@ -12,7 +12,7 @@ class GridComponent extends Emitter {
     this.game = game;
     this.grid = this.game.grid;
     // Place chip automatically when AI computes its next move on its turn
-    this.game.on('async-player:get-next-move', (player, nextMove) => {
+    this.game.on('async-player:get-next-move', ({ player, nextMove }) => {
       player.wait(() => {
         this.placePendingChip({
           column: nextMove.column
