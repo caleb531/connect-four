@@ -1,6 +1,7 @@
 import Emitter from 'tiny-emitter';
 import Grid from './grid.js';
 import HumanPlayer from './human-player.js';
+import OnlinePlayer from './online-player.js';
 import AIPlayer from './ai-player.js';
 import Chip from './chip.js';
 
@@ -8,7 +9,7 @@ import Chip from './chip.js';
 // rounds
 class Game extends Emitter {
 
-  constructor({ grid = new Grid({ columnCount: 7, rowCount: 6 }), players = [], debug = false } = {}) {
+  constructor({ grid = new Grid({ columnCount: 7, rowCount: 6 }), players = [], session = null, debug = false } = {}) {
     super();
     // The two-dimensional array representing the entire game grid
     this.grid = grid;
@@ -24,6 +25,8 @@ class Game extends Emitter {
     this.pendingChip = null;
     // The winning player of the game
     this.winner = null;
+    // Data and methods for handling online games
+    this.session = session;
     // Keep track of the columns where chips are placed in debug mode (extremely
     // useful for creating new unit tests from real games)
     if (debug) {
@@ -67,8 +70,9 @@ class Game extends Emitter {
     this.grid.resetGrid();
   }
 
-  // Initialize or change the current set of players
-  setPlayers({ gameType }) {
+  // Initialize or change the current set of players based on the specified game
+  // type;
+  setPlayers({ gameType, players = null, localPlayer = null }) {
     // Instantiate new players as needed (if user is about to play the first game
     // or if the user is switching modes)
     if (this.players.length === 0) {
@@ -81,6 +85,16 @@ class Game extends Emitter {
         // human
         this.players.push(new HumanPlayer({ name: 'Human 1', color: 'red' }));
         this.players.push(new HumanPlayer({ name: 'Human 2', color: 'blue' }));
+      } else if (gameType === 'online' && players && localPlayer) {
+        // If user chooses Online mode, the user will play against another human
+        // on another machine; the
+        this.players = players.map((player) => {
+          if (player === localPlayer) {
+            return new HumanPlayer(player);
+          } else {
+            return new OnlinePlayer(Object.assign({}, player, { game: this }));
+          }
+        });
       }
     } else if (gameType !== this.type) {
       // If user switches game type (e.g. from 1-Player to 2-Player mode),

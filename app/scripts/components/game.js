@@ -14,6 +14,7 @@ class GameComponent {
   oninit({ attrs: { session, roomCode } }) {
     this.session = session;
     this.game = new Game({
+      session,
       // Only enable debug mode on non-production sites
       debug: (window.location.host !== 'projects.calebevans.me' && !window.__karma__)
     });

@@ -2,8 +2,7 @@ import Grid from './grid.js';
 import AsyncPlayer from './async-player.js';
 import Chip from './chip.js';
 
-// An AI player that can think for itself; every AI player inherits from the
-// base Player model
+// An AI player that can think for itself
 class AIPlayer extends AsyncPlayer {
 
   // Compute the column where the AI player should place its next chip
