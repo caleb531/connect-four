@@ -3,7 +3,7 @@ import uuidv4 from 'uuid/v4';
 class Player {
 
   /* eslint-disable no-shadow */
-  constructor({ name, color, socket }) {
+  constructor({ name, color, socket, score = 0 }) {
     // A unique identifier for this player; this only needs to be unique within
     // the scope of a room
     this.id = uuidv4();
@@ -15,7 +15,7 @@ class Player {
     // The user-defined color of the user as defined by the client
     this.color = color;
     // The player's total number of wins across all games
-    this.score = 0;
+    this.score = score;
   }
 
   toJSON() {

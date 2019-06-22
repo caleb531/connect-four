@@ -1,15 +1,12 @@
-import random from 'random';
-
 import Player from './player.js';
+import Game from './game.js';
 
 class Room {
 
-  constructor({ code, players = [], gridHistory = [] }) {
+  constructor({ code, players = [], game = new Game({ players }) }) {
     this.code = code;
     this.players = players;
-    this.gridHistory = gridHistory;
-    // The index of the starting player for the current game
-    this.startingPlayer = null;
+    this.game = game;
   }
 
   addPlayer({ player, socket }) {
@@ -35,12 +32,6 @@ class Room {
       socket.player = player;
     }
     return player;
-  }
-
-  startGame() {
-    // The first game for a room should pick a starting player at random;
-    // successive games will alternate starting player
-    this.startingPlayer = random.int(0, this.players.length - 1);
   }
 
 }
