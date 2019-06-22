@@ -31,7 +31,7 @@ describe('AI player', function () {
 
   it('should wrap around if right side of grid is full', function () {
     let game = new Game();
-    game.setPlayers('1P');
+    game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
       startingPlayer: game.players[1],

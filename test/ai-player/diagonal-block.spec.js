@@ -6,7 +6,7 @@ describe('AI player', function () {
 
   it('should block diagonal opponent win (#1)', function () {
     let game = new Game();
-    game.setPlayers('1P');
+    game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
       columns: [4, 3, 3, 2, 1, 2, 2, 1, 1]
@@ -18,7 +18,7 @@ describe('AI player', function () {
 
   it('should block diagonal opponent win (#2)', function () {
     let game = new Game();
-    game.setPlayers('1P');
+    game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
       columns: [2, 3, 3, 5, 5, 5, 4, 4, 4]

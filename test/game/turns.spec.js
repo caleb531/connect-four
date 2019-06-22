@@ -4,7 +4,7 @@ describe('game', function () {
 
   it('should start turn', function () {
     let game = new Game();
-    game.setPlayers('2P');
+    game.setPlayers({ gameType: '2P' });
     game.startGame();
     game.startTurn();
     expect(game.pendingChip).not.to.be.null;
@@ -12,7 +12,7 @@ describe('game', function () {
 
   it('should communicate with AI player on its turn', function (done) {
     let game = new Game();
-    game.setPlayers('1P');
+    game.setPlayers({ gameType: '1P' });
     let eventEmitted = false;
     sinon.spy(game.players[1], 'getNextMove');
     try {
@@ -40,7 +40,7 @@ describe('game', function () {
 
   it('should end turn', function () {
     let game = new Game();
-    game.setPlayers('2P');
+    game.setPlayers({ gameType: '2P' });
     game.startGame();
     game.startTurn();
     game.endTurn();

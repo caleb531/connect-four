@@ -5,7 +5,7 @@ describe('game', function () {
 
   it('should end', function () {
     let game = new Game();
-    game.setPlayers('2P');
+    game.setPlayers({ gameType: '2P' });
     game.startGame();
     sinon.spy(Emitter.prototype, 'emit');
     try {
@@ -21,7 +21,7 @@ describe('game', function () {
 
   it('should reset debug mode when ended', function () {
    let game = new Game({ debug: true });
-   game.setPlayers('2P');
+   game.setPlayers({ gameType: '2P' });
    game.startGame();
    sinon.stub(console, 'log');
    try {
@@ -38,7 +38,7 @@ describe('game', function () {
 
   it('should increment winner\'s score when ending', function () {
     let game = new Game();
-    game.setPlayers('2P');
+    game.setPlayers({ gameType: '2P' });
     game.startGame();
     game.winner = game.players[0];
     expect(game.winner.score).to.equal(0);

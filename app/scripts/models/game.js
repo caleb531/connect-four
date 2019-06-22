@@ -68,28 +68,28 @@ class Game extends Emitter {
   }
 
   // Initialize or change the current set of players
-  setPlayers(newGameType) {
+  setPlayers({ gameType }) {
     // Instantiate new players as needed (if user is about to play the first game
     // or if the user is switching modes)
     if (this.players.length === 0) {
-      if (newGameType === '1P') {
+      if (gameType === '1P') {
         // If user chose 1-Player mode, the user will play against the AI
         this.players.push(new HumanPlayer({ name: 'Human', color: 'red' }));
         this.players.push(new AIPlayer({ name: 'Mr. A.I.', color: 'black' }));
-      } else if (newGameType === '2P') {
+      } else if (gameType === '2P') {
         // If user chooses 2-Player mode, the user will play against another
         // human
         this.players.push(new HumanPlayer({ name: 'Human 1', color: 'red' }));
         this.players.push(new HumanPlayer({ name: 'Human 2', color: 'blue' }));
       }
-    } else if (newGameType !== this.type) {
+    } else if (gameType !== this.type) {
       // If user switches game type (e.g. from 1-Player to 2-Player mode),
       // recreate set of players
       this.players.length = 0;
-      this.setPlayers(newGameType);
+      this.setPlayers({ gameType });
       return;
     }
-    this.type = newGameType;
+    this.type = gameType;
   }
 
   // Retrieve the player that isn't the given player

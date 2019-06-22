@@ -48,7 +48,7 @@ class DashboardComponent {
   }
 
   addNewPlayerToGame(roomCode) {
-    this.game.setPlayers('2P');
+    this.game.setPlayers({ gameType: '2P' });
     this.game.players[1].name = this.newPlayerName;
     this.session.emit('add-player', { roomCode, player: this.game.players[1] }, ({ status, room, player }) => {
       this.session.status = status;
@@ -62,7 +62,7 @@ class DashboardComponent {
   }
 
   startOnlineGame() {
-    this.game.setPlayers('2P');
+    this.game.setPlayers({ gameType: '2P' });
     this.game.players[0].name = this.newPlayerName;
     this.session.connect();
     this.session.on('connect', () => {
@@ -131,10 +131,10 @@ class DashboardComponent {
           // Select a number of human players
           !roomCode ? [
             m('button', {
-              onclick: () => this.setPlayers('1P')
+              onclick: () => this.setPlayers({ gameType: '1P' })
             }, '1 Player'),
             m('button', {
-              onclick: () => this.setPlayers('2P')
+              onclick: () => this.setPlayers({ gameType: '2P' })
             }, '2 Players'),
             m('button', {
               onclick: () => this.createNewPlayer()

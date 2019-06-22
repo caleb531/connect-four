@@ -46,7 +46,7 @@ describe('game', function () {
 
   it('should initialize 1P game', function () {
     let game = new Game();
-    game.setPlayers('1P');
+    game.setPlayers({ gameType: '1P' });
     expect(game.players).to.have.length(2);
     expect(game.players[0].type).to.equal('human');
     expect(game.players[1].type).to.equal('ai');
@@ -54,7 +54,7 @@ describe('game', function () {
 
   it('should initialize 2P game', function () {
     let game = new Game();
-    game.setPlayers('2P');
+    game.setPlayers({ gameType: '2P' });
     expect(game.players).to.have.length(2);
     expect(game.players[0].type).to.equal('human');
     expect(game.players[1].type).to.equal('human');

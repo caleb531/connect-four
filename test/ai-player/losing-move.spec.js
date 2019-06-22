@@ -6,7 +6,7 @@ describe('AI player', function () {
 
   it('should avoid losing move (#1)', function () {
     let game = new Game();
-    game.setPlayers('1P');
+    game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
       columns: [
@@ -23,7 +23,7 @@ describe('AI player', function () {
 
   it('should avoid losing move (#2)', function () {
     let game = new Game();
-    game.setPlayers('1P');
+    game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
       columns: [
@@ -40,7 +40,7 @@ describe('AI player', function () {
 
   it('should avoid losing move (#3)', function () {
     let game = new Game();
-    game.setPlayers('1P');
+    game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
       columns: [
@@ -56,7 +56,7 @@ describe('AI player', function () {
 
   it('should avoid losing move (#4)', function () {
     let game = new Game();
-    game.setPlayers('1P');
+    game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
       columns: [

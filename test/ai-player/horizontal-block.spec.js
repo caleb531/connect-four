@@ -6,7 +6,7 @@ describe('AI player', function () {
 
   it('should block horizontal opponent win (#1)', function () {
     let game = new Game();
-    game.setPlayers('1P');
+    game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
       columns: [3, 2, 5, 2, 6]
@@ -18,7 +18,7 @@ describe('AI player', function () {
 
   it('should block horizontal opponent win (#2)', function () {
     let game = new Game();
-    game.setPlayers('1P');
+    game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
       columns: [1, 0, 4, 2, 5, 3, 6, 0, 2, 2, 1, 0, 0, 0, 3]
@@ -30,7 +30,7 @@ describe('AI player', function () {
 
   it('should block horizontal opponent win (#3)', function () {
     let game = new Game();
-    game.setPlayers('1P');
+    game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
       columns: [2, 0, 4, 1, 6, 3, 2, 0, 3, 1, 4, 5, 0, 3, 0, 3, 2, 2, 4, 4, 2, 6, 6, 4, 3, 4, 2, 3, 6]
@@ -42,7 +42,7 @@ describe('AI player', function () {
 
   it('should block horizontal connect-three trap (#1)', function () {
     let game = new Game();
-    game.setPlayers('1P');
+    game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
       columns: [3, 3, 5]
@@ -54,7 +54,7 @@ describe('AI player', function () {
 
   it('should block horizontal connect-three trap (#2)', function () {
     let game = new Game();
-    game.setPlayers('1P');
+    game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
       columns: [3, 1, 3, 3, 5]
@@ -66,7 +66,7 @@ describe('AI player', function () {
 
   it('should block horizontal connect-three trap (#3)', function () {
     let game = new Game();
-    game.setPlayers('1P');
+    game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
       columns: [3, 1, 3, 3, 4]
@@ -78,7 +78,7 @@ describe('AI player', function () {
 
   it('should block horizontal connect-three trap (#4)', function () {
     let game = new Game();
-    game.setPlayers('1P');
+    game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
       columns: [3, 3, 1]
@@ -90,7 +90,7 @@ describe('AI player', function () {
 
   it('should block horizontal connect-three trap (#5)', function () {
     let game = new Game();
-    game.setPlayers('1P');
+    game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
       columns: [3, 3, 4]

@@ -5,7 +5,7 @@ describe('game', function () {
 
   it('should start', function () {
     let game = new Game();
-    game.setPlayers('2P');
+    game.setPlayers({ gameType: '2P' });
     sinon.spy(Emitter.prototype, 'emit');
     try {
       game.startGame();
@@ -19,7 +19,7 @@ describe('game', function () {
 
   it('should set starting player when starting', function () {
     let game = new Game();
-    game.setPlayers('2P');
+    game.setPlayers({ gameType: '2P' });
     game.startGame({
       startingPlayer: game.players[1]
     });
