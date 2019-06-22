@@ -33,10 +33,10 @@ let roomManager = new RoomManager();
 
 io.on('connection', (socket) => {
 
-  console.log('connected:', socket.id);
+  console.log(`connected: ${socket.id}`);
 
   socket.on('open-room', ({ player }, fn) => {
-    console.log(player);
+    console.log(`open room by player ${player.name}`);
     let room = roomManager.openRoom();
     player = room.addPlayer({ player, socket });
     socket.join(room.code);
@@ -47,35 +47,46 @@ io.on('connection', (socket) => {
   });
 
   socket.on('join-room', ({ roomCode, playerId }, fn) => {
-    console.log('join room by player', playerId);
     let room = roomManager.getRoom(roomCode);
-    let player = room.connectPlayer({ playerId, socket });
-    socket.join(room.code);
-    let status;
-    if (player) {
-      if (room.players.length === 1) {
-        status = 'waiting-for-players';
+    if (room) {
+      console.log(`join room by player ${playerId}`);
+      let player = room.connectPlayer({ playerId, socket });
+      socket.join(room.code);
+      let status;
+      if (player) {
+        if (room.players.length === 1) {
+          status = 'waiting-for-players';
+        } else {
+          status = 'returning-player';
+        }
       } else {
-        status = 'returning-player';
+        status = 'new-player';
       }
+      fn({ status, room, player });
     } else {
-      status = 'new-player';
+      console.log(`room ${roomCode} not found`);
+      fn({ status: 'roomNotFound' });
     }
-    fn({ status, room, player });
   });
 
   socket.on('add-player', ({ roomCode, player }, fn) => {
     let room = roomManager.getRoom(roomCode);
-    player = room.addPlayer({ player, socket });
-    room.startGame();
-    fn({
-      status: 'startGame',
-      room, player
-    });
+    if (room) {
+      console.log(`add player to room ${roomCode}`);
+      player = room.addPlayer({ player, socket });
+      room.game.startGame();
+      fn({
+        status: 'startGame',
+        room, player
+      });
+    } else {
+      console.log(`room ${roomCode} not found`);
+      fn({ status: 'roomNotFound' });
+    }
   });
 
   socket.on('disconnect', () => {
-    console.log('disconnected:', socket.id);
+    console.log(`disconnected: ${socket.id}`);
     // Indicate that this player is now disconnected
     if (socket.player) {
       console.log('unset player socket');
