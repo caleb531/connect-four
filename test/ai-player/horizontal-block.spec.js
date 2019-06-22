@@ -11,7 +11,7 @@ describe('AI player', function () {
       game,
       columns: [3, 2, 5, 2, 6]
     });
-    game.players[1].getNextMove({ game }).then((nextMove) => {
+    return game.players[1].getNextMove({ game }).then((nextMove) => {
       expect(nextMove.column).to.equal(4);
     });
   });
@@ -23,7 +23,7 @@ describe('AI player', function () {
       game,
       columns: [1, 0, 4, 2, 5, 3, 6, 0, 2, 2, 1, 0, 0, 0, 3]
     });
-    game.players[1].getNextMove({ game }).then((nextMove) => {
+    return game.players[1].getNextMove({ game }).then((nextMove) => {
       expect(nextMove.column).to.equal(4);
     });
   });
@@ -35,7 +35,7 @@ describe('AI player', function () {
       game,
       columns: [2, 0, 4, 1, 6, 3, 2, 0, 3, 1, 4, 5, 0, 3, 0, 3, 2, 2, 4, 4, 2, 6, 6, 4, 3, 4, 2, 3, 6]
     });
-    game.players[1].getNextMove({ game }).then((nextMove) => {
+    return game.players[1].getNextMove({ game }).then((nextMove) => {
       expect(nextMove.column).to.equal(5);
     });
   });
@@ -47,7 +47,7 @@ describe('AI player', function () {
       game,
       columns: [3, 3, 5]
     });
-    game.players[1].getNextMove({ game }).then((nextMove) => {
+    return game.players[1].getNextMove({ game }).then((nextMove) => {
       expect(nextMove.column).to.be.oneOf([2, 4, 6]);
     });
   });
@@ -59,7 +59,7 @@ describe('AI player', function () {
       game,
       columns: [3, 1, 3, 3, 5]
     });
-    game.players[1].getNextMove({ game }).then((nextMove) => {
+    return game.players[1].getNextMove({ game }).then((nextMove) => {
       expect(nextMove.column).to.be.oneOf([2, 4, 6]);
     });
   });
@@ -71,7 +71,7 @@ describe('AI player', function () {
       game,
       columns: [3, 1, 3, 3, 4]
     });
-    game.players[1].getNextMove({ game }).then((nextMove) => {
+    return game.players[1].getNextMove({ game }).then((nextMove) => {
       expect(nextMove.column).to.be.oneOf([2, 5, 6]);
     });
   });
@@ -83,7 +83,7 @@ describe('AI player', function () {
       game,
       columns: [3, 3, 1]
     });
-    game.players[1].getNextMove({ game }).then((nextMove) => {
+    return game.players[1].getNextMove({ game }).then((nextMove) => {
       expect(nextMove.column).to.be.oneOf([0, 2, 4]);
     });
   });
@@ -95,7 +95,7 @@ describe('AI player', function () {
       game,
       columns: [3, 3, 4]
     });
-    game.players[1].getNextMove({ game }).then((nextMove) => {
+    return game.players[1].getNextMove({ game }).then((nextMove) => {
       expect(nextMove.column).to.be.oneOf([2, 5, 6]);
     });
   });

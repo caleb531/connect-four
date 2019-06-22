@@ -11,7 +11,7 @@ describe('AI player', function () {
       game,
       columns: [3, 2, 3, 2, 3]
     });
-    game.players[1].getNextMove({ game }).then((nextMove) => {
+    return game.players[1].getNextMove({ game }).then((nextMove) => {
       expect(nextMove.column).to.equal(3);
     });
   });
@@ -23,7 +23,7 @@ describe('AI player', function () {
       game,
       columns: [2, 0, 4, 3, 3, 0, 4, 0, 0, 2, 4]
     });
-    game.players[1].getNextMove({ game }).then((nextMove) => {
+    return game.players[1].getNextMove({ game }).then((nextMove) => {
       expect(nextMove.column).to.equal(4);
     });
   });
@@ -35,7 +35,7 @@ describe('AI player', function () {
       game,
       columns: [0, 3, 4, 4, 5, 4, 5, 4, 5, 5, 4, 5, 3, 3, 3, 3, 3, 4, 0, 5, 0]
     });
-    game.players[1].getNextMove({ game }).then((nextMove) => {
+    return game.players[1].getNextMove({ game }).then((nextMove) => {
       expect(nextMove.column).to.equal(0);
     });
   });
@@ -47,7 +47,7 @@ describe('AI player', function () {
       game,
       columns: [2, 3, 4, 3, 3, 3, 1, 2, 4, 5, 2, 4, 0, 2, 0, 3, 0, 0, 5, 0, 5, 0, 5]
     });
-    game.players[1].getNextMove({ game }).then((nextMove) => {
+    return game.players[1].getNextMove({ game }).then((nextMove) => {
       expect(nextMove.column).to.equal(5);
     });
   });

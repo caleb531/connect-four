@@ -37,7 +37,7 @@ describe('AI player', function () {
       startingPlayer: game.players[1],
       columns: [3, 4, 3, 3, 3, 4, 5, 1, 3, 4, 4, 1, 1, 1, 1, 4, 3, 5, 5, 0, 4, 5, 5, 1, 5, 2, 6, 6, 6, 6, 6, 6]
     });
-    game.players[1].getNextMove({ game }).then((nextMove) => {
+    return game.players[1].getNextMove({ game }).then((nextMove) => {
       expect(nextMove.column).to.be.oneOf([0, 2]);
     });
   });
