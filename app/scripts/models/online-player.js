@@ -4,19 +4,27 @@ import AsyncPlayer from './async-player.js';
 class OnlinePlayer extends AsyncPlayer {
 
   constructor({ game }) {
+    // Add a global listener here for all moves we will receive from the
+    // opponent (online) player during the course of the game; when we receive a
+    // move from the opponent, TinyEmitter will help us resolve the promise
+    // created in the last call to getNextMove()
     game.session.on('receive-next-move', ({ column }) => {
       game.emit('online-player:receive-next-move', { column });
     });
   }
 
-  //
+  // Declare the end of the local (human) player's turn, communicating its move
+  // to the opponent (online) player and waiting for the opponent to make the
+  // next move
   getNextMove({ game }) {
     return new Promise((resolve) => {
-      // Finish your turn by yielding to the opponent player, sending the move
-      // you just made and waiting to receive the move they will make next
+      // Finish the local (human) player's turn by yielding to the opponent
+      // (online) player, sending the human player's latest move and waiting to
+      // receive the move the online player will make next
       game.session.emit('finish-turn', { column: game.grid.lastPlacedChip.column }, ({ status }) => {
         game.session.status = status;
-        // Resolve the promise when the game's TinyEmitter listener receives the move from the opponent
+        // Resolve the promise when the game's TinyEmitter listener receives the
+        // move from the opponent, passing it to the local (human) player
         game.once('online-player:receive-next-move', () => {
           resolve();
         });
