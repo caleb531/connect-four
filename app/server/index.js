@@ -25,6 +25,10 @@ app.get('/room/:roomCode', (req, res) => {
   res.sendFile(path.join(path.dirname(__dirname), 'index.html'));
 });
 
+app.get('/room', (req, res) => {
+  res.sendFile(path.join(path.dirname(__dirname), 'index.html'));
+});
+
 app.use(express.static(path.dirname(__dirname)));
 
 // Socket.IO
