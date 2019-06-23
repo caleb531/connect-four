@@ -12,12 +12,28 @@ class Session {
     this.status = 'connecting';
   }
 
-  on(...args) {
-    return this.socket.on(...args);
+  on(eventName, callback) {
+    this.socket.on(eventName, (args = {}) => {
+      if (args.status) {
+        this.status = args.status;
+      }
+      if (args.playerId) {
+        this.playerId = args.playerId;
+      }
+      callback(args);
+    });
   }
 
-  emit(...args) {
-    return this.socket.emit(...args);
+  emit(eventName, data, callback) {
+    this.socket.emit(eventName, data, (args = {}) => {
+      if (args.status) {
+        this.status = args.status;
+      }
+      if (args.playerId) {
+        this.playerId = args.playerId;
+      }
+      callback(args);
+    });
   }
 
 }
