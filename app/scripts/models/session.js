@@ -17,8 +17,8 @@ class Session {
       if (args.status) {
         this.status = args.status;
       }
-      if (args.player) {
-        this.playerId = args.player.id;
+      if (args.localPlayer) {
+        this.localPlayerId = args.localPlayer.id;
       }
       callback(args);
     });
@@ -29,8 +29,8 @@ class Session {
       if (args.status) {
         this.status = args.status;
       }
-      if (args.player) {
-        this.playerId = args.player.id;
+      if (args.localPlayer) {
+        this.localPlayerId = args.localPlayer.id;
       }
       callback(args);
     });

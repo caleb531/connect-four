@@ -26,29 +26,29 @@ class GameComponent {
     if (roomCode) {
       this.session.connect();
       this.session.on('connect', () => {
-        let playerId = this.session.playerId;
+        let playerId = this.session.localPlayerId;
         // Join the room immediately if a room code is specified in the URL
-        this.session.emit('join-room', { roomCode, playerId }, ({ game, player }) => {
+        this.session.emit('join-room', { roomCode, playerId }, ({ game, localPlayer }) => {
           console.log('join room', roomCode);
           if (this.session.status === 'returningPlayer') {
-            console.log('resume existing game', player);
+            console.log('resume existing game', localPlayer);
           } else if (this.session.status === 'newPlayer') {
             console.log('new player');
           }
-          if (game && player) {
+          if (game && localPlayer) {
             this.game.restoreFromServer({
               serverGame: game,
-              localPlayer: player
+              localPlayer
             });
           }
           m.redraw();
         });
         // If P1 leaves and rejoins the game before P2 joins, make sure to
         // listen for P2 joining
-        this.session.on('add-player', ({ game, player }) => {
+        this.session.on('add-player', ({ game, localPlayer }) => {
           this.game.restoreFromServer({
             serverGame: game,
-            localPlayer: player
+            localPlayer
           });
           m.redraw();
         });

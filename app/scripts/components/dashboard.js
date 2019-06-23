@@ -51,10 +51,10 @@ class DashboardComponent {
   addNewPlayerToGame(roomCode) {
     this.session.status = 'connecting';
     let submittedPlayer = { name: this.newPlayerName, color: 'blue' };
-    this.session.emit('add-player', { roomCode, player: submittedPlayer }, ({ game, player }) => {
+    this.session.emit('add-player', { roomCode, player: submittedPlayer }, ({ game, localPlayer }) => {
       this.game.restoreFromServer({
         serverGame: game,
-        localPlayer: player
+        localPlayer
       });
       m.redraw();
     });
@@ -67,19 +67,19 @@ class DashboardComponent {
       // first player color
       let submittedPlayer = { name: this.newPlayerName, color: 'red' };
       // Request a new room and retrieve the room code returned from the server
-      this.session.emit('open-room', { player: submittedPlayer }, ({ roomCode, game, player }) => {
+      this.session.emit('open-room', { player: submittedPlayer }, ({ roomCode, game, localPlayer }) => {
         this.game.restoreFromServer({
           serverGame: game,
-          localPlayer: player
+          localPlayer
         });
         console.log('new room', roomCode);
         m.route.set(`/room/${roomCode}`);
       });
       // When P2 joins, automatically update P1's screen
-      this.session.on('add-player', ({ game, player }) => {
+      this.session.on('add-player', ({ game, localPlayer }) => {
         this.game.restoreFromServer({
           serverGame: game,
-          localPlayer: player
+          localPlayer
         });
         m.redraw();
       });

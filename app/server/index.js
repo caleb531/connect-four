@@ -42,12 +42,12 @@ io.on('connection', (socket) => {
   socket.on('open-room', ({ player }, fn) => {
     console.log(`open room by player ${player.name}`);
     let room = roomManager.openRoom();
-    player = room.addPlayer({ player, socket });
+    let localPlayer = room.addPlayer({ player, socket });
     fn({
       status: 'waitingForPlayers',
       roomCode: room.code,
       game: room.game,
-      player
+      localPlayer
     });
   });
 
@@ -55,9 +55,9 @@ io.on('connection', (socket) => {
     let room = roomManager.getRoom(roomCode);
     if (room) {
       console.log(`join room by player ${playerId}`);
-      let player = room.connectPlayer({ playerId, socket });
+      let localPlayer = room.connectPlayer({ playerId, socket });
       let status;
-      if (player) {
+      if (localPlayer) {
         if (room.players.length === 1) {
           status = 'waitingForPlayers';
         } else {
@@ -69,7 +69,7 @@ io.on('connection', (socket) => {
       fn({
         status,
         game: room.game,
-        player
+        localPlayer
       });
     } else {
       console.log(`room ${roomCode} not found`);
@@ -81,7 +81,7 @@ io.on('connection', (socket) => {
     let room = roomManager.getRoom(roomCode);
     if (room) {
       console.log(`add player to room ${roomCode}`);
-      player = room.addPlayer({ player, socket });
+      let localPlayer = room.addPlayer({ player, socket });
       room.game.startGame();
       // Automatically update first player's screen when second player joibs
       if (room.game.players[0].socket) {
@@ -89,7 +89,7 @@ io.on('connection', (socket) => {
         room.game.players[0].socket.emit('add-player', {
           status: 'addedPlayer',
           game: room.game,
-          player: room.game.players[0]
+          localPlayer: room.game.players[0]
         });
       } else {
         console.log('unable to send updated game to P1');
@@ -97,7 +97,7 @@ io.on('connection', (socket) => {
       fn({
         status: 'startGame',
         game: room.game,
-        player
+        localPlayer
       });
     } else {
       console.log(`room ${roomCode} not found`);
