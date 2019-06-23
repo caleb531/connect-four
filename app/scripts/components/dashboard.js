@@ -1,4 +1,5 @@
 import m from 'mithril';
+import ClipboardJS from 'clipboard';
 
 // The area of the game UI consisting of game UI controls and status messages
 class DashboardComponent {
@@ -84,6 +85,29 @@ class DashboardComponent {
     });
   }
 
+  configureCopyControl({ dom }) {
+    this.shareLinkCopier = new ClipboardJS(dom);
+    this.shareLinkCopyStatusDuration = 1000;
+    this.shareLinkCopier.on('success', () => {
+      this.shareLinkCopyStatus = 'Copied!';
+      m.redraw();
+      // Reset status message after a second or two
+      setTimeout(() => {
+        this.shareLinkCopyStatus = null;
+        m.redraw();
+      }, this.shareLinkCopyStatusDuration);
+    });
+    this.shareLinkCopier.on('error', () => {
+      this.shareLinkCopyStatus = 'Error...';
+      m.redraw();
+      // Reset status message after a second or two
+      setTimeout(() => {
+        this.shareLinkCopyStatus = null;
+        m.redraw();
+      }, this.shareLinkCopyStatusDuration);
+    });
+  }
+
   view({ attrs: { roomCode } }) {
     return m('div#game-dashboard', [
       m('p#game-message',
@@ -91,7 +115,20 @@ class DashboardComponent {
         this.session.status === 'newPlayer' ?
           'Enter your player name:' :
         this.session.status === 'waitingForPlayers' ?
-          'Waiting for other player...' :
+          [
+            'Waiting for other player...',
+            m('div#share-controls', [
+              m('input[type=text]#share-link', {
+                value: window.location.href,
+                onclick: ({ target }) => target.select()
+              }),
+              m('button#copy-share-link', {
+                'data-clipboard-text': window.location.href,
+                oncreate: ({ dom }) => this.configureCopyControl({ dom })
+              }, 'Copy'),
+              this.shareLinkCopyStatus ? m('span#share-link-copy-status', this.shareLinkCopyStatus) : null
+            ])
+          ] :
         this.session.status === 'connecting' ?
           'Connecting to server...' :
         this.session.status === 'roomNotFound' ?

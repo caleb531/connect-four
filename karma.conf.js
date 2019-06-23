@@ -12,6 +12,7 @@ module.exports = function (config) {
       'scripts/fastclick.js',
       'scripts/sw-update-manager.js',
       'scripts/socket.io.slim.js',
+      'scripts/clipboard.min.js',
       'scripts/test.js'
     ],
     reporters: ['dots'].concat(process.env.COVERAGE ? ['coverage'] : []),

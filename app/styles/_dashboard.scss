@@ -25,11 +25,7 @@
   margin-bottom: 10px;
 }
 
-#new-player-name {
-  display: block;
-  margin: 0 auto;
-  margin-bottom: 10px;
-  width: 150px;
+input[type='text'] {
   border-radius: 3px;
   padding: 6px 8px;
   border: solid 1px #aaa;
@@ -41,4 +37,31 @@
     border-color: #36c;
     box-shadow: 0 0 3px 1px #9cf;
   }
+}
+
+#new-player-name {
+  display: block;
+  width: 150px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+
+#share-controls {
+  margin-top: 10px;
+  margin-top: 10px;
+}
+#share-link {
+  width: 150px;
+  font-size: 12px;
+}
+@keyframes flash-message {
+  100% {
+    opacity: 0;
+  }
+}
+#share-link-copy-status {
+  display: block;
+  margin-top: 10px;
+  font-size: 14px;
+  animation: flash-message 1000ms ease-in-out both;
 }

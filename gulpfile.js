@@ -24,7 +24,8 @@ gulp.task('assets:js', () => {
       'node_modules/mithril/mithril.min.js',
       'node_modules/underscore/underscore-min.js',
       'node_modules/tiny-emitter/dist/tinyemitter.min.js',
-      'node_modules/socket.io-client/dist/socket.io.slim.js'
+      'node_modules/socket.io-client/dist/socket.io.slim.js',
+      'node_modules/clipboard/dist/clipboard.min.js'
     ])
     .pipe(gulp.dest('public/scripts'));
 });

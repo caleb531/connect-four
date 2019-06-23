@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/caleb531/connect-four#readme",
   "dependencies": {
+    "clipboard": "^2.0.4",
     "compression": "^1.7.4",
     "esm": "^3.2.25",
     "express": "^4.17.1",

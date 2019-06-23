@@ -16,7 +16,8 @@ module.exports = {
       'tiny-emitter': 'TinyEmitter',
       'fastclick': 'FastClick',
       'sw-update-manager': 'SWUpdateManager',
-      'socket.io-client': 'io'
+      'socket.io-client': 'io',
+      'clipboard': 'ClipboardJS'
     }
   },
   external: [
@@ -25,7 +26,8 @@ module.exports = {
     'tiny-emitter',
     'fastclick',
     'sw-update-manager',
-    'socket.io-client'
+    'socket.io-client',
+    'clipboard'
   ],
   plugins: [
     resolve({
