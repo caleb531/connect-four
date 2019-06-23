@@ -18,7 +18,6 @@ class GameComponent {
       // Only enable debug mode on non-production sites
       debug: (window.location.host !== 'projects.calebevans.me' && !window.__karma__)
     });
-    this.initializeAnalytics();
     this.joinExistingRoom(roomCode);
   }
 
@@ -48,41 +47,6 @@ class GameComponent {
         });
       });
     }
-  }
-
-  initializeAnalytics() {
-    // Configure hooks for analytics
-    this.game.on('game:start', () => {
-      this.sendAnalytics({ eventAction: 'Start Game' });
-    });
-    this.game.on('game:end', () => {
-      // The game ends automatically when a winner is declared or in the event of
-      // a tie, but the game can also be ended at any time by the user; only
-      // send analytics for when the user ends the game
-      if (!this.game.winner && !this.game.grid.checkIfFull()) {
-        this.sendAnalytics({ eventAction: 'End Game (User)' });
-      }
-    });
-    this.game.on('game:declare-winner', (winner) => {
-      // Only send win analytics for 1-player games
-      if (this.game.type === '1P') {
-        this.sendAnalytics({
-          eventAction: 'Win / Tie',
-          eventLabel: winner.type === 'ai' ? 'AI Wins' : 'Human Wins',
-          eventValue: this.game.grid.getChipCount(),
-          nonInteraction: true
-        });
-      }
-    });
-    this.game.on('game:declare-tie', () => {
-      if (this.game.type === '1P') {
-        this.sendAnalytics({
-          eventAction: 'Win / Tie',
-          eventLabel: 'Tie',
-          nonInteraction: true
-        });
-      }
-    });
   }
 
   // Send the specified game data to the analytics server
