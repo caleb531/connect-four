@@ -82,6 +82,15 @@ io.on('connection', (socket) => {
       console.log(`add player to room ${roomCode}`);
       player = room.addPlayer({ player, socket });
       room.game.startGame();
+      // Automatically update first player's screen when second player joibs
+      if (room.game.players[0].socket) {
+        room.game.players[0].socket.emit('add-player', {
+          status: 'addedPlayer',
+          game: room.game,
+          player: room.game.players[0],
+          playerId: room.game.players[0].id
+        });
+      }
       fn({
         status: 'startGame',
         game: room.game,

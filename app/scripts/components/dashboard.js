@@ -78,6 +78,15 @@ class DashboardComponent {
         console.log('new room', roomCode);
         m.route.set(`/room/${roomCode}`);
       });
+      this.session.on('add-player', ({ status, game, player, playerId }) => {
+        this.session.status = status;
+        this.session.playerId = playerId;
+        this.game.restoreFromServer({
+          serverGame: game,
+          localPlayer: player
+        });
+        m.redraw();
+      });
     });
   }
 
