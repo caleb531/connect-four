@@ -1,5 +1,5 @@
 #game-dashboard {
-  min-width: 220px;
+  width: 220px;
   margin-bottom: 10px;
   label, button {
     margin: 0 4px;
@@ -16,6 +16,9 @@
       outline-width: 0;
       background-color: #5b2;
     }
+  }
+  @include if-compact-layout() {
+    width: auto;
   }
 }
 
