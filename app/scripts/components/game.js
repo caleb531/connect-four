@@ -18,35 +18,39 @@ class GameComponent {
       // Only enable debug mode on non-production sites
       debug: (window.location.host !== 'projects.calebevans.me' && !window.__karma__)
     });
-    this.joinExistingRoom(roomCode);
-  }
-
-  joinExistingRoom(roomCode) {
     if (roomCode) {
       this.session.connect();
       this.session.on('connect', () => {
-        let playerId = this.session.localPlayerId;
-        // Join the room immediately if a room code is specified in the URL
-        this.session.emit('join-room', { roomCode, playerId }, ({ game, localPlayer }) => {
-          console.log('join room', roomCode);
-          if (this.session.status === 'returningPlayer') {
-            console.log('resume existing game', localPlayer);
-          } else if (this.session.status === 'newPlayer') {
-            console.log('new player');
-          }
-          if (game && localPlayer) {
-            this.game.restoreFromServer({ game, localPlayer });
-          }
-          m.redraw();
-        });
-        // If P1 leaves and rejoins the game before P2 joins, make sure to
-        // listen for P2 joining
-        this.session.on('add-player', ({ game, localPlayer }) => {
-          this.game.restoreFromServer({ game, localPlayer });
-          m.redraw();
-        });
+        this.joinRoom(roomCode);
+        this.listenForNewPlayers();
       });
     }
+  }
+
+  joinRoom(roomCode) {
+    let playerId = this.session.localPlayerId;
+    // Join the room immediately if a room code is specified in the URL
+    this.session.emit('join-room', { roomCode, playerId }, ({ game, localPlayer }) => {
+      console.log('join room', roomCode);
+      if (this.session.status === 'returningPlayer') {
+        console.log('resume existing game', localPlayer);
+      } else if (this.session.status === 'newPlayer') {
+        console.log('new player');
+      }
+      if (game && localPlayer) {
+        this.game.restoreFromServer({ game, localPlayer });
+      }
+      m.redraw();
+    });
+  }
+
+  listenForNewPlayers() {
+    // If P1 leaves and rejoins the game before P2 joins, make sure to
+    // listen for P2 joining
+    this.session.on('add-player', ({ game, localPlayer }) => {
+      this.game.restoreFromServer({ game, localPlayer });
+      m.redraw();
+    });
   }
 
   // Send the specified game data to the analytics server
