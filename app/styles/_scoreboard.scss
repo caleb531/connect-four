@@ -5,7 +5,6 @@
   justify-content: space-between;
   align-items: center;
   margin-top: $chip-margin;
-  font-size: 16px;
   text-align: center;
 }
 
@@ -22,6 +21,14 @@
     &.#{$player-color-name} {
       color: darken($player-color, 10%);
     }
+  }
+}
+
+.player-name {
+  font-size: 16px;
+  border-bottom: solid 2px transparent;
+  .current-player & {
+    border-bottom-color: currentColor;
   }
 }
 
