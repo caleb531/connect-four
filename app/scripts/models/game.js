@@ -201,6 +201,9 @@ class Game extends Emitter {
       localPlayer
     });
     this.currentPlayer = this.players.find((player) => player.color === serverGame.currentPlayer);
+    if (this.inProgress && this.currentPlayer) {
+      this.startTurn();
+    }
   }
 
 }
