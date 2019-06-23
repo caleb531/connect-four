@@ -105,6 +105,28 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('finish-turn', ({ roomCode, column }, fn) => {
+    let room = roomManager.getRoom(roomCode);
+    if (room) {
+      console.log(`finish turn ${roomCode}`);
+      if (column !== null) {
+        room.game.placeChip({ column });
+        // After placeChip() is called, the turn ends for the player who placed
+        // the chip, making the other player the new current player
+        column = room.game.grid.lastPlacedChip.column;
+        room.game.currentPlayer.socket.emit('receive-next-move', { column });
+        console.log(room.game.currentPlayer.color);
+        fn({
+          status: 'placeChip',
+          column
+        });
+      }
+    } else {
+      console.log(`room ${roomCode} not found`);
+      fn({ status: 'roomNotFound' });
+    }
+  });
+
   socket.on('disconnect', () => {
     console.log(`disconnected: ${socket.id}`);
     // Indicate that this player is now disconnected

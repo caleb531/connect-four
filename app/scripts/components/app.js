@@ -6,9 +6,10 @@ import SWUpdateManager from 'sw-update-manager';
 
 class AppComponent {
 
-  oninit() {
+  oninit({ attrs = { roomCode: null } }) {
     this.session = new Session({
-      url: window.location.origin
+      url: window.location.origin,
+      roomCode: attrs.roomCode
     });
     if (navigator.serviceWorker && !window.__karma__ && window.location.port !== '8080') {
       let serviceWorker = navigator.serviceWorker.register('/service-worker.js');

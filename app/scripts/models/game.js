@@ -195,12 +195,20 @@ class Game extends Emitter {
   restoreFromServer({ game, localPlayer }) {
     this.inProgress = game.inProgress;
     this.players.length = 0;
+
     this.setPlayers({
       gameType: 'online',
       players: game.players,
       localPlayer
     });
+
     this.currentPlayer = this.players.find((player) => player.color === game.currentPlayer);
+    console.log(game.grid);
+    this.grid.restoreFromServer({
+      grid: game.grid,
+      players: game.players
+    });
+
     if (this.inProgress && this.currentPlayer) {
       this.startTurn();
     }

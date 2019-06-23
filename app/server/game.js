@@ -44,8 +44,9 @@ class Game {
     if (this.currentPlayer) {
       this.grid.placeChip({
         column,
-        color: this.currentPlayer.color
+        player: this.currentPlayer.color
       });
+      this.currentPlayer = this.getOtherPlayer();
     }
   }
 

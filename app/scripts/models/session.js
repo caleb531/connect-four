@@ -3,8 +3,10 @@ import io from 'socket.io-client';
 
 class Session {
 
-  constructor({ url }) {
+  constructor({ url, roomCode }) {
     this.url = url;
+    this.roomCode = roomCode;
+    this.localPlayerId = this.getLocalPlayerId();
   }
 
   connect() {
@@ -23,26 +25,28 @@ class Session {
 
   on(eventName, callback) {
     this.socket.on(eventName, (args = {}) => {
-      if (args.status) {
-        this.status = args.status;
-      }
-      if (args.localPlayer) {
-        this.setLocalPlayerId(args.localPlayer.id);
-      }
-      callback(args);
+      this.processArgs(args, callback);
     });
   }
 
   emit(eventName, data, callback) {
+    data = Object.assign({ roomCode: this.roomCode, localPlayerId: this.localPlayerId }, data);
     this.socket.emit(eventName, data, (args = {}) => {
-      if (args.status) {
-        this.status = args.status;
-      }
-      if (args.localPlayer) {
-        this.setLocalPlayerId(args.localPlayer.id);
-      }
-      callback(args);
+      this.processArgs(args, callback);
     });
+  }
+
+  processArgs(args, callback) {
+    if (args.status) {
+      this.status = args.status;
+    }
+    if (args.roomCode) {
+      this.roomCode = args.roomCode;
+    }
+    if (args.localPlayer) {
+      this.setLocalPlayerId(args.localPlayer.id);
+    }
+    callback(args);
   }
 
 }
