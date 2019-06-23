@@ -47,10 +47,7 @@ io.on('connection', (socket) => {
       status: 'waitingForPlayers',
       roomCode: room.code,
       game: room.game,
-      player,
-      // For security purposes, the IDs of other players are not exposed to the
-      // client; to accomplish this, we expose the ID of the client separately
-      playerId: player.id
+      player
     });
   });
 
@@ -92,8 +89,7 @@ io.on('connection', (socket) => {
         room.game.players[0].socket.emit('add-player', {
           status: 'addedPlayer',
           game: room.game,
-          player: room.game.players[0],
-          playerId: room.game.players[0].id
+          player: room.game.players[0]
         });
       } else {
         console.log('unable to send updated game to P1');
@@ -101,8 +97,7 @@ io.on('connection', (socket) => {
       fn({
         status: 'startGame',
         game: room.game,
-        player,
-        playerId: player.id
+        player
       });
     } else {
       console.log(`room ${roomCode} not found`);

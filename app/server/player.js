@@ -20,6 +20,7 @@ class Player {
 
   toJSON() {
     return {
+      id: this.id,
       name: this.name,
       color: this.color,
       score: this.score
