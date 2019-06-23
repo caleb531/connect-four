@@ -22,7 +22,8 @@ class OnlinePlayer extends AsyncPlayer {
       // Finish the local (human) player's turn by yielding to the opponent
       // (online) player, sending the human player's latest move and waiting to
       // receive the move the online player will make next
-      game.session.emit('finish-turn', { column: game.grid.lastPlacedChip.column }, ({ status }) => {
+      let lastPlacedChipColumn = game.grid.lastPlacedChip ? game.grid.lastPlacedChip.column : null;
+      game.session.emit('finish-turn', { column: lastPlacedChipColumn }, ({ status }) => {
         game.session.status = status;
         // Resolve the promise when the game's TinyEmitter listener receives the
         // move from the opponent, passing it to the local (human) player
