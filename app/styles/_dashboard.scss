@@ -55,11 +55,6 @@ input[type='text'] {
   width: 150px;
   font-size: 12px;
 }
-@keyframes flash-message {
-  100% {
-    opacity: 0;
-  }
-}
 #share-link-copy-status {
   display: block;
   position: absolute;
@@ -68,5 +63,8 @@ input[type='text'] {
   transform: translateX(-50%);
   margin-top: 10px;
   font-size: 14px;
-  animation: flash-message 1000ms ease-in-out both;
+  &.copy-status-flash {
+    transition: opacity 1000ms ease-in-out;
+    opacity: 0;
+  }
 }

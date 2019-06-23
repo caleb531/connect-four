@@ -1,5 +1,6 @@
 import m from 'mithril';
 import ClipboardJS from 'clipboard';
+import classNames from '../classnames.js';
 
 // The area of the game UI consisting of game UI controls and status messages
 class DashboardComponent {
@@ -79,24 +80,18 @@ class DashboardComponent {
 
   configureCopyControl({ dom }) {
     this.shareLinkCopier = new ClipboardJS(dom);
-    this.shareLinkCopyStatusDuration = 1000;
+    this.copyStatusDuration = 1000;
     this.shareLinkCopier.on('success', () => {
-      this.shareLinkCopyStatus = 'Copied!';
+      this.copyStatus = 'Copied!';
+      this.copyStatusFlash = true;
       m.redraw();
       // Reset status message after a second or two
-      setTimeout(() => {
-        this.shareLinkCopyStatus = null;
+      clearTimeout(this.copyStatusTimer);
+      this.copyStatusTimer = setTimeout(() => {
+        this.copyStatus = null;
+        this.copyStatusFlash = false;
         m.redraw();
-      }, this.shareLinkCopyStatusDuration);
-    });
-    this.shareLinkCopier.on('error', () => {
-      this.shareLinkCopyStatus = 'Error...';
-      m.redraw();
-      // Reset status message after a second or two
-      setTimeout(() => {
-        this.shareLinkCopyStatus = null;
-        m.redraw();
-      }, this.shareLinkCopyStatusDuration);
+      }, this.copyStatusDuration);
     });
   }
 
@@ -118,7 +113,9 @@ class DashboardComponent {
                 'data-clipboard-text': window.location.href,
                 oncreate: ({ dom }) => this.configureCopyControl({ dom })
               }, 'Copy'),
-              this.shareLinkCopyStatus ? m('span#share-link-copy-status', this.shareLinkCopyStatus) : null
+              m('span#share-link-copy-status', {
+                class: classNames({ 'copy-status-flash': this.copyStatusFlash })
+              }, this.copyStatus)
             ])
           ] :
         this.session.status === 'connecting' ?
