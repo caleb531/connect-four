@@ -88,12 +88,15 @@ io.on('connection', (socket) => {
       room.game.startGame();
       // Automatically update first player's screen when second player joibs
       if (room.game.players[0].socket) {
+        console.log('sending updated game to P1');
         room.game.players[0].socket.emit('add-player', {
           status: 'addedPlayer',
           game: room.game,
           player: room.game.players[0],
           playerId: room.game.players[0].id
         });
+      } else {
+        console.log('unable to send updated game to P1');
       }
       fn({
         status: 'startGame',
