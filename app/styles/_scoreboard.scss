@@ -10,11 +10,11 @@
 }
 
 .player-stats {
-  &:first-child {
+  &:nth-child(1) {
     margin-left: $chip-margin;
     text-align: left;
   }
-  &:last-child {
+  &:nth-child(2) {
     margin-right: $chip-margin;
     text-align: right;
   }
