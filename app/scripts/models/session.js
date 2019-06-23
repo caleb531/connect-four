@@ -12,13 +12,22 @@ class Session {
     this.status = 'connecting';
   }
 
+  getLocalPlayerId() {
+    return this.localPlayerId || sessionStorage.getItem('c4-localPlayerId');
+  }
+
+  setLocalPlayerId(localPlayerId) {
+    this.localPlayerId = localPlayerId;
+    return sessionStorage.setItem('c4-localPlayerId', localPlayerId);
+  }
+
   on(eventName, callback) {
     this.socket.on(eventName, (args = {}) => {
       if (args.status) {
         this.status = args.status;
       }
       if (args.localPlayer) {
-        this.localPlayerId = args.localPlayer.id;
+        this.setLocalPlayerId(args.localPlayer.id);
       }
       callback(args);
     });
@@ -30,7 +39,7 @@ class Session {
         this.status = args.status;
       }
       if (args.localPlayer) {
-        this.localPlayerId = args.localPlayer.id;
+        this.setLocalPlayerId(args.localPlayer.id);
       }
       callback(args);
     });
