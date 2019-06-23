@@ -192,15 +192,15 @@ class Game extends Emitter {
   // Apply the given server game JSON to the current game instance, taking into
   // account which player is the local (human) player and which player is the
   // online player
-  restoreFromServer({ serverGame, localPlayer }) {
-    this.inProgress = serverGame.inProgress;
+  restoreFromServer({ game, localPlayer }) {
+    this.inProgress = game.inProgress;
     this.players.length = 0;
     this.setPlayers({
       gameType: 'online',
-      players: serverGame.players,
+      players: game.players,
       localPlayer
     });
-    this.currentPlayer = this.players.find((player) => player.color === serverGame.currentPlayer);
+    this.currentPlayer = this.players.find((player) => player.color === game.currentPlayer);
     if (this.inProgress && this.currentPlayer) {
       this.startTurn();
     }

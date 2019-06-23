@@ -36,20 +36,14 @@ class GameComponent {
             console.log('new player');
           }
           if (game && localPlayer) {
-            this.game.restoreFromServer({
-              serverGame: game,
-              localPlayer
-            });
+            this.game.restoreFromServer({ game, localPlayer });
           }
           m.redraw();
         });
         // If P1 leaves and rejoins the game before P2 joins, make sure to
         // listen for P2 joining
         this.session.on('add-player', ({ game, localPlayer }) => {
-          this.game.restoreFromServer({
-            serverGame: game,
-            localPlayer
-          });
+          this.game.restoreFromServer({ game, localPlayer });
           m.redraw();
         });
       });
