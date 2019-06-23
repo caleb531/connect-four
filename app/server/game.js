@@ -13,9 +13,9 @@ class Game {
     this.winner = winner;
   }
 
-  startGame({ startingPlayer }) {
-    this.startingPlayer = this.getStartingPlayer();
-    this.currentPlayer = startingPlayer;
+  startGame() {
+    this.setStartingPlayer();
+    this.currentPlayer = this.startingPlayer;
     this.inProgress = true;
   }
 
@@ -26,7 +26,7 @@ class Game {
     this.inProgress = false;
   }
 
-  getStartingPlayer() {
+  setStartingPlayer() {
     // The first game for a room should pick a starting player at random;
     // successive games will alternate starting player
     if (this.startingPlayer === null) {
