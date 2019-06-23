@@ -3,7 +3,8 @@ import AsyncPlayer from './async-player.js';
 // An online player whose moves are determined by a remote human user
 class OnlinePlayer extends AsyncPlayer {
 
-  constructor({ game }) {
+  constructor({ name, color, game }) {
+    super({ name, color });
     // Add a global listener here for all moves we will receive from the
     // opponent (online) player during the course of the game; when we receive a
     // move from the opponent, TinyEmitter will help us resolve the promise

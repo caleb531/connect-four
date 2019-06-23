@@ -27,13 +27,19 @@ class GameComponent {
       this.session.connect();
       this.session.on('connect', () => {
         let playerId = this.session.playerId;
-        this.session.emit('join-room', { roomCode, playerId }, ({ status, player }) => {
+        this.session.emit('join-room', { roomCode, playerId }, ({ status, game, player }) => {
           console.log('join room', roomCode);
           this.session.status = status;
-          if (this.session.status === 'returning-player') {
+          if (this.session.status === 'returningPlayer') {
             console.log('resume existing game', player);
-          } else if (this.session.status === 'new-player') {
+          } else if (this.session.status === 'newPlayer') {
             console.log('new player');
+          }
+          if (game && player) {
+            this.game.restoreFromServer({
+              serverGame: game,
+              localPlayer: player
+            });
           }
           m.redraw();
         });

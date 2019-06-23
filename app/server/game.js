@@ -41,10 +41,21 @@ class Game {
   }
 
   placeChip({ column }) {
-    this.grid.placeChip({
-      column,
-      color: this.currentPlayer.color
-    });
+    if (this.currentPlayer) {
+      this.grid.placeChip({
+        column,
+        color: this.currentPlayer.color
+      });
+    }
+  }
+
+  toJSON() {
+    return {
+      grid: this.grid,
+      players: this.players,
+      currentPlayer: this.currentPlayer ? this.currentPlayer.color : null,
+      inProgress: this.inProgress
+    };
   }
 
 }

@@ -27,6 +27,15 @@ class Grid {
     }
   }
 
+  toJSON() {
+    return {
+      columnCount: this.columnCount,
+      rowCount: this.rowCount,
+      columns: this.columns,
+      lastPlacedChip: this.lastPlacedChip
+    };
+  }
+
 }
 
 export default Grid;

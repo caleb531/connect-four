@@ -30,7 +30,7 @@ class DashboardComponent {
   }
 
   createNewPlayer() {
-    this.session.status = 'new-player';
+    this.session.status = 'newPlayer';
   }
 
   setNewPlayerName(inputEvent) {
@@ -48,30 +48,31 @@ class DashboardComponent {
   }
 
   addNewPlayerToGame(roomCode) {
-    this.game.setPlayers({ gameType: '2P' });
-    this.game.players[1].name = this.newPlayerName;
-    this.session.emit('add-player', { roomCode, player: this.game.players[1] }, ({ status, room, player }) => {
+    this.session.status = 'connecting';
+    this.session.emit('add-player', { roomCode, player: this.game.players[1] }, ({ status, game, player, playerId }) => {
       this.session.status = status;
-      this.session.playerId = player.id;
-      Object.assign(this.game.players[0], room.players[0]);
-      this.game.startGame({
-        startingPlayer: this.game.players[room.startingPlayer]
-      });
+      this.session.playerId = playerId;
+      this.game.restoreFromServer({ game, localPlayer: player });
       m.redraw();
     });
   }
 
   startOnlineGame() {
-    this.game.setPlayers({ gameType: '2P' });
-    this.game.players[0].name = this.newPlayerName;
     this.session.connect();
     this.session.on('connect', () => {
+      // Construct a placeholder player with the name we entered and the default
+      // first player color
+      let submittedPlayer = { name: this.newPlayerName, color: 'red' };
       // Request a new room and retrieve the room code returned from the server
-      this.session.emit('open-room', { player: this.game.players[0] }, ({ status, room, player }) => {
+      this.session.emit('open-room', { player: submittedPlayer }, ({ status, roomCode, game, player, playerId }) => {
         this.session.status = status;
-        this.session.playerId = player.id;
-        console.log('new room', room.code);
-        m.route.set(`/room/${room.code}`);
+        this.session.playerId = playerId;
+        this.game.restoreFromServer({
+          serverGame: game,
+          localPlayer: player
+        });
+        console.log('new room', roomCode);
+        m.route.set(`/room/${roomCode}`);
       });
     });
   }
@@ -80,12 +81,14 @@ class DashboardComponent {
     return m('div#game-dashboard', [
       m('p#game-message',
         // If the current player needs to enter a name
-        this.session.status === 'new-player' ?
+        this.session.status === 'newPlayer' ?
           'Enter your player name:' :
-        this.session.status === 'waiting-for-players' ?
+        this.session.status === 'waitingForPlayers' ?
           'Waiting for other player...' :
         this.session.status === 'connecting' ?
           'Connecting to server...' :
+        this.session.status === 'roomNotFound' ?
+          'This room does not exist.' :
         // If user has not started any game yet
         this.game.players.length === 0 ?
           'Welcome! How many players?' :
@@ -108,7 +111,7 @@ class DashboardComponent {
       this.game.inProgress ? [
         m('button', { onclick: () => this.endGame() }, 'End Game')
       ] :
-      this.session.status === 'new-player' ? [
+      this.session.status === 'newPlayer' ? [
         m('form', {
           onsubmit: (submitEvent) => this.submitNewPlayer(submitEvent, roomCode)
         }, [

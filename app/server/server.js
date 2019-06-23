@@ -39,10 +39,14 @@ io.on('connection', (socket) => {
     console.log(`open room by player ${player.name}`);
     let room = roomManager.openRoom();
     player = room.addPlayer({ player, socket });
-    socket.join(room.code);
     fn({
-      status: 'waiting-for-players',
-      room, player
+      status: 'waitingForPlayers',
+      roomCode: room.code,
+      game: room.game,
+      player,
+      // For security purposes, the IDs of other players are not exposed to the
+      // client; to accomplish this, we expose the ID of the client separately
+      playerId: player.id
     });
   });
 
@@ -51,18 +55,21 @@ io.on('connection', (socket) => {
     if (room) {
       console.log(`join room by player ${playerId}`);
       let player = room.connectPlayer({ playerId, socket });
-      socket.join(room.code);
       let status;
       if (player) {
         if (room.players.length === 1) {
-          status = 'waiting-for-players';
+          status = 'waitingForPlayers';
         } else {
-          status = 'returning-player';
+          status = 'returningPlayer';
         }
       } else {
-        status = 'new-player';
+        status = 'newPlayer';
       }
-      fn({ status, room, player });
+      fn({
+        status,
+        game: room.game,
+        player
+      });
     } else {
       console.log(`room ${roomCode} not found`);
       fn({ status: 'roomNotFound' });
@@ -77,7 +84,9 @@ io.on('connection', (socket) => {
       room.game.startGame();
       fn({
         status: 'startGame',
-        room, player
+        game: room.game,
+        player,
+        playerId: player.id
       });
     } else {
       console.log(`room ${roomCode} not found`);
