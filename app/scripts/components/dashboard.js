@@ -49,10 +49,14 @@ class DashboardComponent {
 
   addNewPlayerToGame(roomCode) {
     this.session.status = 'connecting';
-    this.session.emit('add-player', { roomCode, player: this.game.players[1] }, ({ status, game, player, playerId }) => {
+    let submittedPlayer = { name: this.newPlayerName, color: 'blue' };
+    this.session.emit('add-player', { roomCode, player: submittedPlayer }, ({ status, game, player, playerId }) => {
       this.session.status = status;
       this.session.playerId = playerId;
-      this.game.restoreFromServer({ game, localPlayer: player });
+      this.game.restoreFromServer({
+        serverGame: game,
+        localPlayer: player
+      });
       m.redraw();
     });
   }

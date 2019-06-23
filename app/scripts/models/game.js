@@ -200,6 +200,7 @@ class Game extends Emitter {
       players: serverGame.players,
       localPlayer
     });
+    this.currentPlayer = this.players.find((player) => player.color === serverGame.currentPlayer);
   }
 
 }
