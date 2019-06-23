@@ -22,10 +22,10 @@ server.listen(8080, () => {
 });
 
 app.get('/room/:roomCode', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(path.dirname(__dirname), 'index.html'));
 });
 
-app.use(express.static(__dirname));
+app.use(express.static(path.dirname(__dirname)));
 
 // Socket.IO
 

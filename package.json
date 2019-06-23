@@ -2,7 +2,7 @@
   "name": "connect-four",
   "version": "1.0.0",
   "description": "A Connect Four web app implemented in JS using Mithril",
-  "main": "public/server/server.js",
+  "main": "public/server/index.js",
   "scripts": {
     "lint": "eslint app/scripts/**/*.js test/**/*.js",
     "test": "karma start --single-run",

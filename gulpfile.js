@@ -9,10 +9,15 @@ let workboxBuild = require('workbox-build');
 
 gulp.task('assets:core', () => {
   return gulp.src([
-      'app/assets/**/*',
-      'app/server/*'
+      'app/assets/**/*'
     ])
     .pipe(gulp.dest('public'));
+});
+gulp.task('assets:server', () => {
+  return gulp.src([
+      'app/server/**/*'
+    ])
+    .pipe(gulp.dest('public/server'));
 });
 gulp.task('assets:js', () => {
   return gulp.src([
@@ -34,6 +39,7 @@ gulp.task('assets:fonts', () => {
 });
 gulp.task('assets', gulp.parallel(
   'assets:core',
+  'assets:server',
   'assets:js',
   'assets:fonts'
 ));
@@ -124,7 +130,7 @@ gulp.task('build:watch', gulp.series(
 ));
 
 gulp.task('connect', () => {
-  require('esm')(module)('./public/server.js');
+  require('esm')(module)('./public/server/index.js');
 });
 gulp.task('serve', gulp.series(
   'build',
