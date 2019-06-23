@@ -47,6 +47,7 @@ input[type='text'] {
 }
 
 #share-controls {
+  position: relative;
   margin-top: 10px;
   margin-top: 10px;
 }
@@ -61,6 +62,10 @@ input[type='text'] {
 }
 #share-link-copy-status {
   display: block;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
   margin-top: 10px;
   font-size: 14px;
   animation: flash-message 1000ms ease-in-out both;
