@@ -135,7 +135,7 @@ class DashboardComponent {
         this.game.grid.checkIfFull() ?
           'We\'ll call it a draw! Play again?' :
         // If the user just chose a number of players for the game to be started
-        !this.session.status && this.game.type !== null ?
+        !this.session.socket && this.game.type !== null ?
           'Which player should start first?' :
         // Otherwise, if game was ended manually by the user
         'Game ended. Play again?'
@@ -156,7 +156,7 @@ class DashboardComponent {
           m('button[type=submit]', roomCode ? 'Join Game' : 'Start Game')
         ])
       ] :
-      !this.session.status ? [
+      !this.session.socket ? [
         // If number of players has been chosen, ask user to choose starting player
         this.game.type !== null ?
           this.game.players.map((player) => {
