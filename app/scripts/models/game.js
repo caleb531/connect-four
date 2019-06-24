@@ -207,7 +207,6 @@ class Game extends Emitter {
     });
 
     this.currentPlayer = this.players.find((player) => player.color === game.currentPlayer);
-    console.log(game.grid);
     this.grid.restoreFromServer({
       grid: game.grid,
       players: this.players
