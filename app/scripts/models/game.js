@@ -143,6 +143,7 @@ class Game extends Emitter {
       chip: this.pendingChip,
       column
     });
+    this.emit('player:place-chip', this.grid.lastPlacedChip);
     if (this.debug) {
       this.columnHistory.push(column);
       // The column history will only be logged on non-production sites, so we
@@ -155,7 +156,6 @@ class Game extends Emitter {
     this.checkForWin();
     // Check if the grid is completely full
     this.checkForTie();
-    this.emit('player:place-chip', { player: this.currentPlayer, column });
     // If the above checks have not ended the game, continue to next player's
     // turn
     this.endTurn();
