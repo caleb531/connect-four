@@ -115,12 +115,8 @@ io.on('connection', (socket) => {
         // the chip, making the other player the new current player
         column = room.game.grid.lastPlacedChip.column;
         room.game.currentPlayer.socket.emit('receive-next-move', { column });
-        console.log(room.game.currentPlayer.color);
-        fn({
-          status: 'placeChip',
-          column
-        });
       }
+      fn({ status: 'finishTurn', column });
     } else {
       console.log(`room ${roomCode} not found`);
       fn({ status: 'roomNotFound' });
