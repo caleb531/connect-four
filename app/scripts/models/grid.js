@@ -187,9 +187,7 @@ class Grid {
       });
     });
     if (grid.lastPlacedChip) {
-      this.lastPlacedChip = new Chip(Object.assign(grid.lastPlacedChip, {
-        player: playersByColor[grid.lastPlacedChip.player]
-      }));
+      this.lastPlacedChip = this.columns[grid.lastPlacedChip.column][grid.lastPlacedChip.row];
     } else {
       this.lastPlacedChip = null;
     }
