@@ -17,6 +17,10 @@
       background-color: #5b2;
     }
   }
+  @include if-hybrid-layout() {
+    margin-left: auto;
+    margin-right: auto;
+  }
   @include if-compact-layout() {
     width: auto;
   }
