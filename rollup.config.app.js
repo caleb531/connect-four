@@ -2,33 +2,13 @@ let commonjs = require('rollup-plugin-commonjs');
 let resolve = require('rollup-plugin-node-resolve');
 let json = require('rollup-plugin-json');
 // let terser = require('rollup-plugin-terser').terser;
+let baseConfig = require('./rollup.config.base.js');
 
-module.exports = {
+module.exports = Object.assign({}, baseConfig, {
   input: 'app/scripts/index.js',
-  output: {
-    file: 'public/scripts/index.js',
-    name: 'connectFour',
-    sourcemap: true,
-    format: 'iife',
-    globals: {
-      'mithril': 'm',
-      'underscore': '_',
-      'tiny-emitter': 'TinyEmitter',
-      'fastclick': 'FastClick',
-      'sw-update-manager': 'SWUpdateManager',
-      'socket.io-client': 'io',
-      'clipboard': 'ClipboardJS'
-    }
-  },
-  external: [
-    'mithril',
-    'underscore',
-    'tiny-emitter',
-    'fastclick',
-    'sw-update-manager',
-    'socket.io-client',
-    'clipboard'
-  ],
+  output: Object.assign({}, baseConfig.output, {
+    file: 'public/scripts/index.js'
+  }),
   plugins: [
     resolve({
       browser: true,
@@ -38,4 +18,4 @@ module.exports = {
     json()
     // terser()
   ]
-};
+});
