@@ -46,7 +46,9 @@ class Session {
     if (args.localPlayer) {
       this.setLocalPlayerId(args.localPlayer.id);
     }
-    callback(args);
+    if (callback) {
+      callback(args);
+    }
   }
 
 }

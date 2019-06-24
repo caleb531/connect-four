@@ -12,6 +12,15 @@ class OnlinePlayer extends AsyncPlayer {
     game.session.on('receive-next-move', ({ column }) => {
       game.emit('online-player:receive-next-move', { column });
     });
+    // When the local (human) player has placed a chip, send that move to the
+    // server
+    game.on('player:place-chip', ({ player, column }) => {
+      // Only chip placements by the local (human) player need to be handled
+      if (player !== this) {
+        console.log('finish move', column);
+        game.session.emit('finish-turn', { column });
+      }
+    });
   }
 
   // Declare the end of the local (human) player's turn, communicating its move
@@ -19,17 +28,10 @@ class OnlinePlayer extends AsyncPlayer {
   // next move
   getNextMove({ game }) {
     return new Promise((resolve) => {
-      // Finish the local (human) player's turn by yielding to the opponent
-      // (online) player, sending the human player's latest move and waiting to
-      // receive the move the online player will make next
-      let lastPlacedChipColumn = game.grid.lastPlacedChip ? game.grid.lastPlacedChip.column : null;
-      game.session.emit('finish-turn', { column: lastPlacedChipColumn }, ({ status }) => {
-        game.session.status = status;
-        // Resolve the promise when the game's TinyEmitter listener receives the
-        // move from the opponent, passing it to the local (human) player
-        game.once('online-player:receive-next-move', ({ column }) => {
-          resolve({ column });
-        });
+      // Resolve the promise when the game's TinyEmitter listener receives the
+      // move from the opponent, passing it to the local (human) player
+      game.once('online-player:receive-next-move', ({ column }) => {
+        resolve({ column });
       });
     });
   }

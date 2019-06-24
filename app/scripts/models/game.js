@@ -155,6 +155,7 @@ class Game extends Emitter {
     this.checkForWin();
     // Check if the grid is completely full
     this.checkForTie();
+    this.emit('player:place-chip', { player: this.currentPlayer, column });
     // If the above checks have not ended the game, continue to next player's
     // turn
     this.endTurn();
@@ -171,6 +172,9 @@ class Game extends Emitter {
   // Determine if a player won the game with four chips in a row (horizontally,
   // vertically, or diagonally)
   checkForWin() {
+  if (!this.grid.lastPlacedChip) {
+      return;
+    }
     let connections = this.grid.getConnections({
       baseChip: this.grid.lastPlacedChip,
       minConnectionSize: 4
@@ -206,12 +210,14 @@ class Game extends Emitter {
     console.log(game.grid);
     this.grid.restoreFromServer({
       grid: game.grid,
-      players: game.players
+      players: this.players
     });
 
     if (this.inProgress && this.currentPlayer) {
       this.startTurn();
     }
+    this.checkForWin();
+    this.checkForTie();
   }
 
 }
