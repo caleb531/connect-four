@@ -17,7 +17,7 @@ class OnlinePlayer extends AsyncPlayer {
     game.on('player:place-chip', ({ player, column }) => {
       // Only chip placements by the local (human) player need to be handled
       if (player !== this) {
-        game.session.emit('finish-turn', { column });
+        game.session.emit('place-chip', { column });
       }
     });
   }

@@ -105,7 +105,7 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('finish-turn', ({ roomCode, column }, fn) => {
+  socket.on('place-chip', ({ roomCode, column }, fn) => {
     let room = roomManager.getRoom(roomCode);
     if (room) {
       console.log(`finish turn ${roomCode}`);
