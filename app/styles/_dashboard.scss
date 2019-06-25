@@ -34,7 +34,7 @@
 
 input[type='text'] {
   border-radius: 3px;
-  padding: 6px 8px;
+  padding: 4px 8px;
   border: solid 1px #aaa;
   box-sizing: border-box;
   font-size: 16px;
@@ -54,6 +54,9 @@ input[type='text'] {
 }
 
 #share-controls {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
   position: relative;
   margin-top: 10px;
   margin-top: 10px;
