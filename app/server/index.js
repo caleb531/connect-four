@@ -108,7 +108,7 @@ io.on('connection', (socket) => {
   socket.on('place-chip', ({ roomCode, column }, fn) => {
     let room = roomManager.getRoom(roomCode);
     if (room) {
-      console.log(`finish turn ${roomCode}`);
+      console.log(`place chip ${roomCode}`);
       if (column !== null) {
         room.game.placeChip({ column });
         // After placeChip() is called, the turn ends for the player who placed
@@ -116,7 +116,7 @@ io.on('connection', (socket) => {
         column = room.game.grid.lastPlacedChip.column;
         room.game.currentPlayer.socket.emit('receive-next-move', { column });
       }
-      fn({ status: 'finishTurn', column });
+      fn({ status: 'placeChip', column });
     } else {
       console.log(`room ${roomCode} not found`);
       fn({ status: 'roomNotFound' });
