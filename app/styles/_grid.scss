@@ -41,7 +41,7 @@
 }
 
 .empty-chip-slot-inner {
-  border-color: #ccc;
+  border-color: $empty-chip-slot-border-color;
 }
 
 // Pulse the pending chip to indicate that the app hasn't frozen
