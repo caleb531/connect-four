@@ -32,7 +32,8 @@ describe('game', function () {
             { column: 5, row: 1, player: 'red' }
           ],
           []
-        ]
+        ],
+        lastPlacedChip: { column: 5, row: 1, player: 'red' }
       }
     };
     game.restoreFromServer({
@@ -53,6 +54,7 @@ describe('game', function () {
     expect(game.grid.columns[5][1].column).to.equal(5);
     expect(game.grid.columns[5][1].row).to.equal(1);
     expect(game.grid.columns[5][1].player).to.equal(game.players[0]);
+    expect(game.grid.lastPlacedChip).to.equal(game.grid.columns[5][1]);
   });
 
 });
