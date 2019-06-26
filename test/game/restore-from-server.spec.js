@@ -58,8 +58,6 @@ describe('game', function () {
     game.restoreFromServer({ game: serverGame, localPlayer });
     expect(game.players[0]).to.be.instanceOf(OnlinePlayer);
     expect(game.players[1]).to.be.instanceOf(HumanPlayer);
-    expect(game.currentPlayer).to.equal(game.players[1]);
-    expect(game.requestingPlayer).to.equal(game.players[0]);
   });
 
   it('should restore grid data from server', function () {
