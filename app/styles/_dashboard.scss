@@ -65,6 +65,9 @@ input[type='text'] {
   width: 150px;
   font-size: 12px;
 }
+#copy-share-link:last-of-type {
+  margin-right: 0;
+}
 #share-link-copy-status {
   display: block;
   position: absolute;
