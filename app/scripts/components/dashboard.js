@@ -146,7 +146,7 @@ class DashboardComponent {
         this.game.grid.checkIfFull() ?
           'We\'ll call it a draw! Play again?' :
         // If the user just chose a number of players for the game to be started
-        !roomCode && this.game.type !== null ?
+        !this.session.socket && this.game.type !== null ?
           'Which player should start first?' :
         roomCode && this.game.requestingPlayer ?
           `${this.game.requestingPlayer.name} has ended the game.` :
@@ -169,15 +169,16 @@ class DashboardComponent {
           m('button[type=submit]', roomCode ? 'Join Game' : 'Start Game')
         ])
       ] :
-      !roomCode ? [
+      !this.session.socket ? [
         // If number of players has been chosen, ask user to choose starting player
         this.game.type !== null ?
           this.game.players.map((player) => {
             return m('button', {
               onclick: () => this.startGame(player)
             }, player.name);
-          }) : [
-            // Select a number of human players
+          }) :
+          // Select a number of human players
+          !roomCode ? [
             m('button', {
               onclick: () => this.setPlayers({ gameType: '1P' })
             }, '1 Player'),
@@ -187,7 +188,7 @@ class DashboardComponent {
             m('button', {
               onclick: () => this.createNewPlayer()
             }, 'Online')
-          ]
+          ] : null
         ] : null
     ]);
   }
