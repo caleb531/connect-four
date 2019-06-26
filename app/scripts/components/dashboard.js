@@ -161,7 +161,7 @@ class DashboardComponent {
         m('form', {
           onsubmit: (submitEvent) => this.submitNewPlayer(submitEvent, roomCode)
         }, [
-          m('input[type=text]#new-player-name', {
+          m('input[type=text][autocomplete=off]#new-player-name', {
             name: 'new-player-name',
             autofocus: true,
             oninput: (inputEvent) => this.setNewPlayerName(inputEvent)
