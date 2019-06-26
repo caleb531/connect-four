@@ -24,6 +24,7 @@ class Game {
       this.winner.score += 1;
     }
     this.inProgress = false;
+    this.currentPlayer = null;
   }
 
   setStartingPlayer() {
