@@ -74,4 +74,10 @@ describe('game', function () {
     expect(game.grid.lastPlacedChip).to.equal(game.grid.columns[5][1]);
   });
 
+  it('should restore lastPlacedChip as null if grid is empty', function () {
+    serverGame.grid.lastPlacedChip = null;
+    game.restoreFromServer({ game: serverGame, localPlayer });
+    expect(game.grid.lastPlacedChip).to.be.null;
+  });
+
 });
