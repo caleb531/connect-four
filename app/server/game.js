@@ -4,11 +4,12 @@ import Grid from './grid.js';
 
 class Game {
 
-  constructor({ players, grid = new Grid({ columnCount: 7, rowCount: 6 }), startingPlayer = null, currentPlayer = null, inProgress = false, winner = null }) {
+  constructor({ players, grid = new Grid({ columnCount: 7, rowCount: 6 }), startingPlayer = null, currentPlayer = null, requestingPlayer = null, inProgress = false, winner = null }) {
     this.grid = grid;
     this.players = players;
     this.startingPlayer = startingPlayer;
     this.currentPlayer = currentPlayer;
+    this.requestingPlayer = requestingPlayer;
     this.inProgress = inProgress;
     this.winner = winner;
   }
@@ -56,6 +57,7 @@ class Game {
       grid: this.grid,
       players: this.players,
       currentPlayer: this.currentPlayer ? this.currentPlayer.color : null,
+      requestingPlayer: this.requestingPlayer ? this.requestingPlayer.color : null,
       inProgress: this.inProgress
     };
   }

@@ -27,6 +27,8 @@ class Game extends Emitter {
     this.winner = null;
     // Data and methods for handling online games
     this.session = session;
+    // The player who requests to end the game or start a new one
+    this.requestingPlayer = null;
     // Keep track of the columns where chips are placed in debug mode (extremely
     // useful for creating new unit tests from real games)
     if (debug) {
@@ -207,6 +209,7 @@ class Game extends Emitter {
     });
 
     this.currentPlayer = this.players.find((player) => player.color === game.currentPlayer);
+    this.requestingPlayer = this.players.find((player) => player.color === game.requestingPlayer);
     this.grid.restoreFromServer({
       grid: game.grid,
       players: this.players

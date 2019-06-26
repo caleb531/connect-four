@@ -129,11 +129,12 @@ io.on('connection', (socket) => {
       console.log('end game', playerId);
       room.game.endGame();
       let localPlayer = room.getPlayerById(playerId);
+      room.game.requestingPlayer = localPlayer;
       room.players.forEach((player) => {
         if (player.socket) {
           player.socket.emit('end-game', {
             status: 'endGame',
-            requestingPlayer: localPlayer
+            requestingPlayer: room.game.requestingPlayer
           });
         }
       });
