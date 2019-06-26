@@ -1,4 +1,5 @@
 import Game from '../../app/scripts/models/game.js';
+import Grid from '../../app/scripts/models/grid.js';
 import HumanPlayer from '../../app/scripts/models/human-player.js';
 import OnlinePlayer from '../../app/scripts/models/online-player.js';
 import Chip from '../../app/scripts/models/chip.js';
@@ -63,6 +64,7 @@ describe('game', function () {
 
   it('should restore grid data from server', function () {
     game.restoreFromServer({ game: serverGame, localPlayer });
+    expect(game.grid).to.be.instanceOf(Grid);
     expect(game.grid.columns[5][0]).to.be.instanceOf(Chip);
     expect(game.grid.columns[5][0].column).to.equal(5);
     expect(game.grid.columns[5][0].row).to.equal(0);
