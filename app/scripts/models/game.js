@@ -109,12 +109,8 @@ class Game extends Emitter {
   }
 
   // Retrieve the player that isn't the given player
-  getOtherPlayer(player) {
-    if (player === this.players[0]) {
-      return this.players[1];
-    } else {
-      return this.players[0];
-    }
+  getOtherPlayer(basePlayer = this.currentPlayer) {
+    return this.players.find((player) => player !== basePlayer);
   }
 
   // Start the turn of the current player
