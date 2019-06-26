@@ -38,8 +38,8 @@ class Game {
     }
   }
 
-  getOtherPlayer() {
-    return this.players.find((player) => player !== this.currentPlayer);
+  getOtherPlayer(basePlayer = this.currentPlayer) {
+    return this.players.find((player) => player !== basePlayer);
   }
 
   placeChip({ column }) {
