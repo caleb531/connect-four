@@ -67,6 +67,11 @@ input[type='text'] {
 }
 #copy-share-link:last-of-type {
   margin-right: 0;
+  transition: background-color 500ms ease-in-out;
+  &:active {
+    background-color: #7d3;
+    transition-duration: 0ms;
+  }
 }
 #share-link-copy-status {
   display: block;
