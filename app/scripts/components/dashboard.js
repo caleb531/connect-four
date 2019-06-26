@@ -27,8 +27,14 @@ class DashboardComponent {
     });
   }
 
-  endGame() {
-    this.game.endGame();
+  endGame(roomCode) {
+    if (roomCode) {
+      // The local player ID and room code will be automatically passed by the
+      // session.emit() function
+      this.session.emit('end-game');
+    } else {
+      this.game.endGame();
+    }
   }
 
   createNewPlayer() {
@@ -73,6 +79,11 @@ class DashboardComponent {
       // When P2 joins, automatically update P1's screen
       this.session.on('add-player', ({ game, localPlayer }) => {
         this.game.restoreFromServer({ game, localPlayer });
+        m.redraw();
+      });
+      this.session.on('end-game', ({ requestingPlayer }) => {
+        this.game.requestingPlayer = requestingPlayer;
+        this.game.endGame();
         m.redraw();
       });
     });
@@ -137,12 +148,14 @@ class DashboardComponent {
         // If the user just chose a number of players for the game to be started
         !roomCode && this.game.type !== null ?
           'Which player should start first?' :
+        roomCode && this.game.requestingPlayer ?
+          `${this.game.requestingPlayer.name} has ended the game.` :
         // Otherwise, if game was ended manually by the user
         'Game ended. Play again?'
       ),
       // If game is in progress, allow user to end game at any time
       this.game.inProgress ? [
-        m('button', { onclick: () => this.endGame() }, 'End Game')
+        m('button', { onclick: () => this.endGame(roomCode) }, 'End Game')
       ] :
       this.session.status === 'newPlayer' ? [
         m('form', {

@@ -23,6 +23,7 @@ class GameComponent {
       this.session.on('connect', () => {
         this.joinRoom(roomCode);
         this.listenForNewPlayers();
+        this.listenForEndGame();
       });
     }
   }
@@ -49,6 +50,14 @@ class GameComponent {
     // listen for P2 joining
     this.session.on('add-player', ({ game, localPlayer }) => {
       this.game.restoreFromServer({ game, localPlayer });
+      m.redraw();
+    });
+  }
+
+  listenForEndGame() {
+    this.session.on('end-game', ({ requestingPlayer }) => {
+      this.game.requestingPlayer = requestingPlayer;
+      this.game.endGame();
       m.redraw();
     });
   }

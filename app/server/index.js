@@ -123,6 +123,30 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('end-game', ({ playerId, roomCode }, fn) => {
+    let room = roomManager.getRoom(roomCode);
+    if (room) {
+      console.log('end game', playerId);
+      room.game.endGame();
+      let localPlayer = room.getPlayerById(playerId);
+      room.players.forEach((player) => {
+        if (player.socket) {
+          player.socket.emit('end-game', {
+            status: 'endGame',
+            requestingPlayer: localPlayer
+          });
+        }
+      });
+      fn({
+        status: 'endGame',
+        requestingPlayer: localPlayer
+      });
+    } else {
+      console.log(`room ${roomCode} not found`);
+      fn({ status: 'roomNotFound' });
+    }
+  });
+
   socket.on('disconnect', () => {
     console.log(`disconnected: ${socket.id}`);
     // Indicate that this player is now disconnected
