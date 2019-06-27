@@ -173,6 +173,7 @@ class GridComponent extends Emitter {
   // Actually insert the pending chip into the internal grid once the falling
   // transition has ended
   finishPlacingPendingChip({ column }) {
+    // Send this move to the other (online) player as soon as possible
     this.game.emit('grid:before-finish-placing-pending-chip', {
       player: this.game.currentPlayer,
       column
