@@ -84,7 +84,7 @@ io.on('connection', (socket) => {
       let localPlayer = room.addPlayer({ player, socket });
       let otherPlayer = room.game.getOtherPlayer(localPlayer);
       room.game.startGame();
-      // Automatically update first player's screen when second player joibs
+      // Automatically update first player's screen when second player joins
       if (otherPlayer.socket) {
         console.log('sending updated game to P1');
         otherPlayer.socket.emit('add-player', {
