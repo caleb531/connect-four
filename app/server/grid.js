@@ -20,7 +20,7 @@ class Grid {
 
   // Place the given chip into the column defined on it
   placeChip(chip) {
-    if (chip.column >= 0 && chip.column < this.columnCount && (this.columns[chip.column].length + 1) < this.rowCount) {
+    if (chip.column >= 0 && chip.column < this.columnCount && this.columns[chip.column].length < this.rowCount) {
       this.columns[chip.column].push(chip);
       this.lastPlacedChip = chip;
       chip.row = this.columns[chip.column].length - 1;
