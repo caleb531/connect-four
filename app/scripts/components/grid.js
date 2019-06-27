@@ -173,6 +173,10 @@ class GridComponent extends Emitter {
   // Actually insert the pending chip into the internal grid once the falling
   // transition has ended
   finishPlacingPendingChip({ column }) {
+    this.game.emit('grid:before-finish-placing-pending-chip', {
+      player: this.game.currentPlayer,
+      column
+    });
     this.waitForPendingChipTransitionEnd(() => {
       // Normally, this callback should only ever fire if transitionPendingChipY
       // is true; however, due to strange circumstances (which occur

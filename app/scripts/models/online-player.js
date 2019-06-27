@@ -14,7 +14,7 @@ class OnlinePlayer extends AsyncPlayer {
     });
     // When the local (human) player has placed a chip, send that move to the
     // server
-    game.on('player:place-chip', ({ player, column }) => {
+    game.on('grid:before-finish-placing-pending-chip', ({ player, column }) => {
       // Only chip placements by the local (human) player need to be handled
       if (player !== this) {
         game.session.emit('place-chip', { column });
