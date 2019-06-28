@@ -1,6 +1,3 @@
-/* global ga:true */
-
-import _ from 'underscore';
 import m from 'mithril';
 import classNames from '../classnames.js';
 import Game from '../models/game.js';
@@ -60,15 +57,6 @@ class GameComponent {
       this.game.endGame();
       m.redraw();
     });
-  }
-
-  // Send the specified game data to the analytics server
-  sendAnalytics(args) {
-    if (typeof ga === 'function' && !this.game.debug) {
-      ga('send', 'event', _.extend({
-        eventCategory: this.game.type === '1P' ? '1-Player Game' : '2-Player Game'
-      }, args));
-    }
   }
 
   view({ attrs: { roomCode } }) {
