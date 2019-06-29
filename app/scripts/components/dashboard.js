@@ -112,6 +112,12 @@ class DashboardComponent {
           'Connecting to server...' :
         this.session.status === 'roomNotFound' ?
           'This room does not exist.' :
+        // If the local player has requested a new game
+        this.session.status === 'requestingNewGame' ?
+          `Asking ${this.game.getOtherPlayer(this.game.requestingPlayer).name} to play again...` :
+        // Inform the other player if a player requests a new game
+        this.session.status === 'newGameRequested' ?
+          `${this.game.requestingPlayer.name} asks to play again.` :
         // If user has not started any game yet
         this.game.players.length === 0 ?
           'Welcome! How many players?' :
@@ -127,12 +133,6 @@ class DashboardComponent {
         // If the user just chose a number of players for the game to be started
         !this.session.socket && this.game.type !== null ?
           'Which player should start first?' :
-        // If the local player has requested a new game
-        roomCode && this.session.status === 'requestingNewGame' ?
-          `Asking ${this.game.getOtherPlayer(this.game.requestingPlayer).name} to play again...` :
-        //
-        roomCode && this.session.status === 'newGameRequested' ?
-          `${this.game.requestingPlayer.name} asks to play again.` :
         // If either player ends the game early
         roomCode && this.game.requestingPlayer ?
           `${this.game.requestingPlayer.name} has ended the game.` :
