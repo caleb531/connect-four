@@ -65,16 +65,14 @@ class DashboardComponent {
 
   startOnlineGame() {
     this.session.connect();
-    this.session.on('connect', () => {
-      // Construct a placeholder player with the name we entered and the default
-      // first player color
-      let submittedPlayer = { name: this.newPlayerName, color: 'red' };
-      // Request a new room and retrieve the room code returned from the server
-      this.session.emit('open-room', { player: submittedPlayer }, ({ roomCode, game, localPlayer }) => {
-        this.game.restoreFromServer({ game, localPlayer });
-        console.log('new room', roomCode);
-        m.route.set(`/room/${roomCode}`);
-      });
+    // Construct a placeholder player with the name we entered and the default
+    // first player color
+    let submittedPlayer = { name: this.newPlayerName, color: 'red' };
+    // Request a new room and retrieve the room code returned from the server
+    this.session.emit('open-room', { player: submittedPlayer }, ({ roomCode, game, localPlayer }) => {
+      this.game.restoreFromServer({ game, localPlayer });
+      console.log('new room', roomCode);
+      m.route.set(`/room/${roomCode}`);
     });
   }
 
