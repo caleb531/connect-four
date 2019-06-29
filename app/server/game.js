@@ -61,7 +61,15 @@ class Game {
   }
 
   declareWinner() {
-    // TODO: write this function
+    let submittedWinners = this.players.map((player) => player.lastSubmittedWinner || {});
+    if (submittedWinners[0].color === submittedWinners[1].color) {
+      this.winner = submittedWinners[0].color ? submittedWinners[0] : submittedWinners[1];
+      this.winner.score += 1;
+      // Reset each player's last submitted winner
+      this.players.forEach((player) => {
+        player.lastSubmittedWinner = null;
+      });
+    }
   }
 
   toJSON() {
