@@ -44,7 +44,7 @@ class Session {
     }
   }
 
-  emit(eventName, data = {}, callback = null) {
+  emit(eventName, data = {}, callback) {
     if (this.socket) {
       data = Object.assign({ roomCode: this.roomCode, playerId: this.localPlayerId }, data);
       this.socket.emit(eventName, data, (args = {}) => {
