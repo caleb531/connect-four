@@ -17,12 +17,13 @@ class GameComponent {
     });
     if (roomCode) {
       this.session.connect();
-      this.session.on('connect', () => {
-        this.joinRoom(roomCode);
-        this.listenForNewPlayers();
-        this.listenForEndGame();
-      });
+      this.joinRoom(roomCode);
     }
+    // When the app initializes, queue event listeners for online game events;
+    // if P1 has not started an online game yet, the event listeners will be
+    // queued until an online room is opened or joined (which is when the socket
+    // connection is opened)
+    this.listenForOnlineGameEvents();
   }
 
   joinRoom(roomCode) {
@@ -37,16 +38,14 @@ class GameComponent {
     });
   }
 
-  listenForNewPlayers() {
-    // If P1 leaves and rejoins the game before P2 joins, make sure to
-    // listen for P2 joining
+  listenForOnlineGameEvents() {
+    // When P2 joins an online game, automatically update P1's screen
     this.session.on('add-player', ({ game, localPlayer }) => {
       this.game.restoreFromServer({ game, localPlayer });
       m.redraw();
     });
-  }
-
-  listenForEndGame() {
+    // If either player ends an online game early, automatically update the
+    // local player's game instance and indicate who ended the game
     this.session.on('end-game', ({ requestingPlayer }) => {
       this.game.requestingPlayer = requestingPlayer;
       this.game.endGame();

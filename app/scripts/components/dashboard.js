@@ -75,16 +75,6 @@ class DashboardComponent {
         console.log('new room', roomCode);
         m.route.set(`/room/${roomCode}`);
       });
-      // When P2 joins, automatically update P1's screen
-      this.session.on('add-player', ({ game, localPlayer }) => {
-        this.game.restoreFromServer({ game, localPlayer });
-        m.redraw();
-      });
-      this.session.on('end-game', ({ requestingPlayer }) => {
-        this.game.requestingPlayer = requestingPlayer;
-        this.game.endGame();
-        m.redraw();
-      });
     });
   }
 

@@ -7,11 +7,21 @@ class Session {
     this.url = url;
     this.roomCode = roomCode;
     this.localPlayerId = this.getLocalPlayerId();
+    // Keep a queue of emit() or on() calls that are made before the socket can
+    // connect; when the socket connects, run all calls pushed to the queue
+    this.callQueue = [];
   }
 
   connect() {
     this.socket = io.connect(this.url);
     this.status = 'connecting';
+    this.executeCallQueue();
+  }
+
+  executeCallQueue() {
+    this.callQueue.forEach(({ method, args }) => {
+      this[method](...args);
+    });
   }
 
   getLocalPlayerId() {
@@ -24,16 +34,24 @@ class Session {
   }
 
   on(eventName, callback) {
-    this.socket.on(eventName, (args = {}) => {
-      this.processArgs(args, callback);
-    });
+    if (this.socket) {
+      this.socket.on(eventName, (args = {}) => {
+        this.processArgs(args, callback);
+      });
+    } else {
+      this.callQueue.push({ method: 'on', args: [eventName, callback] });
+    }
   }
 
   emit(eventName, data = {}, callback = null) {
-    data = Object.assign({ roomCode: this.roomCode, playerId: this.localPlayerId }, data);
-    this.socket.emit(eventName, data, (args = {}) => {
-      this.processArgs(args, callback);
-    });
+    if (this.socket) {
+      data = Object.assign({ roomCode: this.roomCode, playerId: this.localPlayerId }, data);
+      this.socket.emit(eventName, data, (args = {}) => {
+        this.processArgs(args, callback);
+      });
+    } else {
+      this.callQueue.push({ method: 'emit', args: [eventName, data, callback] });
+    }
   }
 
   processArgs(args, callback) {
