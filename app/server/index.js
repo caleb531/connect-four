@@ -182,7 +182,7 @@ io.on('connection', (socket) => {
         // Inform the local player (who requested the new game) that their
         // request is pending
         fn({ status: 'requestingNewGame', localPlayer });
-      } else if (submittedWinners.length === 2 && localPlayer !== this.game.requestingPlayer) {
+      } else if (submittedWinners.length === 2 && localPlayer !== room.game.requestingPlayer) {
         // If the other player accepts the original request to play again, start
         // a new game and broadcast the new game state to both players
         room.game.requestingPlayer = null;
