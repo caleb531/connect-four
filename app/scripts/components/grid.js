@@ -154,6 +154,19 @@ class GridComponent extends Emitter {
           }
         }
       });
+    } else if (this.transitionPendingChipX) {
+      // Detect and prevent a prevent a race condition where placePendingChip is
+      // called while the pending chip is still transitioning on the X axis (via
+      // alignPendingChipWithColumn), causing the chip to travel diagonally
+      // across the board; to fix this, wait for the current alignment
+      // transition to finish before starting the placePendingChip transition
+      this.waitForPendingChipTransitionEnd(() => {
+        // Make sure to reset transitionPendingChipX back to false to prevent
+        // the above if statement from executing again upon re-entry of the
+        // placePendingChip()
+        this.transitionPendingChipX = false;
+        this.placePendingChip({ column });
+      });
     } else {
       // Otherwise, chip is already aligned; drop chip into place on grid
       this.transitionPendingChipX = false;
