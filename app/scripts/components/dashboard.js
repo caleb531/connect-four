@@ -149,7 +149,7 @@ class DashboardComponent {
             }, player.name);
           }) :
           // Select a number of human players
-          !roomCode ? [
+          [
             m('button', {
               onclick: () => this.setPlayers({ gameType: '1P' })
             }, '1 Player'),
@@ -159,7 +159,7 @@ class DashboardComponent {
             m('button', {
               onclick: () => this.createNewPlayer()
             }, 'Online')
-          ] : null
+          ]
         ] : null
     ]);
   }
