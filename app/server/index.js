@@ -192,11 +192,13 @@ io.on('connection', (socket) => {
         room.players.forEach((player) => {
           if (player.socket) {
             player.socket.emit('start-new-game', {
+              status: 'startGame',
               game: room.game,
               localPlayer: player
             });
           }
         });
+        fn({ status: 'startGame', localPlayer });
       }
     } else {
       console.log(`room ${roomCode} not found`);
