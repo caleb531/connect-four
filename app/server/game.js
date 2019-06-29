@@ -63,14 +63,16 @@ class Game {
 
   declareWinner() {
     let submittedWinners = this.players.map((player) => player.lastSubmittedWinner || {});
-    if (submittedWinners[0].color === submittedWinners[1].color) {
-      this.winner = submittedWinners[0].color ? submittedWinners[0] : submittedWinners[1];
+    this.winner = this.players.find((player) => {
+      return player.color === submittedWinners[0].color && player.color === submittedWinners[1].color;
+    });
+    if (this.winner) {
       this.winner.score += 1;
-      // Reset each player's last submitted winner
-      this.players.forEach((player) => {
-        player.lastSubmittedWinner = null;
-      });
     }
+    // Reset each player's last submitted winner
+    this.players.forEach((player) => {
+      player.lastSubmittedWinner = null;
+    });
   }
 
   toJSON() {

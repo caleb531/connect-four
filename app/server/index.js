@@ -169,7 +169,6 @@ io.on('connection', (socket) => {
       // If the local player is the first to request a new game, ask the other
       // player if they'd like to start a new game
       if (!room.game.pendingNewGame) {
-        console.log('no winners submitted');
         room.game.requestingPlayer = localPlayer;
         room.game.pendingNewGame = true;
         if (otherPlayer.socket) {
