@@ -176,7 +176,7 @@ io.on('connection', (socket) => {
           otherPlayer.socket.emit('request-new-game', {
             status: 'newGameRequested',
             requestingPlayer: room.game.requestingPlayer,
-            localPlayer
+            localPlayer: otherPlayer
           });
         }
         // Inform the local player (who requested the new game) that their
