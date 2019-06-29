@@ -33,6 +33,7 @@ class Game {
   resetGame() {
     this.winner = null;
     this.requestingPlayer = null;
+    this.pendingNewGame = false;
     this.grid.resetGrid();
   }
 
