@@ -12,9 +12,14 @@
     background-color: $button-background-color;
     font-family: $sans-serif;
     color: #fff;
+    &:hover:active {
+      background-color: lighten($button-background-color, 5%);
+    }
     &:focus {
       outline-width: 0;
-      background-color: lighten($button-background-color, 5%);
+    }
+    &:disabled {
+      background-color: $button-disabled-background-color;
     }
   }
   @include if-hybrid-layout() {

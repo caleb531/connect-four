@@ -51,6 +51,14 @@ class GameComponent {
       this.game.endGame();
       m.redraw();
     });
+    this.session.on('request-new-game', ({ requestingPlayer }) => {
+      this.game.requestingPlayer = requestingPlayer;
+      m.redraw();
+    });
+    this.session.on('start-new-game', ({ game, localPlayer }) => {
+      this.game.restoreFromServer({ game, localPlayer });
+      m.redraw();
+    });
   }
 
   view({ attrs: { roomCode } }) {

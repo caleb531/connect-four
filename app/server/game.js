@@ -13,6 +13,7 @@ class Game {
     this.inProgress = inProgress;
     this.pendingChipColumn = null;
     this.winner = winner;
+    this.pendingNewGame = false;
   }
 
   startGame() {
@@ -27,6 +28,12 @@ class Game {
     }
     this.inProgress = false;
     this.currentPlayer = null;
+  }
+
+  resetGame() {
+    this.winner = null;
+    this.requestingPlayer = null;
+    this.grid.resetGrid();
   }
 
   setStartingPlayer() {
@@ -51,6 +58,10 @@ class Game {
       });
       this.currentPlayer = this.getOtherPlayer();
     }
+  }
+
+  declareWinner() {
+    // TODO: write this function
   }
 
   toJSON() {

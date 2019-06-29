@@ -60,6 +60,10 @@ io.on('connection', (socket) => {
       if (localPlayer) {
         if (room.players.length === 1) {
           status = 'waitingForPlayers';
+        } else if (room.game.pendingNewGame && localPlayer === room.game.requestingPlayer) {
+          status = 'requestingNewGame';
+        } else if (room.game.pendingNewGame && localPlayer !== room.game.requestingPlayer) {
+          status = 'newGameRequested';
         } else {
           status = 'returningPlayer';
         }
@@ -143,6 +147,57 @@ io.on('connection', (socket) => {
         status: 'endGame',
         requestingPlayer: localPlayer
       });
+    } else {
+      console.log(`room ${roomCode} not found`);
+      fn({ status: 'roomNotFound' });
+    }
+  });
+
+  socket.on('request-new-game', ({ playerId, roomCode, winner }, fn) => {
+    let room = roomManager.getRoom(roomCode);
+    if (room) {
+      console.log('request new game', playerId);
+      let localPlayer = room.getPlayerById(playerId);
+      localPlayer.lastSubmittedWinner = winner;
+      let otherPlayer = room.game.getOtherPlayer(localPlayer);
+      // When either player requests to start a new game, each player must
+      // submit the winner for that game, if any; this is because the logic
+      // which analyzes the grid for a winner is client-side, at least for now;
+      // to accomplish this, each player's submitted winner will be stored on
+      // the respective player object;
+      let submittedWinners = room.players.map((player) => player.lastSubmittedWinner);
+      // If the local player is the first to request a new game, ask the other
+      // player if they'd like to start a new game
+      if (!room.game.pendingNewGame) {
+        console.log('no winners submitted');
+        room.game.requestingPlayer = localPlayer;
+        room.game.pendingNewGame = true;
+        if (otherPlayer.socket) {
+          otherPlayer.socket.emit('request-new-game', {
+            status: 'newGameRequested',
+            requestingPlayer: room.game.requestingPlayer,
+            localPlayer
+          });
+        }
+        // Inform the local player (who requested the new game) that their
+        // request is pending
+        fn({ status: 'requestingNewGame', localPlayer });
+      } else if (submittedWinners.length === 2 && localPlayer !== this.game.requestingPlayer) {
+        // If the other player accepts the original request to play again, start
+        // a new game and broadcast the new game state to both players
+        room.game.requestingPlayer = null;
+        room.game.declareWinner();
+        room.game.resetGame();
+        room.game.startGame();
+        room.players.forEach((player) => {
+          if (player.socket) {
+            player.socket.emit('start-new-game', {
+              game: room.game,
+              localPlayer: player
+            });
+          }
+        });
+      }
     } else {
       console.log(`room ${roomCode} not found`);
       fn({ status: 'roomNotFound' });

@@ -76,6 +76,14 @@ class DashboardComponent {
     });
   }
 
+  requestNewOnlineGame() {
+    this.session.emit('request-new-game', { winner: this.game.winner }, ({ localPlayer }) => {
+      console.log(this.session.status);
+      this.game.requestingPlayer = localPlayer;
+      m.redraw();
+    });
+  }
+
   configureCopyControl({ dom }) {
     this.shareLinkCopier = new ClipboardJS(dom);
   }
@@ -119,6 +127,13 @@ class DashboardComponent {
         // If the user just chose a number of players for the game to be started
         !this.session.socket && this.game.type !== null ?
           'Which player should start first?' :
+        // If the local player has requested a new game
+        roomCode && this.session.status === 'requestingNewGame' ?
+          `Asking ${this.game.getOtherPlayer(this.game.requestingPlayer).name} to play again...` :
+        //
+        roomCode && this.session.status === 'newGameRequested' ?
+          `${this.game.requestingPlayer.name} asks to play again.` :
+        // If either player ends the game early
         roomCode && this.game.requestingPlayer ?
           `${this.game.requestingPlayer.name} has ended the game.` :
         // Otherwise, if game was ended manually by the user
@@ -128,6 +143,12 @@ class DashboardComponent {
       this.game.inProgress ? [
         m('button', { onclick: () => this.endGame(roomCode) }, 'End Game')
       ] :
+      // If an online game is not in progress (i.e. it was ended early, or there
+      // is a winner/tie), allow the user to play again
+      this.session.socket && this.game.players.length === 2 ? m('button', {
+        onclick: () => this.requestNewOnlineGame(),
+        disabled: this.session.status === 'requestingNewGame'
+      }, this.session.status === 'requestingNewGame' ? 'Pending...' : 'Play Again') :
       this.session.status === 'newPlayer' ? [
         m('form', {
           onsubmit: (submitEvent) => this.submitNewPlayer(submitEvent, roomCode)

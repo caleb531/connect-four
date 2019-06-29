@@ -16,6 +16,10 @@ class Player {
     this.color = color;
     // The player's total number of wins across all games
     this.score = score;
+    // The last winner submitted by the player to the server; a value of null
+    // either means that the player has never submitted a winner, or that the
+    // last game ended in a tie
+    this.lastSubmittedWinner = null;
   }
 
   toJSON() {
