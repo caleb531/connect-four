@@ -11,6 +11,7 @@ class Game {
     this.currentPlayer = currentPlayer;
     this.requestingPlayer = requestingPlayer;
     this.inProgress = inProgress;
+    this.pendingChipColumn = null;
     this.winner = winner;
   }
 
@@ -58,7 +59,8 @@ class Game {
       players: this.players,
       currentPlayer: this.currentPlayer ? this.currentPlayer.color : null,
       requestingPlayer: this.requestingPlayer ? this.requestingPlayer.color : null,
-      inProgress: this.inProgress
+      inProgress: this.inProgress,
+      pendingChipColumn: this.pendingChipColumn
     };
   }
 

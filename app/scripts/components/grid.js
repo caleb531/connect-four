@@ -19,6 +19,13 @@ class GridComponent extends Emitter {
         });
       });
     });
+    // Listen for when the opponent moves their pending chip
+    this.game.session.on('align-pending-chip', _.debounce(({ column }) => {
+      if (!this.transitionPendingChipX && !this.transitionPendingChipY) {
+        this.alignPendingChipWithColumn({ column });
+        m.redraw();
+      }
+    }, GridComponent.pendingChipAlignmentDelay));
     // Reset controller state when game ends
     this.game.on('game:end', () => this.reset());
     // Reset controller state whenever controller is initialized
@@ -72,12 +79,15 @@ class GridComponent extends Emitter {
   }
 
   // Horizontally align the pending chip with the specified column
-  alignPendingChipWithColumn({ column, transitionEnd }) {
+  alignPendingChipWithColumn({ column, transitionEnd, emit = false }) {
     // The last visited column is the grid column nearest to the cursor at
     // any given instant; keep track of the column's X position so the next
     // pending chip can instantaneously appear there
     let newLastVisitedColumnX = this.getChipWidth() * column;
     if (newLastVisitedColumnX !== this.lastVisitedColumnX) {
+      if (emit) {
+        this.game.session.emit('align-pending-chip', { column });
+      }
       this.lastVisitedColumnX = newLastVisitedColumnX;
       this.pendingChipX = this.lastVisitedColumnX;
       this.pendingChipY = 0;
@@ -98,7 +108,8 @@ class GridComponent extends Emitter {
   alignPendingChipViaPointer(mousemoveEvent) {
     if (this.game.pendingChip && this.game.currentPlayer.type === 'human' && !this.transitionPendingChipY) {
       this.alignPendingChipWithColumn({
-        column: this.getLastVisitedColumnIndex(mousemoveEvent)
+        column: this.getLastVisitedColumnIndex(mousemoveEvent),
+        emit: true
       });
     } else {
       mousemoveEvent.redraw = false;
@@ -267,5 +278,9 @@ class GridComponent extends Emitter {
   }
 
 }
+
+// The time to wait (in ms) before rendering the next pending chip alignment
+// from the online player
+GridComponent.pendingChipAlignmentDelay = 250;
 
 export default GridComponent;

@@ -149,6 +149,20 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('align-pending-chip', ({ roomCode, column }, fn) => {
+    let room = roomManager.getRoom(roomCode);
+    if (room) {
+      room.game.pendingChipColumn = column;
+      let otherPlayer = room.game.getOtherPlayer();
+      if (otherPlayer.socket) {
+        otherPlayer.socket.emit('align-pending-chip', { column });
+      }
+    } else {
+      console.log(`room ${roomCode} not found`);
+      fn({ status: 'roomNotFound' });
+    }
+  });
+
   socket.on('disconnect', () => {
     console.log(`disconnected: ${socket.id}`);
     // Indicate that this player is now disconnected
