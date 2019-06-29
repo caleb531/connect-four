@@ -22,6 +22,7 @@ class Session {
     this.callQueue.forEach(({ method, args }) => {
       this[method](...args);
     });
+    this.callQueue.length = 0;
   }
 
   getLocalPlayerId() {
