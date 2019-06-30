@@ -26,9 +26,10 @@ class GameComponent {
   }
 
   joinRoom(roomCode) {
-    let userId = this.session.localUserId;
-    // Join the room immediately if a room code is specified in the URL
-    this.session.emit('join-room', { roomCode, userId }, ({ game, localUser }) => {
+    // Join the room immediately if a room code is specified in the URL; the
+    // room code and local user ID are implicitly and automatically passed by
+    // the Session class
+    this.session.emit('join-room', {}, ({ game, localUser }) => {
       console.log('join room', roomCode, this.session.status);
       if (game) {
         this.game.restoreFromServer({ game, localUser });
