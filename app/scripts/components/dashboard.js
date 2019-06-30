@@ -95,6 +95,7 @@ class DashboardComponent {
         // If the current player needs to enter a name
         this.session.status === 'newPlayer' ?
           'Enter your player name:' :
+
         this.session.status === 'waitingForPlayers' ?
           [
             'Waiting for other player...',
@@ -109,6 +110,7 @@ class DashboardComponent {
               }, 'Copy')
             ])
           ] :
+
         this.session.status === 'connecting' ?
           'Connecting to server...' :
         this.session.status === 'roomNotFound' ?
@@ -140,16 +142,21 @@ class DashboardComponent {
         // Otherwise, if game was ended manually by the user
         'Game ended. Play again?'
       ),
+
       // If game is in progress, allow user to end game at any time
       this.game.inProgress && this.session.status !== 'watchingGame' ? [
         m('button', { onclick: () => this.endGame(roomCode) }, 'End Game')
       ] :
+
       // If an online game is not in progress (i.e. it was ended early, or there
       // is a winner/tie), allow the user to play again
       this.session.socket && this.game.players.length === 2 && this.session.status !== 'watchingGame' ? m('button', {
         onclick: () => this.requestNewOnlineGame(),
         disabled: this.session.status === 'requestingNewGame'
       }, this.session.status === 'newGameRequested' ? 'Yes!' : this.session.status === 'requestingNewGame' ? 'Pending' : 'Play Again') :
+
+      // Prompt a player to enter their name when starting an online game, or
+      // when joining an existing game for the first time
       this.session.status === 'newPlayer' ? [
         m('form', {
           onsubmit: (submitEvent) => this.submitNewPlayer(submitEvent, roomCode)
@@ -163,7 +170,9 @@ class DashboardComponent {
           m('button[type=submit]', roomCode ? 'Join Game' : 'Start Game')
         ])
       ] :
+
       !this.session.socket ? [
+
         // If number of players has been chosen, ask user to choose starting player
         this.game.type !== null ?
           this.game.players.map((player) => {
@@ -171,6 +180,7 @@ class DashboardComponent {
               onclick: () => this.startGame(player)
             }, player.name);
           }) :
+
           // Select a number of human players
           [
             m('button', {
@@ -183,6 +193,7 @@ class DashboardComponent {
               onclick: () => this.createNewPlayer()
             }, 'Online')
           ]
+
         ] : null
     ]);
   }
