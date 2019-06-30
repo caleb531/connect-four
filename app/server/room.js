@@ -13,7 +13,7 @@ class Room {
     player = new Player(player);
     this.players.push(player);
     player.socket = socket;
-    socket.player = player;
+    socket.user = player;
     socket.join(this.code);
     return player;
   }
@@ -30,7 +30,7 @@ class Room {
     let player = this.getPlayerById(userId) || this.getFirstDisconnectedPlayer();
     if (player) {
       player.socket = socket;
-      socket.player = player;
+      socket.user = player;
       socket.join(this.code);
     }
     return player;

@@ -227,9 +227,9 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log(`disconnected: ${socket.id}`);
     // Indicate that this player is now disconnected
-    if (socket.player) {
+    if (socket.user) {
       console.log('unset player socket');
-      socket.player.socket = null;
+      socket.user.socket = null;
     }
   });
 
