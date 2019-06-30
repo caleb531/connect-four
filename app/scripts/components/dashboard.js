@@ -77,7 +77,7 @@ class DashboardComponent {
   }
 
   requestNewOnlineGame() {
-    this.session.status = 'connecting';
+    this.session.status = 'requesting';
     this.session.emit('request-new-game', { winner: this.game.winner }, ({ localUser }) => {
       if (this.session.status === 'requestingNewGame') {
         this.game.requestingPlayer = localUser;
@@ -96,6 +96,8 @@ class DashboardComponent {
 
         this.session.status === 'connecting' ?
           'Connecting to server...' :
+        this.session.status === 'requesting' ?
+          'Requesting new game...' :
         this.session.status === 'roomNotFound' ?
           'This room does not exist.' :
 
