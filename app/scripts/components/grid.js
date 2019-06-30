@@ -21,12 +21,12 @@ class GridComponent extends Emitter {
       });
     });
     // Listen for when the opponent moves their pending chip
-    this.session.on('align-pending-chip', _.debounce(({ column }) => {
+    this.session.on('align-pending-chip', ({ column }) => {
       if (!this.transitionPendingChipY) {
         this.alignPendingChipWithColumn({ column });
         m.redraw();
       }
-    }, GridComponent.pendingChipAlignmentDelay));
+    });
     // Add a global listener here for all moves we will receive from the
     // opponent (online) player during the course of the game; when we receive a
     // move from the opponent, TinyEmitter will help us resolve the promise
@@ -94,6 +94,12 @@ class GridComponent extends Emitter {
     this.once('pending-chip:transition-end', callback);
   }
 
+  // Write the alignPendingChip event emitter as a separate function so it can
+  // be throttled for performance
+  emitAlignEvent({ column }) {
+    this.session.emit('align-pending-chip', { column });
+  }
+
   // Horizontally align the pending chip with the specified column
   alignPendingChipWithColumn({ column, transitionEnd, emit = false }) {
     // The last visited column is the grid column nearest to the cursor at
@@ -102,7 +108,7 @@ class GridComponent extends Emitter {
     let newLastVisitedColumnX = this.getChipWidth() * column;
     if (newLastVisitedColumnX !== this.lastVisitedColumnX) {
       if (emit) {
-        this.session.emit('align-pending-chip', { column });
+        this.emitAlignEvent({ column });
       }
       this.lastVisitedColumnX = newLastVisitedColumnX;
       this.pendingChipX = this.lastVisitedColumnX;
@@ -311,5 +317,11 @@ class GridComponent extends Emitter {
 // The time to wait (in ms) before rendering the next pending chip alignment
 // from the online player
 GridComponent.pendingChipAlignmentDelay = 250;
+// Throttle the alignPendingChip event emitter to only fire per the above
+// interval
+GridComponent.prototype.emitAlignEvent = _.throttle(
+  GridComponent.prototype.emitAlignEvent,
+  GridComponent.pendingChipAlignmentDelay
+);
 
 export default GridComponent;
