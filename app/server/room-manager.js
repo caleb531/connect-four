@@ -34,6 +34,7 @@ class RoomManager {
 
   generateRandomRoomCode() {
     let roomCode = '';
+    // Uppercase letters A-Z
     let startIndex = 65;
     let endIndex = 90;
     for (var i = 0; i < RoomManager.roomCodeLength; i += 1) {
