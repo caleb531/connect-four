@@ -8,8 +8,9 @@ import Browser from '../browser.js';
 // as all chips currently placed on the grid
 class GridComponent extends Emitter {
 
-  oninit({ attrs: { game } }) {
+  oninit({ attrs: { game, session } }) {
     this.game = game;
+    this.session = session;
     this.grid = this.game.grid;
     // Place chip automatically when AI computes its next move on its turn
     this.game.on('async-player:get-next-move', ({ player, nextMove }) => {
@@ -20,12 +21,27 @@ class GridComponent extends Emitter {
       });
     });
     // Listen for when the opponent moves their pending chip
-    this.game.session.on('align-pending-chip', _.debounce(({ column }) => {
+    this.session.on('align-pending-chip', _.debounce(({ column }) => {
       if (!this.transitionPendingChipX && !this.transitionPendingChipY) {
         this.alignPendingChipWithColumn({ column });
         m.redraw();
       }
     }, GridComponent.pendingChipAlignmentDelay));
+    // Add a global listener here for all moves we will receive from the
+    // opponent (online) player during the course of the game; when we receive a
+    // move from the opponent, TinyEmitter will help us resolve the promise
+    // created in the last call to getNextMove()
+    this.session.on('receive-next-move', ({ column }) => {
+      this.game.emit('online-player:receive-next-move', { column });
+    });
+    // When the local (human) player has placed a chip, send that move to the
+    // server
+    this.game.on('grid:before-finish-placing-pending-chip', ({ player, column }) => {
+      // Only chip placements by the local (human) player need to be handled
+      if (player.type !== 'online') {
+        this.session.emit('place-chip', { column });
+      }
+    });
     // Reset controller state when game ends
     this.game.on('game:end', () => this.reset());
     // Reset controller state whenever controller is initialized
@@ -86,7 +102,7 @@ class GridComponent extends Emitter {
     let newLastVisitedColumnX = this.getChipWidth() * column;
     if (newLastVisitedColumnX !== this.lastVisitedColumnX) {
       if (emit) {
-        this.game.session.emit('align-pending-chip', { column });
+        this.session.emit('align-pending-chip', { column });
       }
       this.lastVisitedColumnX = newLastVisitedColumnX;
       this.pendingChipX = this.lastVisitedColumnX;

@@ -9,7 +9,7 @@ import Chip from './chip.js';
 // rounds
 class Game extends Emitter {
 
-  constructor({ grid = new Grid({ columnCount: 7, rowCount: 6 }), players = [], session = null, debug = false } = {}) {
+  constructor({ grid = new Grid({ columnCount: 7, rowCount: 6 }), players = [], debug = false } = {}) {
     super();
     // The two-dimensional array representing the entire game grid
     this.grid = grid;
@@ -25,8 +25,6 @@ class Game extends Emitter {
     this.pendingChip = null;
     // The winning player of the game
     this.winner = null;
-    // Data and methods for handling online games
-    this.session = session;
     // The player who requests to end the game or start a new one
     this.requestingPlayer = null;
     // Keep track of the columns where chips are placed in debug mode (extremely
@@ -94,7 +92,7 @@ class Game extends Emitter {
           if (player.color === localPlayer.color) {
             return new HumanPlayer(player);
           } else {
-            return new OnlinePlayer(Object.assign({ game: this }, player));
+            return new OnlinePlayer(player);
           }
         }));
       }
@@ -203,6 +201,9 @@ class Game extends Emitter {
       players: game.players,
       localPlayer
     });
+    // Remove the event listener for any leftover (unresolved)
+    // OnlinePlayer.getNextMove() promise
+    this.off('online-player:receive-next-move');
 
     this.currentPlayer = this.players.find((player) => player.color === game.currentPlayer);
     this.requestingPlayer = this.players.find((player) => player.color === game.requestingPlayer);
