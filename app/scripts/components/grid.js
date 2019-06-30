@@ -172,13 +172,18 @@ class GridComponent extends Emitter {
       // First align pending chip with column
       this.alignPendingChipWithColumn({
         column,
-        // When it's the AI's turn or any async player's turn, automatically
-        // place the chip after aligning it with the specified column
         transitionEnd: () => {
+          // When it's the AI's turn or any async player's turn, automatically
+          // place the chip after aligning it with the specified column
           if (this.game.currentPlayer.wait) {
             this.game.currentPlayer.wait(() => {
               this.placePendingChip({ column });
             });
+          } else {
+            // Otherwise, the current player is the local human player (probably
+            // on a touch device) and so the alignment event should be emitted
+            // to the server
+            this.emitAlignEvent({ column });
           }
         }
       });
