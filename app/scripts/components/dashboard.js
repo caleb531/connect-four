@@ -148,7 +148,7 @@ class DashboardComponent {
       this.session.socket && this.game.players.length === 2 ? m('button', {
         onclick: () => this.requestNewOnlineGame(),
         disabled: this.session.status === 'requestingNewGame'
-      }, this.session.status === 'requestingNewGame' ? 'Pending' : 'Play Again') :
+      }, this.session.status === 'newGameRequested' ? 'Sure!' : this.session.status === 'requestingNewGame' ? 'Pending' : 'Play Again') :
       this.session.status === 'newPlayer' ? [
         m('form', {
           onsubmit: (submitEvent) => this.submitNewPlayer(submitEvent, roomCode)
