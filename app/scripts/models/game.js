@@ -210,6 +210,7 @@ class Game extends Emitter {
       grid: game.grid,
       players: this.players
     });
+    this.winner = null;
 
     if (this.inProgress && this.currentPlayer) {
       this.startTurn();
