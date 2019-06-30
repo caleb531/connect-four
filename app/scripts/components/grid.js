@@ -27,6 +27,12 @@ class GridComponent extends Emitter {
         m.redraw();
       }
     });
+    // Remember the last position of the pending chip when the user rejoins the
+    // room or reloads the page
+    this.game.on('grid:align-pending-chip-initially', ({ column }) => {
+      this.pendingChipX = this.getChipWidth() * column;
+      m.redraw();
+    });
     // Add a global listener here for all moves we will receive from the
     // opponent (online) player during the course of the game; when we receive a
     // move from the opponent, TinyEmitter will help us resolve the promise

@@ -8,6 +8,8 @@ class Grid {
     this.rowCount = rowCount;
     this.columns = columns;
     this.lastPlacedChip = lastPlacedChip;
+    // The current column at which the pending chip is aligned on the client
+    this.pendingChipColumn = null;
   }
 
    // Reset the grid by removing all placed chips
@@ -32,7 +34,8 @@ class Grid {
       columnCount: this.columnCount,
       rowCount: this.rowCount,
       columns: this.columns,
-      lastPlacedChip: this.lastPlacedChip
+      lastPlacedChip: this.lastPlacedChip,
+      pendingChipColumn: this.pendingChipColumn
     };
   }
 

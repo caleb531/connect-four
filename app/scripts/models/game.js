@@ -207,10 +207,16 @@ class Game extends Emitter {
 
     this.currentPlayer = this.players.find((player) => player.color === game.currentPlayer);
     this.requestingPlayer = this.players.find((player) => player.color === game.requestingPlayer);
+
     this.grid.restoreFromServer({
       grid: game.grid,
       players: this.players
     });
+    // Restore the last position of the pending chip when the game state is
+    // restored
+    if (game.grid.pendingChipColumn) {
+      this.emit('grid:align-pending-chip-initially', { column: game.grid.pendingChipColumn });
+    }
     this.winner = null;
 
     if (this.inProgress && this.currentPlayer) {
