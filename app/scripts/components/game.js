@@ -26,12 +26,12 @@ class GameComponent {
   }
 
   joinRoom(roomCode) {
-    let playerId = this.session.localPlayerId;
+    let userId = this.session.localUserId;
     // Join the room immediately if a room code is specified in the URL
-    this.session.emit('join-room', { roomCode, playerId }, ({ game, localPlayer }) => {
+    this.session.emit('join-room', { roomCode, userId }, ({ game, localUser }) => {
       console.log('join room', roomCode, this.session.status);
       if (game) {
-        this.game.restoreFromServer({ game, localPlayer });
+        this.game.restoreFromServer({ game, localUser });
       }
       m.redraw();
     });
@@ -39,8 +39,8 @@ class GameComponent {
 
   listenForOnlineGameEvents() {
     // When P2 joins an online game, automatically update P1's screen
-    this.session.on('add-player', ({ game, localPlayer }) => {
-      this.game.restoreFromServer({ game, localPlayer });
+    this.session.on('add-player', ({ game, localUser }) => {
+      this.game.restoreFromServer({ game, localUser });
       m.redraw();
     });
     // If either player ends an online game early, automatically update the
@@ -54,8 +54,8 @@ class GameComponent {
       this.game.requestingPlayer = requestingPlayer;
       m.redraw();
     });
-    this.session.on('start-new-game', ({ game, localPlayer }) => {
-      this.game.restoreFromServer({ game, localPlayer });
+    this.session.on('start-new-game', ({ game, localUser }) => {
+      this.game.restoreFromServer({ game, localUser });
       m.redraw();
     });
   }

@@ -47,15 +47,15 @@ io.on('connection', (socket) => {
       status: 'waitingForPlayers',
       roomCode: room.code,
       game: room.game,
-      localPlayer
+      localUser: localPlayer
     });
   });
 
-  socket.on('join-room', ({ roomCode, playerId }, fn) => {
+  socket.on('join-room', ({ roomCode, userId }, fn) => {
     let room = roomManager.getRoom(roomCode);
     if (room) {
-      console.log(`join room by player ${playerId}`);
-      let localPlayer = room.connectPlayer({ playerId, socket });
+      console.log(`join room by ${userId}`);
+      let localPlayer = room.connectPlayer({ userId, socket });
       let status;
       if (localPlayer) {
         if (room.players.length === 1) {
@@ -77,7 +77,7 @@ io.on('connection', (socket) => {
       fn({
         status,
         game: room.game,
-        localPlayer
+        localUser: localPlayer
       });
     } else {
       console.log(`room ${roomCode} not found`);
@@ -98,7 +98,7 @@ io.on('connection', (socket) => {
         otherPlayer.socket.emit('add-player', {
           status: 'addedPlayer',
           game: room.game,
-          localPlayer: otherPlayer
+          localUser: otherPlayer
         });
       } else {
         console.log('unable to send updated game to P1');
@@ -106,7 +106,7 @@ io.on('connection', (socket) => {
       fn({
         status: 'startGame',
         game: room.game,
-        localPlayer
+        localUser: localPlayer
       });
     } else {
       console.log(`room ${roomCode} not found`);
@@ -134,12 +134,12 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('end-game', ({ playerId, roomCode }, fn) => {
+  socket.on('end-game', ({ userId, roomCode }, fn) => {
     let room = roomManager.getRoom(roomCode);
     if (room) {
-      console.log('end game', playerId);
+      console.log('end game', userId);
       room.game.endGame();
-      let localPlayer = room.getPlayerById(playerId);
+      let localPlayer = room.getPlayerById(userId);
       room.game.requestingPlayer = localPlayer;
       room.players.forEach((player) => {
         if (player.socket) {
@@ -159,11 +159,11 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('request-new-game', ({ playerId, roomCode, winner }, fn) => {
+  socket.on('request-new-game', ({ userId, roomCode, winner }, fn) => {
     let room = roomManager.getRoom(roomCode);
     if (room) {
-      console.log('request new game', playerId);
-      let localPlayer = room.getPlayerById(playerId);
+      console.log('request new game', userId);
+      let localPlayer = room.getPlayerById(userId);
       localPlayer.lastSubmittedWinner = winner;
       let otherPlayer = room.game.getOtherPlayer(localPlayer);
       // When either player requests to start a new game, each player must
@@ -181,12 +181,12 @@ io.on('connection', (socket) => {
           otherPlayer.socket.emit('request-new-game', {
             status: 'newGameRequested',
             requestingPlayer: room.game.requestingPlayer,
-            localPlayer: otherPlayer
+            localUser: otherPlayer
           });
         }
         // Inform the local player (who requested the new game) that their
         // request is pending
-        fn({ status: 'requestingNewGame', localPlayer });
+        fn({ status: 'requestingNewGame', localUser: localPlayer });
       } else if (submittedWinners.length === 2 && localPlayer !== room.game.requestingPlayer) {
         // If the other player accepts the original request to play again, start
         // a new game and broadcast the new game state to both players
@@ -198,11 +198,11 @@ io.on('connection', (socket) => {
             player.socket.emit('start-new-game', {
               status: 'startGame',
               game: room.game,
-              localPlayer: player
+              localUser: player
             });
           }
         });
-        fn({ status: 'startGame', localPlayer });
+        fn({ status: 'startGame', localUser: localPlayer });
       }
     } else {
       console.log(`room ${roomCode} not found`);

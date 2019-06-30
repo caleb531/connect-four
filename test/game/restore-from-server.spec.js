@@ -9,7 +9,7 @@ describe('game', function () {
   let session;
   let game;
   let serverGame;
-  let localPlayer;
+  let localUser;
 
   beforeEach(function () {
      session = { on: () => {/* this is a noop */} };
@@ -36,17 +36,17 @@ describe('game', function () {
          lastPlacedChip: { column: 5, row: 1, player: 'red' }
        }
      };
-     localPlayer = serverGame.players[0];
+     localUser = serverGame.players[0];
   });
 
   it('should restore basic state from server', function () {
-    game.restoreFromServer({ game: serverGame, localPlayer });
+    game.restoreFromServer({ game: serverGame, localUser });
     expect(game.inProgress).to.equal(true);
     expect(game.type).to.equal('online');
   });
 
   it('should restore player data from server', function () {
-    game.restoreFromServer({ game: serverGame, localPlayer });
+    game.restoreFromServer({ game: serverGame, localUser });
     expect(game.players[0]).to.be.instanceOf(HumanPlayer);
     expect(game.players[1]).to.be.instanceOf(OnlinePlayer);
     expect(game.currentPlayer).to.equal(game.players[1]);
@@ -54,14 +54,14 @@ describe('game', function () {
   });
 
   it('should set correct player to online player', function () {
-    localPlayer = serverGame.players[1];
-    game.restoreFromServer({ game: serverGame, localPlayer });
+    localUser = serverGame.players[1];
+    game.restoreFromServer({ game: serverGame, localUser });
     expect(game.players[0]).to.be.instanceOf(OnlinePlayer);
     expect(game.players[1]).to.be.instanceOf(HumanPlayer);
   });
 
   it('should restore grid data from server', function () {
-    game.restoreFromServer({ game: serverGame, localPlayer });
+    game.restoreFromServer({ game: serverGame, localUser });
     expect(game.grid).to.be.instanceOf(Grid);
     expect(game.grid.columns[5][0]).to.be.instanceOf(Chip);
     expect(game.grid.columns[5][0].column).to.equal(5);
@@ -76,7 +76,7 @@ describe('game', function () {
 
   it('should restore lastPlacedChip as null if grid is empty', function () {
     serverGame.grid.lastPlacedChip = null;
-    game.restoreFromServer({ game: serverGame, localPlayer });
+    game.restoreFromServer({ game: serverGame, localUser });
     expect(game.grid.lastPlacedChip).to.be.null;
   });
 

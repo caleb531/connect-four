@@ -6,7 +6,7 @@ class Session {
   constructor({ url, roomCode }) {
     this.url = url;
     this.roomCode = roomCode;
-    this.localPlayerId = this.getLocalPlayerId();
+    this.localUserId = this.getLocalUserId();
     // Keep a queue of emit() or on() calls that are made before the socket can
     // connect; when the socket connects, run all calls pushed to the queue
     this.callQueue = [];
@@ -25,13 +25,13 @@ class Session {
     this.callQueue.length = 0;
   }
 
-  getLocalPlayerId() {
-    return this.localPlayerId || sessionStorage.getItem('c4-localPlayerId');
+  getLocalUserId() {
+    return this.localUserId || sessionStorage.getItem('c4-localUserId');
   }
 
-  setLocalPlayerId(localPlayerId) {
-    this.localPlayerId = localPlayerId;
-    return sessionStorage.setItem('c4-localPlayerId', localPlayerId);
+  setLocalUserId(localUserId) {
+    this.localUserId = localUserId;
+    return sessionStorage.setItem('c4-localUserId', localUserId);
   }
 
   on(eventName, callback) {
@@ -46,7 +46,7 @@ class Session {
 
   emit(eventName, data = {}, callback) {
     if (this.socket) {
-      data = Object.assign({ roomCode: this.roomCode, playerId: this.localPlayerId }, data);
+      data = Object.assign({ roomCode: this.roomCode, userId: this.localUserId }, data);
       this.socket.emit(eventName, data, (args = {}) => {
         this.processArgs(args, callback);
       });
@@ -62,8 +62,8 @@ class Session {
     if (args.roomCode) {
       this.roomCode = args.roomCode;
     }
-    if (args.localPlayer) {
-      this.setLocalPlayerId(args.localPlayer.id);
+    if (args.localUser) {
+      this.setLocalUserId(args.localUser.id);
     }
     if (callback) {
       callback(args);

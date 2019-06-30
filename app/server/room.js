@@ -18,16 +18,16 @@ class Room {
     return player;
   }
 
-  getPlayerById(playerId) {
-    return this.players.find((player) => player.id === playerId);
+  getPlayerById(userId) {
+    return this.players.find((player) => player.id === userId);
   }
 
   getFirstDisconnectedPlayer() {
     return this.players.find((player) => player.socket === null);
   }
 
-  connectPlayer({ playerId, socket }) {
-    let player = this.getPlayerById(playerId) || this.getFirstDisconnectedPlayer();
+  connectPlayer({ userId, socket }) {
+    let player = this.getPlayerById(userId) || this.getFirstDisconnectedPlayer();
     if (player) {
       player.socket = socket;
       socket.player = player;
