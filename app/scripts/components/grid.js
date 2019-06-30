@@ -22,7 +22,7 @@ class GridComponent extends Emitter {
     });
     // Listen for when the opponent moves their pending chip
     this.session.on('align-pending-chip', _.debounce(({ column }) => {
-      if (!this.transitionPendingChipX && !this.transitionPendingChipY) {
+      if (!this.transitionPendingChipY) {
         this.alignPendingChipWithColumn({ column });
         m.redraw();
       }
