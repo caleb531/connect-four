@@ -77,6 +77,7 @@ class DashboardComponent {
   }
 
   requestNewOnlineGame() {
+    this.session.status = 'connecting';
     this.session.emit('request-new-game', { winner: this.game.winner }, ({ localPlayer }) => {
       if (this.session.status === 'requestingNewGame') {
         this.game.requestingPlayer = localPlayer;
