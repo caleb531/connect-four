@@ -93,6 +93,12 @@ class DashboardComponent {
   view({ attrs: { roomCode } }) {
     return m('div#game-dashboard', [
       m('p#game-message',
+
+        this.session.status === 'connecting' ?
+          'Connecting to server...' :
+        this.session.status === 'roomNotFound' ?
+          'This room does not exist.' :
+
         // If the current player needs to enter a name
         this.session.status === 'newPlayer' ?
           'Enter your player name:' :
@@ -112,10 +118,6 @@ class DashboardComponent {
             ])
           ] :
 
-        this.session.status === 'connecting' ?
-          'Connecting to server...' :
-        this.session.status === 'roomNotFound' ?
-          'This room does not exist.' :
         // If the local player has requested a new game
         this.session.status === 'requestingNewGame' ?
           `Asking ${this.game.getOtherPlayer(this.game.requestingPlayer).name} to play again...` :
