@@ -156,6 +156,8 @@ class DashboardComponent {
           m('input[type=text][autocomplete=off]#new-player-name', {
             name: 'new-player-name',
             autofocus: true,
+            required: true,
+            pattern: '\\S+',
             oninput: (inputEvent) => this.setNewPlayerName(inputEvent)
           }),
           m('button[type=submit]', roomCode ? 'Join Game' : 'Start Game')
