@@ -67,6 +67,10 @@ io.on('connection', (socket) => {
         } else {
           status = 'returningPlayer';
         }
+      } else if (room.players.length === 2) {
+        // If both players are currently connected, all future connections
+        // represent spectators
+        status = 'watchingGame';
       } else {
         status = 'newPlayer';
       }

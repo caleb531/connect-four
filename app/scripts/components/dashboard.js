@@ -141,12 +141,12 @@ class DashboardComponent {
         'Game ended. Play again?'
       ),
       // If game is in progress, allow user to end game at any time
-      this.game.inProgress ? [
+      this.game.inProgress && this.session.status !== 'watchingGame' ? [
         m('button', { onclick: () => this.endGame(roomCode) }, 'End Game')
       ] :
       // If an online game is not in progress (i.e. it was ended early, or there
       // is a winner/tie), allow the user to play again
-      this.session.socket && this.game.players.length === 2 ? m('button', {
+      this.session.socket && this.game.players.length === 2 && this.session.status !== 'watchingGame' ? m('button', {
         onclick: () => this.requestNewOnlineGame(),
         disabled: this.session.status === 'requestingNewGame'
       }, this.session.status === 'newGameRequested' ? 'Yes!' : this.session.status === 'requestingNewGame' ? 'Pending' : 'Play Again') :
