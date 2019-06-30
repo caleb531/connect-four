@@ -31,7 +31,7 @@ class GameComponent {
     // Join the room immediately if a room code is specified in the URL
     this.session.emit('join-room', { roomCode, playerId }, ({ game, localPlayer }) => {
       console.log('join room', roomCode, this.session.status);
-      if (game && localPlayer) {
+      if (game) {
         this.game.restoreFromServer({ game, localPlayer });
       }
       m.redraw();

@@ -194,7 +194,7 @@ class Game extends Emitter {
   // Apply the given server game JSON to the current game instance, taking into
   // account which player is the local (human) player and which player is the
   // online player
-  restoreFromServer({ game, localPlayer }) {
+  restoreFromServer({ game, localPlayer = {} }) {
     this.inProgress = game.inProgress;
     this.players.length = 0;
 
