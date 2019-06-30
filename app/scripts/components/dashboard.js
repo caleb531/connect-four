@@ -157,7 +157,7 @@ class DashboardComponent {
 
       // If an online game is not in progress (i.e. it was ended early, or there
       // is a winner/tie), allow the user to play again
-      this.session.socket && this.game.players.length === 2 && this.session.status !== 'watchingGame' ? m('button', {
+      this.session.socket && this.game.players.length === 2 && this.session.status !== 'watchingGame' && !this.session.disconnected ? m('button', {
         onclick: () => this.requestNewOnlineGame(),
         disabled: this.session.status === 'requestingNewGame'
       }, this.session.status === 'newGameRequested' ? 'Yes!' : this.session.status === 'requestingNewGame' ? 'Pending' : 'Play Again') :
