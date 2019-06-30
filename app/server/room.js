@@ -32,6 +32,7 @@ class Room {
       player.socket = socket;
       socket.player = player;
     }
+    socket.join(this.code);
     return player;
   }
 
