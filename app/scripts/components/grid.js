@@ -30,7 +30,7 @@ class GridComponent extends Emitter {
     // Add a global listener here for all moves we will receive from the
     // opponent (online) player during the course of the game; when we receive a
     // move from the opponent, TinyEmitter will help us resolve the promise
-    // created in the last call to getNextMove()
+    // created in the most recent OnlinePlayer.getNextMove() call
     this.session.on('receive-next-move', ({ column }) => {
       this.game.emit('online-player:receive-next-move', { column });
     });
