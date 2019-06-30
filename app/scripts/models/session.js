@@ -18,6 +18,14 @@ class Session {
     this.executeCallQueue();
   }
 
+  get connected() {
+    return this.socket ? this.socket.connected : false;
+  }
+
+  get disconnected() {
+    return this.socket ? this.socket.disconnected : false;
+  }
+
   executeCallQueue() {
     this.callQueue.forEach(({ method, args }) => {
       this[method](...args);

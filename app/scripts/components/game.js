@@ -59,6 +59,11 @@ class GameComponent {
       this.game.restoreFromServer({ game, localUser });
       m.redraw();
     });
+    this.session.on('disconnect', () => {
+      // At this point, the session object's `disconnected` flag is
+      // automatically set to true
+      m.redraw();
+    });
   }
 
   view({ attrs: { roomCode } }) {

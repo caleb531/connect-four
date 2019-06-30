@@ -100,6 +100,8 @@ class DashboardComponent {
           'Requesting new game...' :
         this.session.status === 'roomNotFound' ?
           'This room does not exist.' :
+        this.session.disconnected ?
+          'Sorry, you\'ve lost connection.' :
 
         // If the current player needs to enter a name
         this.session.status === 'newPlayer' ?
@@ -149,7 +151,7 @@ class DashboardComponent {
       ),
 
       // If game is in progress, allow user to end game at any time
-      this.game.inProgress && this.session.status !== 'watchingGame' ? [
+      this.game.inProgress && this.session.status !== 'watchingGame' && !this.session.disconnected ? [
         m('button', { onclick: () => this.endGame(roomCode) }, 'End Game')
       ] :
 
