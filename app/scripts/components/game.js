@@ -16,16 +16,16 @@ class GameComponent {
     });
     if (roomCode) {
       this.session.connect();
-      this.joinRoom(roomCode);
+      this.joinRoom({ roomCode });
     }
     // When the app initializes, queue event listeners for online game events;
     // if P1 has not started an online game yet, the event listeners will be
     // queued until an online room is opened or joined (which is when the socket
     // connection is opened)
-    this.listenForOnlineGameEvents();
+    this.listenForOnlineGameEvents({ roomCode });
   }
 
-  joinRoom(roomCode) {
+  joinRoom({ roomCode }) {
     // Join the room immediately if a room code is specified in the URL; the
     // room code and local user ID are implicitly and automatically passed by
     // the Session class
@@ -38,7 +38,7 @@ class GameComponent {
     });
   }
 
-  listenForOnlineGameEvents() {
+  listenForOnlineGameEvents({ roomCode }) {
     // When P2 joins an online game, automatically update P1's screen
     this.session.on('add-player', ({ game, localUser }) => {
       this.game.restoreFromServer({ game, localUser });
@@ -63,6 +63,9 @@ class GameComponent {
       // At this point, the session object's `disconnected` flag is
       // automatically set to true
       m.redraw();
+    });
+    this.session.on('reconnect', () => {
+      this.joinRoom({ roomCode });
     });
   }
 
