@@ -101,7 +101,7 @@ class DashboardComponent {
         this.session.status === 'roomNotFound' ?
           'This room does not exist.' :
         this.session.disconnected ?
-          'Sorry, you\'ve lost connection.' :
+          'Lost connection. Trying to reconnect...' :
 
         // If the current player needs to enter a name
         this.session.status === 'newPlayer' ?
