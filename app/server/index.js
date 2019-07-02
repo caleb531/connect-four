@@ -17,8 +17,8 @@ let io = socketio(server);
 app.use(compression());
 
 // Warning: app.listen(8080) will not work here
-server.listen(8080, () => {
-  console.log('Server started. Listening on port 8080');
+server.listen(process.env.PORT || 8080, () => {
+  console.log(`Server started. Listening on port ${server.address().port}`);
 });
 
 app.get('/room/:roomCode', (req, res) => {
