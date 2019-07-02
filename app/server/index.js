@@ -55,6 +55,7 @@ io.on('connection', (socket) => {
     let room = roomManager.getRoom(roomCode);
     if (room) {
       console.log(`join room by ${userId}`);
+      roomManager.markRoomAsActive(room);
       let localPlayer = room.connectPlayer({ userId, socket });
       let status;
       if (localPlayer) {
@@ -230,6 +231,11 @@ io.on('connection', (socket) => {
     if (socket.user) {
       console.log('unset player socket');
       socket.user.socket = null;
+    }
+    // As soon as both players disconnect from the room (making it completely
+    // empty), mark the room for deletion
+    if (socket.room && !socket.room.isActive()) {
+      roomManager.markRoomAsInactive(socket.room);
     }
   });
 

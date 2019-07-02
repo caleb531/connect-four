@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import Player from './player.js';
 import Game from './game.js';
 
@@ -7,6 +9,9 @@ class Room {
     this.code = code;
     this.players = players;
     this.game = game;
+    // The date/time the room was last seen completely empty (i.e. both players
+    // were disconnected)
+    this.lastMarkedInactive = null;
   }
 
   addPlayer({ player, socket }) {
@@ -14,6 +19,7 @@ class Room {
     this.players.push(player);
     player.socket = socket;
     socket.user = player;
+    socket.room = this;
     socket.join(this.code);
     return player;
   }
@@ -31,11 +37,28 @@ class Room {
     if (player) {
       player.socket = socket;
       socket.user = player;
+      socket.room = this;
       socket.join(this.code);
     }
     return player;
   }
 
+  // Return true if at least one player is currently connected to the room,
+  // otherwise return false
+  isActive() {
+    return this.players.some((player) => player.socket !== null);
+  }
+
+  isAbandoned() {
+    return moment(this.lastMarkedInactive)
+      .add(Room.abandonmentThreshold)
+      .isSameOrBefore(moment());
+  }
+
 }
+
+// The number of minutes a room can be inactive before it is considered
+// abandoned (and thus subject to automatic deletion by the RoomManager)
+Room.abandonmentThreshold = moment.duration(10, 'minutes');
 
 export default Room;
