@@ -9,7 +9,7 @@ describe('chip', function () {
       name: 'Super Player'
     });
     let chip = new Chip({
-      player: player
+      player
     });
     expect(chip).to.have.property('player', player);
     expect(chip).to.have.property('column', null);

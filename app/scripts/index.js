@@ -1,6 +1,13 @@
 import m from 'mithril';
-import attachFastClick from 'fastclick';
+import FastClick from 'fastclick';
 import AppComponent from './components/app.js';
 
-m.mount(document.querySelector('main'), AppComponent);
-attachFastClick(document.body);
+// Eliminate the #! for all routes
+m.route.prefix('');
+
+m.route(document.querySelector('main'), '/', {
+  '/': AppComponent,
+  '/room/:roomCode': AppComponent
+});
+
+FastClick.attach(document.body);

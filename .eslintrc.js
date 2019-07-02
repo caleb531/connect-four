@@ -57,8 +57,6 @@ module.exports = {
 
     // disallow assignment operators in conditional expressions
     'no-cond-assign': ['error', 'always'],
-    // disallow the use of console
-    'no-console': ['error', { 'allow': ['warn'] }],
     // disallow the use of debugger
     'no-debugger': ['error'],
     // disallow duplicate arguments in function definitions
@@ -192,7 +190,7 @@ module.exports = {
     'no-restricted-globals': ['error', 'event'],
     // disallow variable declarations from shadowing variables declared in the
     // outer scope
-    'no-shadow': ['error', { 'builtinGlobals': true }],
+    'no-shadow': ['error'],
     // disallow initializing variables to undefined
     'no-undef-init': ['error'],
     // disallow the use of undeclared variables unless mentioned in /*global */
@@ -229,8 +227,6 @@ module.exports = {
     'keyword-spacing': ['error', { 'before': true, 'after': true }],
     // enforce a maximum number of statements allowed per line
     'max-statements-per-line': ['error', { 'max': 1 }],
-    // require constructor names to begin with a capital letter
-    'new-cap': ['error'],
     // require parentheses when invoking a constructor with no arguments
     'new-parens': ['error'],
     // disallow bitwise operators

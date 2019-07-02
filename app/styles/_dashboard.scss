@@ -1,4 +1,5 @@
 #game-dashboard {
+  width: 220px;
   margin-bottom: 10px;
   label, button {
     margin: 0 4px;
@@ -8,13 +9,25 @@
     border: solid 1px rgba(0, 0, 0, 0.25);
     border-radius: 3px;
     padding: 4px 6px;
-    background-color: #4a1;
+    background-color: $button-background-color;
     font-family: $sans-serif;
     color: #fff;
+    &:hover:active {
+      background-color: lighten($button-background-color, 5%);
+    }
     &:focus {
       outline-width: 0;
-      background-color: #5b2;
     }
+    &:disabled {
+      background-color: $button-disabled-background-color;
+    }
+  }
+  @include if-hybrid-layout() {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  @include if-compact-layout() {
+    width: auto;
   }
 }
 
@@ -22,4 +35,60 @@
   font-size: 14px;
   margin: 0;
   margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+input[type='text'] {
+  border-radius: 3px;
+  padding: 4px 8px;
+  border: solid 1px #aaa;
+  box-sizing: border-box;
+  font-size: 16px;
+  text-align: center;
+  &:focus {
+    outline-width: 0;
+    border-color: $input-focus-border-color;
+    box-shadow: 0 0 3px 1px $input-focus-box-shadow-color;
+  }
+}
+
+#new-player-name {
+  display: block;
+  width: 150px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+
+#share-controls {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  position: relative;
+  margin-top: 10px;
+  margin-top: 10px;
+}
+#share-link {
+  width: 150px;
+  font-size: 12px;
+}
+#copy-share-link:last-of-type {
+  margin-right: 0;
+  transition: background-color 500ms ease-in-out;
+  &:hover:active {
+    background-color: $button-action-background-color;
+    transition-duration: 0ms;
+  }
+}
+#share-link-copy-status {
+  display: block;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 10px;
+  font-size: 14px;
+  &.copy-status-flash {
+    transition: opacity 1000ms ease-in-out;
+    opacity: 0;
+  }
 }

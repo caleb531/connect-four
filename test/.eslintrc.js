@@ -6,6 +6,17 @@ module.exports = {
    * Allowed JavaScript environments
    */
 
+  "parserOptions": {
+
+    // enables ES7
+    'ecmaVersion': 2017
+
+  },
+
+  /**
+   * Allowed JavaScript environments
+   */
+
   env: {
 
     // adds all of the Mocha testing global variables

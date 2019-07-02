@@ -31,13 +31,15 @@ describe('AI player', function () {
 
   it('should wrap around if right side of grid is full', function () {
     let game = new Game();
-    game.setPlayers(1);
+    game.setPlayers({ gameType: '1P' });
     utils.placeChips({
-      game: game,
+      game,
       startingPlayer: game.players[1],
       columns: [3, 4, 3, 3, 3, 4, 5, 1, 3, 4, 4, 1, 1, 1, 1, 4, 3, 5, 5, 0, 4, 5, 5, 1, 5, 2, 6, 6, 6, 6, 6, 6]
     });
-    expect(game.players[1].computeNextMove(game).column).to.be.oneOf([0, 2]);
+    return game.players[1].getNextMove({ game }).then((nextMove) => {
+      expect(nextMove.column).to.be.oneOf([0, 2]);
+    });
   });
 
 });

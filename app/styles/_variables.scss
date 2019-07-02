@@ -19,6 +19,15 @@ $hybrid-page-width: 700px;
 $compact-page-max-width: ($chip-size + ($chip-margin * 2)) * $grid-column-count;
 $compact-page-min-width: ($chip-size-compact + ($chip-margin-compact * 2)) * $grid-column-count;
 
+// Colors
+$update-notification-color: #5be;
+$empty-chip-slot-border-color: #ccc;
+$button-background-color: #4a1;
+$button-disabled-background-color: #aaa;
+$button-action-background-color: #5be;
+$input-focus-border-color: #36c;
+$input-focus-box-shadow-color: #9cf;
+
 // Player/chip colors
 $player-colors: (
   'black': #444,

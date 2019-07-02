@@ -1,6 +1,7 @@
 import Emitter from 'tiny-emitter';
 import Grid from './grid.js';
 import HumanPlayer from './human-player.js';
+import OnlinePlayer from './online-player.js';
 import AIPlayer from './ai-player.js';
 import Chip from './chip.js';
 
@@ -14,8 +15,8 @@ class Game extends Emitter {
     this.grid = grid;
     // The list of all players for this game
     this.players = players;
-    // The number of human players (if 1, assume the other player is an AI)
-    this.humanPlayerCount = null;
+    // The type of game (e.g. 1-Player, 2-Player, or Online)
+    this.type = null;
     // The current player is null when a game is not in progress
     this.currentPlayer = null;
     // Whether or not the game is in progress
@@ -24,8 +25,8 @@ class Game extends Emitter {
     this.pendingChip = null;
     // The winning player of the game
     this.winner = null;
-    // Game inherits from Emitter
-    Emitter.call(this);
+    // The player who requests to end the game or start a new one
+    this.requestingPlayer = null;
     // Keep track of the columns where chips are placed in debug mode (extremely
     // useful for creating new unit tests from real games)
     if (debug) {
@@ -56,7 +57,7 @@ class Game extends Emitter {
     this.currentPlayer = null;
     this.pendingChip = null;
     this.emit('game:end');
-    this.humanPlayerCount = null;
+    this.type = null;
     if (this.debug) {
       this.columnHistory.length = 0;
     }
@@ -69,45 +70,57 @@ class Game extends Emitter {
     this.grid.resetGrid();
   }
 
-  // Initialize or change the current set of players
-  setPlayers(newHumanPlayerCount) {
+  // Initialize or change the current set of players based on the specified game
+  // type;
+  setPlayers({ gameType, players = [], localUser = null }) {
     // Instantiate new players as needed (if user is about to play the first game
     // or if the user is switching modes)
     if (this.players.length === 0) {
-      if (newHumanPlayerCount === 1) {
+      if (gameType === '1P') {
         // If user chose 1-Player mode, the user will play against the AI
         this.players.push(new HumanPlayer({ name: 'Human', color: 'red' }));
         this.players.push(new AIPlayer({ name: 'Mr. A.I.', color: 'black' }));
-      } else {
-        // Otherwise, the user will play against another human
+      } else if (gameType === '2P') {
+        // If user chooses 2-Player mode, the user will play against another
+        // human
         this.players.push(new HumanPlayer({ name: 'Human 1', color: 'red' }));
         this.players.push(new HumanPlayer({ name: 'Human 2', color: 'blue' }));
+      } else if (gameType === 'online' && players.length > 0 && localUser) {
+        // If user chooses Online mode, the user will play against another human
+        // on another machine
+        this.players.push(...players.map((player) => {
+          if (player.color === localUser.color) {
+            return new HumanPlayer(player);
+          } else {
+            return new OnlinePlayer(player);
+          }
+        }));
       }
-    } else if ((newHumanPlayerCount === 1 && this.players[1].type !== 'ai') || (newHumanPlayerCount === 2 && this.players[1].type !== 'human')) {
-      // If user switches from 1-Player to 2-Player mode (or vice-versa), recreate
-      // set of players
+    } else if (gameType !== this.type) {
+      // If user switches game type (e.g. from 1-Player to 2-Player mode),
+      // recreate set of players
       this.players.length = 0;
-      this.setPlayers(newHumanPlayerCount);
+      this.setPlayers({ gameType });
       return;
     }
-    this.humanPlayerCount = newHumanPlayerCount;
+    this.type = gameType;
   }
 
   // Retrieve the player that isn't the given player
-  getOtherPlayer(player) {
-    if (player === this.players[0]) {
-      return this.players[1];
-    } else {
-      return this.players[0];
-    }
+  getOtherPlayer(basePlayer = this.currentPlayer) {
+    return this.players.find((player) => player.color !== basePlayer.color);
   }
 
   // Start the turn of the current player
   startTurn() {
     this.pendingChip = new Chip({ player: this.currentPlayer });
-    if (this.currentPlayer.type === 'ai') {
-      let bestMove = this.currentPlayer.computeNextMove(this);
-      this.emit('ai-player:compute-next-move', this.currentPlayer, bestMove);
+    if (this.currentPlayer.getNextMove) {
+      this.currentPlayer.getNextMove({ game: this }).then((nextMove) => {
+        this.emit('async-player:get-next-move', {
+          player: this.currentPlayer,
+          nextMove
+        });
+      });
     }
   }
 
@@ -124,8 +137,9 @@ class Game extends Emitter {
   placePendingChip({ column }) {
     this.grid.placeChip({
       chip: this.pendingChip,
-      column: column
+      column
     });
+    this.emit('player:place-chip', this.grid.lastPlacedChip);
     if (this.debug) {
       this.columnHistory.push(column);
       // The column history will only be logged on non-production sites, so we
@@ -154,6 +168,9 @@ class Game extends Emitter {
   // Determine if a player won the game with four chips in a row (horizontally,
   // vertically, or diagonally)
   checkForWin() {
+  if (!this.grid.lastPlacedChip) {
+      return;
+    }
     let connections = this.grid.getConnections({
       baseChip: this.grid.lastPlacedChip,
       minConnectionSize: 4
@@ -170,6 +187,43 @@ class Game extends Emitter {
       this.emit('game:declare-winner', this.winner);
       this.endGame();
     }
+  }
+
+  // Apply the given server game JSON to the current game instance, taking into
+  // account which player is the local (human) player and which player is the
+  // online player
+  restoreFromServer({ game, localUser = {} }) {
+    this.inProgress = game.inProgress;
+    this.players.length = 0;
+
+    this.setPlayers({
+      gameType: 'online',
+      players: game.players,
+      localUser
+    });
+    // Remove the event listener for any leftover (unresolved)
+    // OnlinePlayer.getNextMove() promise
+    this.off('online-player:receive-next-move');
+
+    this.currentPlayer = this.players.find((player) => player.color === game.currentPlayer);
+    this.requestingPlayer = this.players.find((player) => player.color === game.requestingPlayer);
+
+    this.grid.restoreFromServer({
+      grid: game.grid,
+      players: this.players
+    });
+    // Restore the last position of the pending chip when the game state is
+    // restored
+    if (game.grid.pendingChipColumn) {
+      this.emit('grid:align-pending-chip-initially', { column: game.grid.pendingChipColumn });
+    }
+    this.winner = null;
+
+    if (this.inProgress && this.currentPlayer) {
+      this.startTurn();
+    }
+    this.checkForWin();
+    this.checkForTie();
   }
 
 }

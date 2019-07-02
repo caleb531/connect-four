@@ -1,4 +1,5 @@
 import _ from 'underscore';
+import Chip from './chip.js';
 
 class Grid {
 
@@ -168,6 +169,28 @@ class Grid {
       }
     }
     return gridScore;
+  }
+
+  restoreFromServer({ grid, players }) {
+    let playersByColor = _.indexBy(players, 'color');
+    this.columnCount = grid.columnCount;
+    this.rowCount = grid.rowCount;
+    this.columns = grid.columns.map((column) => {
+      return column.map((chip) => {
+        // To conserve space, the server only stores the player color on the
+        // chip, rather than the player object itself; however, the client
+        // expects Chip objects in the grid to have a direct reference to the
+        // player object, so perform that conversion here
+        return new Chip(Object.assign(chip, {
+          player: playersByColor[chip.player]
+        }));
+      });
+    });
+    if (grid.lastPlacedChip) {
+      this.lastPlacedChip = this.columns[grid.lastPlacedChip.column][grid.lastPlacedChip.row];
+    } else {
+      this.lastPlacedChip = null;
+    }
   }
 
 }

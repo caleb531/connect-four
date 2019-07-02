@@ -23,8 +23,8 @@
 
 // Chips
 
-.chip,
-.empty-chip-slot {
+.chip-inner,
+.empty-chip-slot-inner {
   display: block;
   width: $chip-size;
   height: $chip-size;
@@ -40,13 +40,20 @@
   }
 }
 
-.empty-chip-slot {
-  border-color: #ccc;
+.empty-chip-slot-inner {
+  border-color: $empty-chip-slot-border-color;
+}
+
+// Pulse the pending chip to indicate that the app hasn't frozen
+@keyframes pulse-chip {
+  50% {
+    opacity: 0.75;
+  }
 }
 
 .chip {
   @each $player-color-name, $player-color in $player-colors {
-    &.#{$player-color-name} {
+    &.#{$player-color-name} .chip-inner {
       $border-color: darken($player-color, 10%);
       $background-color: $player-color;
       border-color: $border-color;
@@ -60,6 +67,19 @@
     left: 0;
     // The falling pending chip should appear below the layer of placed chips
     z-index: 20;
+    .chip-inner-real {
+      animation: pulse-chip 1000ms ease-in-out infinite forwards;
+    }
+    // The clone is used to restore full opacity from the pulse animation of the
+    // real inner chip
+    .chip-inner-clone {
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 30;
+      transition: opacity 500ms ease-in-out;
+    }
   }
   $pending-chip-transition-easing: cubic-bezier(0.6, 0.0, 0.0, 1.25);
   &.pending.transition-x {
@@ -68,17 +88,20 @@
   &.pending.transition-y {
     // Set a falling transition with a rubber-banding effect at the end
     transition: transform 500ms $pending-chip-transition-easing;
+    .chip-inner-clone {
+      opacity: 1;
+    }
   }
 }
 
 // Fade out non-winning chips when the game has ended
 
-@keyframes chip-fade-out {
+@keyframes fade-out-chip {
   100% {
     opacity: 0.3;
   }
 }
 
 #game:not(.in-progress) .chip:not(.winning) {
-  animation: chip-fade-out 300ms ease-in-out forwards;
+  animation: fade-out-chip 300ms ease-in-out forwards;
 }
