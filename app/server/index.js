@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
 import express from 'express';
 import compression from 'compression';
-import forceSSL from 'force-ssl-heroku';
+import expressEnforcesSSL from 'express-enforces-ssl';
+import helmet from 'helmet';
 import http from 'http';
 import path from 'path';
 import socketio from 'socket.io';
@@ -14,8 +15,13 @@ let app = express();
 let server = http.Server(app);
 let io = socketio(server);
 
-// Force SSL on Heroku
-app.use(forceSSL);
+// Force HTTPS on production
+if (process.env.NODE_ENV === 'production') {
+  app.enable('trust proxy');
+  app.use(expressEnforcesSSL());
+  app.use(helmet());
+}
+
 // Serve assets using gzip compression
 app.use(compression());
 
