@@ -32,6 +32,7 @@
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "fastclick": "^1.0.6",
+    "force-ssl-heroku": "^1.0.2",
     "mithril": "github:MithrilJS/mithril.js#deaf01c8e96446c97f31826b1d04ab4a4e757718",
     "moment": "^2.24.0",
     "random": "^2.1.1",
