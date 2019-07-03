@@ -100,7 +100,7 @@ io.on('connection', (socket) => {
     if (room) {
       roomManager.closeRoom(room);
       fn({
-        status: 'roomClosed'
+        status: 'closedRoom'
       });
     } else {
       console.log(`room ${roomCode} not found`);
@@ -127,7 +127,7 @@ io.on('connection', (socket) => {
         console.log('unable to send updated game to P1');
       }
       fn({
-        status: 'startGame',
+        status: 'startedGame',
         game: room.game,
         localUser: localPlayer
       });
@@ -153,7 +153,7 @@ io.on('connection', (socket) => {
           console.log('did not receive next move');
         }
       }
-      fn({ status: 'placeChip', column });
+      fn({ status: 'placedChip', column });
     } else {
       console.log(`room ${roomCode} not found`);
       fn({ status: 'roomNotFound' });
@@ -170,13 +170,13 @@ io.on('connection', (socket) => {
       room.players.forEach((player) => {
         if (player.socket) {
           player.socket.emit('end-game', {
-            status: 'endGame',
+            status: 'endedGame',
             requestingPlayer: room.game.requestingPlayer
           });
         }
       });
       fn({
-        status: 'endGame',
+        status: 'endedGame',
         requestingPlayer: localPlayer
       });
     } else {
@@ -222,13 +222,13 @@ io.on('connection', (socket) => {
         room.players.forEach((player) => {
           if (player.socket) {
             player.socket.emit('start-new-game', {
-              status: 'startGame',
+              status: 'startedGame',
               game: room.game,
               localUser: player
             });
           }
         });
-        fn({ status: 'startGame', localUser: localPlayer });
+        fn({ status: 'startedGame', localUser: localPlayer });
       }
     } else {
       console.log(`room ${roomCode} not found`);
