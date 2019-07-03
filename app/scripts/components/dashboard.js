@@ -36,6 +36,14 @@ class DashboardComponent {
     }
   }
 
+  closeRoom() {
+    this.session.status = 'closingRoom';
+    this.session.emit('close-room', {}, () => {
+      // Redirect to homepage and clear all app state
+      window.location.href = '/';
+    });
+  }
+
   createNewPlayer() {
     this.session.status = 'newPlayer';
   }
@@ -100,6 +108,8 @@ class DashboardComponent {
           'Requesting new game...' :
         this.session.status === 'roomNotFound' ?
           'This room does not exist.' :
+        this.session.status === 'closingRoom' ?
+          'Closing room...' :
         this.session.disconnected ?
           'Lost connection. Trying to reconnect...' :
 
@@ -149,6 +159,11 @@ class DashboardComponent {
         // Otherwise, if game was ended manually by the user
         'Game ended. Play again?'
       ),
+
+      // If P1 is still waiting for players, offer P1 the option to close room
+      this.session.status === 'waitingForPlayers' ? [
+        m('button.warn', { onclick: () => this.closeRoom() }, 'Close Room')
+      ] :
 
       // If game is in progress, allow user to end game at any time
       this.game.inProgress && this.session.status !== 'watchingGame' && !this.session.disconnected ? [

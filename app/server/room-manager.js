@@ -24,8 +24,9 @@ class RoomManager {
     return room;
   }
 
-  closeRoom({ roomCode }) {
-    delete this.roomsById[roomCode];
+  closeRoom(room) {
+    this.inactiveRooms.delete(room);
+    delete this.roomsById[room.code];
   }
 
   obtainRoomCode() {
@@ -67,8 +68,7 @@ class RoomManager {
         if (room.isAbandoned()) {
           // Yes, it is safe to remove elements from a Set while iterating over
           // it; see <https://stackoverflow.com/a/28306768/560642>
-          this.inactiveRooms.delete(room);
-          delete this.roomsById[room.code];
+          this.closeRoom(room);
           console.log(`room ${room.code} has been permanently deleted`);
         }
       });

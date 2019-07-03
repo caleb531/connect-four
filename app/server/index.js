@@ -95,6 +95,19 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('close-room', ({ roomCode }, fn) => {
+    let room = roomManager.getRoom(roomCode);
+    if (room) {
+      roomManager.closeRoom(room);
+      fn({
+        status: 'roomClosed'
+      });
+    } else {
+      console.log(`room ${roomCode} not found`);
+      fn({ status: 'roomNotFound' });
+    }
+  });
+
   socket.on('add-player', ({ roomCode, player }, fn) => {
     let room = roomManager.getRoom(roomCode);
     if (room) {
