@@ -134,7 +134,10 @@ io.on('connection', (socket) => {
         // the chip, making the other player the new current player
         column = room.game.grid.lastPlacedChip.column;
         if (room.game.currentPlayer.socket) {
+          console.log('receive next move');
           room.game.currentPlayer.socket.emit('receive-next-move', { column });
+        } else {
+          console.log('did not receive next move');
         }
       }
       fn({ status: 'placeChip', column });
