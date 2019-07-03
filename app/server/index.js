@@ -12,6 +12,8 @@ io.on('connection', (socket) => {
 
   console.log(`connected: ${socket.id}`);
 
+  // Room events
+
   socket.on('open-room', ({ player }, fn) => {
     console.log(`open room by player ${player.name}`);
     let room = roomManager.openRoom();
@@ -101,6 +103,22 @@ io.on('connection', (socket) => {
     }
   });
 
+  // Gameplay events
+
+  socket.on('align-pending-chip', ({ roomCode, column }, fn) => {
+    let room = roomManager.getRoom(roomCode);
+    if (room) {
+      room.game.grid.pendingChipColumn = column;
+      let otherPlayer = room.game.getOtherPlayer();
+      if (otherPlayer.socket) {
+        otherPlayer.socket.emit('align-pending-chip', { column });
+      }
+    } else {
+      console.log(`room ${roomCode} not found`);
+      fn({ status: 'roomNotFound' });
+    }
+  });
+
   socket.on('place-chip', ({ roomCode, column }, fn) => {
     let room = roomManager.getRoom(roomCode);
     if (room) {
@@ -123,6 +141,8 @@ io.on('connection', (socket) => {
       fn({ status: 'roomNotFound' });
     }
   });
+
+  // Game management events
 
   socket.on('end-game', ({ userId, roomCode }, fn) => {
     let room = roomManager.getRoom(roomCode);
@@ -193,20 +213,6 @@ io.on('connection', (socket) => {
           }
         });
         fn({ status: 'startedGame', localUser: localPlayer });
-      }
-    } else {
-      console.log(`room ${roomCode} not found`);
-      fn({ status: 'roomNotFound' });
-    }
-  });
-
-  socket.on('align-pending-chip', ({ roomCode, column }, fn) => {
-    let room = roomManager.getRoom(roomCode);
-    if (room) {
-      room.game.grid.pendingChipColumn = column;
-      let otherPlayer = room.game.getOtherPlayer();
-      if (otherPlayer.socket) {
-        otherPlayer.socket.emit('align-pending-chip', { column });
       }
     } else {
       console.log(`room ${roomCode} not found`);
