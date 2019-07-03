@@ -115,7 +115,7 @@ class DashboardComponent {
 
         // If the current player needs to enter a name
         this.session.status === 'newPlayer' ?
-          'Enter your player name:' :
+          m('label[for=new-player-name]', 'Enter your player name:') :
 
         this.session.status === 'waitingForPlayers' ?
           [
