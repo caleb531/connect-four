@@ -18,6 +18,12 @@
     &:focus {
       outline-width: 0;
     }
+    &.warn {
+      background-color: $button-warn-background-color;
+      &:hover:active {
+        background-color: desaturate(lighten($button-warn-background-color, 10%), 10%);
+      }
+    }
     &:disabled {
       background-color: $button-disabled-background-color;
     }

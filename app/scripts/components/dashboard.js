@@ -152,7 +152,7 @@ class DashboardComponent {
 
       // If game is in progress, allow user to end game at any time
       this.game.inProgress && this.session.status !== 'watchingGame' && !this.session.disconnected ? [
-        m('button', { onclick: () => this.endGame(roomCode) }, 'End Game')
+        m('button.warn', { onclick: () => this.endGame(roomCode) }, 'End Game')
       ] :
 
       // If an online game is not in progress (i.e. it was ended early, or there
