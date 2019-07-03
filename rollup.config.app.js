@@ -1,7 +1,7 @@
 let commonjs = require('rollup-plugin-commonjs');
 let resolve = require('rollup-plugin-node-resolve');
 let json = require('rollup-plugin-json');
-// let terser = require('rollup-plugin-terser').terser;
+let terser = require('rollup-plugin-terser').terser;
 let baseConfig = require('./rollup.config.base.js');
 
 module.exports = Object.assign({}, baseConfig, {
@@ -15,7 +15,7 @@ module.exports = Object.assign({}, baseConfig, {
       preferBuiltins: true
     }),
     commonjs(),
-    json()
-    // terser()
+    json(),
+    terser()
   ]
 });
