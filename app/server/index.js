@@ -25,7 +25,8 @@ if (process.env.NODE_ENV === 'production') {
 // Serve assets using gzip compression
 app.use(compression());
 
-// Warning: app.listen(8080) will not work here
+// Warning: app.listen(8080) will not work here; see
+// <https://github.com/socketio/socket.io/issues/2075>
 server.listen(process.env.PORT || 8080, () => {
   console.log(`Server started. Listening on port ${server.address().port}`);
 });
