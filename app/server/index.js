@@ -8,6 +8,21 @@ import RoomManager from './room-manager.js';
 let io = socketio(server);
 let roomManager = new RoomManager();
 
+// A wrapper around RoomManager.getRoom() to run the given callback if the
+// specified room exists, otherwise responding with an error message if the room
+// does not exist
+function getRoom(callback) {
+  return (options, fn) => {
+    options.room = roomManager.getRoom(options.roomCode);
+    if (options.room) {
+      callback(options, fn);
+    } else {
+      console.log(`room ${options.roomCode} not found`);
+      fn({ status: 'roomNotFound' });
+    }
+  };
+}
+
 io.on('connection', (socket) => {
 
   console.log(`connected: ${socket.id}`);
@@ -26,199 +41,158 @@ io.on('connection', (socket) => {
     });
   });
 
-  socket.on('join-room', ({ roomCode, userId }, fn) => {
-    let room = roomManager.getRoom(roomCode);
-    if (room) {
-      console.log(`join room by ${userId}`);
-      roomManager.markRoomAsActive(room);
-      let localPlayer = room.connectPlayer({ userId, socket });
-      let status;
-      if (localPlayer) {
-        if (room.players.length === 1) {
-          status = 'waitingForPlayers';
-        } else if (room.game.pendingNewGame && localPlayer === room.game.requestingPlayer) {
-          status = 'requestingNewGame';
-        } else if (room.game.pendingNewGame && localPlayer !== room.game.requestingPlayer) {
-          status = 'newGameRequested';
-        } else {
-          status = 'returningPlayer';
-        }
-      } else if (room.players.length === 2) {
-        // If both players are currently connected, all future connections
-        // represent spectators
-        status = 'watchingGame';
+  socket.on('join-room', getRoom(({ room, userId }, fn) => {
+    console.log(`join room by ${userId}`);
+    roomManager.markRoomAsActive(room);
+    let localPlayer = room.connectPlayer({ userId, socket });
+    let status;
+    if (localPlayer) {
+      if (room.players.length === 1) {
+        status = 'waitingForPlayers';
+      } else if (room.game.pendingNewGame && localPlayer === room.game.requestingPlayer) {
+        status = 'requestingNewGame';
+      } else if (room.game.pendingNewGame && localPlayer !== room.game.requestingPlayer) {
+        status = 'newGameRequested';
       } else {
-        status = 'newPlayer';
+        status = 'returningPlayer';
       }
-      fn({
-        status,
-        game: room.game,
-        localUser: localPlayer
-      });
+    } else if (room.players.length === 2) {
+      // If both players are currently connected, all future connections
+      // represent spectators
+      status = 'watchingGame';
     } else {
-      console.log(`room ${roomCode} not found`);
-      fn({ status: 'roomNotFound' });
+      status = 'newPlayer';
     }
-  });
+    fn({
+      status,
+      game: room.game,
+      localUser: localPlayer
+    });
+  }));
 
-  socket.on('close-room', ({ roomCode }, fn) => {
-    let room = roomManager.getRoom(roomCode);
-    if (room) {
-      roomManager.closeRoom(room);
-      fn({
-        status: 'closedRoom'
-      });
-    } else {
-      console.log(`room ${roomCode} not found`);
-      fn({ status: 'roomNotFound' });
-    }
-  });
+  socket.on('close-room', getRoom(({ room }, fn) => {
+    roomManager.closeRoom(room);
+    fn({
+      status: 'closedRoom'
+    });
+  }));
 
-  socket.on('add-player', ({ roomCode, player }, fn) => {
-    let room = roomManager.getRoom(roomCode);
-    if (room) {
-      console.log(`add player to room ${roomCode}`);
-      let localPlayer = room.addPlayer({ player, socket });
-      let otherPlayer = room.game.getOtherPlayer(localPlayer);
-      room.game.startGame();
-      // Automatically update first player's screen when second player joins
-      if (otherPlayer.socket) {
-        console.log('sending updated game to P1');
-        otherPlayer.socket.emit('add-player', {
-          status: 'addedPlayer',
-          game: room.game,
-          localUser: otherPlayer
-        });
-      } else {
-        console.log('unable to send updated game to P1');
-      }
-      fn({
-        status: 'startedGame',
+  socket.on('add-player', getRoom(({ room, player }, fn) => {
+    console.log(`add player to room ${room.code}`);
+    let localPlayer = room.addPlayer({ player, socket });
+    let otherPlayer = room.game.getOtherPlayer(localPlayer);
+    room.game.startGame();
+    // Automatically update first player's screen when second player joins
+    if (otherPlayer.socket) {
+      console.log('sending updated game to P1');
+      otherPlayer.socket.emit('add-player', {
+        status: 'addedPlayer',
         game: room.game,
-        localUser: localPlayer
+        localUser: otherPlayer
       });
     } else {
-      console.log(`room ${roomCode} not found`);
-      fn({ status: 'roomNotFound' });
+      console.log('unable to send updated game to P1');
     }
-  });
+    fn({
+      status: 'startedGame',
+      game: room.game,
+      localUser: localPlayer
+    });
+  }));
 
   // Gameplay events
 
-  socket.on('align-pending-chip', ({ roomCode, column }, fn) => {
-    let room = roomManager.getRoom(roomCode);
-    if (room) {
-      room.game.grid.pendingChipColumn = column;
-      let otherPlayer = room.game.getOtherPlayer();
-      if (otherPlayer.socket) {
-        otherPlayer.socket.emit('align-pending-chip', { column });
-      }
-    } else {
-      console.log(`room ${roomCode} not found`);
-      fn({ status: 'roomNotFound' });
+  socket.on('align-pending-chip', getRoom(({ room, column }, fn) => {
+    room.game.grid.pendingChipColumn = column;
+    let otherPlayer = room.game.getOtherPlayer();
+    if (otherPlayer.socket) {
+      otherPlayer.socket.emit('align-pending-chip', { column });
     }
-  });
+    fn({});
+  }));
 
-  socket.on('place-chip', ({ roomCode, column }, fn) => {
-    let room = roomManager.getRoom(roomCode);
-    if (room) {
-      console.log(`place chip ${roomCode}`);
-      if (column !== null) {
-        room.game.placeChip({ column });
-        // After placeChip() is called, the turn ends for the player who placed
-        // the chip, making the other player the new current player
-        column = room.game.grid.lastPlacedChip.column;
-        if (room.game.currentPlayer.socket) {
-          console.log('receive next move');
-          room.game.currentPlayer.socket.emit('receive-next-move', { column });
-        } else {
-          console.log('did not receive next move');
-        }
+  socket.on('place-chip', getRoom(({ room, column }, fn) => {
+    console.log(`place chip ${room.code}`);
+    if (column !== null) {
+      room.game.placeChip({ column });
+      // After placeChip() is called, the turn ends for the player who placed
+      // the chip, making the other player the new current player
+      column = room.game.grid.lastPlacedChip.column;
+      if (room.game.currentPlayer.socket) {
+        console.log('receive next move');
+        room.game.currentPlayer.socket.emit('receive-next-move', { column });
+      } else {
+        console.log('did not receive next move');
       }
-      fn({ status: 'placedChip', column });
-    } else {
-      console.log(`room ${roomCode} not found`);
-      fn({ status: 'roomNotFound' });
     }
-  });
+    fn({ status: 'placedChip', column });
+  }));
 
   // Game management events
 
-  socket.on('end-game', ({ userId, roomCode }, fn) => {
-    let room = roomManager.getRoom(roomCode);
-    if (room) {
-      console.log('end game', userId);
-      room.game.endGame();
-      let localPlayer = room.getPlayerById(userId);
+  socket.on('end-game', getRoom(({ userId, room }, fn) => {
+    console.log('end game', userId);
+    room.game.endGame();
+    let localPlayer = room.getPlayerById(userId);
+    room.game.requestingPlayer = localPlayer;
+    room.players.forEach((player) => {
+      if (player.socket) {
+        player.socket.emit('end-game', {
+          status: 'endedGame',
+          requestingPlayer: room.game.requestingPlayer
+        });
+      }
+    });
+    fn({
+      status: 'endedGame',
+      requestingPlayer: localPlayer
+    });
+  }));
+
+  socket.on('request-new-game', getRoom(({ userId, room, winner }, fn) => {
+    console.log('request new game', userId);
+    let localPlayer = room.getPlayerById(userId);
+    localPlayer.lastSubmittedWinner = winner;
+    let otherPlayer = room.game.getOtherPlayer(localPlayer);
+    // When either player requests to start a new game, each player must
+    // submit the winner for that game, if any; this is because the logic
+    // which analyzes the grid for a winner is client-side, at least for now;
+    // to accomplish this, each player's submitted winner will be stored on
+    // the respective player object;
+    let submittedWinners = room.players.map((player) => player.lastSubmittedWinner);
+    // If the local player is the first to request a new game, ask the other
+    // player if they'd like to start a new game
+    if (!room.game.pendingNewGame) {
       room.game.requestingPlayer = localPlayer;
+      room.game.pendingNewGame = true;
+      if (otherPlayer.socket) {
+        otherPlayer.socket.emit('request-new-game', {
+          status: 'newGameRequested',
+          requestingPlayer: room.game.requestingPlayer,
+          localUser: otherPlayer
+        });
+      }
+      // Inform the local player (who requested the new game) that their
+      // request is pending
+      fn({ status: 'requestingNewGame', localUser: localPlayer });
+    } else if (submittedWinners.length === 2 && localPlayer !== room.game.requestingPlayer) {
+      // If the other player accepts the original request to play again, start
+      // a new game and broadcast the new game state to both players
+      room.game.declareWinner();
+      room.game.resetGame();
+      room.game.startGame();
       room.players.forEach((player) => {
         if (player.socket) {
-          player.socket.emit('end-game', {
-            status: 'endedGame',
-            requestingPlayer: room.game.requestingPlayer
+          player.socket.emit('start-new-game', {
+            status: 'startedGame',
+            game: room.game,
+            localUser: player
           });
         }
       });
-      fn({
-        status: 'endedGame',
-        requestingPlayer: localPlayer
-      });
-    } else {
-      console.log(`room ${roomCode} not found`);
-      fn({ status: 'roomNotFound' });
+      fn({ status: 'startedGame', localUser: localPlayer });
     }
-  });
-
-  socket.on('request-new-game', ({ userId, roomCode, winner }, fn) => {
-    let room = roomManager.getRoom(roomCode);
-    if (room) {
-      console.log('request new game', userId);
-      let localPlayer = room.getPlayerById(userId);
-      localPlayer.lastSubmittedWinner = winner;
-      let otherPlayer = room.game.getOtherPlayer(localPlayer);
-      // When either player requests to start a new game, each player must
-      // submit the winner for that game, if any; this is because the logic
-      // which analyzes the grid for a winner is client-side, at least for now;
-      // to accomplish this, each player's submitted winner will be stored on
-      // the respective player object;
-      let submittedWinners = room.players.map((player) => player.lastSubmittedWinner);
-      // If the local player is the first to request a new game, ask the other
-      // player if they'd like to start a new game
-      if (!room.game.pendingNewGame) {
-        room.game.requestingPlayer = localPlayer;
-        room.game.pendingNewGame = true;
-        if (otherPlayer.socket) {
-          otherPlayer.socket.emit('request-new-game', {
-            status: 'newGameRequested',
-            requestingPlayer: room.game.requestingPlayer,
-            localUser: otherPlayer
-          });
-        }
-        // Inform the local player (who requested the new game) that their
-        // request is pending
-        fn({ status: 'requestingNewGame', localUser: localPlayer });
-      } else if (submittedWinners.length === 2 && localPlayer !== room.game.requestingPlayer) {
-        // If the other player accepts the original request to play again, start
-        // a new game and broadcast the new game state to both players
-        room.game.declareWinner();
-        room.game.resetGame();
-        room.game.startGame();
-        room.players.forEach((player) => {
-          if (player.socket) {
-            player.socket.emit('start-new-game', {
-              status: 'startedGame',
-              game: room.game,
-              localUser: player
-            });
-          }
-        });
-        fn({ status: 'startedGame', localUser: localPlayer });
-      }
-    } else {
-      console.log(`room ${roomCode} not found`);
-      fn({ status: 'roomNotFound' });
-    }
-  });
+  }));
 
   socket.on('disconnect', () => {
     console.log(`disconnected: ${socket.id}`);
