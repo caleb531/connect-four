@@ -99,7 +99,7 @@ class DashboardComponent {
   }
 
   requestNewOnlineGame() {
-    this.session.status = 'requesting';
+    this.session.status = 'connecting';
     this.session.emit('request-new-game', { winner: this.game.winner }, ({ localPlayer }) => {
       if (this.session.status === 'requestingNewGame') {
         this.game.requestingPlayer = localPlayer;
@@ -120,8 +120,6 @@ class DashboardComponent {
 
         this.session.status === 'connecting' ?
           'Connecting to server...' :
-        this.session.status === 'requesting' ?
-          'Requesting new game...' :
         this.session.status === 'roomNotFound' ?
           'This room does not exist.' :
         this.session.status === 'closingRoom' ?
@@ -194,7 +192,7 @@ class DashboardComponent {
 
       // If an online game is not in progress (i.e. it was ended early, or there
       // is a winner/tie), allow the user to play again
-      this.session.socket && this.game.players.length === 2 && this.session.status !== 'watchingGame' && !this.session.disconnectedPlayer && !this.session.disconnected ? [
+      this.session.socket && this.game.players.length === 2 && this.session.status !== 'connecting' && this.session.status !== 'watchingGame' && !this.session.disconnectedPlayer && !this.session.disconnected ? [
 
         // Play Again / Yes
         m('button', {
