@@ -54,14 +54,17 @@ io.on('connection', (socket) => {
       } else if (room.game.pendingNewGame && localPlayer !== room.game.requestingPlayer) {
         status = 'newGameRequested';
       } else {
-        let otherPlayer = room.game.getOtherPlayer(localPlayer);
-        if (otherPlayer && otherPlayer.socket) {
-          otherPlayer.socket.emit('player-reconnected', {
-            localPlayer: otherPlayer
-          });
-          delete otherPlayer.lastDisconnectReason;
-        }
         status = 'returningPlayer';
+      }
+      // If this join-room call represents a player reconnecting to the game
+      // (where they were previously disconnected), inform the other player that
+      // they have reconnected
+      let otherPlayer = room.game.getOtherPlayer(localPlayer);
+      if (otherPlayer && otherPlayer.socket) {
+        otherPlayer.socket.emit('player-reconnected', {
+          localPlayer: otherPlayer
+        });
+        delete otherPlayer.lastDisconnectReason;
       }
     } else if (room.players.length === 2) {
       // If both players are currently connected, all future connections
