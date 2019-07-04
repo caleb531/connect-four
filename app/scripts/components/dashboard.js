@@ -50,9 +50,10 @@ class DashboardComponent {
     });
   }
 
-  leaveRoom() {
+  declineNewGame() {
+    console.log('LEAVING!!');
     this.session.status = 'leavingRoom';
-    this.session.emit('leave-room', {}, () => {
+    this.session.emit('decline-new-game', {}, () => {
       this.returnToHome();
     });
   }
@@ -125,14 +126,14 @@ class DashboardComponent {
           'This room does not exist.' :
         this.session.status === 'closingRoom' ?
           'Closing room...' :
-        this.session.status === 'closingRoom' ?
+        this.session.status === 'leavingRoom' ?
           'Leaving room...' :
         this.session.disconnected ?
           'Lost connection. Trying to reconnect...' :
 
         // Connection status of the other player
-        this.session.status === 'newGameDeclined' ?
-          `${this.session.otherPlayer.name} has declined to play another game` :
+        this.session.disconnectedPlayer && this.session.disconnectedPlayer.lastDisconnectReason === 'newGameDeclined' ?
+          `${this.session.disconnectedPlayer.name} has declined to play another game` :
 
         // If the current player needs to enter a name
         this.session.status === 'newPlayer' ?
@@ -193,7 +194,7 @@ class DashboardComponent {
 
       // If an online game is not in progress (i.e. it was ended early, or there
       // is a winner/tie), allow the user to play again
-      this.session.socket && this.game.players.length === 2 && this.session.status !== 'watchingGame' && this.session.status !== 'newGameDeclined' && !this.session.disconnected ? [
+      this.session.socket && this.game.players.length === 2 && this.session.status !== 'watchingGame' && !this.session.disconnectedPlayer && !this.session.disconnected ? [
 
         // Play Again / Yes
         m('button', {
@@ -203,7 +204,7 @@ class DashboardComponent {
 
         // No Thanks
         this.session.status !== 'requestingNewGame' ? m('button.warn', {
-          onclick: () => this.leaveRoom(),
+          onclick: () => this.declineNewGame(),
           disabled: this.session.status === 'requestingNewGame'
         }, this.session.status === 'newGameRequested' ? 'Nah' : this.session.status !== 'requestingNewGame' ? 'No Thanks' : null) : null
 

@@ -24,12 +24,17 @@ class Player {
     this.lastDisconnectReason = null;
   }
 
+  get connected() {
+    return this.socket !== null;
+  }
+
   toJSON() {
     return {
       id: this.id,
       name: this.name,
       color: this.color,
       score: this.score,
+      connected: this.connected,
       lastDisconnectReason: this.lastDisconnectReason
     };
   }

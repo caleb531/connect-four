@@ -45,7 +45,6 @@ io.on('connection', (socket) => {
     console.log(`join room by ${playerId}`);
     roomManager.markRoomAsActive(room);
     let localPlayer = room.connectPlayer({ playerId, socket });
-    let otherPlayer = room.game.getOtherPlayer(localPlayer);
     let status;
     if (localPlayer) {
       if (room.players.length === 1) {
@@ -55,23 +54,14 @@ io.on('connection', (socket) => {
       } else if (room.game.pendingNewGame && localPlayer !== room.game.requestingPlayer) {
         status = 'newGameRequested';
       } else {
-        if (otherPlayer) {
-          if (otherPlayer.socket) {
-            status = 'returningPlayer';
-            localPlayer.socket.emit('other-player-reconnected', {
-              localPlayer,
-              otherPlayer
-            });
-          } else {
-            status = otherPlayer.lastDisconnectReason;
-            localPlayer.socket.emit('other-player-disconnected', {
-              localPlayer,
-              otherPlayer
-            });
-          }
-        } else {
-          status = 'returningPlayer';
+        let otherPlayer = room.game.getOtherPlayer(localPlayer);
+        if (otherPlayer && otherPlayer.socket) {
+          otherPlayer.socket.emit('player-reconnected', {
+            localPlayer: otherPlayer
+          });
+          delete otherPlayer.lastDisconnectReason;
         }
+        status = 'returningPlayer';
       }
     } else if (room.players.length === 2) {
       // If both players are currently connected, all future connections
@@ -94,18 +84,13 @@ io.on('connection', (socket) => {
     });
   }));
 
-  socket.on('leave-room', getRoom(({ playerId, room }, fn) => {
+  socket.on('decline-new-game', getRoom(({ playerId, room }, fn) => {
     console.log(`leave room by ${playerId}`);
     let localPlayer = room.getPlayerById(playerId);
     let otherPlayer = room.game.getOtherPlayer(localPlayer);
     if (otherPlayer.socket) {
       localPlayer.lastDisconnectReason = 'newGameDeclined';
       room.game.pendingNewGame = false;
-      otherPlayer.socket.emit('other-player-disconnected', {
-        status: 'newGameDeclined',
-        localPlayer: otherPlayer,
-        otherPlayer: localPlayer
-      });
       fn({});
     }
   }));
@@ -233,6 +218,15 @@ io.on('connection', (socket) => {
     if (socket.player) {
       console.log('unset player socket');
       socket.player.socket = null;
+      if (socket.room) {
+        let otherPlayer = socket.room.game.getOtherPlayer(socket.player);
+        if (otherPlayer.socket) {
+          otherPlayer.socket.emit('player-disconnected', {
+            localPlayer: otherPlayer,
+            disconnectedPlayer: socket.player
+          });
+        }
+      }
     }
     // As soon as both players disconnect from the room (making it completely
     // empty), mark the room for deletion

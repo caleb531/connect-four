@@ -33,6 +33,12 @@ class GameComponent {
       console.log('join room', roomCode, this.session.status);
       if (game) {
         this.game.restoreFromServer({ game, localPlayer });
+        if (localPlayer) {
+          let otherPlayer = this.game.getOtherPlayer(localPlayer);
+          if (otherPlayer && otherPlayer.connected === false) {
+            this.session.disconnectedPlayer = otherPlayer;
+          }
+        }
       }
       m.redraw();
     });
@@ -59,14 +65,14 @@ class GameComponent {
       this.game.restoreFromServer({ game, localPlayer });
       m.redraw();
     });
-    this.session.on('other-player-disconnected', ({ otherPlayer }) => {
-      this.session.otherPlayer = otherPlayer;
-      console.log('other player disconnected', this.session);
+    this.session.on('player-disconnected', ({ disconnectedPlayer }) => {
+      this.session.disconnectedPlayer = disconnectedPlayer;
+      console.log('other player disconnected');
       m.redraw();
     });
-    this.session.on('other-player-reconnected', ({ otherPlayer }) => {
-      this.session.otherPlayer = otherPlayer;
-      console.log('other player reconnected', this.session);
+    this.session.on('player-reconnected', () => {
+      delete this.session.disconnectedPlayer;
+      console.log('other player reconnected');
       m.redraw();
     });
     this.session.on('disconnect', () => {
