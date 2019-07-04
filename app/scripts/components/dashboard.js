@@ -37,11 +37,23 @@ class DashboardComponent {
     }
   }
 
+  returnToHome() {
+    this.session.disconnect();
+    // Redirect to homepage and clear all app state
+    window.location.href = '/';
+  }
+
   closeRoom() {
     this.session.status = 'closingRoom';
     this.session.emit('close-room', {}, () => {
-      // Redirect to homepage and clear all app state
-      window.location.href = '/';
+      this.returnToHome();
+    });
+  }
+
+  leaveRoom() {
+    this.session.status = 'leavingRoom';
+    this.session.emit('leave-room', {}, () => {
+      this.returnToHome();
     });
   }
 
@@ -113,8 +125,14 @@ class DashboardComponent {
           'This room does not exist.' :
         this.session.status === 'closingRoom' ?
           'Closing room...' :
+        this.session.status === 'closingRoom' ?
+          'Leaving room...' :
         this.session.disconnected ?
           'Lost connection. Trying to reconnect...' :
+
+        // Connection status of the other player
+        this.session.status === 'newGameDeclined' ?
+          `${this.session.otherUser.name} has declined to play another game` :
 
         // If the current player needs to enter a name
         this.session.status === 'newPlayer' ?
@@ -175,10 +193,21 @@ class DashboardComponent {
 
       // If an online game is not in progress (i.e. it was ended early, or there
       // is a winner/tie), allow the user to play again
-      this.session.socket && this.game.players.length === 2 && this.session.status !== 'watchingGame' && !this.session.disconnected ? m('button', {
-        onclick: () => this.requestNewOnlineGame(),
-        disabled: this.session.status === 'requestingNewGame'
-      }, this.session.status === 'newGameRequested' ? 'Yes!' : this.session.status === 'requestingNewGame' ? 'Pending' : 'Play Again') :
+      this.session.socket && this.game.players.length === 2 && this.session.status !== 'watchingGame' && this.session.status !== 'newGameDeclined' && !this.session.disconnected ? [
+
+        // Play Again / Yes
+        m('button', {
+          onclick: () => this.requestNewOnlineGame(),
+          disabled: this.session.status === 'requestingNewGame'
+        }, this.session.status === 'newGameRequested' ? 'Yes!' : this.session.status === 'requestingNewGame' ? 'Pending' : 'Play Again'),
+
+        // No Thanks
+        this.session.status !== 'requestingNewGame' ? m('button.warn', {
+          onclick: () => this.leaveRoom(),
+          disabled: this.session.status === 'requestingNewGame'
+        }, this.session.status === 'newGameRequested' ? 'Nah' : this.session.status !== 'requestingNewGame' ? 'No Thanks' : null) : null
+
+      ] :
 
       // Prompt a player to enter their name when starting an online game, or
       // when joining an existing game for the first time

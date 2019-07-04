@@ -45,6 +45,7 @@ io.on('connection', (socket) => {
     console.log(`join room by ${userId}`);
     roomManager.markRoomAsActive(room);
     let localPlayer = room.connectPlayer({ userId, socket });
+    let otherPlayer = room.game.getOtherPlayer(localPlayer);
     let status;
     if (localPlayer) {
       if (room.players.length === 1) {
@@ -54,7 +55,23 @@ io.on('connection', (socket) => {
       } else if (room.game.pendingNewGame && localPlayer !== room.game.requestingPlayer) {
         status = 'newGameRequested';
       } else {
-        status = 'returningPlayer';
+        if (otherPlayer) {
+          if (otherPlayer.socket) {
+            status = 'returningPlayer';
+            localPlayer.socket.emit('other-player-reconnected', {
+              localUser: localPlayer,
+              otherUser: otherPlayer
+            });
+          } else {
+            status = otherPlayer.lastDisconnectReason;
+            localPlayer.socket.emit('other-player-disconnected', {
+              localUser: localPlayer,
+              otherUser: otherPlayer
+            });
+          }
+        } else {
+          status = 'returningPlayer';
+        }
       }
     } else if (room.players.length === 2) {
       // If both players are currently connected, all future connections
@@ -75,6 +92,22 @@ io.on('connection', (socket) => {
     fn({
       status: 'closedRoom'
     });
+  }));
+
+  socket.on('leave-room', getRoom(({ userId, room }, fn) => {
+    console.log(`leave room by ${userId}`);
+    let localPlayer = room.getPlayerById(userId);
+    let otherPlayer = room.game.getOtherPlayer(localPlayer);
+    if (otherPlayer.socket) {
+      localPlayer.lastDisconnectReason = 'newGameDeclined';
+      room.game.pendingNewGame = false;
+      otherPlayer.socket.emit('other-player-disconnected', {
+        status: 'newGameDeclined',
+        localUser: otherPlayer,
+        otherUser: localPlayer
+      });
+      fn({});
+    }
   }));
 
   socket.on('add-player', getRoom(({ room, player }, fn) => {

@@ -20,6 +20,8 @@ class Player {
     // either means that the player has never submitted a winner, or that the
     // last game ended in a tie
     this.lastSubmittedWinner = null;
+    // The last reason this player was disconnected
+    this.lastDisconnectReason = null;
   }
 
   toJSON() {
@@ -27,7 +29,8 @@ class Player {
       id: this.id,
       name: this.name,
       color: this.color,
-      score: this.score
+      score: this.score,
+      lastDisconnectReason: this.lastDisconnectReason
     };
   }
 

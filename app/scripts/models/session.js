@@ -18,6 +18,10 @@ class Session {
     this.executeCallQueue();
   }
 
+  disconnect() {
+    this.socket.disconnect();
+  }
+
   get connected() {
     return this.socket ? this.socket.connected : false;
   }

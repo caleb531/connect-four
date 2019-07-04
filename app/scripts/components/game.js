@@ -59,6 +59,16 @@ class GameComponent {
       this.game.restoreFromServer({ game, localUser });
       m.redraw();
     });
+    this.session.on('other-player-disconnected', ({ otherUser }) => {
+      this.session.otherUser = otherUser;
+      console.log('other player disconnected', this.session);
+      m.redraw();
+    });
+    this.session.on('other-player-reconnected', ({ otherUser }) => {
+      this.session.otherUser = otherUser;
+      console.log('other player reconnected', this.session);
+      m.redraw();
+    });
     this.session.on('disconnect', () => {
       // At this point, the session object's `disconnected` flag is
       // automatically set to true
