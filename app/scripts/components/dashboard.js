@@ -1,5 +1,6 @@
 import m from 'mithril';
 import ClipboardJS from 'clipboard';
+import classNames from '../classnames.js';
 
 // The area of the game UI consisting of game UI controls and status messages
 class DashboardComponent {
@@ -99,7 +100,9 @@ class DashboardComponent {
   }
 
   view({ attrs: { roomCode } }) {
-    return m('div#game-dashboard', [
+    return m('div#game-dashboard', {
+      class: classNames({ 'prompting-for-input': this.session.status === 'newPlayer' })
+    }, [
       m('p#game-message',
 
         this.session.status === 'connecting' ?

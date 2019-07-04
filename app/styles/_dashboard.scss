@@ -2,6 +2,7 @@
   width: 220px;
   margin-bottom: 10px;
   label, button {
+    display: inline-block;
     margin: 0 4px;
     font-size: 14px;
   }
@@ -42,6 +43,14 @@
   margin: 0;
   padding-bottom: 10px;
   line-height: 1.4;
+  // Increase the click area of the <label> element to include the white space
+  // underneath the game message
+  .prompting-for-input & {
+    padding-bottom: 0;
+    label {
+      padding-bottom: 10px;
+    }
+  }
 }
 
 input[type='text'] {
