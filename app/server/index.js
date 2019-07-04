@@ -61,10 +61,10 @@ io.on('connection', (socket) => {
       // they have reconnected
       let otherPlayer = room.game.getOtherPlayer(localPlayer);
       if (otherPlayer && otherPlayer.socket) {
+        delete localPlayer.lastDisconnectReason;
         otherPlayer.socket.emit('player-reconnected', {
           localPlayer: otherPlayer
         });
-        delete otherPlayer.lastDisconnectReason;
       }
     } else if (room.players.length === 2) {
       // If both players are currently connected, all future connections

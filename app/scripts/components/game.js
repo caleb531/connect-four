@@ -71,7 +71,10 @@ class GameComponent {
       m.redraw();
     });
     this.session.on('player-reconnected', () => {
-      delete this.session.disconnectedPlayer;
+      if (this.session.disconnectedPlayer) {
+        this.session.disconnectedPlayer.lastDisconnectReason = null;
+        delete this.session.disconnectedPlayer;
+      }
       console.log('other player reconnected');
       m.redraw();
     });
