@@ -8,7 +8,6 @@ import path from 'path';
 // Express server
 
 let app = express();
-let server = http.Server(app);
 
 // Force HTTPS on production
 if (process.env.NODE_ENV === 'production') {
@@ -30,6 +29,9 @@ app.get('/room', (req, res) => {
 });
 app.use(express.static(path.dirname(__dirname)));
 
+// HTTP server wrapper
+
+let server = http.Server(app);
 // Warning: app.listen(8080) will not work here; see
 // <https://github.com/socketio/socket.io/issues/2075>
 server.listen(process.env.PORT || 8080, () => {
