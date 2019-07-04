@@ -16,6 +16,6 @@ module.exports = Object.assign({}, baseConfig, {
     }),
     commonjs(),
     json(),
-    terser()
+    process.env.NODE_ENV === 'production' ? terser() : null
   ]
 });

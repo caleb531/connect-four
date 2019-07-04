@@ -50,6 +50,7 @@
     "chai-dom": "^1.8.1",
     "eslint": "^4.19.1",
     "gulp": "^4.0.0",
+    "gulp-noop": "^1.0.0",
     "gulp-sass": "^4.0.1",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-terser": "^1.2.0",
