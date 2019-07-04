@@ -37,7 +37,7 @@ io.on('connection', (socket) => {
       status: 'waitingForPlayers',
       roomCode: room.code,
       game: room.game,
-      localPlayer: localPlayer
+      localPlayer
     });
   });
 
@@ -59,14 +59,14 @@ io.on('connection', (socket) => {
           if (otherPlayer.socket) {
             status = 'returningPlayer';
             localPlayer.socket.emit('other-player-reconnected', {
-              localPlayer: localPlayer,
-              otherPlayer: otherPlayer
+              localPlayer,
+              otherPlayer
             });
           } else {
             status = otherPlayer.lastDisconnectReason;
             localPlayer.socket.emit('other-player-disconnected', {
-              localPlayer: localPlayer,
-              otherPlayer: otherPlayer
+              localPlayer,
+              otherPlayer
             });
           }
         } else {
@@ -83,7 +83,7 @@ io.on('connection', (socket) => {
     fn({
       status,
       game: room.game,
-      localPlayer: localPlayer
+      localPlayer
     });
   }));
 
@@ -129,7 +129,7 @@ io.on('connection', (socket) => {
     fn({
       status: 'startedGame',
       game: room.game,
-      localPlayer: localPlayer
+      localPlayer
     });
   }));
 
@@ -207,7 +207,7 @@ io.on('connection', (socket) => {
       }
       // Inform the local player (who requested the new game) that their
       // request is pending
-      fn({ status: 'requestingNewGame', localPlayer: localPlayer });
+      fn({ status: 'requestingNewGame', localPlayer });
     } else if (submittedWinners.length === 2 && localPlayer !== room.game.requestingPlayer) {
       // If the other player accepts the original request to play again, start
       // a new game and broadcast the new game state to both players
@@ -223,7 +223,7 @@ io.on('connection', (socket) => {
           });
         }
       });
-      fn({ status: 'startedGame', localPlayer: localPlayer });
+      fn({ status: 'startedGame', localPlayer });
     }
   }));
 
