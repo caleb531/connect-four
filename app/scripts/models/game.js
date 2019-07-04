@@ -72,7 +72,7 @@ class Game extends Emitter {
 
   // Initialize or change the current set of players based on the specified game
   // type;
-  setPlayers({ gameType, players = [], localUser = null }) {
+  setPlayers({ gameType, players = [], localPlayer = null }) {
     // Instantiate new players as needed (if user is about to play the first game
     // or if the user is switching modes)
     if (this.players.length === 0) {
@@ -85,11 +85,11 @@ class Game extends Emitter {
         // human
         this.players.push(new HumanPlayer({ name: 'Human 1', color: 'red' }));
         this.players.push(new HumanPlayer({ name: 'Human 2', color: 'blue' }));
-      } else if (gameType === 'online' && players.length > 0 && localUser) {
+      } else if (gameType === 'online' && players.length > 0 && localPlayer) {
         // If user chooses Online mode, the user will play against another human
         // on another machine
         this.players.push(...players.map((player) => {
-          if (player.color === localUser.color) {
+          if (player.color === localPlayer.color) {
             return new HumanPlayer(player);
           } else {
             return new OnlinePlayer(player);
@@ -192,14 +192,14 @@ class Game extends Emitter {
   // Apply the given server game JSON to the current game instance, taking into
   // account which player is the local (human) player and which player is the
   // online player
-  restoreFromServer({ game, localUser = {} }) {
+  restoreFromServer({ game, localPlayer = {} }) {
     this.inProgress = game.inProgress;
     this.players.length = 0;
 
     this.setPlayers({
       gameType: 'online',
       players: game.players,
-      localUser
+      localPlayer
     });
     // Remove the event listener for any leftover (unresolved)
     // OnlinePlayer.getNextMove() promise

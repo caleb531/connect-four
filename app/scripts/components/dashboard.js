@@ -78,8 +78,8 @@ class DashboardComponent {
   addNewPlayerToGame(roomCode) {
     this.session.status = 'connecting';
     let submittedPlayer = { name: this.newPlayerName, color: 'blue' };
-    this.session.emit('add-player', { roomCode, player: submittedPlayer }, ({ game, localUser }) => {
-      this.game.restoreFromServer({ game, localUser });
+    this.session.emit('add-player', { roomCode, player: submittedPlayer }, ({ game, localPlayer }) => {
+      this.game.restoreFromServer({ game, localPlayer });
       m.redraw();
     });
   }
@@ -90,8 +90,8 @@ class DashboardComponent {
     // first player color
     let submittedPlayer = { name: this.newPlayerName, color: 'red' };
     // Request a new room and retrieve the room code returned from the server
-    this.session.emit('open-room', { player: submittedPlayer }, ({ roomCode, game, localUser }) => {
-      this.game.restoreFromServer({ game, localUser });
+    this.session.emit('open-room', { player: submittedPlayer }, ({ roomCode, game, localPlayer }) => {
+      this.game.restoreFromServer({ game, localPlayer });
       console.log('new room', roomCode);
       m.route.set(`/room/${roomCode}`);
     });
@@ -99,9 +99,9 @@ class DashboardComponent {
 
   requestNewOnlineGame() {
     this.session.status = 'requesting';
-    this.session.emit('request-new-game', { winner: this.game.winner }, ({ localUser }) => {
+    this.session.emit('request-new-game', { winner: this.game.winner }, ({ localPlayer }) => {
       if (this.session.status === 'requestingNewGame') {
-        this.game.requestingPlayer = localUser;
+        this.game.requestingPlayer = localPlayer;
       }
       m.redraw();
     });
@@ -132,7 +132,7 @@ class DashboardComponent {
 
         // Connection status of the other player
         this.session.status === 'newGameDeclined' ?
-          `${this.session.otherUser.name} has declined to play another game` :
+          `${this.session.otherPlayer.name} has declined to play another game` :
 
         // If the current player needs to enter a name
         this.session.status === 'newPlayer' ?

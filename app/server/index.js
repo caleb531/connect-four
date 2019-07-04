@@ -37,14 +37,14 @@ io.on('connection', (socket) => {
       status: 'waitingForPlayers',
       roomCode: room.code,
       game: room.game,
-      localUser: localPlayer
+      localPlayer: localPlayer
     });
   });
 
-  socket.on('join-room', getRoom(({ room, userId }, fn) => {
-    console.log(`join room by ${userId}`);
+  socket.on('join-room', getRoom(({ room, playerId }, fn) => {
+    console.log(`join room by ${playerId}`);
     roomManager.markRoomAsActive(room);
-    let localPlayer = room.connectPlayer({ userId, socket });
+    let localPlayer = room.connectPlayer({ playerId, socket });
     let otherPlayer = room.game.getOtherPlayer(localPlayer);
     let status;
     if (localPlayer) {
@@ -59,14 +59,14 @@ io.on('connection', (socket) => {
           if (otherPlayer.socket) {
             status = 'returningPlayer';
             localPlayer.socket.emit('other-player-reconnected', {
-              localUser: localPlayer,
-              otherUser: otherPlayer
+              localPlayer: localPlayer,
+              otherPlayer: otherPlayer
             });
           } else {
             status = otherPlayer.lastDisconnectReason;
             localPlayer.socket.emit('other-player-disconnected', {
-              localUser: localPlayer,
-              otherUser: otherPlayer
+              localPlayer: localPlayer,
+              otherPlayer: otherPlayer
             });
           }
         } else {
@@ -83,7 +83,7 @@ io.on('connection', (socket) => {
     fn({
       status,
       game: room.game,
-      localUser: localPlayer
+      localPlayer: localPlayer
     });
   }));
 
@@ -94,17 +94,17 @@ io.on('connection', (socket) => {
     });
   }));
 
-  socket.on('leave-room', getRoom(({ userId, room }, fn) => {
-    console.log(`leave room by ${userId}`);
-    let localPlayer = room.getPlayerById(userId);
+  socket.on('leave-room', getRoom(({ playerId, room }, fn) => {
+    console.log(`leave room by ${playerId}`);
+    let localPlayer = room.getPlayerById(playerId);
     let otherPlayer = room.game.getOtherPlayer(localPlayer);
     if (otherPlayer.socket) {
       localPlayer.lastDisconnectReason = 'newGameDeclined';
       room.game.pendingNewGame = false;
       otherPlayer.socket.emit('other-player-disconnected', {
         status: 'newGameDeclined',
-        localUser: otherPlayer,
-        otherUser: localPlayer
+        localPlayer: otherPlayer,
+        otherPlayer: localPlayer
       });
       fn({});
     }
@@ -121,7 +121,7 @@ io.on('connection', (socket) => {
       otherPlayer.socket.emit('add-player', {
         status: 'addedPlayer',
         game: room.game,
-        localUser: otherPlayer
+        localPlayer: otherPlayer
       });
     } else {
       console.log('unable to send updated game to P1');
@@ -129,7 +129,7 @@ io.on('connection', (socket) => {
     fn({
       status: 'startedGame',
       game: room.game,
-      localUser: localPlayer
+      localPlayer: localPlayer
     });
   }));
 
@@ -163,10 +163,10 @@ io.on('connection', (socket) => {
 
   // Game management events
 
-  socket.on('end-game', getRoom(({ userId, room }, fn) => {
-    console.log('end game', userId);
+  socket.on('end-game', getRoom(({ playerId, room }, fn) => {
+    console.log('end game', playerId);
     room.game.endGame();
-    let localPlayer = room.getPlayerById(userId);
+    let localPlayer = room.getPlayerById(playerId);
     room.game.requestingPlayer = localPlayer;
     room.players.forEach((player) => {
       if (player.socket) {
@@ -182,9 +182,9 @@ io.on('connection', (socket) => {
     });
   }));
 
-  socket.on('request-new-game', getRoom(({ userId, room, winner }, fn) => {
-    console.log('request new game', userId);
-    let localPlayer = room.getPlayerById(userId);
+  socket.on('request-new-game', getRoom(({ playerId, room, winner }, fn) => {
+    console.log('request new game', playerId);
+    let localPlayer = room.getPlayerById(playerId);
     localPlayer.lastSubmittedWinner = winner;
     let otherPlayer = room.game.getOtherPlayer(localPlayer);
     // When either player requests to start a new game, each player must
@@ -202,12 +202,12 @@ io.on('connection', (socket) => {
         otherPlayer.socket.emit('request-new-game', {
           status: 'newGameRequested',
           requestingPlayer: room.game.requestingPlayer,
-          localUser: otherPlayer
+          localPlayer: otherPlayer
         });
       }
       // Inform the local player (who requested the new game) that their
       // request is pending
-      fn({ status: 'requestingNewGame', localUser: localPlayer });
+      fn({ status: 'requestingNewGame', localPlayer: localPlayer });
     } else if (submittedWinners.length === 2 && localPlayer !== room.game.requestingPlayer) {
       // If the other player accepts the original request to play again, start
       // a new game and broadcast the new game state to both players
@@ -219,20 +219,20 @@ io.on('connection', (socket) => {
           player.socket.emit('start-new-game', {
             status: 'startedGame',
             game: room.game,
-            localUser: player
+            localPlayer: player
           });
         }
       });
-      fn({ status: 'startedGame', localUser: localPlayer });
+      fn({ status: 'startedGame', localPlayer: localPlayer });
     }
   }));
 
   socket.on('disconnect', () => {
     console.log(`disconnected: ${socket.id}`);
     // Indicate that this player is now disconnected
-    if (socket.user) {
+    if (socket.player) {
       console.log('unset player socket');
-      socket.user.socket = null;
+      socket.player.socket = null;
     }
     // As soon as both players disconnect from the room (making it completely
     // empty), mark the room for deletion

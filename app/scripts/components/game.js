@@ -27,12 +27,12 @@ class GameComponent {
 
   joinRoom({ roomCode }) {
     // Join the room immediately if a room code is specified in the URL; the
-    // room code and local user ID are implicitly and automatically passed by
+    // room code and local player ID are implicitly and automatically passed by
     // the Session class
-    this.session.emit('join-room', {}, ({ game, localUser }) => {
+    this.session.emit('join-room', {}, ({ game, localPlayer }) => {
       console.log('join room', roomCode, this.session.status);
       if (game) {
-        this.game.restoreFromServer({ game, localUser });
+        this.game.restoreFromServer({ game, localPlayer });
       }
       m.redraw();
     });
@@ -40,8 +40,8 @@ class GameComponent {
 
   listenForOnlineGameEvents({ roomCode }) {
     // When P2 joins an online game, automatically update P1's screen
-    this.session.on('add-player', ({ game, localUser }) => {
-      this.game.restoreFromServer({ game, localUser });
+    this.session.on('add-player', ({ game, localPlayer }) => {
+      this.game.restoreFromServer({ game, localPlayer });
       m.redraw();
     });
     // If either player ends an online game early, automatically update the
@@ -55,17 +55,17 @@ class GameComponent {
       this.game.requestingPlayer = requestingPlayer;
       m.redraw();
     });
-    this.session.on('start-new-game', ({ game, localUser }) => {
-      this.game.restoreFromServer({ game, localUser });
+    this.session.on('start-new-game', ({ game, localPlayer }) => {
+      this.game.restoreFromServer({ game, localPlayer });
       m.redraw();
     });
-    this.session.on('other-player-disconnected', ({ otherUser }) => {
-      this.session.otherUser = otherUser;
+    this.session.on('other-player-disconnected', ({ otherPlayer }) => {
+      this.session.otherPlayer = otherPlayer;
       console.log('other player disconnected', this.session);
       m.redraw();
     });
-    this.session.on('other-player-reconnected', ({ otherUser }) => {
-      this.session.otherUser = otherUser;
+    this.session.on('other-player-reconnected', ({ otherPlayer }) => {
+      this.session.otherPlayer = otherPlayer;
       console.log('other player reconnected', this.session);
       m.redraw();
     });
