@@ -223,7 +223,7 @@ io.on('connection', (socket) => {
       socket.player.socket = null;
       if (socket.room) {
         let otherPlayer = socket.room.game.getOtherPlayer(socket.player);
-        if (otherPlayer.socket) {
+        if (otherPlayer && otherPlayer.socket) {
           otherPlayer.socket.emit('player-disconnected', {
             localPlayer: otherPlayer,
             disconnectedPlayer: socket.player
