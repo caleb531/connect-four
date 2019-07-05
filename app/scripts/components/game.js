@@ -68,14 +68,25 @@ class GameComponent {
     this.session.on('player-disconnected', ({ disconnectedPlayer }) => {
       this.session.disconnectedPlayer = disconnectedPlayer;
       console.log('other player disconnected');
+      // Clear timer for reconnection message
+      clearTimeout(this.session.reconnectMessageTimer);
+      delete this.session.reconnectedPlayer;
       m.redraw();
     });
     this.session.on('player-reconnected', () => {
       if (this.session.disconnectedPlayer) {
         this.session.disconnectedPlayer.lastDisconnectReason = null;
+        this.session.reconnectedPlayer = this.session.disconnectedPlayer;
         delete this.session.disconnectedPlayer;
       }
       console.log('other player reconnected');
+      clearTimeout(this.session.reconnectMessageTimer);
+      // Display a message for a short moment indicating the other player has
+      // reconnected, returning to the previous game message afterwards
+      this.session.reconnectMessageTimer = setTimeout(() => {
+        delete this.session.reconnectedPlayer;
+        m.redraw();
+      }, GameComponent.reconnectMessageDuration);
       m.redraw();
     });
     this.session.on('disconnect', () => {
@@ -108,5 +119,9 @@ class GameComponent {
   }
 
 }
+
+// The duration (in ms) the 'reconnected player' message will show before the
+// game message returns to the previously-shown message
+GameComponent.reconnectMessageDuration = 1000;
 
 export default GameComponent;

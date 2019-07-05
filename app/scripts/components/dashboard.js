@@ -129,11 +129,15 @@ class DashboardComponent {
         this.session.disconnected ?
           'Lost connection. Trying to reconnect...' :
 
-        // Connection status of the other player
+        // If the other player disconnects
         this.session.disconnectedPlayer && this.session.disconnectedPlayer.lastDisconnectReason === 'newGameDeclined' ?
           `${this.session.disconnectedPlayer.name} has declined to play another game.` :
         this.session.disconnectedPlayer ?
           `${this.session.disconnectedPlayer.name} has disconnected.` :
+
+        // If the other player reconnects
+        this.session.reconnectedPlayer ?
+          `${this.session.reconnectedPlayer.name} has reconnected.` :
 
         // If the current player needs to enter a name
         this.session.status === 'newPlayer' ?
