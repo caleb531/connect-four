@@ -63,6 +63,9 @@ io.on('connection', (socket) => {
       if (otherPlayer && otherPlayer.socket) {
         delete localPlayer.lastDisconnectReason;
         otherPlayer.socket.emit('player-reconnected', {
+          // If the game is still pending, make sure to stay in a pending state,
+          // otherwise we can clear the status message
+          status: room.game.pendingNewGame ? null : 'playerReconnected',
           localPlayer: otherPlayer
         });
       }
