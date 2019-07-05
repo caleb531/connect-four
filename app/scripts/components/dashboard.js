@@ -51,7 +51,6 @@ class DashboardComponent {
   }
 
   declineNewGame() {
-    console.log('LEAVING!!');
     this.session.status = 'leavingRoom';
     this.session.emit('decline-new-game', {}, () => {
       this.returnToHome();
