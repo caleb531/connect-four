@@ -11,7 +11,7 @@ and Mithril. You can play on your phone or computer, with a friend or against
 the AI. Just be sure to enjoy and have fun. :)
 
 You can play the app online at:  
-https://projects.calebevans.me/connect-four/
+https://connectfour.calebevans.me/
 
 ## Implementation
 
