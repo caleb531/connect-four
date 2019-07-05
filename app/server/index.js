@@ -139,11 +139,12 @@ io.on('connection', (socket) => {
       // After placeChip() is called, the turn ends for the player who placed
       // the chip, making the other player the new current player
       column = room.game.grid.lastPlacedChip.column;
-      if (room.game.currentPlayer.socket) {
+      if (room.game.currentPlayer && room.game.currentPlayer.socket) {
         console.log('receive next move');
         room.game.currentPlayer.socket.emit('receive-next-move', { column });
       } else {
         console.log('did not receive next move');
+        console.log('current player:', room.game.currentPlayer);
       }
     }
     fn({ status: 'placedChip', column });
