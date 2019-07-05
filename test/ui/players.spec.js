@@ -11,7 +11,7 @@ describe('game UI', function () {
   it('should ask for starting player in 1-Player mode', function () {
     qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
-    let buttons = qsa('#game-dashboard button');
+    const buttons = qsa('#game-dashboard button');
     expect(buttons[0]).to.have.text('Human');
     expect(buttons[1]).to.have.text('Mr. A.I.');
   });
@@ -19,7 +19,7 @@ describe('game UI', function () {
   it('should ask for starting player in 2-Player mode', function () {
     qsa('#game-dashboard button')[1].click();
     m.redraw.sync();
-    let buttons = qsa('#game-dashboard button');
+    const buttons = qsa('#game-dashboard button');
     expect(buttons[0]).to.have.text('Human 1');
     expect(buttons[1]).to.have.text('Human 2');
   });
@@ -29,7 +29,7 @@ describe('game UI', function () {
     m.redraw.sync();
     qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
-    let pendingChip = qs('.chip.pending');
+    const pendingChip = qs('.chip.pending');
     expect(pendingChip).to.have.class('red');
   });
 
@@ -38,7 +38,7 @@ describe('game UI', function () {
     m.redraw.sync();
     qsa('#game-dashboard button')[1].click();
     m.redraw.sync();
-    let pendingChip = qs('.chip.pending');
+    const pendingChip = qs('.chip.pending');
     expect(pendingChip).to.have.class('black');
   });
 
@@ -47,7 +47,7 @@ describe('game UI', function () {
     m.redraw.sync();
     qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
-    let pendingChip = qs('.chip.pending');
+    const pendingChip = qs('.chip.pending');
     expect(pendingChip).to.have.class('red');
   });
 
@@ -56,7 +56,7 @@ describe('game UI', function () {
     m.redraw.sync();
     qsa('#game-dashboard button')[1].click();
     m.redraw.sync();
-    let pendingChip = qs('.chip.pending');
+    const pendingChip = qs('.chip.pending');
     expect(pendingChip).to.have.class('blue');
   });
 

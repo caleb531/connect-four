@@ -77,7 +77,7 @@ class DashboardComponent {
 
   addNewPlayerToGame(roomCode) {
     this.session.status = 'connecting';
-    let submittedPlayer = { name: this.newPlayerName, color: 'blue' };
+    const submittedPlayer = { name: this.newPlayerName, color: 'blue' };
     this.session.emit('add-player', { roomCode, player: submittedPlayer }, ({ game, localPlayer }) => {
       this.game.restoreFromServer({ game, localPlayer });
       m.redraw();
@@ -88,7 +88,7 @@ class DashboardComponent {
     this.session.connect();
     // Construct a placeholder player with the name we entered and the default
     // first player color
-    let submittedPlayer = { name: this.newPlayerName, color: 'red' };
+    const submittedPlayer = { name: this.newPlayerName, color: 'red' };
     // Request a new room and retrieve the room code returned from the server
     this.session.emit('open-room', { player: submittedPlayer }, ({ roomCode, game, localPlayer }) => {
       this.game.restoreFromServer({ game, localPlayer });

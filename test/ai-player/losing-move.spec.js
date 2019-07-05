@@ -5,7 +5,7 @@ import Game from '../../app/scripts/models/game.js';
 describe('AI player', function () {
 
   it('should avoid losing move (#1)', function () {
-    let game = new Game();
+    const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
@@ -22,7 +22,7 @@ describe('AI player', function () {
   });
 
   it('should avoid losing move (#2)', function () {
-    let game = new Game();
+    const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
@@ -39,7 +39,7 @@ describe('AI player', function () {
   });
 
   it('should avoid losing move (#3)', function () {
-    let game = new Game();
+    const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
@@ -55,7 +55,7 @@ describe('AI player', function () {
   });
 
   it('should avoid losing move (#4)', function () {
-    let game = new Game();
+    const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,

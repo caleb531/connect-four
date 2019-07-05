@@ -3,7 +3,7 @@ import HumanPlayer from '../app/scripts/models/human-player.js';
 describe('human player', function () {
 
   it('should initialize', function () {
-    let humanPlayer = new HumanPlayer({
+    const humanPlayer = new HumanPlayer({
       name: 'Super Player',
       color: 'blue'
     });

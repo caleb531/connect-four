@@ -5,7 +5,7 @@ import Game from '../../app/scripts/models/game.js';
 describe('AI player', function () {
 
   it('should block horizontal opponent win (#1)', function () {
-    let game = new Game();
+    const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
@@ -17,7 +17,7 @@ describe('AI player', function () {
   });
 
   it('should block horizontal opponent win (#2)', function () {
-    let game = new Game();
+    const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
@@ -29,7 +29,7 @@ describe('AI player', function () {
   });
 
   it('should block horizontal opponent win (#3)', function () {
-    let game = new Game();
+    const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
@@ -41,7 +41,7 @@ describe('AI player', function () {
   });
 
   it('should block horizontal connect-three trap (#1)', function () {
-    let game = new Game();
+    const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
@@ -53,7 +53,7 @@ describe('AI player', function () {
   });
 
   it('should block horizontal connect-three trap (#2)', function () {
-    let game = new Game();
+    const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
@@ -65,7 +65,7 @@ describe('AI player', function () {
   });
 
   it('should block horizontal connect-three trap (#3)', function () {
-    let game = new Game();
+    const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
@@ -77,7 +77,7 @@ describe('AI player', function () {
   });
 
   it('should block horizontal connect-three trap (#4)', function () {
-    let game = new Game();
+    const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
@@ -89,7 +89,7 @@ describe('AI player', function () {
   });
 
   it('should block horizontal connect-three trap (#5)', function () {
-    let game = new Game();
+    const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,

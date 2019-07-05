@@ -15,8 +15,8 @@ class RoomManager {
   }
 
   openRoom() {
-    let roomCode = this.obtainRoomCode();
-    let room = new Room({
+    const roomCode = this.obtainRoomCode();
+    const room = new Room({
       players: [],
       code: roomCode
     });
@@ -40,9 +40,9 @@ class RoomManager {
   generateRandomRoomCode() {
     let roomCode = '';
     // Uppercase letters A-Z
-    let startIndex = 65;
-    let endIndex = 90;
-    for (var i = 0; i < RoomManager.roomCodeLength; i += 1) {
+    const startIndex = 65;
+    const endIndex = 90;
+    for (let i = 0; i < RoomManager.roomCodeLength; i += 1) {
       roomCode += String.fromCharCode(Math.floor(startIndex + ((endIndex - startIndex + 1) * Math.random())));
     }
     return roomCode;

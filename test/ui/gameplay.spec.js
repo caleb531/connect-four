@@ -11,9 +11,9 @@ describe('game UI', function () {
 
   // Add syntactic sugar assertion for testing CSS translate values
   chai.Assertion.addMethod('translate', function (expectedX, expectedY) {
-    let translate = this._obj.style.transform;
-    let actualX = parseFloat(translate.slice(translate.indexOf('(') + 1));
-    let actualY = parseFloat(translate.slice(translate.indexOf(',') + 1));
+    const translate = this._obj.style.transform;
+    const actualX = parseFloat(translate.slice(translate.indexOf('(') + 1));
+    const actualY = parseFloat(translate.slice(translate.indexOf(',') + 1));
     this.assert(
       actualX === expectedX && actualY === expectedY,
       'expected #{this} to have translate #{exp} but got #{act}',
@@ -28,7 +28,7 @@ describe('game UI', function () {
     m.redraw.sync();
     qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
-    let grid = qs('#grid');
+    const grid = qs('#grid');
     onPendingChipTransitionEnd()
       .then(function (pendingChip) {
         expect(pendingChip).to.have.translate(0, 384);
@@ -43,7 +43,7 @@ describe('game UI', function () {
     m.redraw.sync();
     qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
-    let grid = qs('#grid');
+    const grid = qs('#grid');
     onPendingChipTransitionEnd()
       .then(function (pendingChip) {
         expect(pendingChip).to.have.translate(192, 0);
@@ -59,7 +59,7 @@ describe('game UI', function () {
     m.redraw.sync();
     qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
-    let grid = qs('#grid');
+    const grid = qs('#grid');
     onPendingChipTransitionEnd()
       .then(function (pendingChip) {
         expect(pendingChip).to.have.translate(192, 0);
@@ -79,7 +79,7 @@ describe('game UI', function () {
     m.redraw.sync();
     qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
-    let grid = qs('#grid');
+    const grid = qs('#grid');
     // Human's turn
     onPendingChipTransitionEnd()
       .then(function (pendingChip) {
@@ -114,7 +114,7 @@ describe('game UI', function () {
     m.redraw.sync();
     qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
-    let grid = qs('#grid');
+    const grid = qs('#grid');
     onPendingChipTransitionEnd()
       .then(function (pendingChip) {
         expect(pendingChip).to.have.translate(192, 0);

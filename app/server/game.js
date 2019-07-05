@@ -62,7 +62,7 @@ class Game {
   }
 
   declareWinner() {
-    let submittedWinners = this.players.map((player) => player.lastSubmittedWinner || {});
+    const submittedWinners = this.players.map((player) => player.lastSubmittedWinner || {});
     this.winner = this.players.find((player) => {
       return player.color === submittedWinners[0].color && player.color === submittedWinners[1].color;
     });

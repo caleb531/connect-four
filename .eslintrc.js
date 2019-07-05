@@ -258,7 +258,19 @@ module.exports = {
     // enforce consistent spacing before or after unary operators
     'space-unary-ops': ['error', { 'words': true, 'nonwords': false }],
     // enforce consistent spacing after the // or /* in a comment
-    'spaced-comment': ['error', 'always']
+    'spaced-comment': ['error', 'always'],
+
+    /**
+    * ECMAScript 6
+    */
+
+    // disallow reassigning const variables
+    'no-const-assign': ['error'],
+    // require let or const instead of var
+    'no-var': ['error'],
+    // require const declarations for variables that are never reassigned after
+    // declared
+    'prefer-const': ['error']
 
   }
 

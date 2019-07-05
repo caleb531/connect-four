@@ -1,8 +1,8 @@
-let commonjs = require('rollup-plugin-commonjs');
-let resolve = require('rollup-plugin-node-resolve');
-let json = require('rollup-plugin-json');
-let terser = require('rollup-plugin-terser').terser;
-let baseConfig = require('./rollup.config.base.js');
+const commonjs = require('rollup-plugin-commonjs');
+const resolve = require('rollup-plugin-node-resolve');
+const json = require('rollup-plugin-json');
+const terser = require('rollup-plugin-terser').terser;
+const baseConfig = require('./rollup.config.base.js');
 
 module.exports = Object.assign({}, baseConfig, {
   input: 'app/scripts/index.js',

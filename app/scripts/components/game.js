@@ -35,7 +35,7 @@ class GameComponent {
       if (game) {
         this.game.restoreFromServer({ game, localPlayer });
         if (localPlayer) {
-          let otherPlayer = this.game.getOtherPlayer(localPlayer);
+          const otherPlayer = this.game.getOtherPlayer(localPlayer);
           if (otherPlayer && otherPlayer.connected === false) {
             this.session.disconnectedPlayer = otherPlayer;
           }

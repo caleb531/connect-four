@@ -37,7 +37,7 @@ class Grid {
 
   // Return the index of the next available slot for the given column
   getNextAvailableSlot({ column }) {
-    let nextRowIndex = this.columns[column].length;
+    const nextRowIndex = this.columns[column].length;
     if (nextRowIndex < this.rowCount) {
       return nextRowIndex;
     } else {
@@ -57,15 +57,15 @@ class Grid {
   // Find same-color neighbors connected to the given chip in the given direction
   getSubConnection(baseChip, direction) {
     let neighbor = baseChip;
-    let subConnection = [];
+    const subConnection = [];
     while (true) {
-      let nextColumn = neighbor.column + direction.x;
+      const nextColumn = neighbor.column + direction.x;
       // Stop if the left/right edge of the grid has been reached
       if (this.columns[nextColumn] === undefined) {
         break;
       }
-      let nextRow = neighbor.row + direction.y;
-      let nextNeighbor = this.columns[nextColumn][nextRow];
+      const nextRow = neighbor.row + direction.y;
+      const nextNeighbor = this.columns[nextColumn][nextRow];
       // Stop if the top/bottom edge of the grid has been reached or if the
       // neighboring slot is empty
       if (nextNeighbor === undefined) {
@@ -88,7 +88,7 @@ class Grid {
 
   // Add a sub-connection (in the given direction) to a larger connection
   addSubConnection(connection, baseChip, direction) {
-    var subConnection = this.getSubConnection(baseChip, direction);
+    const subConnection = this.getSubConnection(baseChip, direction);
     connection.push(...subConnection);
     if (subConnection.hasEmptySlot) {
       connection.emptySlotCount += 1;
@@ -98,12 +98,12 @@ class Grid {
   // Get all connections of four chips (including connections of four within
   // larger connections) which the last placed chip is apart of
   getConnections({ baseChip, minConnectionSize }) {
-    let connections = [];
+    const connections = [];
     // Use a native 'for' loop to maximize performance because the AI player will
     // invoke this function many, many times
     for (let d = 0; d < Grid.connectionDirections.length; d += 1) {
-      let direction = Grid.connectionDirections[d];
-      let connection = [baseChip];
+      const direction = Grid.connectionDirections[d];
+      const connection = [baseChip];
       connection.emptySlotCount = 0;
       // Check for connected neighbors in this direction
       this.addSubConnection(connection, baseChip, direction);
@@ -125,14 +125,14 @@ class Grid {
     let gridScore = 0;
     // Search for current player's connections of one or more chips that are
     // connected to the empty slot
-    let connections = this.getConnections({
+    const connections = this.getConnections({
       // Treat the empty slot as a chip to appease the algorithm
       baseChip: chip,
       minConnectionSize: 1
     });
     // Sum up connections, giving exponentially more weight to larger connections
     for (let i = 0; i < connections.length; i += 1) {
-      var connection = connections[i];
+      const connection = connections[i];
       if (connection.length >= 4) {
         return (currentPlayerIsMaxPlayer ? Grid.maxScore : Grid.minScore);
       } else if (connection.emptySlotCount >= 1) {
@@ -156,11 +156,11 @@ class Grid {
     // to break out of forEach)
     for (c = 0; c < this.columns.length; c += 1) {
       for (r = 0; r < this.columns[c].length; r += 1) {
-        let chip = this.columns[c][r];
+        const chip = this.columns[c][r];
         if (chip.player !== currentPlayer) {
           continue;
         }
-        let score = this.getChipScore({ currentPlayer, currentPlayerIsMaxPlayer, chip });
+        const score = this.getChipScore({ currentPlayer, currentPlayerIsMaxPlayer, chip });
         if (Math.abs(score) === Grid.maxScore) {
           return score;
         } else {
@@ -172,7 +172,7 @@ class Grid {
   }
 
   restoreFromServer({ grid, players }) {
-    let playersByColor = _.indexBy(players, 'color');
+    const playersByColor = _.indexBy(players, 'color');
     this.columnCount = grid.columnCount;
     this.rowCount = grid.rowCount;
     this.columns = grid.columns.map((column) => {

@@ -4,7 +4,7 @@ import _ from 'underscore';
 class Browser {
 
   static getNormalizedTransformProperty() {
-    let supportedProp = ['transform', 'WebkitTransform'].find((prop) => {
+    const supportedProp = ['transform', 'WebkitTransform'].find((prop) => {
       return document.documentElement.style[prop] !== undefined;
     });
     if (supportedProp) {
@@ -14,7 +14,7 @@ class Browser {
   }
 
   static getNormalizedTransitionEndEventName() {
-    let supportedEventName = _.find(['transitionend', 'webkitTransitionEnd'], (handlerName) => {
+    const supportedEventName = _.find(['transitionend', 'webkitTransitionEnd'], (handlerName) => {
       return window[`on${handlerName.toLowerCase()}`] !== undefined;
     });
     if (supportedEventName) {
@@ -34,7 +34,7 @@ class Browser {
   // Convert CSS properties and values to equivalent properties and values for
   // this browser.
   static getNormalizedStyles(styles) {
-    let normalized = {};
+    const normalized = {};
     Object.keys(styles).forEach((property) => {
       if (Browser.normalizedProperties[property] !== undefined) {
         normalized[Browser.normalizedProperties[property]] = styles[property];

@@ -6,7 +6,7 @@ import Game from '../../app/scripts/models/game.js';
 describe('AI player', function () {
 
   it('should initialize', function () {
-    let aiPlayer = new AIPlayer({
+    const aiPlayer = new AIPlayer({
       name: 'HAL',
       color: 'red'
     });
@@ -17,12 +17,12 @@ describe('AI player', function () {
   });
 
   it('should wait when instructed', function () {
-    let aiPlayer = new AIPlayer({
+    const aiPlayer = new AIPlayer({
       name: 'HAL',
       color: 'red'
     });
-    let clock = sinon.useFakeTimers();
-    let callback = sinon.spy();
+    const clock = sinon.useFakeTimers();
+    const callback = sinon.spy();
     expect(aiPlayer.wait(callback));
     clock.tick(500);
     expect(callback).to.have.been.calledOnce;
@@ -30,7 +30,7 @@ describe('AI player', function () {
   });
 
   it('should wrap around if right side of grid is full', function () {
-    let game = new Game();
+    const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,

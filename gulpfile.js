@@ -1,12 +1,12 @@
-let gulp = require('gulp');
-let sourcemaps = require('gulp-sourcemaps');
-let sass = require('gulp-sass');
-let terser = require('gulp-terser');
-let noop = require('gulp-noop');
-let rollup = require('rollup');
-let rollupAppConfig = require('./rollup.config.app.js');
-let rollupTestConfig = require('./rollup.config.test.js');
-let workboxBuild = require('workbox-build');
+const gulp = require('gulp');
+const sourcemaps = require('gulp-sourcemaps');
+const sass = require('gulp-sass');
+const terser = require('gulp-terser');
+const noop = require('gulp-noop');
+const rollup = require('rollup');
+const rollupAppConfig = require('./rollup.config.app.js');
+const rollupTestConfig = require('./rollup.config.test.js');
+const workboxBuild = require('workbox-build');
 
 gulp.task('assets:core', () => {
   return gulp.src([

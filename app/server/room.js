@@ -33,7 +33,7 @@ class Room {
   }
 
   connectPlayer({ playerId, socket }) {
-    let player = this.getPlayerById(playerId) || this.getFirstDisconnectedPlayer();
+    const player = this.getPlayerById(playerId) || this.getFirstDisconnectedPlayer();
     if (player) {
       player.socket = socket;
       socket.player = player;

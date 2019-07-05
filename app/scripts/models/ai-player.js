@@ -8,7 +8,7 @@ class AIPlayer extends AsyncPlayer {
   // Compute the column where the AI player should place its next chip
   getNextMove({ game }) {
     return new Promise((resolve) => {
-      let nextMove = this.maximizeMove(
+      const nextMove = this.maximizeMove(
         game.grid, game.getOtherPlayer(this), AIPlayer.maxComputeDepth,
         Grid.minScore, Grid.maxScore
       );
@@ -18,7 +18,7 @@ class AIPlayer extends AsyncPlayer {
 
   // Choose a column that will maximize the AI player's chances of winning
   maximizeMove(grid, minPlayer, depth, alpha, beta) {
-    let gridScore = grid.getScore({
+    const gridScore = grid.getScore({
       currentPlayer: this,
       currentPlayerIsMaxPlayer: true
     });
@@ -26,20 +26,20 @@ class AIPlayer extends AsyncPlayer {
     if (depth === 0 || Math.abs(gridScore) === Grid.maxScore) {
       return { column: null, score: gridScore };
     }
-    let maxMove = { column: null, score: Grid.minScore };
+    const maxMove = { column: null, score: Grid.minScore };
     for (let c = 0; c < grid.columnCount; c += 1) {
       // Continue to next possible move if this column is full
       if (grid.columns[c].length === grid.rowCount) {
         continue;
       }
       // Clone the current grid and place a chip to generate a new permutation
-      let nextGrid = new Grid(grid);
+      const nextGrid = new Grid(grid);
       nextGrid.placeChip({
           column: c,
           chip: new Chip({ player: this })
       });
       // Minimize the opponent human player's chances of winning
-      let minMove = this.minimizeMove(nextGrid, minPlayer, depth - 1, alpha, beta);
+      const minMove = this.minimizeMove(nextGrid, minPlayer, depth - 1, alpha, beta);
       // If a move yields a lower opponent score, make it the tentative max move
       if (minMove.score > maxMove.score) {
         maxMove.column = c;
@@ -63,7 +63,7 @@ class AIPlayer extends AsyncPlayer {
 
   // Choose a column that will minimize the human player's chances of winning
   minimizeMove(grid, minPlayer, depth, alpha, beta) {
-    let gridScore = grid.getScore({
+    const gridScore = grid.getScore({
       currentPlayer: minPlayer,
       currentPlayerIsMaxPlayer: false
     });
@@ -71,20 +71,20 @@ class AIPlayer extends AsyncPlayer {
     if (depth === 0 || Math.abs(gridScore) === Grid.maxScore) {
       return { column: null, score: gridScore };
     }
-    let minMove = { column: null, score: Grid.maxScore };
+    const minMove = { column: null, score: Grid.maxScore };
     for (let c = 0; c < grid.columnCount; c += 1) {
       // Continue to next possible move if this column is full
       if (grid.columns[c].length === grid.rowCount) {
         continue;
       }
-      let nextGrid = new Grid(grid);
+      const nextGrid = new Grid(grid);
       // The human playing against the AI is always the first player
       nextGrid.placeChip({
           column: c,
           chip: new Chip({ player: minPlayer })
       });
       // Maximize the AI player's chances of winning
-      let maxMove = this.maximizeMove(nextGrid, minPlayer, depth - 1, alpha, beta);
+      const maxMove = this.maximizeMove(nextGrid, minPlayer, depth - 1, alpha, beta);
       // If a move yields a higher AI score, make it the tentative max move
       if (maxMove.score < minMove.score) {
         minMove.column = c;

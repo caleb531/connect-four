@@ -5,7 +5,7 @@ import { qs } from './utils.js';
 // Minimize the transition duration to speed up tests (interestingly, a
 // duration of 0ms will prevent transitionEnd from firing)
 export function _before() {
-  let style = document.createElement('style');
+  const style = document.createElement('style');
   style.innerHTML = '* {transition-duration: 200ms !important;}';
   document.head.appendChild(style);
 }

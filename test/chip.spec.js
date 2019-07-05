@@ -4,11 +4,11 @@ import Chip from '../app/scripts/models/chip.js';
 describe('chip', function () {
 
   it('should initialize', function () {
-    let player = new Player({
+    const player = new Player({
       color: 'blue',
       name: 'Super Player'
     });
-    let chip = new Chip({
+    const chip = new Chip({
       player
     });
     expect(chip).to.have.property('player', player);

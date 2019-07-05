@@ -3,7 +3,7 @@ import Game from '../../app/scripts/models/game.js';
 describe('game', function () {
 
   it('should start turn', function () {
-    let game = new Game();
+    const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
     game.startTurn();
@@ -11,7 +11,7 @@ describe('game', function () {
   });
 
   it('should communicate with AI player on its turn', function (done) {
-    let game = new Game();
+    const game = new Game();
     game.setPlayers({ gameType: '1P' });
     let eventEmitted = false;
     sinon.spy(game.players[1], 'getNextMove');
@@ -39,7 +39,7 @@ describe('game', function () {
   });
 
   it('should end turn', function () {
-    let game = new Game();
+    const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
     game.startTurn();

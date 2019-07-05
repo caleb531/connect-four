@@ -10,7 +10,7 @@ export function qsa(selector) {
 // and erroring if the transition never completes
 export function onPendingChipTransitionEnd() {
   return new Promise(function (resolve) {
-    let pendingChip = qs('.chip.pending');
+    const pendingChip = qs('.chip.pending');
     pendingChip.addEventListener('transitionend', function transitionend(event) {
       // Prevent transitionend from firing on child elements
       if (event.target === pendingChip) {

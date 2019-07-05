@@ -171,7 +171,7 @@ class Game extends Emitter {
   if (!this.grid.lastPlacedChip) {
       return;
     }
-    let connections = this.grid.getConnections({
+    const connections = this.grid.getConnections({
       baseChip: this.grid.lastPlacedChip,
       minConnectionSize: 4
     });

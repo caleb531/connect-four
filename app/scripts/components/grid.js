@@ -81,7 +81,7 @@ class GridComponent extends Emitter {
   getChipWidth() {
     // Cache the width to eliminate successive superfluous reflows
     if (!this.chipWidth) {
-      let gridElem = document.getElementById('grid');
+      const gridElem = document.getElementById('grid');
       this.chipWidth = gridElem.offsetWidth / this.game.grid.columnCount;
     }
     return this.chipWidth;
@@ -90,7 +90,7 @@ class GridComponent extends Emitter {
   // Get the index of the last visited column (the column where the cursor was
   // last at or where the last chip was dropped)
   getLastVisitedColumnIndex(mouseEvent) {
-    let chipWidth = this.getChipWidth();
+    const chipWidth = this.getChipWidth();
     return Math.max(0, Math.floor((mouseEvent.pageX - mouseEvent.currentTarget.offsetLeft) / chipWidth));
   }
 
@@ -112,7 +112,7 @@ class GridComponent extends Emitter {
     // The last visited column is the grid column nearest to the cursor at
     // any given instant; keep track of the column's X position so the next
     // pending chip can instantaneously appear there
-    let newLastVisitedColumnX = this.getChipWidth() * column;
+    const newLastVisitedColumnX = this.getChipWidth() * column;
     if (newLastVisitedColumnX !== this.lastVisitedColumnX) {
       if (emit) {
         this.emitAlignEvent({ column });
@@ -147,7 +147,7 @@ class GridComponent extends Emitter {
 
   // Get the coordinates of the chip slot element at the given column/row
   getSlotCoords({ column, row }) {
-    let chipWidth = this.getChipWidth();
+    const chipWidth = this.getChipWidth();
     return {
       x: chipWidth * column,
       y: chipWidth * (this.game.grid.rowCount - row)
@@ -157,14 +157,14 @@ class GridComponent extends Emitter {
   // Place the pending chip into the specified column (or, if the chip is not
   // currently aligned with said column, do so first without placing it)
   placePendingChip({ column }) {
-    let rowIndex = this.game.grid.getNextAvailableSlot({
+    const rowIndex = this.game.grid.getNextAvailableSlot({
       column
     });
     // Do not allow user to place chip in column that is already full
     if (rowIndex === null) {
       return;
     }
-    let slotCoords = this.getSlotCoords({
+    const slotCoords = this.getSlotCoords({
       column,
       row: rowIndex
     });
@@ -266,7 +266,7 @@ class GridComponent extends Emitter {
     // previous games) are unbound
     this.off('pending-chip:transition-end');
     // Listen for whenever a pending chip transition finishes
-    let eventName = Browser.getNormalizedEventName('transitionend');
+    const eventName = Browser.getNormalizedEventName('transitionend');
     dom.addEventListener(eventName, (event) => {
       // The transitionend DOM event can fire multiple times (undesirably) if
       // the children also have transitions; ensure that the
@@ -307,7 +307,7 @@ class GridComponent extends Emitter {
         return m('div.grid-column', _.times(this.grid.rowCount, (r) => {
           if (this.grid.columns[c][r]) {
             // If this grid slot is occupied, display the corresponding chip
-            let chip = this.grid.columns[c][r];
+            const chip = this.grid.columns[c][r];
             return m(`div.chip.${chip.player.color}`, {
               class: classNames({
                 'winning': chip.winning

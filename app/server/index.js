@@ -5,8 +5,8 @@ import RoomManager from './room-manager.js';
 
 // Socket.IO
 
-let io = socketio(server);
-let roomManager = new RoomManager();
+const io = socketio(server);
+const roomManager = new RoomManager();
 
 // A wrapper around RoomManager.getRoom() to run the given callback if the
 // specified room exists, otherwise responding with an error message if the room
@@ -31,8 +31,8 @@ io.on('connection', (socket) => {
 
   socket.on('open-room', ({ player }, fn) => {
     console.log(`open room by player ${player.name}`);
-    let room = roomManager.openRoom();
-    let localPlayer = room.addPlayer({ player, socket });
+    const room = roomManager.openRoom();
+    const localPlayer = room.addPlayer({ player, socket });
     fn({
       status: 'waitingForPlayers',
       roomCode: room.code,
@@ -44,7 +44,7 @@ io.on('connection', (socket) => {
   socket.on('join-room', getRoom(({ room, playerId }, fn) => {
     console.log(`join room by ${playerId}`);
     roomManager.markRoomAsActive(room);
-    let localPlayer = room.connectPlayer({ playerId, socket });
+    const localPlayer = room.connectPlayer({ playerId, socket });
     let status;
     if (localPlayer) {
       if (room.players.length === 1) {
@@ -59,7 +59,7 @@ io.on('connection', (socket) => {
       // If this join-room call represents a player reconnecting to the game
       // (where they were previously disconnected), inform the other player that
       // they have reconnected
-      let otherPlayer = room.game.getOtherPlayer(localPlayer);
+      const otherPlayer = room.game.getOtherPlayer(localPlayer);
       if (otherPlayer && otherPlayer.socket) {
         delete localPlayer.lastDisconnectReason;
         otherPlayer.socket.emit('player-reconnected', {
@@ -92,7 +92,7 @@ io.on('connection', (socket) => {
 
   socket.on('decline-new-game', getRoom(({ playerId, room }, fn) => {
     console.log(`leave room by ${playerId}`);
-    let localPlayer = room.getPlayerById(playerId);
+    const localPlayer = room.getPlayerById(playerId);
     localPlayer.lastDisconnectReason = 'newGameDeclined';
     room.game.pendingNewGame = false;
     fn({});
@@ -100,8 +100,8 @@ io.on('connection', (socket) => {
 
   socket.on('add-player', getRoom(({ room, player }, fn) => {
     console.log(`add player to room ${room.code}`);
-    let localPlayer = room.addPlayer({ player, socket });
-    let otherPlayer = room.game.getOtherPlayer(localPlayer);
+    const localPlayer = room.addPlayer({ player, socket });
+    const otherPlayer = room.game.getOtherPlayer(localPlayer);
     room.game.startGame();
     // Automatically update first player's screen when second player joins
     if (otherPlayer.socket) {
@@ -125,7 +125,7 @@ io.on('connection', (socket) => {
 
   socket.on('align-pending-chip', getRoom(({ room, column }, fn) => {
     room.game.grid.pendingChipColumn = column;
-    let otherPlayer = room.game.getOtherPlayer();
+    const otherPlayer = room.game.getOtherPlayer();
     if (otherPlayer.socket) {
       otherPlayer.socket.emit('align-pending-chip', { column });
     }
@@ -154,7 +154,7 @@ io.on('connection', (socket) => {
   socket.on('end-game', getRoom(({ playerId, room }, fn) => {
     console.log('end game', playerId);
     room.game.endGame();
-    let localPlayer = room.getPlayerById(playerId);
+    const localPlayer = room.getPlayerById(playerId);
     room.game.requestingPlayer = localPlayer;
     room.players.forEach((player) => {
       if (player.socket) {
@@ -172,15 +172,15 @@ io.on('connection', (socket) => {
 
   socket.on('request-new-game', getRoom(({ playerId, room, winner }, fn) => {
     console.log('request new game', playerId);
-    let localPlayer = room.getPlayerById(playerId);
+    const localPlayer = room.getPlayerById(playerId);
     localPlayer.lastSubmittedWinner = winner;
-    let otherPlayer = room.game.getOtherPlayer(localPlayer);
+    const otherPlayer = room.game.getOtherPlayer(localPlayer);
     // When either player requests to start a new game, each player must
     // submit the winner for that game, if any; this is because the logic
     // which analyzes the grid for a winner is client-side, at least for now;
     // to accomplish this, each player's submitted winner will be stored on
     // the respective player object;
-    let submittedWinners = room.players.map((player) => player.lastSubmittedWinner);
+    const submittedWinners = room.players.map((player) => player.lastSubmittedWinner);
     // If the local player is the first to request a new game, ask the other
     // player if they'd like to start a new game
     if (!room.game.pendingNewGame) {
@@ -222,7 +222,7 @@ io.on('connection', (socket) => {
       console.log('unset player socket');
       socket.player.socket = null;
       if (socket.room) {
-        let otherPlayer = socket.room.game.getOtherPlayer(socket.player);
+        const otherPlayer = socket.room.game.getOtherPlayer(socket.player);
         if (otherPlayer && otherPlayer.socket) {
           otherPlayer.socket.emit('player-disconnected', {
             localPlayer: otherPlayer,

@@ -12,7 +12,7 @@ class AppComponent {
       roomCode: attrs.roomCode
     });
     if (navigator.serviceWorker && !window.__karma__ && window.location.port !== '8080') {
-      let serviceWorker = navigator.serviceWorker.register('/service-worker.js');
+      const serviceWorker = navigator.serviceWorker.register('/service-worker.js');
       this.updateManager = new SWUpdateManager(serviceWorker);
       this.updateManager.on('updateAvailable', () => m.redraw());
       this.updateManager.checkForUpdates();

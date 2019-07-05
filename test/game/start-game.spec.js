@@ -4,7 +4,7 @@ import Game from '../../app/scripts/models/game.js';
 describe('game', function () {
 
   it('should start', function () {
-    let game = new Game();
+    const game = new Game();
     game.setPlayers({ gameType: '2P' });
     sinon.spy(Emitter.prototype, 'emit');
     try {
@@ -18,7 +18,7 @@ describe('game', function () {
   });
 
   it('should set starting player when starting', function () {
-    let game = new Game();
+    const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame({
       startingPlayer: game.players[1]

@@ -3,7 +3,7 @@ import Game from '../../app/scripts/models/game.js';
 describe('game', function () {
 
   it('should reset grid when resetting', function () {
-    let game = new Game();
+    const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
     game.placePendingChip({ column: 2 });
@@ -14,7 +14,7 @@ describe('game', function () {
   });
 
   it('should reset winner when resetting', function () {
-    let game = new Game();
+    const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
     game.winner = game.players[0];
@@ -24,7 +24,7 @@ describe('game', function () {
   });
 
   it('should reset pending chip when resetting', function () {
-    let game = new Game();
+    const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
     expect(game.pendingChip).not.to.be.null;
