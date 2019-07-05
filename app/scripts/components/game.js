@@ -23,6 +23,7 @@ class GameComponent {
     // queued until an online room is opened or joined (which is when the socket
     // connection is opened)
     this.listenForOnlineGameEvents({ roomCode });
+    this.handlePlayerConnections({ roomCode });
   }
 
   joinRoom({ roomCode }) {
@@ -44,7 +45,7 @@ class GameComponent {
     });
   }
 
-  listenForOnlineGameEvents({ roomCode }) {
+  listenForOnlineGameEvents() {
     // When P2 joins an online game, automatically update P1's screen
     this.session.on('add-player', ({ game, localPlayer }) => {
       this.game.restoreFromServer({ game, localPlayer });
@@ -65,6 +66,9 @@ class GameComponent {
       this.game.restoreFromServer({ game, localPlayer });
       m.redraw();
     });
+  }
+
+  handlePlayerConnections({ roomCode }) {
     this.session.on('player-disconnected', ({ disconnectedPlayer }) => {
       this.session.disconnectedPlayer = disconnectedPlayer;
       console.log('other player disconnected');
