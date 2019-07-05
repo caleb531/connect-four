@@ -85,9 +85,7 @@ io.on('connection', (socket) => {
 
   socket.on('close-room', getRoom(({ room }, fn) => {
     roomManager.closeRoom(room);
-    fn({
-      status: 'closedRoom'
-    });
+    fn({ status: 'closedRoom' });
   }));
 
   socket.on('decline-new-game', getRoom(({ playerId, room }, fn) => {
