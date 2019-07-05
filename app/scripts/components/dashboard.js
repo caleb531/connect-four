@@ -51,7 +51,7 @@ class DashboardComponent {
   }
 
   declineNewGame() {
-    this.session.status = 'leavingRoom';
+    this.session.status = 'decliningNewGame';
     this.session.emit('decline-new-game', {}, () => {
       this.returnToHome();
     });
@@ -125,9 +125,9 @@ class DashboardComponent {
             m('br'),
             'or has been closed by the host.'
           ] :
-        this.session.status === 'closingRoom' ?
+        this.session.status === 'closingRoom' || this.session.status === 'closedRoom' ?
           'Closing room...' :
-        this.session.status === 'leavingRoom' ?
+        this.session.status === 'decliningNewGame' || this.session.status === 'declinedNewGame' ?
           'Leaving room...' :
         this.session.disconnected ?
           'Lost connection. Trying to reconnect...' :

@@ -93,7 +93,7 @@ io.on('connection', (socket) => {
     const localPlayer = room.getPlayerById(playerId);
     localPlayer.lastDisconnectReason = 'newGameDeclined';
     room.game.pendingNewGame = false;
-    fn({});
+    fn({ status: 'declinedNewGame' });
   }));
 
   socket.on('add-player', getRoom(({ room, player }, fn) => {
