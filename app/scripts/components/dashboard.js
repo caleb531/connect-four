@@ -11,7 +11,6 @@ class DashboardComponent {
   }
 
   view({ attrs: { roomCode } }) {
-    console.log(this.session.status, this.session);
     return m('div#game-dashboard', {
       class: classNames({ 'prompting-for-input': this.session.status === 'newPlayer' })
     }, [
