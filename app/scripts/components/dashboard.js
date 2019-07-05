@@ -120,7 +120,11 @@ class DashboardComponent {
         this.session.status === 'connecting' ?
           'Connecting to server...' :
         this.session.status === 'roomNotFound' ?
-          'This room does not exist or has been closed by the host.' :
+          [
+            'This room does not exist',
+            m('br'),
+            'or has been closed by the host.'
+          ] :
         this.session.status === 'closingRoom' ?
           'Closing room...' :
         this.session.status === 'leavingRoom' ?
