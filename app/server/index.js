@@ -95,7 +95,7 @@ io.on('connection', (socket) => {
     let localPlayer = room.getPlayerById(playerId);
     localPlayer.lastDisconnectReason = 'newGameDeclined';
     room.game.pendingNewGame = false;
-    fn({ status: 'newGameDeclined' });
+    fn({});
   }));
 
   socket.on('add-player', getRoom(({ room, player }, fn) => {
