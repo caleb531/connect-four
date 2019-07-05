@@ -93,12 +93,9 @@ io.on('connection', (socket) => {
   socket.on('decline-new-game', getRoom(({ playerId, room }, fn) => {
     console.log(`leave room by ${playerId}`);
     let localPlayer = room.getPlayerById(playerId);
-    let otherPlayer = room.game.getOtherPlayer(localPlayer);
-    if (otherPlayer.socket) {
-      localPlayer.lastDisconnectReason = 'newGameDeclined';
-      room.game.pendingNewGame = false;
-      fn({});
-    }
+    localPlayer.lastDisconnectReason = 'newGameDeclined';
+    room.game.pendingNewGame = false;
+    fn({ status: 'newGameDeclined' });
   }));
 
   socket.on('add-player', getRoom(({ room, player }, fn) => {
