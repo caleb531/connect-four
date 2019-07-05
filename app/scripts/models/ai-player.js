@@ -103,7 +103,7 @@ class AIPlayer extends AsyncPlayer {
 
 AIPlayer.prototype.type = 'ai';
 // The duration to wait (in ms) for the user to process the AI player's actions
-AIPlayer.waitDelay = 150;
+AIPlayer.waitDelay = 175;
 // The maximum number of grid moves to look ahead; for reasons unknown,
 // increasing this to a value greater than 3 will actually cripple the AI's
 // ability to handle connect-three trap scenarios

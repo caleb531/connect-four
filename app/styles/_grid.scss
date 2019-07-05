@@ -44,6 +44,15 @@
   border-color: $empty-chip-slot-border-color;
 }
 
+@keyframes fade-in-chip {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 // Pulse the pending chip to indicate that the app hasn't frozen
 @keyframes pulse-chip {
   50% {
@@ -67,6 +76,7 @@
     left: 0;
     // The falling pending chip should appear below the layer of placed chips
     z-index: 20;
+    animation: fade-in-chip 200ms ease-in-out forwards;
     .chip-inner-real {
       animation: pulse-chip 1000ms ease-in-out infinite forwards;
     }
@@ -86,6 +96,8 @@
     transition: transform 150ms $pending-chip-transition-easing;
   }
   &.pending.transition-y {
+    // Restart fade-in animation when next pending chip appears
+    animation: none;
     // Set a falling transition with a rubber-banding effect at the end
     transition: transform 500ms $pending-chip-transition-easing;
     .chip-inner-clone {
