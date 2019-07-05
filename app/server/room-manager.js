@@ -5,13 +5,13 @@ import Room from './room.js';
 class RoomManager {
 
   constructor() {
-    this.roomsById = {};
+    this.roomsByCode = {};
     this.inactiveRooms = new Set();
     this.pollForAbandonedRooms();
   }
 
   getRoom(roomCode) {
-    return this.roomsById[roomCode];
+    return this.roomsByCode[roomCode];
   }
 
   openRoom() {
@@ -20,20 +20,20 @@ class RoomManager {
       players: [],
       code: roomCode
     });
-    this.roomsById[roomCode] = room;
+    this.roomsByCode[roomCode] = room;
     return room;
   }
 
   closeRoom(room) {
     this.inactiveRooms.delete(room);
-    delete this.roomsById[room.code];
+    delete this.roomsByCode[room.code];
   }
 
   obtainRoomCode() {
     let roomCode;
     do {
       roomCode = this.generateRandomRoomCode();
-    } while (this.roomsById[roomCode]);
+    } while (this.roomsByCode[roomCode]);
     return roomCode;
   }
 
