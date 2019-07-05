@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A Connect Four web app implemented in JS using Mithril",
   "main": "public/server/index.js",
+  "engines": {
+    "node": "12.5.0"
+  },
   "scripts": {
     "start": "node -r esm public/server/index.js",
     "build": "gulp build",
