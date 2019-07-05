@@ -130,7 +130,7 @@ class DashboardComponent {
 
         // If the other player disconnects
         this.session.disconnectedPlayer && this.session.disconnectedPlayer.lastDisconnectReason === 'newGameDeclined' ?
-          `${this.session.disconnectedPlayer.name} has declined to play another game.` :
+          `${this.session.disconnectedPlayer.name} has declined to play again.` :
         this.session.disconnectedPlayer ?
           `${this.session.disconnectedPlayer.name} has disconnected.` :
 
