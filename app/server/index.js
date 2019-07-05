@@ -104,7 +104,7 @@ io.on('connection', (socket) => {
     const otherPlayer = room.game.getOtherPlayer(localPlayer);
     room.game.startGame();
     // Automatically update first player's screen when second player joins
-    if (otherPlayer.socket) {
+    if (otherPlayer && otherPlayer.socket) {
       console.log('sending updated game to P1');
       otherPlayer.socket.emit('add-player', {
         status: 'addedPlayer',
@@ -126,7 +126,7 @@ io.on('connection', (socket) => {
   socket.on('align-pending-chip', getRoom(({ room, column }, fn) => {
     room.game.grid.pendingChipColumn = column;
     const otherPlayer = room.game.getOtherPlayer();
-    if (otherPlayer.socket) {
+    if (otherPlayer && otherPlayer.socket) {
       otherPlayer.socket.emit('align-pending-chip', { column });
     }
     fn({});
@@ -187,7 +187,7 @@ io.on('connection', (socket) => {
     if (!room.game.pendingNewGame) {
       room.game.requestingPlayer = localPlayer;
       room.game.pendingNewGame = true;
-      if (otherPlayer.socket) {
+      if (otherPlayer && otherPlayer.socket) {
         otherPlayer.socket.emit('request-new-game', {
           status: 'newGameRequested',
           requestingPlayer: room.game.requestingPlayer,
