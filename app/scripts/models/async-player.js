@@ -20,7 +20,7 @@ class AsyncPlayer extends Player {
   }
 
 }
-// Each AsyncPlayer subclass should overrie this type property with a string
+// Each AsyncPlayer subclass should override this type property with a string
 // value unique to that subclass
 AsyncPlayer.prototype.type = 'async';
 
