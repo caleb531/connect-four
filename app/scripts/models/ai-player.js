@@ -8,16 +8,19 @@ class AIPlayer extends AsyncPlayer {
   // Compute the column where the AI player should place its next chip
   getNextMove({ game }) {
     return new Promise((resolve) => {
-      const nextMove = this.maximizeMove(
-        game.grid, game.getOtherPlayer(this), AIPlayer.maxComputeDepth,
-        Grid.minScore, Grid.maxScore
-      );
+      const nextMove = this.maximizeMove({
+        grid: game.grid,
+        minPlayer: game.getOtherPlayer(this),
+        depth: AIPlayer.maxComputeDepth,
+        alpha: Grid.minScore,
+        beta: Grid.maxScore
+      });
       resolve(nextMove);
     });
   }
 
   // Choose a column that will maximize the AI player's chances of winning
-  maximizeMove(grid, minPlayer, depth, alpha, beta) {
+  maximizeMove({ grid, minPlayer, depth, alpha, beta }) {
     const gridScore = grid.getScore({
       currentPlayer: this,
       currentPlayerIsMaxPlayer: true
@@ -39,7 +42,13 @@ class AIPlayer extends AsyncPlayer {
           chip: new Chip({ player: this })
       });
       // Minimize the opponent human player's chances of winning
-      const minMove = this.minimizeMove(nextGrid, minPlayer, depth - 1, alpha, beta);
+      const minMove = this.minimizeMove({
+        grid: nextGrid,
+        minPlayer,
+        depth: depth - 1,
+        alpha,
+        beta
+      });
       // If a move yields a lower opponent score, make it the tentative max move
       if (minMove.score > maxMove.score) {
         maxMove.column = c;
@@ -62,7 +71,7 @@ class AIPlayer extends AsyncPlayer {
 
 
   // Choose a column that will minimize the human player's chances of winning
-  minimizeMove(grid, minPlayer, depth, alpha, beta) {
+  minimizeMove({ grid, minPlayer, depth, alpha, beta }) {
     const gridScore = grid.getScore({
       currentPlayer: minPlayer,
       currentPlayerIsMaxPlayer: false
@@ -84,7 +93,13 @@ class AIPlayer extends AsyncPlayer {
           chip: new Chip({ player: minPlayer })
       });
       // Maximize the AI player's chances of winning
-      const maxMove = this.maximizeMove(nextGrid, minPlayer, depth - 1, alpha, beta);
+      const maxMove = this.maximizeMove({
+        grid: nextGrid,
+        minPlayer,
+        depth: depth - 1,
+        alpha,
+        beta
+      });
       // If a move yields a higher AI score, make it the tentative max move
       if (maxMove.score < minMove.score) {
         minMove.column = c;
