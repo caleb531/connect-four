@@ -52,7 +52,9 @@ gulp.task('assets:watch', () => {
 gulp.task('sass', () => {
   return gulp.src('app/styles/index.scss')
     .pipe(sourcemaps.init())
-    .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
+    .pipe(sass({
+      outputStyle: process.env.NODE_ENV === 'production' ? 'compressed' : 'expanded'
+    }).on('error', sass.logError))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('public/styles'));
 });
