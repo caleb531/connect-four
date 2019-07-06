@@ -11,7 +11,7 @@ class AIPlayer extends AsyncPlayer {
       const nextMove = this.maximizeMove({
         grid: game.grid,
         minPlayer: game.getOtherPlayer(this),
-        depth: AIPlayer.maxComputeDepth,
+        depth: 0,
         alpha: Grid.minScore,
         beta: Grid.maxScore
       });
@@ -26,7 +26,7 @@ class AIPlayer extends AsyncPlayer {
       currentPlayerIsMaxPlayer: true
     });
     // If max search depth was reached or if winning grid was found
-    if (depth === 0 || Math.abs(gridScore) === Grid.maxScore) {
+    if (depth === AIPlayer.maxComputeDepth || Math.abs(gridScore) === Grid.maxScore) {
       return { column: null, score: gridScore };
     }
     const maxMove = { column: null, score: Grid.minScore };
@@ -45,7 +45,7 @@ class AIPlayer extends AsyncPlayer {
       const minMove = this.minimizeMove({
         grid: nextGrid,
         minPlayer,
-        depth: depth - 1,
+        depth: depth + 1,
         alpha,
         beta
       });
@@ -77,7 +77,7 @@ class AIPlayer extends AsyncPlayer {
       currentPlayerIsMaxPlayer: false
     });
     // If max search depth was reached or if winning grid was found
-    if (depth === 0 || Math.abs(gridScore) === Grid.maxScore) {
+    if (depth === AIPlayer.maxComputeDepth || Math.abs(gridScore) === Grid.maxScore) {
       return { column: null, score: gridScore };
     }
     const minMove = { column: null, score: Grid.maxScore };
@@ -96,7 +96,7 @@ class AIPlayer extends AsyncPlayer {
       const maxMove = this.maximizeMove({
         grid: nextGrid,
         minPlayer,
-        depth: depth - 1,
+        depth: depth + 1,
         alpha,
         beta
       });
