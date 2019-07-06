@@ -59,7 +59,7 @@ class GridComponent extends Emitter {
   // Reset/initialize the entire state of the controller
   reset() {
     // The cached width of a single chip
-    this.chipWidth = null;
+    this.resetCachedChipWidth();
     // Current CSS position of the pending chip
     this.pendingChipX = 0;
     this.pendingChipY = 0;
@@ -71,6 +71,10 @@ class GridComponent extends Emitter {
     // The current CSS position of the column where the user's cursor/finger
     // last clicked/touched
     this.lastVisitedColumnX = 0;
+  }
+
+  resetCachedChipWidth() {
+    this.chipWidth = null;
   }
 
   // Get the CSS translate string for the given coordinate map
@@ -125,6 +129,7 @@ class GridComponent extends Emitter {
       this.transitionPendingChipY = false;
       this.waitForPendingChipTransitionEnd(() => {
         this.transitionPendingChipX = false;
+        this.resetCachedChipWidth();
         // Allow the caller of alignPendingChipWithColumn() to provide an
         // arbitrary callback to run when the pending chip transition ends
         if (transitionEnd) {
@@ -256,6 +261,7 @@ class GridComponent extends Emitter {
         // visited column
         this.pendingChipX = this.lastVisitedColumnX;
         this.pendingChipY = 0;
+        this.resetCachedChipWidth();
         m.redraw();
       }
     });
