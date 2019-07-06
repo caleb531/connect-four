@@ -7,7 +7,7 @@ export function _before() {
   // Minimize the transition duration to speed up tests (interestingly, a
   // duration of 0ms will prevent transitionEnd from firing)
   const style = document.createElement('style');
-  style.innerHTML = '* {transition-duration: 100ms !important;}';
+  style.innerHTML = '* {transition-duration: 20ms !important;}';
   document.head.appendChild(style);
   // Also zero out the AI Player's delay between each swift movement
   AIPlayer.waitDelay = 0;
