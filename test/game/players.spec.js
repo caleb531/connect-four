@@ -28,6 +28,26 @@ describe('game', function () {
     expect(game.players[1].score).to.equal(16);
   });
 
+  it('should preserve players when continuing in Online mode', function () {
+    const game = new Game();
+    game.setPlayers({
+      gameType: 'online',
+      players: [
+        { name: 'Abott', color: 'red' },
+        { name: 'Costello', color: 'blue' }
+      ],
+      localPlayer: { name: 'Costello', color: 'blue' }
+    });
+    game.players[0].score = 12;
+    game.players[1].score = 16;
+    game.setPlayers({ gameType: 'online' });
+    expect(game.players).to.have.length(2);
+    expect(game.players[0].type).to.equal('online');
+    expect(game.players[0].score).to.equal(12);
+    expect(game.players[1].type).to.equal('human');
+    expect(game.players[1].score).to.equal(16);
+  });
+
   it('should initialize new players when switching from 1P to 2P', function () {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
