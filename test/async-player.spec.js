@@ -11,7 +11,7 @@ describe('async player', function () {
       name: 'Super Player',
       color: 'blue'
     });
-    expect(asyncPlayer.getNextMove).to.throw();
+    expect(asyncPlayer.getNextMove).to.throw(Error);
   });
 
 });
