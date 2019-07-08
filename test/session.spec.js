@@ -50,6 +50,14 @@ describe('session', function () {
     expect(session).to.have.property('socket', socket);
   });
 
+  it('should disconnect', function () {
+    socket.disconnect = sinon.stub();
+    session.connect();
+    session.disconnect();
+    expect(socket.disconnect).to.have.been.calledWith();
+    delete socket.disconnect;
+  });
+
   it('should queue emit until connected', function () {
     session.localPlayerId = '356cd624-2c40-465c-9f4a-91f52c2705f3';
     const callback = sinon.stub();
