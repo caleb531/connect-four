@@ -25,6 +25,10 @@ describe('session', function () {
     socket.off('my-event');
   });
 
+  after(function () {
+    connect.restore();
+  });
+
   it('should initialize', function () {
     expect(session).to.have.property('url', 'http://localhost:8080');
     expect(session).to.have.property('roomCode', 'ABCD');
