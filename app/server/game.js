@@ -11,6 +11,7 @@ class Game {
     this.currentPlayer = currentPlayer;
     this.requestingPlayer = requestingPlayer;
     this.inProgress = inProgress;
+    // The current column at which the pending chip is aligned on the client
     this.pendingChipColumn = null;
     this.winner = winner;
     this.pendingNewGame = false;

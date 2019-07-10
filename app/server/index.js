@@ -122,7 +122,7 @@ io.on('connection', (socket) => {
   // Gameplay events
 
   socket.on('align-pending-chip', getRoom(({ room, column }, fn) => {
-    room.game.grid.pendingChipColumn = column;
+    room.game.pendingChipColumn = column;
     const otherPlayer = room.game.getOtherPlayer();
     if (otherPlayer && otherPlayer.socket) {
       otherPlayer.socket.emit('align-pending-chip', { column });

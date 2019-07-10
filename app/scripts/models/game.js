@@ -214,8 +214,8 @@ class Game extends Emitter {
     });
     // Restore the last position of the pending chip when the game state is
     // restored
-    if (game.grid.pendingChipColumn) {
-      this.emit('grid:align-pending-chip-initially', { column: game.grid.pendingChipColumn });
+    if (game.pendingChipColumn) {
+      this.emit('grid:align-pending-chip-initially', { column: game.pendingChipColumn });
     }
     this.winner = null;
 
