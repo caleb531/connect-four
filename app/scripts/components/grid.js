@@ -44,7 +44,7 @@ class GridComponent extends Emitter {
     });
     // When the local (human) player has placed a chip, send that move to the
     // server
-    this.on('grid:before-finish-placing-pending-chip', ({ player, column }) => {
+    this.game.on('player:place-chip', ({ player, column }) => {
       // Only chip placements by the local (human) player need to be handled
       if (player.type !== 'online') {
         this.session.emit('place-chip', { column });
@@ -237,11 +237,6 @@ class GridComponent extends Emitter {
   // Actually insert the pending chip into the internal grid once the falling
   // transition has ended
   finishPlacingPendingChip({ column }) {
-    // Send this move to the other (online) player as soon as possible
-    this.emit('grid:before-finish-placing-pending-chip', {
-      player: this.game.currentPlayer,
-      column
-    });
     this.waitForPendingChipTransitionEnd(() => {
       // Normally, this callback should only ever fire if transitionPendingChipY
       // is true; however, due to strange circumstances (which occur
