@@ -185,7 +185,7 @@ class DashboardControlsComponent {
           }, '2 Players'),
           m('button', {
             onclick: () => this.createNewPlayer()
-          }, 'Online')
+          }, 'Invite')
         ]
 
       ] : null
