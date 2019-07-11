@@ -95,7 +95,7 @@
   }
   $pending-chip-transition-easing: cubic-bezier(0.6, 0.0, 0.0, 1.25);
   &.pending.transition-x {
-    transition: transform 150ms $pending-chip-transition-easing;
+    transition: transform 200ms $pending-chip-transition-easing;
   }
   &.pending.transition-y {
     // Restart fade-in animation when next pending chip appears
