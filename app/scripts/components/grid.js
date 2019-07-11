@@ -31,7 +31,6 @@ class GridComponent extends Emitter {
     // room or reloads the page
     this.game.on('grid:align-pending-chip-initially', ({ column }) => {
       this.pendingChipColumn = this.getChipWidth() * column;
-      this.lastVisitedColumn = this.pendingChipColumn;
       m.redraw();
     });
     // Add a global listener here for all moves we will receive from the
@@ -60,7 +59,6 @@ class GridComponent extends Emitter {
   reset() {
     // The cached width of a single chip
     this.resetCachedChipWidth();
-    // Current CSS position of the pending chip
     this.pendingChipColumn = 0;
     this.pendingChipRow = this.grid.rowCount;
     // Booleans indicating when to transition the pending chip's movement in a
@@ -68,9 +66,6 @@ class GridComponent extends Emitter {
     // transition when resetting to its initial position after placing a chip)
     this.transitionPendingChipX = false;
     this.transitionPendingChipY = false;
-    // The current CSS position of the column where the user's cursor/finger
-    // last clicked/touched
-    this.lastVisitedColumn = 0;
   }
 
   resetCachedChipWidth() {
@@ -117,12 +112,11 @@ class GridComponent extends Emitter {
     // The last visited column is the grid column nearest to the cursor at
     // any given instant; keep track of the column's X position so the next
     // pending chip can instantaneously appear there
-    if (column !== this.lastVisitedColumn) {
+    if (column !== this.pendingChipColumn) {
       if (emit) {
         this.emitAlignEvent({ column });
       }
-      this.lastVisitedColumn = column;
-      this.pendingChipColumn = this.lastVisitedColumn;
+      this.pendingChipColumn = column;
       this.pendingChipRow = this.grid.rowCount;
       this.transitionPendingChipX = true;
       this.transitionPendingChipY = false;
@@ -195,10 +189,6 @@ class GridComponent extends Emitter {
       // Otherwise, chip is already aligned; drop chip into place on grid
       this.transitionPendingChipX = false;
       this.transitionPendingChipY = true;
-      // Keep track of where chip was dropped
-      this.lastVisitedColumn = column;
-      // Translate chip to the visual position on the grid corresponding to
-      // the above column and row
       this.pendingChipColumn = column;
       this.pendingChipRow = row;
       // Perform insertion on internal game grid once transition has ended
@@ -236,9 +226,6 @@ class GridComponent extends Emitter {
         this.game.placePendingChip({ column });
         this.transitionPendingChipX = false;
         this.transitionPendingChipY = false;
-        // Reset position of pending chip to the space directly above the last
-        // visited column
-        this.pendingChipColumn = this.lastVisitedColumn;
         this.pendingChipRow = this.grid.rowCount;
         this.resetCachedChipWidth();
         m.redraw();
