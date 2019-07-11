@@ -79,7 +79,7 @@ class GridComponent extends Emitter {
 
   // Get the CSS translate string for the given coordinate map
   getTranslate({ column, row }) {
-    return 'translate(' + (column * 100) + '%,' + ((this.grid.columnCount - row - 1) * 100) + '%)';
+    return 'translate(' + (column * 100) + '%,' + ((this.grid.rowCount - row) * 100) + '%)';
   }
 
   // Retrieve the constant width of a single chip
