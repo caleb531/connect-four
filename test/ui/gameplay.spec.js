@@ -31,7 +31,7 @@ describe('game UI', function () {
     const grid = qs('#grid');
     onPendingChipTransitionEnd()
       .then(function (pendingChip) {
-        expect(pendingChip).to.have.translate(0, 384);
+        expect(pendingChip).to.have.translate(0, 600);
         done();
       })
       .catch(done);
@@ -46,7 +46,7 @@ describe('game UI', function () {
     const grid = qs('#grid');
     onPendingChipTransitionEnd()
       .then(function (pendingChip) {
-        expect(pendingChip).to.have.translate(192, 0);
+        expect(pendingChip).to.have.translate(300, 0);
         done();
       })
       .catch(done);
@@ -62,12 +62,12 @@ describe('game UI', function () {
     const grid = qs('#grid');
     onPendingChipTransitionEnd()
       .then(function (pendingChip) {
-        expect(pendingChip).to.have.translate(192, 0);
+        expect(pendingChip).to.have.translate(300, 0);
         triggerMouseEvent(grid, 'click', 192, 0);
         return onPendingChipTransitionEnd();
       })
       .then(function (pendingChip) {
-        expect(pendingChip).to.have.translate(192, 384);
+        expect(pendingChip).to.have.translate(300, 600);
         done();
       })
       .catch(done);
@@ -84,25 +84,25 @@ describe('game UI', function () {
     onPendingChipTransitionEnd()
       .then(function (pendingChip) {
         // Human chip's initial position
-        expect(pendingChip).to.have.translate(192, 0);
+        expect(pendingChip).to.have.translate(300, 0);
         triggerMouseEvent(grid, 'click', 192, 0);
         return onPendingChipTransitionEnd();
       })
       .then(function (pendingChip) {
         // Human chip's final position
-        expect(pendingChip).to.have.translate(192, 384);
+        expect(pendingChip).to.have.translate(300, 600);
         return onPendingChipTransitionEnd();
       })
       // AI's turn
       .then(function (pendingChip) {
         // AI chip's initial position
         expect(pendingChip).to.have.class('black');
-        expect(pendingChip).to.have.translate(128, 0);
+        expect(pendingChip).to.have.translate(200, 0);
         return onPendingChipTransitionEnd();
       })
       .then(function (pendingChip) {
         // AI chip's final position
-        expect(pendingChip).to.have.translate(128, 384);
+        expect(pendingChip).to.have.translate(200, 600);
         done();
       })
       .catch(done);
@@ -117,7 +117,7 @@ describe('game UI', function () {
     const grid = qs('#grid');
     onPendingChipTransitionEnd()
       .then(function (pendingChip) {
-        expect(pendingChip).to.have.translate(192, 0);
+        expect(pendingChip).to.have.translate(300, 0);
         done();
       })
       .catch(done);
