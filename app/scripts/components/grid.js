@@ -87,7 +87,7 @@ class GridComponent extends Emitter {
     // Cache the width to eliminate successive superfluous reflows
     if (!this.chipWidth) {
       const gridElem = document.getElementById('grid');
-      this.chipWidth = gridElem.offsetWidth / this.game.grid.columnCount;
+      this.chipWidth = gridElem.offsetWidth / this.grid.columnCount;
     }
     return this.chipWidth;
   }
