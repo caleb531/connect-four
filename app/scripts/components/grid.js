@@ -150,15 +150,6 @@ class GridComponent extends Emitter {
     }
   }
 
-  // Get the coordinates of the chip slot element at the given column/row
-  getSlotCoords({ column, row }) {
-    const chipWidth = this.getChipWidth();
-    return {
-      x: chipWidth * column,
-      y: chipWidth * (this.game.grid.rowCount - row)
-    };
-  }
-
   // Place the pending chip into the specified column (or, if the chip is not
   // currently aligned with said column, do so first without placing it)
   placePendingChip({ column }) {
