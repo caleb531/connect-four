@@ -91,7 +91,10 @@ class GridComponent extends Emitter {
   // last at or where the last chip was dropped)
   getLastVisitedColumnIndex(mouseEvent) {
     const chipWidth = this.getChipWidth();
-    return Math.max(0, Math.floor((mouseEvent.pageX - mouseEvent.currentTarget.offsetLeft) / chipWidth));
+    let column = Math.floor((mouseEvent.pageX - mouseEvent.currentTarget.offsetLeft) / chipWidth);
+    column = Math.max(0, column);
+    column = Math.min(column, this.grid.columnCount - 1);
+    return column;
   }
 
   // Run the given callback when the next (and only the very next) pending
