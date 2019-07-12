@@ -104,7 +104,6 @@ class Game extends Emitter {
       // If user switches game type (e.g. from 1-Player to 2-Player mode),
       // recreate set of players
       this.players.length = 0;
-      this.lastType = gameType;
       this.setPlayers({ gameType });
       return;
     }
