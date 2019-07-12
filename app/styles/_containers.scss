@@ -1,7 +1,7 @@
 // Core containers
 
 body {
-  min-width: 320px;
+  min-width: $compact-page-min-width;
   margin: 0;
   padding: 0;
   // Ensure that the absolutely-positioned nav links do not get pushed out of
@@ -32,8 +32,5 @@ main {
     margin-top: 0;
     padding: 0;
     text-align: center;
-  }
-  @include if-compact-layout() {
-    max-width: $compact-page-min-width;
   }
 }

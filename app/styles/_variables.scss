@@ -3,9 +3,6 @@
 // Fonts
 $sans-serif: 'Ubuntu', sans-serif;
 
-// Grid constants
-$grid-column-count: 7;
-
 // Chip constants
 $chip-size: 52px;
 $chip-margin: 6px;
@@ -16,8 +13,8 @@ $chip-margin-compact: 1.5vw;
 $page-spacing-top: 40px;
 $page-spacing-x: 20px;
 $hybrid-page-width: 700px;
-$compact-page-max-width: ($chip-size + ($chip-margin * 2)) * $grid-column-count;
-$compact-page-min-width: ($chip-size-compact + ($chip-margin-compact * 2)) * $grid-column-count;
+$compact-page-max-width: 500px;
+$compact-page-min-width: 320px;
 
 // Colors
 $update-notification-color: #5be;
