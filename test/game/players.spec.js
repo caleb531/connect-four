@@ -7,6 +7,7 @@ describe('game', function () {
     game.setPlayers({ gameType: '1P' });
     game.players[0].score = 10;
     game.players[1].score = 20;
+    game.endGame();
     game.setPlayers({ gameType: '1P' });
     expect(game.players).to.have.length(2);
     expect(game.players[0].type).to.equal('human');
@@ -20,6 +21,7 @@ describe('game', function () {
     game.setPlayers({ gameType: '2P' });
     game.players[0].score = 12;
     game.players[1].score = 16;
+    game.endGame();
     game.setPlayers({ gameType: '2P' });
     expect(game.players).to.have.length(2);
     expect(game.players[0].type).to.equal('human');
@@ -40,6 +42,7 @@ describe('game', function () {
     });
     game.players[0].score = 12;
     game.players[1].score = 16;
+    game.endGame();
     game.setPlayers({ gameType: 'online' });
     expect(game.players).to.have.length(2);
     expect(game.players[0].type).to.equal('online');

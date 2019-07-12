@@ -15,8 +15,12 @@ class Game extends Emitter {
     this.grid = grid;
     // The list of all players for this game
     this.players = players;
-    // The type of game (e.g. 1-Player, 2-Player, or Online)
+    // The type of the current game (e.g. '1P', '2P', or 'online'); this is
+    // reset to null when the game ends
     this.type = null;
+    // The type of the current/last game; unlike this.type, this does not reset
+    // when the game ends
+    this.lastType = null;
     // The current player is null when a game is not in progress
     this.currentPlayer = null;
     // Whether or not the game is in progress
@@ -96,14 +100,16 @@ class Game extends Emitter {
           }
         }));
       }
-    } else if (gameType !== this.type) {
+    } else if (gameType !== this.lastType) {
       // If user switches game type (e.g. from 1-Player to 2-Player mode),
       // recreate set of players
       this.players.length = 0;
+      this.lastType = gameType;
       this.setPlayers({ gameType });
       return;
     }
     this.type = gameType;
+    this.lastType = gameType;
   }
 
   // Retrieve the player that isn't the given player
