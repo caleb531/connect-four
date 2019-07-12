@@ -89,7 +89,7 @@ class GridComponent extends Emitter {
 
   // Get the index of the last visited column (the column where the cursor was
   // last at or where the last chip was dropped)
-  getLastVisitedColumnIndex(mouseEvent) {
+  getLastVisitedColumn(mouseEvent) {
     const chipWidth = this.getChipWidth();
     let column = Math.floor((mouseEvent.pageX - mouseEvent.currentTarget.offsetLeft) / chipWidth);
     column = Math.max(0, column);
@@ -139,7 +139,7 @@ class GridComponent extends Emitter {
   alignPendingChipViaPointer(mousemoveEvent) {
     if (this.game.pendingChip && this.game.currentPlayer.type === 'human' && !this.transitionPendingChipY) {
       this.alignPendingChipWithColumn({
-        column: this.getLastVisitedColumnIndex(mousemoveEvent),
+        column: this.getLastVisitedColumn(mousemoveEvent),
         emit: true
       });
     } else {
@@ -204,7 +204,7 @@ class GridComponent extends Emitter {
   placePendingChipViaPointer(clickEvent) {
     if (this.game.pendingChip && this.game.currentPlayer.type === 'human' && !this.transitionPendingChipX && !this.transitionPendingChipY) {
       this.placePendingChip({
-        column: this.getLastVisitedColumnIndex(clickEvent)
+        column: this.getLastVisitedColumn(clickEvent)
       });
     } else {
       clickEvent.redraw = false;
