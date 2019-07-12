@@ -27,6 +27,7 @@
 .player-name {
   font-size: 16px;
   border-bottom: solid 2px transparent;
+  transition: border-color 150ms ease-in-out;
   .current-player & {
     border-bottom-color: currentColor;
   }
