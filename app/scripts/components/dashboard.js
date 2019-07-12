@@ -21,7 +21,7 @@ class DashboardComponent {
           ] :
         session.status === 'closingRoom' || session.status === 'closedRoom' ?
           'Closing room...' :
-        session.status === 'decliningNewGame' || session.status === 'declinedNewGame' ?
+        session.status === 'leavingRoom' || session.status === 'decliningNewGame' || session.status === 'declinedNewGame' ?
           'Leaving room...' :
         session.disconnected ?
           'Lost connection. Trying to reconnect...' :
