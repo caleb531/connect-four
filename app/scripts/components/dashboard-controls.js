@@ -133,7 +133,7 @@ class DashboardControlsComponent {
 
       this.session.status === 'waitingForPlayers' ? [
         m('div#share-controls', [
-          m('input[type=text]#share-link', {
+          m('input[type=text][readonly]#share-link', {
             value: window.location.href,
             onclick: ({ target }) => target.select()
           }),
