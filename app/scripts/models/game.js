@@ -178,13 +178,13 @@ class Game extends Emitter {
     }
     const connections = this.grid.getConnections({
       baseChip: this.grid.lastPlacedChip,
-      minConnectionSize: 4
+      minConnectionSize: Game.winningConnectionSize
     });
     if (connections.length > 0) {
       // Mark chips in only the first winning connection, and only mark the
       // first four chips of this connection (since only a connect-four is
       // needed to win
-      connections[0].length = 4;
+      connections[0].length = Game.winningConnectionSize;
       connections[0].forEach((chip) => {
         chip.winning = true;
       });
@@ -232,5 +232,8 @@ class Game extends Emitter {
   }
 
 }
+
+// The minimum number of chips a connection must have to win the game
+Game.winningConnectionSize = 4;
 
 export default Game;
