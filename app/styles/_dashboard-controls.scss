@@ -65,15 +65,3 @@ input[type='text'] {
     transition-duration: 0ms;
   }
 }
-#share-link-copy-status {
-  display: block;
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  margin-top: 10px;
-  &.copy-status-flash {
-    transition: opacity 1000ms ease-in-out;
-    opacity: 0;
-  }
-}
