@@ -59,7 +59,7 @@ input[type='text'] {
 }
 #copy-share-link:last-of-type {
   margin-right: 0;
-  transition: background-color 500ms ease-in-out;
+  transition: background-color 1000ms ease-in-out;
   &:hover:active {
     background-color: $button-action-background-color;
     transition-duration: 0ms;
