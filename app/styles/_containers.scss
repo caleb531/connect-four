@@ -1,7 +1,7 @@
 // Core containers
 
 body {
-  min-width: $compact-page-min-width;
+  min-width: $page-min-width-compact;
   margin: 0;
   padding: 0;
   // Ensure that the absolutely-positioned nav links do not get pushed out of
@@ -22,7 +22,7 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  max-width: $hybrid-page-width;
+  max-width: $page-max-width-hybrid;
   margin: 0 auto;
   margin-top: $page-spacing-top;
   padding: 0 $page-spacing-x;

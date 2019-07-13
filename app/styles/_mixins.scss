@@ -3,7 +3,7 @@
 // Add mixin for hybrid layout media query (triggers when the viewport width is
 // smaller than the width of the grid)
 @mixin if-hybrid-layout() {
-  @media (max-width: $hybrid-page-width) {
+  @media (max-width: $page-max-width-hybrid) {
     @content;
   }
 }
@@ -11,7 +11,7 @@
 // Add mixin for compact layout media query (triggers when the viewport width is
 // smaller than the width of the grid)
 @mixin if-compact-layout() {
-  @media (max-width: $compact-page-max-width) {
+  @media (max-width: $page-max-width-compact) {
     @content;
   }
 }
