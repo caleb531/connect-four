@@ -72,7 +72,6 @@ input[type='text'] {
   left: 50%;
   transform: translateX(-50%);
   margin-top: 10px;
-  font-size: 14px;
   &.copy-status-flash {
     transition: opacity 1000ms ease-in-out;
     opacity: 0;

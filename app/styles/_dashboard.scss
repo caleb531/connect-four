@@ -6,22 +6,26 @@
   label, button {
     display: inline-block;
     margin: 0 6px;
-    font-size: 14px;
+    font-size: $dashboard-text-size;
+    @include if-hybrid-layout() {
+      font-size: $dashboard-text-size-hybrid;
+    }
   }
   @include if-hybrid-layout() {
+    width: auto;
     margin-left: auto;
     margin-right: auto;
-  }
-  @include if-compact-layout() {
-    width: auto;
   }
 }
 
 #game-message {
-  font-size: 14px;
+  font-size: $dashboard-text-size;
   margin: 0;
   padding-bottom: 10px;
   line-height: 1.5;
+  @include if-hybrid-layout() {
+    font-size: $dashboard-text-size-hybrid;
+  }
   // Increase the click area of the <label> element to include the white space
   // underneath the game message
   .prompting-for-input & {
