@@ -181,8 +181,8 @@ class Game extends Emitter {
       minConnectionSize: 4
     });
     if (connections.length > 0) {
-      // Mark chips in only the first winning connection, and // only mark the
-      // first four chips of this connection (since only a // connect-four is
+      // Mark chips in only the first winning connection, and only mark the
+      // first four chips of this connection (since only a connect-four is
       // needed to win
       connections[0].length = 4;
       connections[0].forEach((chip) => {
