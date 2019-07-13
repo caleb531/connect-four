@@ -65,7 +65,7 @@ class DashboardControlsComponent {
   }
 
   setNewPlayerName(inputEvent) {
-    this.newPlayerName = inputEvent.target.value;
+    this.newPlayerName = inputEvent.target.value.trim();
     inputEvent.redraw = false;
   }
 
