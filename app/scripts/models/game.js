@@ -173,7 +173,7 @@ class Game extends Emitter {
   // Determine if a player won the game with four chips in a row (horizontally,
   // vertically, or diagonally)
   checkForWin() {
-  if (!this.grid.lastPlacedChip) {
+    if (!this.grid.lastPlacedChip) {
       return;
     }
     const connections = this.grid.getConnections({
