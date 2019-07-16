@@ -30,7 +30,7 @@ class GridComponent extends Emitter {
     // Remember the last position of the pending chip when the user rejoins the
     // room or reloads the page
     this.game.on('grid:align-pending-chip-initially', ({ column }) => {
-      this.pendingChipColumn = this.getChipWidth() * column;
+      this.pendingChipColumn = column;
       m.redraw();
     });
     // Add a global listener here for all moves we will receive from the
