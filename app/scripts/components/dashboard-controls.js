@@ -148,14 +148,14 @@ class DashboardControlsComponent {
       ] :
 
       // If game is in progress, allow user to end game at any time
-      this.game.inProgress && this.session.status !== 'watchingGame' && !this.session.disconnected ? [
-        m('button.warn', { onclick: () => this.endGame(roomCode) }, 'End Game')
-      ] :
+      this.game.inProgress && this.session.status !== 'watchingGame' && !this.session.disconnected ? m('button.warn', {
+        onclick: () => this.endGame(roomCode) }, 'End Game'
+      ) :
 
       // If online game is not in progress, allow user to leave room
-      !this.game.inProgress && this.session.status !== 'watchingGame' && !this.session.disconnected && this.session.disconnectedPlayer ? [
-        m('button.warn', { onclick: () => this.leaveRoom() }, 'Leave Room')
-      ] :
+      !this.game.inProgress && this.session.status !== 'watchingGame' && !this.session.disconnected && this.session.disconnectedPlayer ? m('button.warn', {
+        onclick: () => this.leaveRoom() }, 'Leave Room'
+      ) :
 
       // If an online game is not in progress (i.e. it was ended early, or there
       // is a winner/tie), allow the user to play again
