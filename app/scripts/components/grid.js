@@ -176,8 +176,8 @@ class GridComponent extends Emitter {
         }
       });
     } else if (this.transitionPendingChipX) {
-      // Detect and prevent a prevent a race condition where placePendingChip is
-      // called while the pending chip is still transitioning on the X axis (via
+      // Detect and prevent a race condition where placePendingChip is called
+      // while the pending chip is still transitioning on the X axis (via
       // alignPendingChipWithColumn), causing the chip to travel diagonally
       // across the board; to fix this, wait for the current alignment
       // transition to finish before starting the placePendingChip transition
