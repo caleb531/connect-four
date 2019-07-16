@@ -19,7 +19,7 @@
   }
   @each $player-color-name, $player-color in $player-colors {
     &.#{$player-color-name} {
-      color: darken($player-color, 10%);
+      color: $player-color;
     }
   }
 }
