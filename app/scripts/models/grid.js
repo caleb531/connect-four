@@ -134,7 +134,8 @@ class Grid {
     for (let i = 0; i < connections.length; i += 1) {
       const connection = connections[i];
       if (connection.length >= 4) {
-        return (currentPlayerIsMaxPlayer ? Grid.maxScore : Grid.minScore);
+        gridScore = Grid.maxScore;
+        break;
       } else if (connection.emptySlotCount >= 1) {
         gridScore += Math.pow(connection.length, 2) + Math.pow(connection.emptySlotCount, 3);
       }
