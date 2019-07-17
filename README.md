@@ -7,8 +7,8 @@
 [![Coverage Status](https://coveralls.io/repos/github/caleb531/connect-four/badge.svg?branch=master)](https://coveralls.io/github/caleb531/connect-four?branch=master)
 
 This is the slickest Connect Four app around, written using HTML5, JavaScript,
-and Mithril. You can play on your phone or computer, with a friend or against
-the AI. Just be sure to enjoy and have fun. :)
+and Mithril (a React-like framework). You can play on your phone or computer,
+with a friend or against the AI. Just be sure to enjoy and have fun. :)
 
 You can play the app online at:  
 https://connectfour.calebevans.me/
