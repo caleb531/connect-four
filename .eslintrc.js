@@ -270,7 +270,11 @@ module.exports = {
     'no-var': ['error'],
     // require const declarations for variables that are never reassigned after
     // declared
-    'prefer-const': ['error']
+    'prefer-const': ['error'],
+    // verify calls of super() in constructors
+    'constructor-super': ['error'],
+    // disallow this/super before calling super() in constructors
+    'no-this-before-super': ['error']
 
   }
 
