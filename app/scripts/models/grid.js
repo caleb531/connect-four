@@ -1,4 +1,5 @@
 import _ from 'underscore';
+import GridConnection from './grid-connection.js';
 import Chip from './chip.js';
 
 class Grid {
@@ -57,7 +58,7 @@ class Grid {
   // Find same-color neighbors connected to the given chip in the given direction
   getSubConnection(baseChip, direction) {
     let neighbor = baseChip;
-    const subConnection = [];
+    const subConnection = new GridConnection();
     while (true) {
       const nextColumn = neighbor.column + direction.x;
       // Stop if the left/right edge of the grid has been reached
@@ -70,7 +71,7 @@ class Grid {
       // neighboring slot is empty
       if (nextNeighbor === undefined) {
         if (nextRow >= 0 && nextRow < this.rowCount) {
-          subConnection.hasEmptySlot = true;
+          subConnection.emptySlotCount += 1;
         }
         break;
       }
@@ -81,7 +82,7 @@ class Grid {
       // Assume at this point that this neighbor chip is connected to the original
       // chip in the given direction
       neighbor = nextNeighbor;
-      subConnection.push(nextNeighbor);
+      subConnection.addChip(nextNeighbor);
     }
     return subConnection;
   }
@@ -89,22 +90,15 @@ class Grid {
   // Add a sub-connection (in the given direction) to a larger connection
   addSubConnection(connection, baseChip, direction) {
     const subConnection = this.getSubConnection(baseChip, direction);
-    connection.push(...subConnection);
-    if (subConnection.hasEmptySlot) {
-      connection.emptySlotCount += 1;
-    }
+    connection.addChips(subConnection);
   }
 
   // Get all connections of four chips (including connections of four within
   // larger connections) which the last placed chip is apart of
   getConnections({ baseChip, minConnectionSize }) {
     const connections = [];
-    // Use a native 'for' loop to maximize performance because the AI player will
-    // invoke this function many, many times
-    for (let d = 0; d < Grid.connectionDirections.length; d += 1) {
-      const direction = Grid.connectionDirections[d];
-      const connection = [baseChip];
-      connection.emptySlotCount = 0;
+    GridConnection.directions.forEach((direction) => {
+      const connection = new GridConnection({ chips: [baseChip] });
       // Check for connected neighbors in this direction
       this.addSubConnection(connection, baseChip, direction);
       // Check for connected neighbors in the opposite direction
@@ -115,7 +109,7 @@ class Grid {
       if (connection.length >= minConnectionSize) {
         connections.push(connection);
       }
-    }
+    });
     return connections;
   }
 
@@ -195,14 +189,6 @@ class Grid {
   }
 
 }
-
-// The relative directions to check when checking for connected chip neighbors
-Grid.connectionDirections = [
-  { x: 0, y: -1 }, // Bottom-middle
-  { x: -1, y: -1 }, // Bottom-left
-  { x: -1, y: 0 }, // Left-middle
-  { x: -1, y: 1 } // Top-left
-];
 
 // The maximum grid score possible (awarded for winning connections by the
 // maximizing player)
