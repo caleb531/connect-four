@@ -90,7 +90,7 @@ class Grid {
   // Add a sub-connection (in the given direction) to a larger connection
   addSubConnection(connection, baseChip, direction) {
     const subConnection = this.getSubConnection(baseChip, direction);
-    connection.addChips(subConnection);
+    connection.addConnection(subConnection);
   }
 
   // Get all connections of four chips (including connections of four within

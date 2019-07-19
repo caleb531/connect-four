@@ -16,17 +16,13 @@ class GridConnection {
       return this.chips.length;
     }
 
-    [Symbol.iterator]() {
-      return this.chips.values();
-    }
-
     addChip(chip) {
       this.chips.push(chip);
     }
 
-    addChips(chips) {
-      this.chips.push(...chips);
-      this.emptySlotCount += chips.emptySlotCount || 0;
+    addConnection(connection) {
+      this.chips.push(...connection.chips);
+      this.emptySlotCount += connection.emptySlotCount || 0;
     }
 
     forEach(callback) {
