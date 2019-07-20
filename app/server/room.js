@@ -49,6 +49,8 @@ class Room {
     return this.players.every((player) => player.socket === null);
   }
 
+  // Return true if the room has been empty for the specified amount of time (or
+  // longer); otherwise, return false
   isAbandoned() {
     return moment(this.lastMarkedInactive)
       .add(Room.abandonmentThreshold)
