@@ -118,7 +118,9 @@ class DashboardControlsComponent {
     return m('div#dashboard-controls', [
 
       // Prompt a player to enter their name when starting an online game, or
-      // when joining an existing game for the first time
+      // when joining an existing game for the first time; the 'action'
+      // attribute on the <form> element is necessary to show the Go button on
+      // iOS keyboards
       this.session.status === 'newPlayer' ? m('form[action]', {
         onsubmit: (submitEvent) => this.submitNewPlayer(submitEvent, roomCode)
       }, [
