@@ -38,7 +38,6 @@ class GridComponent extends Emitter {
     // move from the opponent, TinyEmitter will help us resolve the promise
     // created in the most recent OnlinePlayer.getNextMove() call
     this.session.on('receive-next-move', ({ column }) => {
-      console.log('receive next move', column);
       this.game.emit('online-player:receive-next-move', { column });
     });
     // When the local (human) player has placed a chip, send that move to the
