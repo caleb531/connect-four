@@ -43,8 +43,8 @@ class Room {
     return player;
   }
 
-  // Return true if at least one player is currently connected to the room,
-  // otherwise return false
+  // Return true if all players are currently disconnected from the room;
+  // otherwise, return false
   isEmpty() {
     return this.players.every((player) => player.socket === null);
   }
