@@ -119,7 +119,7 @@ class DashboardControlsComponent {
 
       // Prompt a player to enter their name when starting an online game, or
       // when joining an existing game for the first time
-      this.session.status === 'newPlayer' ? m('form', {
+      this.session.status === 'newPlayer' ? m('form[action]', {
         onsubmit: (submitEvent) => this.submitNewPlayer(submitEvent, roomCode)
       }, [
         m('input[type=text][autocomplete=off]#new-player-name', {
