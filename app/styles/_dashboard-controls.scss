@@ -15,7 +15,8 @@
     }
     &.warn {
       background-color: $button-warn-background-color;
-      &:hover:active {
+      &:hover:active,
+      &:focus:active {
         background-color: desaturate(lighten($button-warn-background-color, 10%), 10%);
       }
     }
