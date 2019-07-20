@@ -45,8 +45,8 @@ class Room {
 
   // Return true if at least one player is currently connected to the room,
   // otherwise return false
-  isActive() {
-    return this.players.some((player) => player.socket !== null);
+  isEmpty() {
+    return this.players.every((player) => player.socket === null);
   }
 
   isAbandoned() {

@@ -232,7 +232,7 @@ io.on('connection', (socket) => {
     }
     // As soon as both players disconnect from the room (making it completely
     // empty), mark the room for deletion
-    if (socket.room && !socket.room.isActive()) {
+    if (socket.room && !socket.room.isEmpty()) {
       roomManager.markRoomAsInactive(socket.room);
     }
   });
