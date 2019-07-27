@@ -31,8 +31,7 @@ class GameComponent {
     // Join the room immediately if a room code is specified in the URL; the
     // room code and local player ID are implicitly and automatically passed by
     // the Session class
-    this.session.emit('join-room', {}, ({ game, localPlayer }) => {
-      console.log('join room', roomCode, this.session.status);
+    this.session.emit('join-room', { roomCode }, ({ game, localPlayer }) => {
       if (game) {
         this.game.restoreFromServer({ game, localPlayer });
         if (localPlayer) {
@@ -72,7 +71,6 @@ class GameComponent {
   handlePlayerConnections({ roomCode }) {
     this.session.on('player-disconnected', ({ disconnectedPlayer }) => {
       this.session.disconnectedPlayer = disconnectedPlayer;
-      console.log('other player disconnected');
       // Clear timer for reconnection message
       clearTimeout(this.session.reconnectMessageTimer);
       delete this.session.reconnectedPlayer;
@@ -84,7 +82,6 @@ class GameComponent {
         this.session.reconnectedPlayer = this.session.disconnectedPlayer;
         delete this.session.disconnectedPlayer;
       }
-      console.log('other player reconnected');
       clearTimeout(this.session.reconnectMessageTimer);
       // Display a message for a short moment indicating the other player has
       // reconnected, returning to the previous game message afterwards

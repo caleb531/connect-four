@@ -57,6 +57,8 @@ module.exports = {
 
     // disallow assignment operators in conditional expressions
     'no-cond-assign': ['error', 'always'],
+    // disallow the use of console
+    'no-console': ['error'],
     // disallow the use of debugger
     'no-debugger': ['error'],
     // disallow duplicate arguments in function definitions
