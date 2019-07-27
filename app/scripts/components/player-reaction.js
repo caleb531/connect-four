@@ -9,12 +9,12 @@ class PlayerReactionComponent {
       if (reactingPlayer.color === this.player.color) {
         // Immediately update the reaction if another reaction was sent before
         // the current reaction disappears
-        clearTimeout(this.player.reaction ? this.player.reaction.timer : null);
-        this.player.reaction = reaction;
+        clearTimeout(this.player.lastReaction ? this.player.lastReaction.timer : null);
+        this.player.lastReaction = reaction;
         // The reaction should disappear after the specified duration
-        this.player.reaction.timer = setTimeout(() => {
-          if (this.player.reaction) {
-            this.player.reaction.timer = null;
+        this.player.lastReaction.timer = setTimeout(() => {
+          if (this.player.lastReaction) {
+            this.player.lastReaction.timer = null;
           }
           m.redraw();
         }, PlayerReactionComponent.reactionDuration);
@@ -33,8 +33,8 @@ class PlayerReactionComponent {
 
   view({ attrs: { player } }) {
     return m('div.player-reaction', m('div.player-reaction-symbol', {
-      class: classNames({ 'show': player.reaction && player.reaction.timer })
-    }, player.reaction ? player.reaction.symbol : null));
+      class: classNames({ 'show': player.lastReaction && player.lastReaction.timer })
+    }, player.lastReaction ? player.lastReaction.symbol : null));
   }
 
 }

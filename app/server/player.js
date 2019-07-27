@@ -22,6 +22,8 @@ class Player {
     this.lastSubmittedWinner = null;
     // The last reason this player was disconnected
     this.lastDisconnectReason = null;
+    // The most recent reaction sent by this player
+    this.lastReaction = null;
   }
 
   get connected() {
@@ -35,7 +37,8 @@ class Player {
       color: this.color,
       score: this.score,
       connected: this.connected,
-      lastDisconnectReason: this.lastDisconnectReason
+      lastDisconnectReason: this.lastDisconnectReason,
+      lastReaction: this.lastReaction
     };
   }
 

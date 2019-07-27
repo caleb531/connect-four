@@ -12,7 +12,7 @@ class PlayerAreaComponent {
         return m(`div.player.${player.color}`, {
           class: classNames({
             'current-player': player === game.currentPlayer,
-            'is-reacting': player.reaction && player.reaction.timer
+            'is-reacting': player.lastReaction && player.lastReaction.timer
           })
         }, [
           m('div.player-name', player.name),
