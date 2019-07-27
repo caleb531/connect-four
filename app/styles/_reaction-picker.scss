@@ -16,11 +16,18 @@
   padding-bottom: 10px;
 }
 .available-reaction-symbol {
+  display: inline-block;
   font-size: 36px;
   line-height: 1;
   cursor: default;
-  transition: transform 150ms ease-in-out;
+  transition-property: transform, filter;
+  transition-duration: 150ms, 250ms;
+  transition-timing-function: ease-in-out;
   &:hover {
     transform: scale(1.15);
+  }
+  &:hover:active {
+    filter: brightness(0.75);
+    transition-duration: 150ms, 0ms;
   }
 }
