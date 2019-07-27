@@ -3,7 +3,7 @@ import classNames from '../classnames.js';
 import Game from '../models/game.js';
 import GridComponent from './grid.js';
 import DashboardComponent from './dashboard.js';
-import ScoreboardComponent from './scoreboard.js';
+import PlayerAreaComponent from './player-area.js';
 
 // The game UI, encompassing all UI pertaining to the game directly
 class GameComponent {
@@ -117,7 +117,7 @@ class GameComponent {
       ]),
       m('div.game-column', [
         m(GridComponent, { game: this.game, session: this.session }),
-        m(ScoreboardComponent, { game: this.game, session: this.session })
+        m(PlayerAreaComponent, { game: this.game, session: this.session })
       ])
     ]);
   }
