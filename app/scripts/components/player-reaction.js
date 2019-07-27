@@ -13,7 +13,9 @@ class PlayerReactionComponent {
         this.player.reaction = reaction;
         // The reaction should disappear after the specified duration
         this.player.reaction.timer = setTimeout(() => {
-          this.player.reaction.timer = null;
+          if (this.player.reaction) {
+            this.player.reaction.timer = null;
+          }
           m.redraw();
         }, PlayerReactionComponent.reactionDuration);
         m.redraw();
