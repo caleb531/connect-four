@@ -19,4 +19,8 @@
   font-size: 36px;
   line-height: 1;
   cursor: default;
+  transition: transform 150ms ease-in-out;
+  &:hover {
+    transform: scale(1.15);
+  }
 }
