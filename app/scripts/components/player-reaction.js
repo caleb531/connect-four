@@ -4,20 +4,29 @@ import classNames from '../classnames.js';
 class PlayerReactionComponent {
 
   oninit({ attrs: { session, player } }) {
+    this.player = player;
     session.on('send-reaction', ({ reactingPlayer, reaction }) => {
-      if (reactingPlayer.color === player.color) {
+      if (reactingPlayer.color === this.player.color) {
         // Immediately update the reaction if another reaction was sent before
         // the current reaction disappears
-        clearTimeout(player.reaction ? player.reaction.timer : null);
-        player.reaction = reaction;
+        clearTimeout(this.player.reaction ? this.player.reaction.timer : null);
+        this.player.reaction = reaction;
         // The reaction should disappear after the specified duration
-        player.reaction.timer = setTimeout(() => {
-          player.reaction.timer = null;
+        this.player.reaction.timer = setTimeout(() => {
+          this.player.reaction.timer = null;
           m.redraw();
         }, PlayerReactionComponent.reactionDuration);
         m.redraw();
       }
     });
+  }
+
+  // The oninit() call (and therefore the send-reaction listener) only runs once
+  // for the lifetime of this component instance, however the player object may
+  // change during that time, so we need to ensure the above listener has an
+  // dynamic reference to the freshest instance of the player
+  onupdate({ attrs: { player } }) {
+    this.player = player;
   }
 
   view({ attrs: { player } }) {
