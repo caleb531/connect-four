@@ -60,8 +60,9 @@ class DashboardControlsComponent {
     this.returnToHome();
   }
 
-  createNewPlayer() {
+  promptToStartOnlineGame() {
     this.session.status = 'newPlayer';
+    this.setPlayers({ gameType: 'online' });
   }
 
   setNewPlayerName(inputEvent) {
@@ -196,7 +197,7 @@ class DashboardControlsComponent {
             onclick: () => this.setPlayers({ gameType: '2P' })
           }, '2 Players'),
           m('button', {
-            onclick: () => this.createNewPlayer()
+            onclick: () => this.promptToStartOnlineGame()
           }, 'Invite')
         ]
 
