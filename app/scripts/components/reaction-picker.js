@@ -8,7 +8,7 @@ class ReactionPickerComponent {
   }
 
   sendReaction(reaction) {
-    this.session.emit('send-reaction', reaction);
+    this.session.emit('send-reaction', { reaction });
   }
 
   view() {

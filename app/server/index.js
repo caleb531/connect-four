@@ -214,6 +214,17 @@ io.on('connection', (socket) => {
     }
   }));
 
+  // Reaction events
+
+  socket.on('send-reaction', getRoom(({ playerId, room, reaction }, fn) => {
+    const localPlayer = room.getPlayerById(playerId);
+    const otherPlayer = room.game.getOtherPlayer(localPlayer);
+    if (otherPlayer.socket) {
+      otherPlayer.socket.emit('send-reaction', { reaction, reactingPlayer: localPlayer });
+    }
+    fn({});
+  }));
+
   socket.on('disconnect', () => {
     console.log(`disconnected: ${socket.id}`);
     // Indicate that this player is now disconnected
