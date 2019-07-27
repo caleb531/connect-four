@@ -3,12 +3,10 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: flex-end;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
+  z-index: 5;
   width: 220px;
-  margin-top: 15px;
+  margin: 0 auto;
   user-select: none;
 }
 .available-reaction {

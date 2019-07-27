@@ -93,15 +93,14 @@
       transition: opacity 500ms ease-in-out;
     }
   }
-  $pending-chip-transition-easing: cubic-bezier(0.6, 0.0, 0.0, 1.25);
   &.pending.transition-x {
-    transition: transform 200ms $pending-chip-transition-easing;
+    transition: transform 200ms $bounce-transition-timing-function;
   }
   &.pending.transition-y {
     // Restart fade-in animation when next pending chip appears
     animation: none;
     // Set a falling transition with a rubber-banding effect at the end
-    transition: transform 500ms $pending-chip-transition-easing;
+    transition: transform 500ms $bounce-transition-timing-function;
     .chip-inner-clone {
       opacity: 1;
     }

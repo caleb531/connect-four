@@ -1,3 +1,77 @@
 #player-area {
   position: relative;
 }
+
+#player-area-players {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: $chip-margin;
+  text-align: center;
+}
+
+.player {
+  position: relative;
+  &:nth-child(1) {
+    margin-left: $chip-margin;
+    text-align: left;
+    .player-reaction {
+      left: $player-reaction-offset;
+    }
+  }
+  &:nth-child(2) {
+    margin-right: $chip-margin;
+    text-align: right;
+    .player-reaction {
+      right: $player-reaction-offset;
+    }
+  }
+  @each $player-color-name, $player-color in $player-colors {
+    &.#{$player-color-name} {
+      color: $player-color;
+    }
+  }
+}
+
+.player-name,
+.player-score {
+  opacity: 1;
+  transition: opacity $player-reaction-transition-duration ease-in-out;
+  .player.is-reacting & {
+    opacity: 0;
+  }
+}
+
+.player-name {
+  font-size: 16px;
+  border-bottom: solid 2px transparent;
+  transition-property: border-color, opacity;
+  transition-duration: 150ms, $player-reaction-transition-duration;
+  transition-timing-function: ease-in-out;
+  .current-player & {
+    border-bottom-color: currentColor;
+  }
+}
+
+.player-score {
+  font-size: 32px;
+}
+
+.player-reaction {
+  position: absolute;
+  z-index: 10;
+  top: $player-reaction-offset;
+  user-select: none;
+}
+.player-reaction-symbol {
+  font-size: 64px;
+  transform: scale(0);
+  // Don't bounce back when shrinking to scale(0)
+  transition: all $player-reaction-transition-duration cubic-bezier(0.6, 0.0, 0.0, 1);
+  transition-property: transform, text-shadow;
+  &.show {
+    transform: scale(1);
+    transition-timing-function: $bounce-transition-timing-function;
+    text-shadow: 0 1px 10px rgba(#000, 0.25);
+  }
+}

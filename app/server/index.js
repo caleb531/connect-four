@@ -218,10 +218,11 @@ io.on('connection', (socket) => {
 
   socket.on('send-reaction', getRoom(({ playerId, room, reaction }, fn) => {
     const localPlayer = room.getPlayerById(playerId);
-    const otherPlayer = room.game.getOtherPlayer(localPlayer);
-    if (otherPlayer.socket) {
-      otherPlayer.socket.emit('send-reaction', { reaction, reactingPlayer: localPlayer });
-    }
+    room.game.players.forEach((player) => {
+      if (player.socket) {
+        player.socket.emit('send-reaction', { reaction, reactingPlayer: localPlayer });
+      }
+    });
     fn({});
   }));
 

@@ -4,6 +4,7 @@ import Game from '../models/game.js';
 import GridComponent from './grid.js';
 import DashboardComponent from './dashboard.js';
 import PlayerAreaComponent from './player-area.js';
+import ReactionPickerComponent from './reaction-picker.js';
 
 // The game UI, encompassing all UI pertaining to the game directly
 class GameComponent {
@@ -117,7 +118,8 @@ class GameComponent {
       ]),
       m('div.game-column', [
         m(GridComponent, { game: this.game, session: this.session }),
-        m(PlayerAreaComponent, { game: this.game, session: this.session })
+        m(PlayerAreaComponent, { game: this.game, session: this.session }),
+        this.session.connected && this.game.players.length === 2 ? m(ReactionPickerComponent, { game: this.game, session: this.session }) : null
       ])
     ]);
   }
