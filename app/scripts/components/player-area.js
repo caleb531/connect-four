@@ -9,7 +9,7 @@ class PlayerAreaComponent {
   view({ attrs: { game, session } }) {
     return m('div#player-area', [
       m(ScoreboardComponent, { game, session }),
-      m(ReactionPickerComponent, { game, session })
+      session.connected && game.players.length === 2 ? m(ReactionPickerComponent, { game, session }) : null
     ]);
   }
 
