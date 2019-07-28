@@ -8,7 +8,7 @@
   "scripts": {
     "start": "node -r esm public/server/index.js",
     "build": "gulp build",
-    "lint": "eslint app/scripts/**/*.js test/**/*.js",
+    "lint": "eslint app/**/*.js test/**/*.js gulpfile.js",
     "test": "karma start --single-run",
     "coverage": "COVERAGE=true npm test && npm run remap-coverage && npm run coverage-report",
     "remap-coverage": "remap-istanbul -i coverage/coverage-unmapped.json -o coverage/coverage-remapped.json -e test/ -e node_modules/",
