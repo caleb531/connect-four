@@ -4,6 +4,12 @@ module.exports = {
 
     'browser': false
 
+  },
+
+  rules: {
+
+    'no-console': ['off']
+
   }
 
 };
