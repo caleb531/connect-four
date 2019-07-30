@@ -30,6 +30,14 @@ class Player {
     return this.socket !== null;
   }
 
+  // Emit an event to this player only if they are currently connected;
+  // otherwise, do nothing
+  emit(eventName, data) {
+    if (this.socket) {
+      this.socket.emit(eventName, data);
+    }
+  }
+
   toJSON() {
     return {
       id: this.id,

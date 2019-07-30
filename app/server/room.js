@@ -43,6 +43,13 @@ class Room {
     return player;
   }
 
+  // Broadcast to all players in the room
+  broadcast(eventName, data) {
+    this.players.forEach((player) => {
+      player.emit(eventName, data);
+    });
+  }
+
   // Return true if all players are currently disconnected from the room;
   // otherwise, return false
   isEmpty() {

@@ -60,9 +60,9 @@ io.on('connection', (socket) => {
       // (where they were previously disconnected), inform the other player that
       // they have reconnected
       const otherPlayer = room.game.getOtherPlayer(localPlayer);
-      if (otherPlayer && otherPlayer.socket) {
+      if (otherPlayer) {
         delete localPlayer.lastDisconnectReason;
-        otherPlayer.socket.emit('player-reconnected', {
+        otherPlayer.emit('player-reconnected', {
           // If the game is still pending, make sure to stay in a pending state,
           // otherwise we can clear the status message
           status: room.game.pendingNewGame ? null : 'playerReconnected',
@@ -102,9 +102,9 @@ io.on('connection', (socket) => {
     const otherPlayer = room.game.getOtherPlayer(localPlayer);
     room.game.startGame();
     // Automatically update first player's screen when second player joins
-    if (otherPlayer && otherPlayer.socket) {
+    if (otherPlayer) {
       console.log('sending updated game to P1');
-      otherPlayer.socket.emit('add-player', {
+      otherPlayer.emit('add-player', {
         status: 'addedPlayer',
         game: room.game,
         localPlayer: otherPlayer
@@ -124,8 +124,8 @@ io.on('connection', (socket) => {
   socket.on('align-pending-chip', getRoom(({ room, column }, fn) => {
     room.game.pendingChipColumn = column;
     const otherPlayer = room.game.getOtherPlayer();
-    if (otherPlayer && otherPlayer.socket) {
-      otherPlayer.socket.emit('align-pending-chip', { column });
+    if (otherPlayer) {
+      otherPlayer.emit('align-pending-chip', { column });
     }
     fn({});
   }));
@@ -155,13 +155,9 @@ io.on('connection', (socket) => {
     room.game.endGame();
     const localPlayer = room.getPlayerById(playerId);
     room.game.requestingPlayer = localPlayer;
-    room.players.forEach((player) => {
-      if (player.socket) {
-        player.socket.emit('end-game', {
-          status: 'endedGame',
-          requestingPlayer: room.game.requestingPlayer
-        });
-      }
+    room.broadcast('end-game', {
+      status: 'endedGame',
+      requestingPlayer: room.game.requestingPlayer
     });
     fn({
       status: 'endedGame',
@@ -185,8 +181,8 @@ io.on('connection', (socket) => {
     if (!room.game.pendingNewGame) {
       room.game.requestingPlayer = localPlayer;
       room.game.pendingNewGame = true;
-      if (otherPlayer && otherPlayer.socket) {
-        otherPlayer.socket.emit('request-new-game', {
+      if (otherPlayer) {
+        otherPlayer.emit('request-new-game', {
           status: 'newGameRequested',
           requestingPlayer: room.game.requestingPlayer,
           localPlayer: otherPlayer
@@ -201,14 +197,9 @@ io.on('connection', (socket) => {
       room.game.declareWinner();
       room.game.resetGame();
       room.game.startGame();
-      room.players.forEach((player) => {
-        if (player.socket) {
-          player.socket.emit('start-new-game', {
-            status: 'startedGame',
-            game: room.game,
-            localPlayer: player
-          });
-        }
+      room.broadcast('start-new-game', {
+        status: 'startedGame',
+        game: room.game
       });
       fn({ status: 'startedGame', localPlayer });
     }
@@ -219,11 +210,7 @@ io.on('connection', (socket) => {
   socket.on('send-reaction', getRoom(({ playerId, room, reaction }, fn) => {
     const localPlayer = room.getPlayerById(playerId);
     localPlayer.lastReaction = reaction;
-    room.game.players.forEach((player) => {
-      if (player.socket) {
-        player.socket.emit('send-reaction', { reaction, reactingPlayer: localPlayer });
-      }
-    });
+    room.broadcast('send-reaction', { reaction, reactingPlayer: localPlayer });
     fn({});
   }));
 
@@ -235,8 +222,8 @@ io.on('connection', (socket) => {
       socket.player.socket = null;
       if (socket.room) {
         const otherPlayer = socket.room.game.getOtherPlayer(socket.player);
-        if (otherPlayer && otherPlayer.socket) {
-          otherPlayer.socket.emit('player-disconnected', {
+        if (otherPlayer) {
+          otherPlayer.emit('player-disconnected', {
             localPlayer: otherPlayer,
             disconnectedPlayer: socket.player
           });
