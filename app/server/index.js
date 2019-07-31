@@ -59,16 +59,12 @@ io.on('connection', (socket) => {
       // If this join-room call represents a player reconnecting to the game
       // (where they were previously disconnected), inform the other player that
       // they have reconnected
-      const otherPlayer = room.game.getOtherPlayer(localPlayer);
-      if (otherPlayer) {
-        delete localPlayer.lastDisconnectReason;
-        otherPlayer.emit('player-reconnected', {
-          // If the game is still pending, make sure to stay in a pending state,
-          // otherwise we can clear the status message
-          status: room.game.pendingNewGame ? null : 'playerReconnected',
-          localPlayer: otherPlayer
-        });
-      }
+      delete localPlayer.lastDisconnectReason;
+      localPlayer.broadcast('player-reconnected', {
+        // If the game is still pending, make sure to stay in a pending state,
+        // otherwise we can clear the status message
+        status: room.game.pendingNewGame ? null : 'playerReconnected'
+      });
     } else if (room.players.length === 2) {
       // If both players are currently connected, all future connections
       // represent spectators
@@ -99,19 +95,12 @@ io.on('connection', (socket) => {
   socket.on('add-player', getRoom(({ room, player }, fn) => {
     console.log(`add player to room ${room.code}`);
     const localPlayer = room.addPlayer({ player, socket });
-    const otherPlayer = room.game.getOtherPlayer(localPlayer);
     room.game.startGame();
     // Automatically update first player's screen when second player joins
-    if (otherPlayer) {
-      console.log('sending updated game to P1');
-      otherPlayer.emit('add-player', {
-        status: 'addedPlayer',
-        game: room.game,
-        localPlayer: otherPlayer
-      });
-    } else {
-      console.log('unable to send updated game to P1');
-    }
+    localPlayer.broadcast('add-player', {
+      status: 'addedPlayer',
+      game: room.game
+    });
     fn({
       status: 'startedGame',
       game: room.game,
@@ -123,10 +112,7 @@ io.on('connection', (socket) => {
 
   socket.on('align-pending-chip', getRoom(({ room, column }, fn) => {
     room.game.pendingChipColumn = column;
-    const otherPlayer = room.game.getOtherPlayer();
-    if (otherPlayer) {
-      otherPlayer.emit('align-pending-chip', { column });
-    }
+    room.game.currentPlayer.broadcast('align-pending-chip', { column });
     fn({});
   }));
 
@@ -169,7 +155,6 @@ io.on('connection', (socket) => {
     console.log('request new game', playerId);
     const localPlayer = room.getPlayerById(playerId);
     localPlayer.lastSubmittedWinner = winner;
-    const otherPlayer = room.game.getOtherPlayer(localPlayer);
     // When either player requests to start a new game, each player must
     // submit the winner for that game, if any; this is because the logic
     // which analyzes the grid for a winner is client-side, at least for now;
@@ -181,13 +166,10 @@ io.on('connection', (socket) => {
     if (!room.game.pendingNewGame) {
       room.game.requestingPlayer = localPlayer;
       room.game.pendingNewGame = true;
-      if (otherPlayer) {
-        otherPlayer.emit('request-new-game', {
-          status: 'newGameRequested',
-          requestingPlayer: room.game.requestingPlayer,
-          localPlayer: otherPlayer
-        });
-      }
+      localPlayer.broadcast('request-new-game', {
+        status: 'newGameRequested',
+        requestingPlayer: room.game.requestingPlayer
+      });
       // Inform the local player (who requested the new game) that their
       // request is pending
       fn({ status: 'requestingNewGame', localPlayer });
@@ -219,16 +201,10 @@ io.on('connection', (socket) => {
     // Indicate that this player is now disconnected
     if (socket.player) {
       console.log('unset player socket');
+      socket.player.broadcast('player-disconnected', {
+        disconnectedPlayer: socket.player
+      });
       socket.player.socket = null;
-      if (socket.room) {
-        const otherPlayer = socket.room.game.getOtherPlayer(socket.player);
-        if (otherPlayer) {
-          otherPlayer.emit('player-disconnected', {
-            localPlayer: otherPlayer,
-            disconnectedPlayer: socket.player
-          });
-        }
-      }
     }
     // As soon as both players disconnect from the room (making it completely
     // empty), mark the room for deletion

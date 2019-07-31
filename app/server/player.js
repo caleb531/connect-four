@@ -38,6 +38,21 @@ class Player {
     }
   }
 
+  // Broadcast an event to all players in the room other than this player
+  broadcast(eventName, data) {
+    if (this.room) {
+      this.room.players.forEach((player) => {
+        player.emit(eventName, player.injectLocalPlayer(data));
+      });
+    }
+  }
+
+  // Inject a reference to this player (assumed to be the local player) into the
+  // given data object
+  injectLocalPlayer(data) {
+    return Object.assign(data, { localPlayer: this });
+  }
+
   toJSON() {
     return {
       id: this.id,

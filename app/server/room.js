@@ -19,6 +19,7 @@ class Room {
     this.players.push(player);
     player.socket = socket;
     socket.player = player;
+    player.room = this;
     socket.room = this;
     socket.join(this.code);
     return player;
@@ -46,7 +47,9 @@ class Room {
   // Broadcast to all players in the room
   broadcast(eventName, data) {
     this.players.forEach((player) => {
-      player.emit(eventName, data);
+      if (player !== this) {
+        player.emit(eventName, player.injectLocalPlayer(data));
+      }
     });
   }
 
