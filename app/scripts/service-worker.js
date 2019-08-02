@@ -1,4 +1,4 @@
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.1/workbox-sw.js');
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js');
 
 // The following call will be populated automatically with the precached file
 // data during the build step

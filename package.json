@@ -75,6 +75,6 @@
     "sinon": "^7.3.2",
     "sinon-chai": "^3.3.0",
     "typeface-ubuntu": "0.0.22",
-    "workbox-build": "^3.6.1"
+    "workbox-build": "^4.3.1"
   }
 }
