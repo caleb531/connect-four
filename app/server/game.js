@@ -1,5 +1,3 @@
-import random from 'random';
-
 import Grid from './grid.js';
 
 class Game {
@@ -39,10 +37,10 @@ class Game {
   }
 
   setStartingPlayer() {
-    // The first game for a room should pick a starting player at random;
-    // successive games will alternate starting player
+    // The first game for a room should choose Player 2 as the starting player,
+    // as a courtesy because they are the guest
     if (this.startingPlayer === null) {
-      this.startingPlayer = this.players[random.int(0, this.players.length - 1)];
+      this.startingPlayer = this.players[1];
     } else {
       this.startingPlayer = this.players.find((player) => player !== this.startingPlayer);
     }
