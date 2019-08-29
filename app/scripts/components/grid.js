@@ -287,9 +287,7 @@ class GridComponent extends Emitter {
             }, m('div.chip-inner'));
           } else {
             // If this grid slot is empty, display an empty slot circle
-            return m('div.empty-chip-slot', {
-              key: 'empty-chip-slot-' + [c, r].join('-')
-            }, m('div.empty-chip-slot-inner'));
+            return m('div.empty-chip-slot', m('div.empty-chip-slot-inner'));
           }
         }));
       }))
