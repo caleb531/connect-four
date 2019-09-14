@@ -42,12 +42,12 @@ class Game {
     if (this.startingPlayer === null) {
       this.startingPlayer = this.players[1];
     } else {
-      this.startingPlayer = this.players.find((player) => player !== this.startingPlayer);
+      this.startingPlayer = this.players.find((player) => player.color !== this.startingPlayer.color);
     }
   }
 
   getOtherPlayer(basePlayer = this.currentPlayer) {
-    return this.players.find((player) => player !== basePlayer);
+    return this.players.find((player) => player.color !== basePlayer.color);
   }
 
   placeChip({ column }) {
