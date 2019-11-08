@@ -44,6 +44,9 @@
 
 .empty-chip-slot-inner {
   border-color: $empty-chip-slot-border-color;
+  @include dark-mode() {
+    border-color: $empty-chip-slot-dark-border-color;
+  }
 }
 
 @keyframes fade-in-chip {
@@ -65,10 +68,16 @@
 .chip {
   @each $player-color-name, $player-color in $player-colors {
     &.#{$player-color-name} .chip-inner {
-      $border-color: darken($player-color, 10%);
       $background-color: $player-color;
+      $border-color: darken($background-color, 10%);
       border-color: $border-color;
       background-color: $background-color;
+      @include dark-mode() {
+        $background-color: map-get($player-dark-colors, $player-color-name);
+        $border-color: darken($background-color, 10%);
+        border-color: $border-color;
+        background-color: $background-color;
+      }
     }
   }
   // The pending chip is the to-be-placed chip above the board

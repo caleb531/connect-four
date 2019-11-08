@@ -10,6 +10,10 @@ body {
   font-family: $sans-serif;
   text-align: center;
   overflow-y: scroll;
+  @include dark-mode() {
+    background-color: $app-dark-background-color;
+    color: $app-dark-color;
+  }
 }
 
 // Ensure that the <main> element renders correctly on browsers that don't fully

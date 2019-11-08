@@ -15,3 +15,10 @@
     @content;
   }
 }
+
+// Add mixin to style elements when Dark Mode is enabled on the user's OS
+@mixin dark-mode() {
+  @media (prefers-color-scheme: dark) {
+    @content;
+  }
+}

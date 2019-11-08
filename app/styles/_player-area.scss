@@ -29,6 +29,12 @@
   @each $player-color-name, $player-color in $player-colors {
     &.#{$player-color-name} {
       color: $player-color;
+      @include dark-mode() {
+        color: map-get($player-dark-colors, $player-color-name);
+        .player-name {
+          color: lighten(map-get($player-dark-colors, $player-color-name), 10%);
+        }
+      }
     }
   }
 }
