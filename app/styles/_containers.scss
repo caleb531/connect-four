@@ -11,8 +11,8 @@ body {
   text-align: center;
   overflow-y: scroll;
   @include dark-mode() {
-    background-color: $app-dark-background-color;
-    color: $app-dark-color;
+    background-color: $app-background-color-dark;
+    color: $app-color-dark;
   }
 }
 

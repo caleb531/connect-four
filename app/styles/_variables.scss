@@ -34,9 +34,9 @@ $input-focus-border-color: #36c;
 $input-focus-box-shadow-color: #9cf;
 
 // Dark Mode Colors
-$app-dark-background-color: #111;
-$app-dark-color: #fff;
-$empty-chip-slot-dark-border-color: #333;
+$app-background-color-dark: #111;
+$app-color-dark: #fff;
+$empty-chip-slot-border-color-dark: #333;
 
 // Player reactions
 $player-reaction-offset: -15px;
@@ -50,7 +50,7 @@ $player-colors: (
 );
 
 // Player/chip colors for Dark Mode
-$player-dark-colors: (
+$player-colors-dark: (
   'black': #666,
   'blue': #14a,
   'red': #b22

@@ -30,9 +30,9 @@
     &.#{$player-color-name} {
       color: $player-color;
       @include dark-mode() {
-        color: map-get($player-dark-colors, $player-color-name);
+        color: map-get($player-colors-dark, $player-color-name);
         .player-name {
-          color: lighten(map-get($player-dark-colors, $player-color-name), 10%);
+          color: lighten(map-get($player-colors-dark, $player-color-name), 10%);
         }
       }
     }
