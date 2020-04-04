@@ -1,6 +1,6 @@
-const commonjs = require('rollup-plugin-commonjs');
-const resolve = require('rollup-plugin-node-resolve');
-const json = require('rollup-plugin-json');
+const commonjs = require('@rollup/plugin-commonjs');
+const resolve = require('@rollup/plugin-node-resolve');
+const json = require('@rollup/plugin-json');
 const globImport = require('rollup-plugin-glob-import');
 const baseConfig = require('./rollup.config.base.js');
 
