@@ -85,7 +85,6 @@ gulp.task('rollup', gulp.parallel(
 
 gulp.task('uglify', () => {
   return gulp.src([
-      'node_modules/fastclick/lib/fastclick.js',
       'node_modules/sw-update-manager/sw-update-manager.js'
     ])
     .pipe(process.env.NODE_ENV === 'production' ? terser() : noop())

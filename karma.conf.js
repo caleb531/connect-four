@@ -9,7 +9,6 @@ module.exports = function (config) {
       'scripts/mithril.min.js',
       'scripts/underscore-min.js',
       'scripts/tinyemitter.min.js',
-      'scripts/fastclick.js',
       'scripts/sw-update-manager.js',
       'scripts/socket.io.slim.js',
       'scripts/clipboard.min.js',

@@ -10,7 +10,6 @@ module.exports = {
       'mithril': 'm',
       'underscore': '_',
       'tiny-emitter': 'TinyEmitter',
-      'fastclick': 'FastClick',
       'sw-update-manager': 'SWUpdateManager',
       'socket.io-client': 'io',
       'clipboard': 'ClipboardJS'
@@ -20,7 +19,6 @@ module.exports = {
     'mithril',
     'underscore',
     'tiny-emitter',
-    'fastclick',
     'sw-update-manager',
     'socket.io-client',
     'clipboard'
