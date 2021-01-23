@@ -37,7 +37,7 @@
     "helmet": "^3.21.2",
     "mithril": "^2.0.4",
     "moment": "^2.24.0",
-    "socket.io": "^2.2.0",
+    "socket.io": "^2.4.0",
     "socket.io-client": "^2.2.0",
     "sw-update-manager": "^1.0.0",
     "tiny-emitter": "^1.1.0",
