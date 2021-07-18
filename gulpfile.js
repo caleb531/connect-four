@@ -1,6 +1,6 @@
 const gulp = require('gulp');
 const sourcemaps = require('gulp-sourcemaps');
-const sass = require('gulp-sass')(require('node-sass'));
+const sass = require('gulp-sass')(require('sass'));
 const terser = require('gulp-terser');
 const noop = require('gulp-noop');
 const rollup = require('rollup');
