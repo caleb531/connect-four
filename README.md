@@ -3,7 +3,7 @@
 *Copyright 2016-2019, Caleb Evans*  
 *Released under the MIT License*
 
-[![Build Status](https://travis-ci.com/caleb531/connect-four.svg?branch=master)](https://travis-ci.com/caleb531/connect-four)
+[![Build Status](https://app.travis-ci.com/caleb531/connect-four.svg?branch=master)](https://app.travis-ci.com/caleb531/connect-four)
 [![Coverage Status](https://coveralls.io/repos/github/caleb531/connect-four/badge.svg?branch=master)](https://coveralls.io/github/caleb531/connect-four?branch=master)
 
 This is the slickest Connect Four app around, written using HTML5, JavaScript,
