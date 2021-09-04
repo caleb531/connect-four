@@ -3,7 +3,7 @@ import _ from 'underscore';
 class Grid {
 
   // The state of a particular game grid
-  constructor({ columnCount = 7, rowCount = 6, columns = _.times(columnCount, () => []), lastPlacedChip = null }) {
+  constructor({ columnCount = 7, rowCount = 6, columns = _.times(columnCount, () => []), lastPlacedChip = null } = {}) {
     this.columnCount = columnCount;
     this.rowCount = rowCount;
     this.columns = columns;
