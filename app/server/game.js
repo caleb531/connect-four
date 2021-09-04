@@ -22,9 +22,6 @@ class Game {
   }
 
   endGame() {
-    if (this.winner) {
-      this.winner.score += 1;
-    }
     this.inProgress = false;
     this.currentPlayer = null;
   }

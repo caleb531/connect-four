@@ -13,6 +13,9 @@ describe('server player', function () {
     expect(player).to.have.property('color', 'green');
     expect(player).to.have.property('socket', socket);
     expect(player).to.have.property('score', 0);
+    expect(player).to.have.property('lastSubmittedWinner', null);
+    expect(player).to.have.property('lastDisconnectReason', null);
+    expect(player).to.have.property('lastReaction', null);
   });
 
   it('should generate valid v4 UUID', function () {

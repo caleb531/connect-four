@@ -51,7 +51,23 @@ describe('server game', function () {
     expect(game).to.have.property('inProgress', true);
   });
 
-  it('should end game without winner', function () {
+  it('should alternate starting player when starting successive games', function () {
+    const players = [
+      new Player({ color: 'blue', name: 'Bob' }),
+      new Player({ color: 'black', name: 'Larry' })
+    ];
+    const game = new Game({
+      players
+    });
+    expect(game).to.have.property('startingPlayer', null);
+    game.startGame();
+    expect(game).to.have.property('startingPlayer', players[1]);
+    game.endGame();
+    game.startGame();
+    expect(game).to.have.property('startingPlayer', players[0]);
+  });
+
+  it('should end game', function () {
     const players = [
       new Player({ color: 'blue', name: 'Bob' }),
       new Player({ color: 'black', name: 'Larry' })
@@ -65,7 +81,7 @@ describe('server game', function () {
     expect(game).to.have.property('currentPlayer', null);
   });
 
-  it('should end game with winner', function () {
+  it('should reset game', function () {
     const players = [
       new Player({ color: 'blue', name: 'Bob' }),
       new Player({ color: 'black', name: 'Larry' })
@@ -76,10 +92,49 @@ describe('server game', function () {
     game.startGame();
     game.winner = players[1];
     game.endGame();
+    game.requestingPlayer = players[0];
+    game.resetGame();
     expect(game).to.have.property('inProgress', false);
-    expect(game).to.have.property('currentPlayer', null);
-    expect(game).to.have.property('winner', players[1]);
-    expect(game.winner).to.have.property('score', 1);
+    expect(game).to.have.property('requestingPlayer', null);
+    expect(game).to.have.property('winner', null);
+  });
+
+  it('should place chip', function () {
+    const players = [
+      new Player({ color: 'blue', name: 'Bob' }),
+      new Player({ color: 'black', name: 'Larry' })
+    ];
+    const game = new Game({
+      players
+    });
+    game.startGame();
+    expect(game).to.have.property('currentPlayer', players[1]);
+    game.placeChip({
+      column: 4
+    });
+    expect(game.grid.columns[4]).to.have.length(1);
+    expect(game.grid.columns[4][0]).to.have.property('column', 4);
+    expect(game.grid.columns[4][0]).to.have.property('player', 'black');
+    expect(game).to.have.property('currentPlayer', players[0]);
+  });
+
+  it('should declare winner', function () {
+    const players = [
+      new Player({ color: 'blue', name: 'Bob' }),
+      new Player({ color: 'black', name: 'Larry' })
+    ];
+    players[0].lastSubmittedWinner = players[0];
+    players[1].lastSubmittedWinner = players[0];
+    const game = new Game({
+      players
+    });
+    game.startGame();
+    game.winner = players[0];
+    game.endGame();
+    expect(players[0].score).to.equal(0);
+    game.declareWinner();
+    expect(game.winner).to.equal(players[0]);
+    expect(players[0].score).to.equal(1);
   });
 
   it('should serialize as JSON', function () {
