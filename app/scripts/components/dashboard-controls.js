@@ -159,6 +159,11 @@ class DashboardControlsComponent {
         onclick: () => this.leaveRoom() }, 'Leave Room'
       ) :
 
+      // If room does not exist, allow user to return to app home
+      this.session.status === 'roomNotFound' ? m('button', {
+        onclick: () => this.returnToHome() }, 'Return to Home'
+      ) :
+
       // If an online game is not in progress (i.e. it was ended early, or there
       // is a winner/tie), allow the user to play again
       this.session.socket && this.game.players.length === 2 && this.session.status !== 'connecting' && this.session.status !== 'watchingGame' && !this.session.disconnectedPlayer && !this.session.reconnectedPlayer && !this.session.disconnected ? [
