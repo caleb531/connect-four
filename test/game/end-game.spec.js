@@ -36,14 +36,4 @@ describe('game', function () {
    expect(game.columnHistory).to.have.length(0);
   });
 
-  it('should increment winner\'s score when ending', function () {
-    const game = new Game();
-    game.setPlayers({ gameType: '2P' });
-    game.startGame();
-    game.winner = game.players[0];
-    expect(game.winner.score).to.equal(0);
-    game.endGame();
-    expect(game.winner.score).to.equal(1);
-  });
-
 });

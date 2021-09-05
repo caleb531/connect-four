@@ -54,9 +54,6 @@ class Game extends Emitter {
 
   // End the game without resetting the grid
   endGame() {
-    if (this.winner) {
-      this.winner.score += 1;
-    }
     this.inProgress = false;
     this.currentPlayer = null;
     this.pendingChip = null;
@@ -189,6 +186,7 @@ class Game extends Emitter {
         chip.winning = true;
       });
       this.winner = this.grid.lastPlacedChip.player;
+      this.winner.score += 1;
       this.emit('game:declare-winner', this.winner);
       this.endGame();
     }
