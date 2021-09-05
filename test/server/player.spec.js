@@ -48,7 +48,7 @@ describe('server player', function () {
 
   it('should emit a server event for this player only', function () {
     const socket = sinon.stub({
-      emit: () => {}
+      emit: () => {/* noop */}
     });
     const player = new Player({
       name: 'Caleb',
@@ -61,7 +61,7 @@ describe('server player', function () {
 
   it('should broadcast a server event to all players', function () {
     const socket = sinon.stub({
-      emit: () => {}
+      emit: () => {/* noop */}
     });
     const localPlayer = new Player({
       name: 'Caleb',
