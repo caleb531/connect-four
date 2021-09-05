@@ -137,6 +137,26 @@ describe('server game', function () {
     expect(players[0].score).to.equal(1);
   });
 
+  it('should not declare winner if someone spoofs results', function () {
+    const players = [
+      new Player({ color: 'blue', name: 'Bob' }),
+      new Player({ color: 'black', name: 'Larry' })
+    ];
+    players[0].lastSubmittedWinner = players[0];
+    players[1].lastSubmittedWinner = players[1];
+    const game = new Game({
+      players
+    });
+    game.startGame();
+    game.winner = players[0];
+    game.endGame();
+    expect(players[0].score).to.equal(0);
+    game.declareWinner();
+    expect(game.winner).to.be.undefined;
+    expect(players[0].score).to.equal(0);
+    expect(players[1].score).to.equal(0);
+  });
+
   it('should serialize as JSON', function () {
     const game = new Game({
       players: [
