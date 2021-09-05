@@ -35,6 +35,7 @@ describe('game', function () {
     }
     expect(game.winner).not.to.be.null;
     expect(game.winner.name).to.equal('Human 1');
+    expect(game.winner.score).to.equal(1);
   });
 
   it('should win vertically', function () {
@@ -53,6 +54,7 @@ describe('game', function () {
     }
     expect(game.winner).not.to.be.null;
     expect(game.winner.name).to.equal('Human 1');
+    expect(game.winner.score).to.equal(1);
   });
 
   it('should win diagonally', function () {
@@ -71,6 +73,7 @@ describe('game', function () {
     }
     expect(game.winner).not.to.be.null;
     expect(game.winner.name).to.equal('Human 1');
+    expect(game.winner.score).to.equal(1);
   });
 
   it('should win with two connect-fours at once', function () {
@@ -89,6 +92,7 @@ describe('game', function () {
     }
     expect(game.winner).not.to.be.null;
     expect(game.winner.name).to.equal('Human 1');
+    expect(game.winner.score).to.equal(1);
   });
 
   it('should win on connections of more than four', function () {
@@ -107,6 +111,7 @@ describe('game', function () {
     }
     expect(game.winner).not.to.be.null;
     expect(game.winner.name).to.equal('Human 1');
+    expect(game.winner.score).to.equal(1);
   });
 
   it('should end when grid becomes full', function () {
