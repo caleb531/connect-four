@@ -2,7 +2,7 @@ import Grid from './grid.js';
 
 class Game {
 
-  constructor({ players, grid = new Grid({ columnCount: 7, rowCount: 6 }), startingPlayer = null, currentPlayer = null, requestingPlayer = null, inProgress = false, winner = null }) {
+  constructor({ players, grid = new Grid({ columnCount: 7, rowCount: 6 }), startingPlayer = null, currentPlayer = null, requestingPlayer = null, inProgress = false, pendingChipColumn = null, winner = null, pendingNewGame = false }) {
     this.grid = grid;
     this.players = players;
     this.startingPlayer = startingPlayer;
@@ -10,9 +10,9 @@ class Game {
     this.requestingPlayer = requestingPlayer;
     this.inProgress = inProgress;
     // The current column at which the pending chip is aligned on the client
-    this.pendingChipColumn = null;
+    this.pendingChipColumn = pendingChipColumn;
     this.winner = winner;
-    this.pendingNewGame = false;
+    this.pendingNewGame = pendingNewGame;
   }
 
   startGame() {
