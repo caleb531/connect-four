@@ -28,7 +28,7 @@ ReactionPickerComponent.availableReactions = [
   { symbol: '😭' },
   { symbol: '😉' },
   { symbol: '😬' },
-  { symbol: '🙈' }
+  { symbol: '☕' }
 ];
 
 export default ReactionPickerComponent;
