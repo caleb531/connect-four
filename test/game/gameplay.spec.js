@@ -35,6 +35,7 @@ describe('game', function () {
     }
     expect(game.winner).not.to.be.null;
     expect(game.winner.name).to.equal('Human 1');
+    expect(game.players[1].score).to.equal(0);
     expect(game.winner.score).to.equal(1);
   });
 
@@ -54,6 +55,7 @@ describe('game', function () {
     }
     expect(game.winner).not.to.be.null;
     expect(game.winner.name).to.equal('Human 1');
+    expect(game.players[1].score).to.equal(0);
     expect(game.winner.score).to.equal(1);
   });
 
@@ -73,6 +75,7 @@ describe('game', function () {
     }
     expect(game.winner).not.to.be.null;
     expect(game.winner.name).to.equal('Human 1');
+    expect(game.players[1].score).to.equal(0);
     expect(game.winner.score).to.equal(1);
   });
 
@@ -92,6 +95,7 @@ describe('game', function () {
     }
     expect(game.winner).not.to.be.null;
     expect(game.winner.name).to.equal('Human 1');
+    expect(game.players[1].score).to.equal(0);
     expect(game.winner.score).to.equal(1);
   });
 
@@ -111,6 +115,7 @@ describe('game', function () {
     }
     expect(game.winner).not.to.be.null;
     expect(game.winner.name).to.equal('Human 1');
+    expect(game.players[1].score).to.equal(0);
     expect(game.winner.score).to.equal(1);
   });
 
