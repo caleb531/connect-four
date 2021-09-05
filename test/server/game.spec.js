@@ -118,6 +118,20 @@ describe('server game', function () {
     expect(game).to.have.property('currentPlayer', players[0]);
   });
 
+  it('should not place chip if game is not in progress', function () {
+    const players = [
+      new Player({ color: 'blue', name: 'Bob' }),
+      new Player({ color: 'black', name: 'Larry' })
+    ];
+    const game = new Game({
+      players
+    });
+    game.placeChip({
+      column: 4
+    });
+    expect(game.grid.columns[4]).to.have.length(0);
+  });
+
   it('should declare winner', function () {
     const players = [
       new Player({ color: 'blue', name: 'Bob' }),
