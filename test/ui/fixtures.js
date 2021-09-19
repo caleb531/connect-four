@@ -10,7 +10,7 @@ export function _before() {
   style.innerHTML = '* {transition-duration: 50ms !important;}';
   document.head.appendChild(style);
   // Also zero out the AI Player's delay between each swift movement
-  AIPlayer.waitDelay = 0;
+  AIPlayer.prototype.waitDelay = 0;
 }
 
 export function _beforeEach() {
