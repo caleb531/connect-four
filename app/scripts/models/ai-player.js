@@ -26,7 +26,7 @@ class AIPlayer extends AsyncPlayer {
       currentPlayerIsMaxPlayer: true
     });
     // If max search depth was reached or if winning grid was found
-    if (depth === AIPlayer.maxComputeDepth || Math.abs(gridScore) === Grid.maxScore) {
+    if (depth === this.maxComputeDepth || Math.abs(gridScore) === Grid.maxScore) {
       return { column: null, score: gridScore };
     }
     const maxMove = { column: null, score: Grid.minScore };
@@ -77,7 +77,7 @@ class AIPlayer extends AsyncPlayer {
       currentPlayerIsMaxPlayer: false
     });
     // If max search depth was reached or if winning grid was found
-    if (depth === AIPlayer.maxComputeDepth || Math.abs(gridScore) === Grid.maxScore) {
+    if (depth === this.maxComputeDepth || Math.abs(gridScore) === Grid.maxScore) {
       return { column: null, score: gridScore };
     }
     const minMove = { column: null, score: Grid.maxScore };
@@ -118,10 +118,10 @@ class AIPlayer extends AsyncPlayer {
 
 AIPlayer.prototype.type = 'ai';
 // The duration to wait (in ms) for the user to process the AI player's actions
-AIPlayer.waitDelay = 200;
+AIPlayer.prototype.waitDelay = 200;
 // The maximum number of grid moves to look ahead; for reasons unknown,
 // increasing this to a value greater than 3 will actually cripple the AI's
 // ability to handle connect-three trap scenarios
-AIPlayer.maxComputeDepth = 3;
+AIPlayer.prototype.maxComputeDepth = 3;
 
 export default AIPlayer;

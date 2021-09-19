@@ -9,7 +9,7 @@ class AsyncPlayer extends Player {
   // player's actions; all AsyncPlayer subclasses must define a waitDelay as a
   // static property on the class object
   wait(callback) {
-    setTimeout(callback, this.constructor.waitDelay);
+    setTimeout(callback, this.waitDelay);
   }
 
   // Return a promise that resolves with a { column } object containing the

@@ -21,6 +21,6 @@ class OnlinePlayer extends AsyncPlayer {
 OnlinePlayer.prototype.type = 'online';
 // Do not delay between the time the online player's move is received by the
 // client, and when the chip is placed locally
-OnlinePlayer.waitDelay = 0;
+OnlinePlayer.prototype.waitDelay = 0;
 
 export default OnlinePlayer;
