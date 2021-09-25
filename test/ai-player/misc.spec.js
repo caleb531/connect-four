@@ -23,7 +23,7 @@ describe('AI player', function () {
     });
     const clock = sinon.useFakeTimers();
     const callback = sinon.spy();
-    expect(aiPlayer.wait(callback));
+    aiPlayer.wait(callback);
     expect(callback).not.to.have.been.calledOnce;
     clock.tick(500);
     expect(callback).to.have.been.calledOnce;
