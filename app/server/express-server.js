@@ -13,8 +13,8 @@ const app = express();
 if (process.env.NODE_ENV === 'production') {
   app.enable('trust proxy');
   app.use(expressEnforcesSSL());
-  app.use(helmet());
 }
+app.use(helmet());
 
 // Serve assets using gzip compression
 app.use(compression());
