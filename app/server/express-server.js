@@ -14,7 +14,23 @@ if (process.env.NODE_ENV === 'production') {
   app.enable('trust proxy');
   app.use(expressEnforcesSSL());
 }
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    useDefaults: true,
+    directives: {
+      /* eslint-disable quotes */
+      'default-src': ["'none'"],
+      'style-src': ["'self'"],
+      'img-src': ["'self'"],
+      'font-src': ["'self'", 'https://*.gstatic.com', 'data:'],
+      'script-src': ["'self'", "'unsafe-inline'", 'https://storage.googleapis.com', 'https://www.google-analytics.com'],
+      'child-src': ["'self'"],
+      'connect-src': ["'self'"],
+      'manifest-src': ["'self'"]
+      /* eslint-enable quotes */
+    }
+  }
+}));
 
 // Serve assets using gzip compression
 app.use(compression());
