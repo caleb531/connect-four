@@ -16,7 +16,7 @@ class AsyncPlayer extends Player {
   // integer column in which to place the player's next chip; all AsyncPlayer
   // subclasses must implement this method
   getNextMove() {
-    throw new Error('This method must be implemented by a subclass of AsyncPlayer');
+    throw new Error('This method must be implemented by a subclass of AsyncPlayer; it must return a promise which resolves when the async player\'s next move has finished computing');
   }
 
 }
