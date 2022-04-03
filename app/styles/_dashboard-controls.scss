@@ -6,8 +6,8 @@
     background-color: $button-background-color;
     font-family: $sans-serif;
     color: #fff;
-    &:hover:active,
-    &:focus:active {
+    &:not([disabled]):hover:active,
+    &:not([disabled]):focus:active {
       background-color: lighten($button-background-color, 5%);
     }
     &:focus {
@@ -15,8 +15,8 @@
     }
     &.warn {
       background-color: $button-warn-background-color;
-      &:hover:active,
-      &:focus:active {
+      &:not([disabled]):hover:active,
+      &:not([disabled]):focus:active {
         background-color: desaturate(lighten($button-warn-background-color, 10%), 10%);
       }
     }
