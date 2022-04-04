@@ -25,7 +25,7 @@ app.use(helmet({
       'font-src': ["'self'", 'https://*.gstatic.com', 'data:'],
       'script-src': ["'self'", "'unsafe-inline'", 'https://storage.googleapis.com', 'https://www.google-analytics.com'],
       'child-src': ["'self'"],
-      'connect-src': ["'self'"],
+      'connect-src': ["'self'", "https://www.google-analytics.com"],
       'manifest-src': ["'self'"]
       /* eslint-enable quotes */
     }
