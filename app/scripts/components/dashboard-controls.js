@@ -198,11 +198,8 @@ class DashboardControlsComponent {
             onclick: () => this.setPlayers({ gameType: '1P' })
           }, '1 Player'),
           m('button', {
-            onclick: () => this.setPlayers({ gameType: '2P' })
-          }, '2 Players'),
-          m('button', {
             onclick: () => this.promptToStartOnlineGame()
-          }, 'Invite')
+          }, '2 Players')
         ]
 
       ] : null
