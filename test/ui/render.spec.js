@@ -9,7 +9,7 @@ describe('game UI', function () {
 
   it('should render initial buttons', function () {
     const buttons = qsa('#game-dashboard button');
-    expect(buttons).to.have.length(3);
+    expect(buttons).to.have.length(2);
     expect(buttons[0]).to.have.text('1 Player');
     expect(buttons[1]).to.have.text('2 Players');
   });

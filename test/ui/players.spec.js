@@ -16,13 +16,13 @@ describe('game UI', function () {
     expect(buttons[1]).to.have.text('Mr. A.I.');
   });
 
-  it('should ask for starting player in 2-Player mode', function () {
-    qsa('#game-dashboard button')[1].click();
-    m.redraw.sync();
-    const buttons = qsa('#game-dashboard button');
-    expect(buttons[0]).to.have.text('Human 1');
-    expect(buttons[1]).to.have.text('Human 2');
-  });
+  // it('should ask for starting player in 2-Player mode', function () {
+  //   qsa('#game-dashboard button')[1].click();
+  //   m.redraw.sync();
+  //   const buttons = qsa('#game-dashboard button');
+  //   expect(buttons[0]).to.have.text('Human 1');
+  //   expect(buttons[1]).to.have.text('Human 2');
+  // });
 
   it('should start with Human when chosen in 1-Player mode', function () {
     qsa('#game-dashboard button')[0].click();
@@ -42,22 +42,22 @@ describe('game UI', function () {
     expect(pendingChip).to.have.class('black');
   });
 
-  it('should start with Human 1 when chosen in 2-Player mode', function () {
-    qsa('#game-dashboard button')[1].click();
-    m.redraw.sync();
-    qsa('#game-dashboard button')[0].click();
-    m.redraw.sync();
-    const pendingChip = qs('.chip.pending');
-    expect(pendingChip).to.have.class('red');
-  });
+  // it('should start with Human 1 when chosen in 2-Player mode', function () {
+  //   qsa('#game-dashboard button')[1].click();
+  //   m.redraw.sync();
+  //   qsa('#game-dashboard button')[0].click();
+  //   m.redraw.sync();
+  //   const pendingChip = qs('.chip.pending');
+  //   expect(pendingChip).to.have.class('red');
+  // });
 
-  it('should start with Human 2 when chosen in 2-Player mode', function () {
-    qsa('#game-dashboard button')[1].click();
-    m.redraw.sync();
-    qsa('#game-dashboard button')[1].click();
-    m.redraw.sync();
-    const pendingChip = qs('.chip.pending');
-    expect(pendingChip).to.have.class('blue');
-  });
+  // it('should start with Human 2 when chosen in 2-Player mode', function () {
+  //   qsa('#game-dashboard button')[1].click();
+  //   m.redraw.sync();
+  //   qsa('#game-dashboard button')[1].click();
+  //   m.redraw.sync();
+  //   const pendingChip = qs('.chip.pending');
+  //   expect(pendingChip).to.have.class('blue');
+  // });
 
 });

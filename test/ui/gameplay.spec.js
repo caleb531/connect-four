@@ -24,7 +24,7 @@ describe('game UI', function () {
   });
 
   it('should place chip in initial column', function (done) {
-    qsa('#game-dashboard button')[1].click();
+    qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
     qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
@@ -39,7 +39,7 @@ describe('game UI', function () {
   });
 
   it('should align chip to clicked column', function (done) {
-    qsa('#game-dashboard button')[1].click();
+    qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
     qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
@@ -55,7 +55,7 @@ describe('game UI', function () {
   });
 
   it('should place chip after aligning', function (done) {
-    qsa('#game-dashboard button')[1].click();
+    qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
     qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
@@ -110,7 +110,7 @@ describe('game UI', function () {
   });
 
   it('should align chip to hovered column', function (done) {
-    qsa('#game-dashboard button')[1].click();
+    qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
     qsa('#game-dashboard button')[0].click();
     m.redraw.sync();
