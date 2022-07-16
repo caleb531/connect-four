@@ -104,6 +104,12 @@ class DashboardControlsComponent {
       this.game.restoreFromServer({ game, localPlayer });
       m.route.set(`/room/${roomCode}`);
     });
+    if (window.ga) {
+      ga('send', 'pageview');
+    }
+    if (window.gtag) {
+      gtag('event', 'page_view');
+    }
   }
 
   requestNewOnlineGame() {
