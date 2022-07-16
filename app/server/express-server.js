@@ -21,7 +21,7 @@ app.use(helmet({
       /* eslint-disable quotes */
       'default-src': ["'none'"],
       'style-src': ["'self'"],
-      'img-src': ["'self'"],
+      'img-src': ["'self'", 'https://www.google-analytics.com', 'https://www.googletagmanager.com'],
       'font-src': ["'self'", 'https://*.gstatic.com', 'data:'],
       'script-src': ["'self'", "'unsafe-inline'", 'https://storage.googleapis.com', 'https://www.google-analytics.com', 'https://www.googletagmanager.com'],
       'child-src': ["'self'"],
