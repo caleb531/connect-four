@@ -23,6 +23,12 @@ class DashboardControlsComponent {
     this.game.startGame({
       startingPlayer: newStartingPlayer
     });
+    if (window.ga) {
+      ga('send', 'pageview');
+    }
+    if (window.gtag) {
+      gtag('event', 'page_view');
+    }
   }
 
   endGame(roomCode) {
