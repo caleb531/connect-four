@@ -23,9 +23,9 @@ app.use(helmet({
       'style-src': ["'self'"],
       'img-src': ["'self'"],
       'font-src': ["'self'", 'https://*.gstatic.com', 'data:'],
-      'script-src': ["'self'", "'unsafe-inline'", 'https://storage.googleapis.com', 'https://www.google-analytics.com'],
+      'script-src': ["'self'", "'unsafe-inline'", 'https://storage.googleapis.com', 'https://www.google-analytics.com', 'https://www.googletagmanager.com'],
       'child-src': ["'self'"],
-      'connect-src': ["'self'", "https://www.google-analytics.com"],
+      'connect-src': ["'self'", "https://www.google-analytics.com", 'https://www.googletagmanager.com'],
       'manifest-src': ["'self'"]
       /* eslint-enable quotes */
     }
