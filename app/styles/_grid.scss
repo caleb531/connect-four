@@ -67,17 +67,19 @@
 
 .chip {
   @each $player-color-name, $player-color in $player-colors {
-    &.#{$player-color-name} .chip-inner {
-      $background-color: $player-color;
-      $border-color: darken($background-color, 10%);
-      border-color: $border-color;
-      background-color: $background-color;
-      @include dark-mode() {
-        $background-color: map-get($player-colors-dark, $player-color-name);
-        $border-color: darken($background-color, 10%);
-        border-color: $border-color;
-        background-color: $background-color;
-      }
+    &.#{$player-color-name} {
+      --chip-background-color-light: #{$player-color};
+      --chip-background-color-dark: #{map-get($player-colors-dark, $player-color-name)};
+      --chip-border-color-light: #{darken($player-color, 10%)};
+      --chip-border-color-dark: #{darken(map-get($player-colors-dark, $player-color-name), 10%)};
+    }
+  }
+  .chip-inner {
+    border-color: var(--chip-border-color-light);
+    background-color: var(--chip-background-color-light);
+    @include dark-mode() {
+      border-color: var(--chip-border-color-dark);
+      background-color: var(--chip-background-color-dark);
     }
   }
   // The pending chip is the to-be-placed chip above the board
