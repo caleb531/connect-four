@@ -1,59 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Connect Four | Caleb Evans</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
-  <meta name="description" content="The slickest way to get 4-in-a-row. Play on your phone or computer, with a friend or against Mr. A.I. Just be sure to enjoy and have fun." />
-  <meta name="apple-mobile-web-app-title" content="Connect Four" />
-  <meta name="theme-color" content="#ffffff" />
+  <head>
+    <meta charset="UTF-8" />
+    <title>Connect Four | Web3</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1.0"
+    />
+    <meta
+      name="description"
+      content="The slickest way to get 4-in-a-row. Play on your phone or computer, with a friend or against Mr. A.I. Just be sure to enjoy and have fun."
+    />
+    <meta name="apple-mobile-web-app-title" content="Connect Four" />
+    <meta name="theme-color" content="#ffffff" />
 
-  <link rel="stylesheet" href="/styles/index.css" />
-  <link rel="shortcut icon" href="/icons/favicon.png" />
-  <link rel="apple-touch-icon" href="/icons/app-icon-192.png" sizes="192x192" />
-  <link rel="manifest" href="/manifest.json" />
-</head>
-<body>
+    <link rel="stylesheet" href="/styles/index.css" />
+    <link rel="shortcut icon" href="/icons/favicon.png" />
+    <link
+      rel="apple-touch-icon"
+      href="/icons/app-icon-192.png"
+      sizes="192x192"
+    />
+    <link rel="manifest" href="/manifest.json" />
+  </head>
+  <body>
+    <noscript>
+      <h1>Connect Four Web3</h1>
+      <p>
+        Please
+        <a
+          href="https://www.whatismybrowser.com/guides/how-to-enable-javascript/"
+          >enable JavaScript</a
+        >
+        to play.
+      </p>
+    </noscript>
 
-<span id="github-link" class="nav-link nav-link-left">
-  <a href="https://github.com/caleb531/connect-four">View on GitHub</a>
-</span>
+    <main></main>
 
-<span id="personal-site-link" class="nav-link nav-link-right">
-  by <a href="https://calebevans.me">Caleb Evans</a>
-</span>
+    <!-- Universal Analytics -->
+    <script>
+      (function (i, s, o, g, r, a, m) {
+        i["GoogleAnalyticsObject"] = r;
+        (i[r] =
+          i[r] ||
+          function () {
+            (i[r].q = i[r].q || []).push(arguments);
+          }),
+          (i[r].l = 1 * new Date());
+        (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m);
+      })(
+        window,
+        document,
+        "script",
+        "https://www.google-analytics.com/analytics.js",
+        "ga"
+      );
+      ga("create", "UA-32415253-5", "auto");
+      ga("send", "pageview");
+    </script>
+    <!-- Google Analytics 4 -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-QDGNKNKW4E"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-<noscript>
-  <h1>Connect Four</h1>
-  <p>Please <a href="https://www.whatismybrowser.com/guides/how-to-enable-javascript/">enable JavaScript</a> to play.</p>
-</noscript>
-
-<main></main>
-
-<!-- Universal Analytics -->
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-32415253-5', 'auto');
-  ga('send', 'pageview');
-</script>
-<!-- Google Analytics 4 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-QDGNKNKW4E"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-QDGNKNKW4E');
-</script>
-<script src="/scripts/mithril.min.js"></script>
-<script src="/scripts/underscore-min.js"></script>
-<script src="/scripts/sw-update-manager.js"></script>
-<script src="/scripts/tinyemitter.min.js"></script>
-<script src="/scripts/socket.io.min.js"></script>
-<script src="/scripts/clipboard.min.js"></script>
-<script src="/scripts/index.js" async></script>
-</body>
+      gtag("config", "G-QDGNKNKW4E");
+    </script>
+    <script src="/scripts/mithril.min.js"></script>
+    <script src="/scripts/underscore-min.js"></script>
+    <script src="/scripts/sw-update-manager.js"></script>
+    <script src="/scripts/tinyemitter.min.js"></script>
+    <script src="/scripts/socket.io.min.js"></script>
+    <script src="/scripts/clipboard.min.js"></script>
+    <script src="/scripts/index.js" async></script>
+  </body>
 </html>

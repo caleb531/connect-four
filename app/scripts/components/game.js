@@ -1,19 +1,18 @@
-import m from 'mithril';
-import classNames from '../classnames.js';
-import Game from '../models/game.js';
-import GridComponent from './grid.js';
-import DashboardComponent from './dashboard.js';
-import PlayerAreaComponent from './player-area.js';
-import ReactionPickerComponent from './reaction-picker.js';
+import m from "mithril";
+import classNames from "../classnames.js";
+import Game from "../models/game.js";
+import GridComponent from "./grid.js";
+import DashboardComponent from "./dashboard.js";
+import PlayerAreaComponent from "./player-area.js";
+import ReactionPickerComponent from "./reaction-picker.js";
 
 // The game UI, encompassing all UI pertaining to the game directly
 class GameComponent {
-
   oninit({ attrs: { session, roomCode } }) {
     this.session = session;
     this.game = new Game({
       // Only enable debug mode on non-production sites
-      debug: (window.location.host !== 'connectfour.calebevans.me' && !window.__karma__)
+      debug: window.location.host !== "" && !window.__karma__,
     });
     if (roomCode) {
       this.session.connect();
@@ -31,7 +30,7 @@ class GameComponent {
     // Join the room immediately if a room code is specified in the URL; the
     // room code and local player ID are implicitly and automatically passed by
     // the Session class
-    this.session.emit('join-room', { roomCode }, ({ game, localPlayer }) => {
+    this.session.emit("join-room", { roomCode }, ({ game, localPlayer }) => {
       if (game) {
         this.game.restoreFromServer({ game, localPlayer });
         if (localPlayer) {
@@ -47,36 +46,36 @@ class GameComponent {
 
   listenForOnlineGameEvents() {
     // When P2 joins an online game, automatically update P1's screen
-    this.session.on('add-player', ({ game, localPlayer }) => {
+    this.session.on("add-player", ({ game, localPlayer }) => {
       this.game.restoreFromServer({ game, localPlayer });
       m.redraw();
     });
     // If either player ends an online game early, automatically update the
     // local player's game instance and indicate who ended the game
-    this.session.on('end-game', ({ requestingPlayer }) => {
+    this.session.on("end-game", ({ requestingPlayer }) => {
       this.game.requestingPlayer = requestingPlayer;
       this.game.endGame();
       m.redraw();
     });
-    this.session.on('request-new-game', ({ requestingPlayer }) => {
+    this.session.on("request-new-game", ({ requestingPlayer }) => {
       this.game.requestingPlayer = requestingPlayer;
       m.redraw();
     });
-    this.session.on('start-new-game', ({ game, localPlayer }) => {
+    this.session.on("start-new-game", ({ game, localPlayer }) => {
       this.game.restoreFromServer({ game, localPlayer });
       m.redraw();
     });
   }
 
   handlePlayerConnections({ roomCode }) {
-    this.session.on('player-disconnected', ({ disconnectedPlayer }) => {
+    this.session.on("player-disconnected", ({ disconnectedPlayer }) => {
       this.session.disconnectedPlayer = disconnectedPlayer;
       // Clear timer for reconnection message
       clearTimeout(this.session.reconnectMessageTimer);
       delete this.session.reconnectedPlayer;
       m.redraw();
     });
-    this.session.on('player-reconnected', () => {
+    this.session.on("player-reconnected", () => {
       if (this.session.disconnectedPlayer) {
         this.session.disconnectedPlayer.lastDisconnectReason = null;
         this.session.reconnectedPlayer = this.session.disconnectedPlayer;
@@ -91,36 +90,44 @@ class GameComponent {
       }, GameComponent.reconnectMessageDuration);
       m.redraw();
     });
-    this.session.on('disconnect', () => {
+    this.session.on("disconnect", () => {
       // At this point, the session object's `disconnected` flag is
       // automatically set to true
       m.redraw();
     });
-    this.session.on('reconnect', () => {
+    this.session.on("reconnect", () => {
       this.joinRoom({ roomCode });
     });
   }
 
   view({ attrs: { roomCode } }) {
-    return m('div#game', {
-      class: classNames({ 'in-progress': this.game.inProgress })
-    }, [
-      m('div.game-column', [
-        m('h1', 'Connect Four'),
-        m(DashboardComponent, {
-          game: this.game,
-          session: this.session,
-          roomCode
-        })
-      ]),
-      m('div.game-column', [
-        m(GridComponent, { game: this.game, session: this.session }),
-        m(PlayerAreaComponent, { game: this.game, session: this.session }),
-        this.session.connected && this.game.players.length === 2 ? m(ReactionPickerComponent, { game: this.game, session: this.session }) : null
-      ])
-    ]);
+    return m(
+      "div#game",
+      {
+        class: classNames({ "in-progress": this.game.inProgress }),
+      },
+      [
+        m("div.game-column", [
+          m("h1", "8s Connect Four"),
+          m(DashboardComponent, {
+            game: this.game,
+            session: this.session,
+            roomCode,
+          }),
+        ]),
+        m("div.game-column", [
+          m(GridComponent, { game: this.game, session: this.session }),
+          m(PlayerAreaComponent, { game: this.game, session: this.session }),
+          this.session.connected && this.game.players.length === 2
+            ? m(ReactionPickerComponent, {
+                game: this.game,
+                session: this.session,
+              })
+            : null,
+        ]),
+      ]
+    );
   }
-
 }
 
 // The duration (in ms) the 'reconnected player' message will show before the
