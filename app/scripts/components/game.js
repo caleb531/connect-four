@@ -108,7 +108,7 @@ class GameComponent {
       },
       [
         m("div.game-column", [
-          m("h1", "Connect Four"),
+          m("h1", "8s Connect Four"),
           m(DashboardComponent, {
             game: this.game,
             session: this.session,
