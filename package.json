@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "A Connect Four web app implemented in JS using Mithril",
   "scripts": {
-    "start": "node -r esm public/server/index.js",
+    "start": "node -r esm public/server/index.js ",
+    "ngrok": "./ngrok http 8080",
     "build": "gulp build",
     "lint": "eslint app/**/*.js test/**/*.js gulpfile.js",
     "test": "karma start --single-run",
@@ -49,7 +50,7 @@
     "chai": "^4.2.0",
     "chai-dom": "^1.8.1",
     "eslint": "^8.10.0",
-    "gulp": "^4.0.0",
+    "gulp": "^4.0.2",
     "gulp-noop": "^1.0.0",
     "gulp-sass": "^5.0.0",
     "gulp-sourcemaps": "^2.6.4",

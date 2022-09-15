@@ -66,6 +66,11 @@ To serve the app locally, run:
 gulp serve
 ```
 
+to run the ngrok tunnel, in a new terminal window run:
+```
+npm run ngrok
+```
+
 You will then be able to view the app at `http://localhost:8080`. Any app files
 will be recompiled automatically when you make changes to them (as long as `gulp
 serve` is still running).
