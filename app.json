@@ -1,8 +1,7 @@
 {
-  "name": "Connect Four",
-  "description": "A Connect Four web app implemented in JS using Mithril",
-  "website": "https://connectfour.calebevans.me/",
-  "repository": "https://github.com/caleb531/connect-four",
-  "logo": "https://calebevans.me/assets/icons/projects/connect-four.svg",
+  "name": "8s Connect Four - Classic games with a twist",
+  "description": "Connect4 with a twist",
+  "website": "",
+  "logo": "",
   "success_url": "/"
 }

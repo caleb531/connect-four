@@ -1,7 +1,7 @@
 {
   "name": "connect-four",
   "version": "1.0.0",
-  "description": "A Connect Four web app implemented in JS using Mithril",
+  "description": "8's ConnectFour, Classic games with a twist",
   "scripts": {
     "start": "node -r esm public/server/index.js",
     "build": "gulp build",
@@ -12,19 +12,18 @@
     "coverage-report": "istanbul report --include coverage/coverage-remapped.json lcov text html"
   },
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/caleb531/connect-four.git"
+    "type": "git"
   },
   "keywords": [
     "connect-four",
     "mithril"
   ],
-  "author": "Caleb Evans",
+  "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/caleb531/connect-four/issues"
+    "url": ""
   },
-  "homepage": "https://github.com/caleb531/connect-four#readme",
+  "homepage": "",
   "dependencies": {
     "clipboard": "^2.0.4",
     "compression": "^1.7.4",
