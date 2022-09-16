@@ -1,15 +1,18 @@
-import Emitter from 'tiny-emitter';
-import Grid from './grid.js';
-import HumanPlayer from './human-player.js';
-import OnlinePlayer from './online-player.js';
-import AIPlayer from './ai-player.js';
-import Chip from './chip.js';
+import Emitter from "tiny-emitter";
+import Grid from "./grid.js";
+import HumanPlayer from "./human-player.js";
+import OnlinePlayer from "./online-player.js";
+import AIPlayer from "./ai-player.js";
+import Chip from "./chip.js";
 
 // A game between two players; the same Game instance is re-used for successive
 // rounds
 class Game extends Emitter {
-
-  constructor({ grid = new Grid({ columnCount: 7, rowCount: 6 }), players = [], debug = false } = {}) {
+  constructor({
+    grid = new Grid({ columnCount: 7, rowCount: 6 }),
+    players = [],
+    debug = false,
+  } = {}) {
     super();
     // The two-dimensional array representing the entire game grid
     this.grid = grid;
@@ -48,7 +51,7 @@ class Game extends Emitter {
       this.currentPlayer = this.players[0];
     }
     this.inProgress = true;
-    this.emit('game:start');
+    this.emit("game:start");
     this.startTurn();
   }
 
@@ -57,7 +60,7 @@ class Game extends Emitter {
     this.inProgress = false;
     this.currentPlayer = null;
     this.pendingChip = null;
-    this.emit('game:end');
+    this.emit("game:end");
     this.type = null;
     if (this.debug) {
       this.columnHistory.length = 0;
@@ -77,25 +80,27 @@ class Game extends Emitter {
     // Instantiate new players as needed (if user is about to play the first game
     // or if the user is switching modes)
     if (this.players.length === 0) {
-      if (gameType === '1P') {
+      if (gameType === "1P") {
         // If user chose 1-Player mode, the user will play against the AI
-        this.players.push(new HumanPlayer({ name: 'Human', color: 'red' }));
-        this.players.push(new AIPlayer({ name: 'Mr. A.I.', color: 'black' }));
-      } else if (gameType === '2P') {
+        this.players.push(new HumanPlayer({ name: "Human", color: "red" }));
+        this.players.push(new AIPlayer({ name: "Mr. A.I.", color: "black" }));
+      } else if (gameType === "2P") {
         // If user chooses 2-Player mode, the user will play against another
         // human
-        this.players.push(new HumanPlayer({ name: 'Human 1', color: 'red' }));
-        this.players.push(new HumanPlayer({ name: 'Human 2', color: 'blue' }));
-      } else if (gameType === 'online' && players.length > 0 && localPlayer) {
+        this.players.push(new HumanPlayer({ name: "Human 1", color: "red" }));
+        this.players.push(new HumanPlayer({ name: "Human 2", color: "blue" }));
+      } else if (gameType === "online" && players.length > 0 && localPlayer) {
         // If user chooses Online mode, the user will play against another human
         // on another machine
-        this.players.push(...players.map((player) => {
-          if (player.color === localPlayer.color) {
-            return new HumanPlayer(player);
-          } else {
-            return new OnlinePlayer(player);
-          }
-        }));
+        this.players.push(
+          ...players.map((player) => {
+            if (player.color === localPlayer.color) {
+              return new HumanPlayer(player);
+            } else {
+              return new OnlinePlayer(player);
+            }
+          })
+        );
       }
     } else if (gameType !== this.lastType) {
       // If user switches game type (e.g. from 1-Player to 2-Player mode),
@@ -118,9 +123,9 @@ class Game extends Emitter {
     this.pendingChip = new Chip({ player: this.currentPlayer });
     if (this.currentPlayer.getNextMove) {
       this.currentPlayer.getNextMove({ game: this }).then((nextMove) => {
-        this.emit('async-player:get-next-move', {
+        this.emit("async-player:get-next-move", {
           player: this.currentPlayer,
-          nextMove
+          nextMove,
         });
       });
     }
@@ -139,16 +144,18 @@ class Game extends Emitter {
   placePendingChip({ column }) {
     this.grid.placeChip({
       chip: this.pendingChip,
-      column
+      column,
     });
-    this.emit('player:place-chip', this.grid.lastPlacedChip);
+    this.emit("player:place-chip", this.grid.lastPlacedChip);
     if (this.debug) {
       this.columnHistory.push(column);
       // The column history will only be logged on non-production sites, so we
       // can safely disable the ESLint error
       // eslint-disable-next-line no-console
-      console.log(this.columnHistory.join(', '));
+      console.log(this.columnHistory.join(", "));
     }
+    // TODO: Add Player History Here
+
     this.pendingChip = null;
     // Check for winning connections (i.e. four in a row)
     this.checkForWin();
@@ -162,7 +169,7 @@ class Game extends Emitter {
   // Check if the game has tied, and end the game if it is
   checkForTie() {
     if (this.grid.checkIfFull()) {
-      this.emit('game:declare-tie');
+      this.emit("game:declare-tie");
       this.endGame();
     }
   }
@@ -175,7 +182,7 @@ class Game extends Emitter {
     }
     const connections = this.grid.getConnections({
       baseChip: this.grid.lastPlacedChip,
-      minConnectionSize: Game.winningConnectionSize
+      minConnectionSize: Game.winningConnectionSize,
     });
     if (connections.length > 0) {
       // Mark chips in only the first winning connection, and only mark the
@@ -187,7 +194,7 @@ class Game extends Emitter {
       });
       this.winner = this.grid.lastPlacedChip.player;
       this.winner.score += 1;
-      this.emit('game:declare-winner', this.winner);
+      this.emit("game:declare-winner", this.winner);
       this.endGame();
     }
   }
@@ -200,25 +207,31 @@ class Game extends Emitter {
     this.players.length = 0;
 
     this.setPlayers({
-      gameType: 'online',
+      gameType: "online",
       players: game.players,
-      localPlayer
+      localPlayer,
     });
     // Remove the event listener for any leftover (unresolved)
     // OnlinePlayer.getNextMove() promise
-    this.off('online-player:receive-next-move');
+    this.off("online-player:receive-next-move");
 
-    this.currentPlayer = this.players.find((player) => player.color === game.currentPlayer);
-    this.requestingPlayer = this.players.find((player) => player.color === game.requestingPlayer);
+    this.currentPlayer = this.players.find(
+      (player) => player.color === game.currentPlayer
+    );
+    this.requestingPlayer = this.players.find(
+      (player) => player.color === game.requestingPlayer
+    );
 
     this.grid.restoreFromServer({
       grid: game.grid,
-      players: this.players
+      players: this.players,
     });
     // Restore the last position of the pending chip when the game state is
     // restored
     if (game.pendingChipColumn) {
-      this.emit('grid:align-pending-chip-initially', { column: game.pendingChipColumn });
+      this.emit("grid:align-pending-chip-initially", {
+        column: game.pendingChipColumn,
+      });
     }
     this.winner = null;
 
@@ -228,7 +241,6 @@ class Game extends Emitter {
     this.checkForWin();
     this.checkForTie();
   }
-
 }
 
 // The minimum number of chips a connection must have to win the game
