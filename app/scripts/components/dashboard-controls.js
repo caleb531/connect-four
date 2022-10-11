@@ -1,3 +1,4 @@
+/* global ga, gtag */
 import m from 'mithril';
 import ClipboardJS from 'clipboard';
 
