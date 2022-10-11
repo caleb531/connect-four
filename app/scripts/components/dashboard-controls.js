@@ -143,7 +143,8 @@ class DashboardControlsComponent {
           required: true,
           oninput: (inputEvent) => this.setNewPlayerName(inputEvent)
         }),
-        m('button[type=submit]', roomCode ? 'Join Game' : 'Start Game')
+        m('button[type=submit]', roomCode ? 'Join Game' : 'Start Game'),
+        !roomCode ? m('a.go-back[href=/]', 'Back') : null
       ]) :
 
       this.session.status === 'waitingForPlayers' ? [
