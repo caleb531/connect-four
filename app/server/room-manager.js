@@ -82,4 +82,8 @@ RoomManager.roomCodeLength = 4;
 // How frequently (in minutes) to check for abandoned rooms
 Room.abandonmentCheckInterval = moment.duration(30, 'minutes');
 
+// Expose a global room manager instance that can be imported from anywhere on
+// the server
+export const roomManager = new RoomManager();
+
 export default RoomManager;

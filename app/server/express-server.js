@@ -4,6 +4,8 @@ import expressEnforcesSSL from 'express-enforces-ssl';
 import helmet from 'helmet';
 import http from 'http';
 import path from 'path';
+import { readFile } from 'fs/promises';
+import { roomManager } from './room-manager.js';
 
 // Express server
 
@@ -37,11 +39,28 @@ app.use(compression());
 
 // Routes
 
-app.get('/room/:roomCode', (req, res) => {
-  res.sendFile(path.join(path.dirname(__dirname), 'index.html'));
+app.get('/room/:roomCode', async (req, res) => {
+  const indexPath = path.join(path.dirname(__dirname), 'index.ejs');
+  const room = roomManager.getRoom(req.params.roomCode);
+  if (room) {
+    const inviteeName = (room.players[0] ? room.players[0].name : 'Someone');
+    res.render(indexPath, {
+      pageTitle: `${inviteeName} invited you to play!`
+    });
+  } else {
+    res.render(indexPath, {
+      pageTitle: 'Room doesn\'t exist'
+    });
+  }
 });
 app.get('/room', (req, res) => {
-  res.sendFile(path.join(path.dirname(__dirname), 'index.html'));
+  res.redirect(301, '/');
+});
+app.get('/', (req, res) => {
+  const indexPath = path.join(path.dirname(__dirname), 'index.ejs');
+  res.render(indexPath, {
+    pageTitle: 'Caleb Evans'
+  });
 });
 app.use(express.static(path.dirname(__dirname)));
 

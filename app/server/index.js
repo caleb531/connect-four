@@ -1,12 +1,11 @@
 import socketio from 'socket.io';
 
 import server from './express-server.js';
-import RoomManager from './room-manager.js';
+import { roomManager } from './room-manager.js';
 
 // Socket.IO
 
 const io = socketio(server);
-const roomManager = new RoomManager();
 
 // A wrapper around RoomManager.getRoom() to run the given callback if the
 // specified room exists, otherwise responding with an error message if the room

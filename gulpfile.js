@@ -104,7 +104,7 @@ gulp.task('sw', () => {
     templatedURLs: {
       // '.' must be used instead of '/' because the app is not served from the
       // root of the domain (but rather, from a subdirectory)
-      '.': ['index.html']
+      '.': ['index.ejs']
     },
     swSrc: 'app/scripts/service-worker.js',
     swDest: 'public/service-worker.js'
