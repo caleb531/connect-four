@@ -199,12 +199,14 @@ class DashboardControlsComponent {
       !this.session.socket ? [
 
         // If number of players has been chosen, ask user to choose starting player
-        this.game.type !== null ?
-        this.game.players.map((player) => {
-          return m('button', {
-            onclick: () => this.startGame(player)
-          }, player.name);
-        }) :
+        this.game.type !== null ? [
+          this.game.players.map((player) => {
+            return m('button', {
+              onclick: () => this.startGame(player)
+            }, player.name);
+          }),
+          m('a.go-back[href=/]', 'Back')
+        ] :
 
         // Select a number of human players
         [
