@@ -23,8 +23,11 @@ class DashboardComponent {
           'Closing room...' :
         session.status === 'leavingRoom' || session.status === 'decliningNewGame' || session.status === 'declinedNewGame' ?
           'Leaving room...' :
-        session.disconnected ?
-          'Lost connection.' :
+        session.disconnected ? [
+          'Lost connection.',
+          m('br'),
+          'Please reload the page to reconnect.'
+        ] :
 
         // If the other player disconnects
         session.disconnectedPlayer && session.disconnectedPlayer.lastDisconnectReason === 'newGameDeclined' ?
