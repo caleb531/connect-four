@@ -3,8 +3,8 @@
 *Copyright 2016-2022, Caleb Evans*  
 *Released under the MIT License*
 
-[![Build Status](https://app.travis-ci.com/caleb531/connect-four.svg?branch=master)](https://app.travis-ci.com/caleb531/connect-four)
-[![Coverage Status](https://coveralls.io/repos/github/caleb531/connect-four/badge.svg?branch=master)](https://coveralls.io/github/caleb531/connect-four?branch=master)
+[![tests](https://github.com/caleb531/connect-four/actions/workflows/tests.yml/badge.svg)](https://github.com/caleb531/connect-four/actions/workflows/tests.yml)
+[![Coverage Status](https://coveralls.io/repos/github/caleb531/connect-four/badge.svg?branch=main)](https://coveralls.io/github/caleb531/connect-four?branch=main)
 
 This is the slickest Connect Four app around, written using HTML5, JavaScript,
 and Mithril (a React-like framework). You can play on your phone or computer,
