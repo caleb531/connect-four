@@ -10,7 +10,7 @@ module.exports = function (config) {
       'scripts/underscore-min.js',
       'scripts/tinyemitter.min.js',
       'scripts/sw-update-manager.js',
-      'scripts/socket.io.slim.js',
+      'scripts/socket.io.min.js',
       'scripts/clipboard.min.js',
       'scripts/test.js'
     ],
