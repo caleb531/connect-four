@@ -16,6 +16,14 @@ module.exports = function (config) {
     ],
     reporters: ['dots'].concat(process.env.COVERAGE ? ['coverage'] : []),
     frameworks: ['mocha', 'chai-dom', 'sinon-chai'],
+    plugins: [
+      'karma-chai-dom',
+      'karma-chrome-launcher',
+      'karma-coverage',
+      'karma-mocha',
+      'karma-sinon-chai',
+      'karma-sourcemap-loader'
+    ],
     preprocessors: {
       '**/*.js': ['sourcemap'],
       'scripts/test.js': process.env.COVERAGE ? ['coverage'] : []
