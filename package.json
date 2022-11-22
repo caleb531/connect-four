@@ -62,7 +62,7 @@
     "karma-coverage": "^1.1.2",
     "karma-mocha": "^2.0.1",
     "karma-sinon-chai": "^2.0.2",
-    "karma-sourcemap-loader": "^0.3.7",
+    "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.1.0",
     "remap-istanbul": "^0.13.0",
     "rollup": "^1.32.1",

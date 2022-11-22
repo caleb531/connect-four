@@ -20,17 +20,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: Install PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          cache: 'pnpm'
 
       - name: Run Test Suite
         run: |
-          npm ci
-          npm run build
-          npm run coverage
+          pnpm install --frozen-lockfile
+          pnpm build
+          pnpm coverage
 
       - name: Coveralls
         uses: coverallsapp/github-action@master
