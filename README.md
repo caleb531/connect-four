@@ -52,10 +52,16 @@ The project requires Node (>= 8) and Gulp, so make sure you have both installed.
 
 ### 2. Install project dependencies
 
-From the cloned project directory, run:
+### Install packages
+
+This project uses [pnpm][pnpm] (instead of npm) for package installation and
+management. From the cloned project directory, run:
+
+[pnpm]: https://pnpm.io/
 
 ```bash
-npm install
+npm install -g pnpm
+pnpm install
 ```
 
 ### 3. Serve app locally
