@@ -1,8 +1,10 @@
+import { test, expect } from '@playwright/test';
+import sinon from 'sinon';
 import Player from '../../app/server/player.js';
 
-describe('server player', function () {
+test.describe('server player', async () => {
 
-  it('should initialize with arguments', function () {
+  test('should initialize with arguments', async () => {
     const socket = sinon.stub();
     const player = new Player({
       name: 'Caleb',
@@ -18,7 +20,7 @@ describe('server player', function () {
     expect(player).to.have.property('lastReaction', null);
   });
 
-  it('should generate valid v4 UUID', function () {
+  test('should generate valid v4 UUID', async () => {
     const player = new Player({
       name: 'Caleb',
       color: 'green',
@@ -27,7 +29,7 @@ describe('server player', function () {
     expect(player.id).to.match(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i);
   });
 
-  it('should know when socket is connected', function () {
+  test('should know when socket is connected', async () => {
     const socket = sinon.stub();
     const player = new Player({
       name: 'Caleb',
@@ -37,7 +39,7 @@ describe('server player', function () {
     expect(player).to.have.property('connected', true);
   });
 
-  it('should know when socket is not connected', function () {
+  test('should know when socket is not connected', async () => {
     const player = new Player({
       name: 'Caleb',
       color: 'green',
@@ -46,7 +48,7 @@ describe('server player', function () {
     expect(player).to.have.property('connected', false);
   });
 
-  it('should emit a server event for this player only', function () {
+  test('should emit a server event for this player only', async () => {
     const socket = sinon.stub({
       emit: () => {/* noop */}
     });
@@ -59,7 +61,7 @@ describe('server player', function () {
     expect(socket.emit).to.have.been.calledWith('my-event', { foo: 'bar' });
   });
 
-  it('should broadcast a server event to all players', function () {
+  test('should broadcast a server event to all players', async () => {
     const socket = sinon.stub({
       emit: () => {/* noop */}
     });
@@ -80,7 +82,7 @@ describe('server player', function () {
     });
   });
 
-  it('should serialize as JSON', function () {
+  test('should serialize as JSON', async () => {
     const socket = sinon.stub();
     const player = new Player({
       name: 'Caleb',

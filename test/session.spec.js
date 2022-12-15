@@ -1,56 +1,58 @@
+import sinon from 'sinon';
+import { test, expect } from '@playwright/test';
 import Emitter from 'tiny-emitter';
 import Session from '../app/scripts/models/session.js';
 import io from 'socket.io-client';
 
-describe('session', function () {
+test.describe('session', async () => {
 
   let session;
   let connect;
   let socket;
 
-  before(function () {
+  test.beforeAll(() => {
     connect = sinon.stub(io, 'connect');
     socket = new Emitter();
     connect.returns(socket);
   });
 
-  beforeEach(function () {
+  test.beforeEach(() => {
     session = new Session({
       url: 'http://localhost:8080',
       roomCode: 'ABCD'
     });
   });
 
-  afterEach(function () {
+  test.afterEach(() => {
     socket.off('my-event');
   });
 
-  after(function () {
+  test.afterAll(() => {
     connect.restore();
   });
 
-  it('should initialize', function () {
+  test('should initialize', async () => {
     expect(session).to.have.property('url', 'http://localhost:8080');
     expect(session).to.have.property('roomCode', 'ABCD');
     expect(session).to.have.property('localPlayerId', null);
   });
 
-  it('should not be connected by default', function () {
+  test('should not be connected by default', async () => {
     expect(session).to.have.property('connected', false);
   });
 
-  it('should not be disconnected by default', function () {
+  test('should not be disconnected by default', async () => {
     expect(session).to.have.property('disconnected', false);
   });
 
-  it('should connect', function () {
+  test('should connect', async () => {
     session.connect();
     expect(connect).to.have.been.calledWith(session.url);
     expect(session).to.have.property('status', 'connecting');
     expect(session).to.have.property('socket', socket);
   });
 
-  it('should disconnect', function () {
+  test('should disconnect', async () => {
     socket.disconnect = sinon.stub();
     session.connect();
     session.disconnect();
@@ -58,12 +60,12 @@ describe('session', function () {
     delete socket.disconnect;
   });
 
-  it('should queue emit until connected', function () {
+  test('should queue emit until connected', async () => {
     session.localPlayerId = '356cd624-2c40-465c-9f4a-91f52c2705f3';
     const callback = sinon.stub();
     socket.on('my-event', ({ foo, playerId }) => {
-      expect(foo).to.equal('bar');
-      expect(playerId).to.equal(session.localPlayerId);
+      expect(foo).toEqual('bar');
+      expect(playerId).toEqual(session.localPlayerId);
       callback();
     });
     session.emit('my-event', { foo: 'bar' });
@@ -72,12 +74,12 @@ describe('session', function () {
     expect(callback).to.have.been.called;
   });
 
-  it('should emit immediately if already connected', function () {
+  test('should emit immediately if already connected', async () => {
     session.localPlayerId = '356cd624-2c40-465c-9f4a-91f52c2705f3';
     const callback = sinon.stub();
     socket.on('my-event', ({ foo, playerId }) => {
-      expect(foo).to.equal('bar');
-      expect(playerId).to.equal(session.localPlayerId);
+      expect(foo).toEqual('bar');
+      expect(playerId).toEqual(session.localPlayerId);
       callback();
     });
     session.connect();
@@ -85,10 +87,10 @@ describe('session', function () {
     expect(callback).to.have.been.called;
   });
 
-  it('should queue listener until connected', function () {
+  test('should queue listener until connected', async () => {
     const callback = sinon.stub();
     session.on('my-event', ({ foo }) => {
-      expect(foo).to.equal('bar');
+      expect(foo).toEqual('bar');
       callback();
     });
     socket.emit('my-event', { foo: 'bar' });
@@ -98,11 +100,11 @@ describe('session', function () {
     expect(callback).to.have.been.called;
   });
 
-  it('should add listener immediately if already connected', function () {
+  test('should add listener immediately if already connected', async () => {
     const callback = sinon.stub();
     session.connect();
     session.on('my-event', ({ foo }) => {
-      expect(foo).to.equal('bar');
+      expect(foo).toEqual('bar');
       callback();
     });
     socket.emit('my-event', { foo: 'bar' });

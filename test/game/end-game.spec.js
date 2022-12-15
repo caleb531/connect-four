@@ -1,9 +1,10 @@
+import { test, expect } from '@playwright/test';
 import Emitter from 'tiny-emitter';
 import Game from '../../app/scripts/models/game.js';
 
-describe('game', function () {
+test.describe('game', async () => {
 
-  it('should end', function () {
+  test('should end', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
@@ -15,11 +16,11 @@ describe('game', function () {
       Emitter.prototype.emit.restore();
     }
     expect(game.currentPlayer).to.be.null;
-    expect(game.inProgress).to.be.false;
+    expect(game.inProgress).toBe(false);
     expect(game.pendingChip).to.be.null;
   });
 
-  it('should reset debug mode when ended', function () {
+  test('should reset debug mode when ended', async () => {
    const game = new Game({ debug: true });
    game.setPlayers({ gameType: '2P' });
    game.startGame();
@@ -27,7 +28,7 @@ describe('game', function () {
    try {
      game.placePendingChip({ column: 2 });
      expect(game.columnHistory).to.have.length(1);
-     expect(game.columnHistory[0]).to.equal(2);
+     expect(game.columnHistory[0]).toEqual(2);
    } finally {
       // eslint-disable-next-line no-console
      console.log.restore();

@@ -1,10 +1,11 @@
+import { test, expect } from '@playwright/test';
 import utils from './utils.js';
 
 import Game from '../../app/scripts/models/game.js';
 
-describe('AI player', function () {
+test.describe('AI player', async () => {
 
-  it('should avoid losing move (#1)', function () {
+  test('should avoid losing move (#1)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -17,11 +18,11 @@ describe('AI player', function () {
       ]
     });
     return game.players[1].getNextMove({ game }).then((nextMove) => {
-      expect(nextMove.column).to.be.oneOf([0, 1]);
+      expect(nextMove.column).toBeOneOf([0, 1]);
     });
   });
 
-  it('should avoid losing move (#2)', function () {
+  test('should avoid losing move (#2)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -34,11 +35,11 @@ describe('AI player', function () {
       ]
     });
     return game.players[1].getNextMove({ game }).then((nextMove) => {
-      expect(nextMove.column).to.equal(0);
+      expect(nextMove.column).toEqual(0);
     });
   });
 
-  it('should avoid losing move (#3)', function () {
+  test('should avoid losing move (#3)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -50,11 +51,11 @@ describe('AI player', function () {
       ]
     });
     return game.players[1].getNextMove({ game }).then((nextMove) => {
-      expect(nextMove.column).to.be.oneOf([0, 1, 2]);
+      expect(nextMove.column).toBeOneOf([0, 1, 2]);
     });
   });
 
-  it('should avoid losing move (#4)', function () {
+  test('should avoid losing move (#4)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -65,7 +66,7 @@ describe('AI player', function () {
       ]
     });
     return game.players[1].getNextMove({ game }).then((nextMove) => {
-      expect(nextMove.column).to.be.oneOf([0, 1, 2, 3, 4, 5]);
+      expect(nextMove.column).toBeOneOf([0, 1, 2, 3, 4, 5]);
     });
   });
 

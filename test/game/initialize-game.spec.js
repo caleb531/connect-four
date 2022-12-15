@@ -1,10 +1,11 @@
+import { test, expect } from '@playwright/test';
 import Grid from '../../app/scripts/models/grid.js';
 import Player from '../../app/scripts/models/player.js';
 import Game from '../../app/scripts/models/game.js';
 
-describe('game', function () {
+test.describe('game', async () => {
 
-  it('should initialize with no arguments', function () {
+  test('should initialize with no arguments', async () => {
     const game = new Game();
     expect(game).to.have.property('grid');
     expect(game.grid).to.have.property('columnCount', 7);
@@ -17,7 +18,7 @@ describe('game', function () {
     expect(game).to.have.property('winner', null);
   });
 
-  it('should initialize with arguments', function () {
+  test('should initialize with arguments', async () => {
     const game = new Game({
       players: [
         new Player({ color: 'blue', name: 'Bob' }),
@@ -28,15 +29,15 @@ describe('game', function () {
     expect(game.grid).to.have.property('columnCount', 9);
     expect(game.grid).to.have.property('rowCount', 8);
     expect(game.players).to.have.length(2);
-    expect(game.players[0].name).to.equal('Bob');
-    expect(game.players[1].name).to.equal('Larry');
+    expect(game.players[0].name).toEqual('Bob');
+    expect(game.players[1].name).toEqual('Larry');
     expect(game).to.have.property('currentPlayer', null);
     expect(game).to.have.property('inProgress', false);
     expect(game).to.have.property('pendingChip', null);
     expect(game).to.have.property('winner', null);
   });
 
-  it('should initialize debug mode when set', function () {
+  test('should initialize debug mode when set', async () => {
     const game = new Game({ debug: true });
     expect(game).to.have.property('debug', true);
     expect(game).to.have.property('columnHistory');
@@ -44,20 +45,20 @@ describe('game', function () {
     expect(game.columnHistory).to.have.length(0);
   });
 
-  it('should initialize 1P game', function () {
+  test('should initialize 1P game', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     expect(game.players).to.have.length(2);
-    expect(game.players[0].type).to.equal('human');
-    expect(game.players[1].type).to.equal('ai');
+    expect(game.players[0].type).toEqual('human');
+    expect(game.players[1].type).toEqual('ai');
   });
 
-  it('should initialize 2P game', function () {
+  test('should initialize 2P game', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     expect(game.players).to.have.length(2);
-    expect(game.players[0].type).to.equal('human');
-    expect(game.players[1].type).to.equal('human');
+    expect(game.players[0].type).toEqual('human');
+    expect(game.players[1].type).toEqual('human');
   });
 
 });

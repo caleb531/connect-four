@@ -1,7 +1,8 @@
+import { test, expect } from '@playwright/test';
 import Emitter from 'tiny-emitter';
 import Game from '../../app/scripts/models/game.js';
 
-describe('game', function () {
+test.describe('game', async () => {
 
   // Place chips at the given columns in the given order
   function placeChips({ game, columns }) {
@@ -10,16 +11,16 @@ describe('game', function () {
     });
   }
 
-  it('should place pending chip', function () {
+  test('should place pending chip', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
     game.placePendingChip({ column: 2 });
     expect(game.grid.columns[2]).to.have.length(1);
-    expect(game.grid.columns[2][0].player).to.equal(game.players[0]);
+    expect(game.grid.columns[2][0].player).toEqual(game.players[0]);
   });
 
-  it('should win horizontally', function () {
+  test('should win horizontally', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
@@ -34,12 +35,12 @@ describe('game', function () {
       Emitter.prototype.emit.restore();
     }
     expect(game.winner).not.to.be.null;
-    expect(game.winner.name).to.equal('Human 1');
-    expect(game.players[1].score).to.equal(0);
-    expect(game.winner.score).to.equal(1);
+    expect(game.winner.name).toEqual('Human 1');
+    expect(game.players[1].score).toEqual(0);
+    expect(game.winner.score).toEqual(1);
   });
 
-  it('should win vertically', function () {
+  test('should win vertically', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
@@ -54,12 +55,12 @@ describe('game', function () {
       Emitter.prototype.emit.restore();
     }
     expect(game.winner).not.to.be.null;
-    expect(game.winner.name).to.equal('Human 1');
-    expect(game.players[1].score).to.equal(0);
-    expect(game.winner.score).to.equal(1);
+    expect(game.winner.name).toEqual('Human 1');
+    expect(game.players[1].score).toEqual(0);
+    expect(game.winner.score).toEqual(1);
   });
 
-  it('should win diagonally', function () {
+  test('should win diagonally', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
@@ -74,12 +75,12 @@ describe('game', function () {
       Emitter.prototype.emit.restore();
     }
     expect(game.winner).not.to.be.null;
-    expect(game.winner.name).to.equal('Human 1');
-    expect(game.players[1].score).to.equal(0);
-    expect(game.winner.score).to.equal(1);
+    expect(game.winner.name).toEqual('Human 1');
+    expect(game.players[1].score).toEqual(0);
+    expect(game.winner.score).toEqual(1);
   });
 
-  it('should win with two connect-fours at once', function () {
+  test('should win with two connect-fours at once', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
@@ -94,12 +95,12 @@ describe('game', function () {
       Emitter.prototype.emit.restore();
     }
     expect(game.winner).not.to.be.null;
-    expect(game.winner.name).to.equal('Human 1');
-    expect(game.players[1].score).to.equal(0);
-    expect(game.winner.score).to.equal(1);
+    expect(game.winner.name).toEqual('Human 1');
+    expect(game.players[1].score).toEqual(0);
+    expect(game.winner.score).toEqual(1);
   });
 
-  it('should win on connections of more than four', function () {
+  test('should win on connections of more than four', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
@@ -114,12 +115,12 @@ describe('game', function () {
       Emitter.prototype.emit.restore();
     }
     expect(game.winner).not.to.be.null;
-    expect(game.winner.name).to.equal('Human 1');
-    expect(game.players[1].score).to.equal(0);
-    expect(game.winner.score).to.equal(1);
+    expect(game.winner.name).toEqual('Human 1');
+    expect(game.players[1].score).toEqual(0);
+    expect(game.winner.score).toEqual(1);
   });
 
-  it('should end when grid becomes full', function () {
+  test('should end when grid becomes full', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
@@ -139,9 +140,9 @@ describe('game', function () {
       Emitter.prototype.emit.restore();
     }
     expect(game.winner).to.be.null;
-    expect(game.inProgress).to.be.false;
-    expect(game.players[0].score).to.equal(0);
-    expect(game.players[1].score).to.equal(0);
+    expect(game.inProgress).toBe(false);
+    expect(game.players[0].score).toEqual(0);
+    expect(game.players[1].score).toEqual(0);
   });
 
 });

@@ -1,8 +1,9 @@
+import { test, expect } from '@playwright/test';
 import Game from '../../app/scripts/models/game.js';
 
-describe('game', function () {
+test.describe('game', async () => {
 
-  it('should start turn', function () {
+  test('should start turn', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
@@ -10,7 +11,7 @@ describe('game', function () {
     expect(game.pendingChip).not.to.be.null;
   });
 
-  it('should communicate with AI player on its turn', function (done) {
+  test('should communicate with AI player on its turn', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     let eventEmitted = false;
@@ -19,7 +20,7 @@ describe('game', function () {
       // Events are emitted and callbacks and run synchronously
       game.on('async-player:get-next-move', ({ aiPlayer, bestMove }) => {
         eventEmitted = true;
-        expect(aiPlayer).to.equal(game.players[1]);
+        expect(aiPlayer).toEqual(game.players[1]);
         expect(bestMove).to.have.property('column');
         expect(bestMove).to.have.property('score');
       });
@@ -31,20 +32,20 @@ describe('game', function () {
     } finally {
       game.players[1].getNextMove.restore();
     }
-    setTimeout(function () {
+    setTimeout(() => {
       // Emitter event callbacks should have run at this point
-      expect(eventEmitted, 'async-player:get-next-move not emitted').to.be.true;
+      expect(eventEmitted, 'async-player:get-next-move not emitted').toBe(true);
       done();
     }, 100);
   });
 
-  it('should end turn', function () {
+  test('should end turn', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
     game.startTurn();
     game.endTurn();
-    expect(game.currentPlayer).to.equal(game.players[1]);
+    expect(game.currentPlayer).toEqual(game.players[1]);
   });
 
 });

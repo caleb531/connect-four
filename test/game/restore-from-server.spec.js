@@ -1,17 +1,18 @@
+import { test, expect } from '@playwright/test';
 import Game from '../../app/scripts/models/game.js';
 import Grid from '../../app/scripts/models/grid.js';
 import HumanPlayer from '../../app/scripts/models/human-player.js';
 import OnlinePlayer from '../../app/scripts/models/online-player.js';
 import Chip from '../../app/scripts/models/chip.js';
 
-describe('game', function () {
+test.describe('game', async () => {
 
   let session;
   let game;
   let serverGame;
   let localPlayer;
 
-  beforeEach(function () {
+  test.beforeEach(() => {
      session = { on: () => {/* this is a noop */} };
      game = new Game({ session });
      serverGame = {
@@ -39,42 +40,42 @@ describe('game', function () {
      localPlayer = serverGame.players[0];
   });
 
-  it('should restore basic state from server', function () {
+  test('should restore basic state from server', async () => {
     game.restoreFromServer({ game: serverGame, localPlayer });
-    expect(game.inProgress).to.equal(true);
-    expect(game.type).to.equal('online');
+    expect(game.inProgress).toEqual(true);
+    expect(game.type).toEqual('online');
   });
 
-  it('should restore player data from server', function () {
+  test('should restore player data from server', async () => {
     game.restoreFromServer({ game: serverGame, localPlayer });
     expect(game.players[0]).to.be.instanceOf(HumanPlayer);
     expect(game.players[1]).to.be.instanceOf(OnlinePlayer);
-    expect(game.currentPlayer).to.equal(game.players[1]);
-    expect(game.requestingPlayer).to.equal(game.players[0]);
+    expect(game.currentPlayer).toEqual(game.players[1]);
+    expect(game.requestingPlayer).toEqual(game.players[0]);
   });
 
-  it('should set correct player to online player', function () {
+  test('should set correct player to online player', async () => {
     localPlayer = serverGame.players[1];
     game.restoreFromServer({ game: serverGame, localPlayer });
     expect(game.players[0]).to.be.instanceOf(OnlinePlayer);
     expect(game.players[1]).to.be.instanceOf(HumanPlayer);
   });
 
-  it('should restore grid data from server', function () {
+  test('should restore grid data from server', async () => {
     game.restoreFromServer({ game: serverGame, localPlayer });
     expect(game.grid).to.be.instanceOf(Grid);
     expect(game.grid.columns[5][0]).to.be.instanceOf(Chip);
-    expect(game.grid.columns[5][0].column).to.equal(5);
-    expect(game.grid.columns[5][0].row).to.equal(0);
-    expect(game.grid.columns[5][0].player).to.equal(game.players[1]);
+    expect(game.grid.columns[5][0].column).toEqual(5);
+    expect(game.grid.columns[5][0].row).toEqual(0);
+    expect(game.grid.columns[5][0].player).toEqual(game.players[1]);
     expect(game.grid.columns[5][1]).to.be.instanceOf(Chip);
-    expect(game.grid.columns[5][1].column).to.equal(5);
-    expect(game.grid.columns[5][1].row).to.equal(1);
-    expect(game.grid.columns[5][1].player).to.equal(game.players[0]);
-    expect(game.grid.lastPlacedChip).to.equal(game.grid.columns[5][1]);
+    expect(game.grid.columns[5][1].column).toEqual(5);
+    expect(game.grid.columns[5][1].row).toEqual(1);
+    expect(game.grid.columns[5][1].player).toEqual(game.players[0]);
+    expect(game.grid.lastPlacedChip).toEqual(game.grid.columns[5][1]);
   });
 
-  it('should restore lastPlacedChip as null if grid is empty', function () {
+  test('should restore lastPlacedChip as null if grid is empty', async () => {
     serverGame.grid.lastPlacedChip = null;
     game.restoreFromServer({ game: serverGame, localPlayer });
     expect(game.grid.lastPlacedChip).to.be.null;

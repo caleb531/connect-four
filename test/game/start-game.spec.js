@@ -1,9 +1,10 @@
+import { test, expect } from '@playwright/test';
 import Emitter from 'tiny-emitter';
 import Game from '../../app/scripts/models/game.js';
 
-describe('game', function () {
+test.describe('game', async () => {
 
-  it('should start', function () {
+  test('should start', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     sinon.spy(Emitter.prototype, 'emit');
@@ -13,18 +14,18 @@ describe('game', function () {
     } finally {
       Emitter.prototype.emit.restore();
     }
-    expect(game.currentPlayer).to.equal(game.players[0]);
-    expect(game.inProgress).to.be.true;
+    expect(game.currentPlayer).toEqual(game.players[0]);
+    expect(game.inProgress).toBe(true);
   });
 
-  it('should set starting player when starting', function () {
+  test('should set starting player when starting', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame({
       startingPlayer: game.players[1]
     });
-    expect(game.currentPlayer).to.equal(game.players[1]);
-    expect(game.inProgress).to.be.true;
+    expect(game.currentPlayer).toEqual(game.players[1]);
+    expect(game.inProgress).toBe(true);
   });
 
 });

@@ -1,8 +1,9 @@
+import { test, expect } from '@playwright/test';
 import HumanPlayer from '../app/scripts/models/human-player.js';
 
-describe('human player', function () {
+test.describe('human player', async () => {
 
-  it('should initialize', function () {
+  test('should initialize', async () => {
     const humanPlayer = new HumanPlayer({
       name: 'Super Player',
       color: 'blue'

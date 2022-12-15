@@ -6,7 +6,7 @@
     "start": "node -r esm public/server/index.js",
     "build": "gulp build",
     "lint": "eslint app/**/*.js test/**/*.js gulpfile.js",
-    "test": "karma start --single-run",
+    "test": "playwright test",
     "coverage": "COVERAGE=true npm test && npm run remap-coverage && npm run coverage-report",
     "remap-coverage": "remap-istanbul -i coverage/coverage-unmapped.json -o coverage/coverage-remapped.json -e test/ -e node_modules/",
     "coverage-report": "istanbul report --include coverage/coverage-remapped.json lcov text html"
@@ -43,6 +43,7 @@
     "uuid": "^3.4.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.28.1",
     "@rollup/plugin-commonjs": "^11.1.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^7.1.3",

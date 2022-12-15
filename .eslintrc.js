@@ -24,7 +24,8 @@ module.exports = {
 
   parserOptions: {
 
-    // Enable ES6 modules
+    // Enable ES6 modules and async/await
+    'ecmaVersion': 2017,
     'sourceType': 'module'
 
   },

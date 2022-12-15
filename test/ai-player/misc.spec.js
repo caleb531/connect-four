@@ -1,11 +1,13 @@
+import { test, expect } from '@playwright/test';
+import sinon from 'sinon';
 import utils from './utils.js';
 
 import AIPlayer from '../../app/scripts/models/ai-player.js';
 import Game from '../../app/scripts/models/game.js';
 
-describe('AI player', function () {
+test.describe('AI player', async () => {
 
-  it('should initialize', function () {
+  test('should initialize', async () => {
     const aiPlayer = new AIPlayer({
       name: 'HAL',
       color: 'red'
@@ -16,7 +18,7 @@ describe('AI player', function () {
     expect(aiPlayer).to.have.property('type', 'ai');
   });
 
-  it('should wait when instructed', function () {
+  test('should wait when instructed', async () => {
     const aiPlayer = new AIPlayer({
       name: 'HAL',
       color: 'red'
@@ -30,7 +32,7 @@ describe('AI player', function () {
     clock.restore();
   });
 
-  it('should wrap around if right side of grid is full', function () {
+  test('should wrap around if right side of grid is full', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -39,7 +41,7 @@ describe('AI player', function () {
       columns: [3, 4, 3, 3, 3, 4, 5, 1, 3, 4, 4, 1, 1, 1, 1, 4, 3, 5, 5, 0, 4, 5, 5, 1, 5, 2, 6, 6, 6, 6, 6, 6]
     });
     return game.players[1].getNextMove({ game }).then((nextMove) => {
-      expect(nextMove.column).to.be.oneOf([0, 2]);
+      expect(nextMove.column).toBeOneOf([0, 2]);
     });
   });
 

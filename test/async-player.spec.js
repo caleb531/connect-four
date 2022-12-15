@@ -1,12 +1,13 @@
+import { test, expect } from '@playwright/test';
 import AsyncPlayer from '../app/scripts/models/async-player.js';
 
-describe('async player', function () {
+test.describe('async player', async () => {
 
   class MyAsyncPlayer extends AsyncPlayer {
     // do nothing
   }
 
-  it('should error if getNextMove is not defined', function () {
+  test('should error if getNextMove is not defined', async () => {
     const asyncPlayer = new MyAsyncPlayer({
       name: 'Super Player',
       color: 'blue'
