@@ -15,9 +15,9 @@ test.describe('game', async () => {
     } finally {
       Emitter.prototype.emit.restore();
     }
-    expect(game.currentPlayer).to.be.null;
+    expect(game.currentPlayer).toBe(null);
     expect(game.inProgress).toBe(false);
-    expect(game.pendingChip).to.be.null;
+    expect(game.pendingChip).toBe(null);
   });
 
   test('should reset debug mode when ended', async () => {

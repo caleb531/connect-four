@@ -8,7 +8,7 @@ test.describe('game', async () => {
     game.setPlayers({ gameType: '2P' });
     game.startGame();
     game.startTurn();
-    expect(game.pendingChip).not.to.be.null;
+    expect(game.pendingChip).not.toBe(null);
   });
 
   test('should communicate with AI player on its turn', async () => {

@@ -78,7 +78,7 @@ test.describe('game', async () => {
   test('should restore lastPlacedChip as null if grid is empty', async () => {
     serverGame.grid.lastPlacedChip = null;
     game.restoreFromServer({ game: serverGame, localPlayer });
-    expect(game.grid.lastPlacedChip).to.be.null;
+    expect(game.grid.lastPlacedChip).toBe(null);
   });
 
 });

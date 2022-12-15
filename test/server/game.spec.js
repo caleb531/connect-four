@@ -167,7 +167,7 @@ test.describe('server game', async () => {
     game.endGame();
     expect(players[0].score).toEqual(0);
     game.declareWinner();
-    expect(game.winner).to.be.undefined;
+    expect(game.winner).toBe(undefined);
     expect(players[0].score).toEqual(0);
     expect(players[1].score).toEqual(0);
   });

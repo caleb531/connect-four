@@ -21,17 +21,17 @@ test.describe('game', async () => {
     game.winner = game.players[0];
     game.endGame();
     game.resetGame();
-    expect(game.winner).to.be.null;
+    expect(game.winner).toBe(null);
   });
 
   test('should reset pending chip when resetting', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
-    expect(game.pendingChip).not.to.be.null;
+    expect(game.pendingChip).not.toBe(null);
     game.endGame();
     game.resetGame();
-    expect(game.pendingChip).to.be.null;
+    expect(game.pendingChip).toBe(null);
   });
 
 });

@@ -34,7 +34,7 @@ test.describe('game', async () => {
     } finally {
       Emitter.prototype.emit.restore();
     }
-    expect(game.winner).not.to.be.null;
+    expect(game.winner).not.toBe(null);
     expect(game.winner.name).toEqual('Human 1');
     expect(game.players[1].score).toEqual(0);
     expect(game.winner.score).toEqual(1);
@@ -54,7 +54,7 @@ test.describe('game', async () => {
     } finally {
       Emitter.prototype.emit.restore();
     }
-    expect(game.winner).not.to.be.null;
+    expect(game.winner).not.toBe(null);
     expect(game.winner.name).toEqual('Human 1');
     expect(game.players[1].score).toEqual(0);
     expect(game.winner.score).toEqual(1);
@@ -74,7 +74,7 @@ test.describe('game', async () => {
     } finally {
       Emitter.prototype.emit.restore();
     }
-    expect(game.winner).not.to.be.null;
+    expect(game.winner).not.toBe(null);
     expect(game.winner.name).toEqual('Human 1');
     expect(game.players[1].score).toEqual(0);
     expect(game.winner.score).toEqual(1);
@@ -94,7 +94,7 @@ test.describe('game', async () => {
     } finally {
       Emitter.prototype.emit.restore();
     }
-    expect(game.winner).not.to.be.null;
+    expect(game.winner).not.toBe(null);
     expect(game.winner.name).toEqual('Human 1');
     expect(game.players[1].score).toEqual(0);
     expect(game.winner.score).toEqual(1);
@@ -114,7 +114,7 @@ test.describe('game', async () => {
     } finally {
       Emitter.prototype.emit.restore();
     }
-    expect(game.winner).not.to.be.null;
+    expect(game.winner).not.toBe(null);
     expect(game.winner.name).toEqual('Human 1');
     expect(game.players[1].score).toEqual(0);
     expect(game.winner.score).toEqual(1);
@@ -139,7 +139,7 @@ test.describe('game', async () => {
     } finally {
       Emitter.prototype.emit.restore();
     }
-    expect(game.winner).to.be.null;
+    expect(game.winner).toBe(null);
     expect(game.inProgress).toBe(false);
     expect(game.players[0].score).toEqual(0);
     expect(game.players[1].score).toEqual(0);
