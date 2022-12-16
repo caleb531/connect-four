@@ -7,7 +7,7 @@ test.describe('game', async () => {
 
   // Place chips at the given columns in the given order
   function placeChips({ game, columns }) {
-    columns.forEach(function (column) {
+    columns.forEach((column) => {
       game.placePendingChip({ column });
     });
   }

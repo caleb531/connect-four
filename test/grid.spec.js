@@ -14,7 +14,7 @@ test.describe('grid', async () => {
     expect(grid.columnCount).toEqual(9);
     expect(grid.rowCount).toEqual(8);
     expect(grid.columns).toHaveLength(9);
-    grid.columns.forEach(function (column) {
+    grid.columns.forEach((column) => {
       expect(column).toHaveLength(0);
     });
     expect(grid).toHaveProperty('lastPlacedChip', null);
@@ -45,7 +45,7 @@ test.describe('grid', async () => {
       rowCount: 8
     });
     const player = new Player({ color: 'red', name: 'Bob' });
-    _.times(9, function (c) {
+    _.times(9, (c) => {
       _.times(8, async () => {
         grid.placeChip({ column: c, chip: new Chip({ player }) });
       });
@@ -59,7 +59,7 @@ test.describe('grid', async () => {
       rowCount: 8
     });
     const player = new Player({ color: 'red', name: 'Bob' });
-    _.times(9, function (c) {
+    _.times(9, (c) => {
       _.times(7, async () => {
         grid.placeChip({ column: c, chip: new Chip({ player }) });
       });
@@ -81,7 +81,7 @@ test.describe('grid', async () => {
       rowCount: 8
     });
     const player = new Player({ color: 'red', name: 'Bob' });
-    _.times(6, function (c) {
+    _.times(6, (c) => {
       _.times(4, async () => {
         grid.placeChip({ column: c, chip: new Chip({ player }) });
       });
@@ -95,13 +95,13 @@ test.describe('grid', async () => {
       rowCount: 8
     });
     const player = new Player({ color: 'red', name: 'Bob' });
-    _.times(9, function (c) {
+    _.times(9, (c) => {
       _.times(6, async () => {
         grid.placeChip({ column: c, chip: new Chip({ player }) });
       });
     });
     grid.resetGrid();
-    grid.columns.forEach(function (column) {
+    grid.columns.forEach((column) => {
       expect(column).toHaveLength(0);
     });
     expect(grid).toHaveProperty('lastPlacedChip', null);

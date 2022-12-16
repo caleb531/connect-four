@@ -7,7 +7,7 @@ export async function onPendingChipTransitionEnd({ page }) {
     // listener gives up; it must be defined inside this callback because of the
     // encasulated nature of .evaluate()
     const TRANSITION_WAIT_TIMEOUT = 5000;
-    await new Promise(function (resolve, reject) {
+    await new Promise((resolve, reject) => {
       element.addEventListener('transitionend', function transitionend(event) {
         // Prevent transitionend from firing on child elements
         if (event.target === element) {
