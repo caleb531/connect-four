@@ -1,7 +1,7 @@
 // Wait for the next transition on the given element to complete, timing out
 // and erroring if the transition never completes
 export async function onPendingChipTransitionEnd({ page }) {
-  const pendingChip = page.locator('.chip.pending');
+  const pendingChip = await page.locator('.chip.pending');
   await pendingChip.evaluate(async (element) => {
     // The nmuber of milliseconds to wait before the transitionend event
     // listener gives up; it must be defined inside this callback because of the
