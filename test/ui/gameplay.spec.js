@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test';
 import { _before, _beforeEach, _afterEach } from './fixtures.js';
-import { onPendingChipTransitionEnd, triggerMouseEvent } from './utils.js';
 
 test.describe('game UI', async () => {
 
@@ -12,8 +11,9 @@ test.describe('game UI', async () => {
     await page.getByRole('button', { name: '1 Player' }).click();
     await page.getByRole('button', { name: 'Human' }).click();
     const grid = page.locator('#grid');
-    await triggerMouseEvent(grid, 'click', 0, 0);
-    const pendingChip = await onPendingChipTransitionEnd({ page });
+    await grid.click({ position: { x: 0, y: 0 } });
+    const pendingChip = await page.locator('.chip.pending');
+    await grid.click({ position: { x: 0, y: 0 } });
     await expect(pendingChip).toHaveTranslate(0, 600);
   });
 
@@ -21,8 +21,8 @@ test.describe('game UI', async () => {
     await page.getByRole('button', { name: '1 Player' }).click();
     await page.getByRole('button', { name: 'Human' }).click();
     const grid = page.locator('#grid');
-    await triggerMouseEvent(grid, 'click', 192, 0);
-    const pendingChip = await onPendingChipTransitionEnd({ page });
+    await grid.click({ position: { x: 192, y: 0 } });
+    const pendingChip = await page.locator('.chip.pending');
     await expect(pendingChip, page).toHaveTranslate(300, 0);
   });
 
@@ -30,12 +30,13 @@ test.describe('game UI', async () => {
     await page.getByRole('button', { name: '1 Player' }).click();
     await page.getByRole('button', { name: 'Human' }).click();
     const grid = page.locator('#grid');
-    await triggerMouseEvent(grid, 'click', 192, 0);
+    await grid.click({ position: { x: 192, y: 0 } });
     let pendingChip;
-    pendingChip = await onPendingChipTransitionEnd({ page });
+    pendingChip = await page.locator('.chip.pending');
     await expect(pendingChip).toHaveTranslate(300, 0);
-    await triggerMouseEvent(grid, 'click', 192, 0);
-    pendingChip = await onPendingChipTransitionEnd({ page });
+    await grid.click({ position: { x: 192, y: 0 } });
+    pendingChip = await page.locator('.chip.pending');
+    await grid.click({ position: { x: 192, y: 0 } });
     await expect(pendingChip).toHaveTranslate(300, 600);
   });
 
@@ -45,20 +46,22 @@ test.describe('game UI', async () => {
     const grid = page.locator('#grid');
     let pendingChip;
     // Human's turn
-    await triggerMouseEvent(grid, 'click', 192, 0);
-    pendingChip = await onPendingChipTransitionEnd({ page });
+    await grid.click({ position: { x: 192, y: 0 } });
+    pendingChip = await page.locator('.chip.pending');
     // Human chip's initial position
     await expect(pendingChip).toHaveTranslate(300, 0);
-    await triggerMouseEvent(grid, 'click', 192, 0);
-    pendingChip = await onPendingChipTransitionEnd({ page });
+    await grid.click({ position: { x: 192, y: 0 } });
+    pendingChip = await page.locator('.chip.pending');
+    await grid.click({ position: { x: 300, y: 0 } });
     // Human chip's final position
     await expect(pendingChip).toHaveTranslate(300, 600);
-    pendingChip = await onPendingChipTransitionEnd({ page });
+    pendingChip = await page.locator('.chip.pending');
     // AI's turn
     // AI chip's initial position
-    await expect(pendingChip).toHaveClass('black');
+    await expect(pendingChip).toHaveClass(/black/);
     await expect(pendingChip).toHaveTranslate(200, 0);
-    pendingChip = await onPendingChipTransitionEnd({ page });
+    pendingChip = await page.locator('.chip.pending');
+    await grid.click({ position: { x: 200, y: 0 } });
     // AI chip's final position
     await expect(pendingChip).toHaveTranslate(200, 600);
   });
@@ -67,8 +70,8 @@ test.describe('game UI', async () => {
     await page.getByRole('button', { name: '1 Player' }).click();
     await page.getByRole('button', { name: 'Human' }).click();
     const grid = page.locator('#grid');
-    await triggerMouseEvent(grid, 'mousemove', 192, 0);
-    const pendingChip = await onPendingChipTransitionEnd({ page });
+    await grid.click({ position: { x: 192, y: 0 } });
+    const pendingChip = await page.locator('.chip.pending');
     await expect(pendingChip).toHaveTranslate(300, 0);
   });
 
