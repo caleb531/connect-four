@@ -1,31 +1,36 @@
-export function qs(selector) {
-  return document.querySelector(selector);
-}
-
-export function qsa(selector) {
-  return document.querySelectorAll(selector);
-}
-
 // Wait for the next transition on the given element to complete, timing out
 // and erroring if the transition never completes
-export function onPendingChipTransitionEnd() {
-  return new Promise(function (resolve) {
-    const pendingChip = qs('.chip.pending');
-    pendingChip.addEventListener('transitionend', function transitionend(event) {
-      // Prevent transitionend from firing on child elements
-      if (event.target === pendingChip) {
-        pendingChip.removeEventListener('transitionend', transitionend);
-        resolve(pendingChip);
-      }
+export async function onPendingChipTransitionEnd({ page }) {
+  const pendingChip = page.locator('.chip.pending');
+  await pendingChip.evaluate(async (element) => {
+    // The nmuber of milliseconds to wait before the transitionend event
+    // listener gives up; it must be defined inside this callback because of the
+    // encasulated nature of .evaluate()
+    const TRANSITION_WAIT_TIMEOUT = 5000;
+    await new Promise(function (resolve, reject) {
+      element.addEventListener('transitionend', function transitionend(event) {
+        // Prevent transitionend from firing on child elements
+        if (event.target === element) {
+          element.removeEventListener('transitionend', transitionend);
+          resolve(element);
+        }
+      });
+      setTimeout(() => {
+        reject(new Error('onPendingChipTransitionEnd gave up waiting'));
+      }, TRANSITION_WAIT_TIMEOUT);
     });
   });
+  return pendingChip;
 }
 
 // Simulate a mouse event at the specified coordinates, relative to the given
 // element
-export function triggerMouseEvent(elem, eventType, x, y) {
-  elem.dispatchEvent(new MouseEvent(eventType, {
-    clientX: elem.offsetLeft + x,
-    clientY: elem.offsetTop + y
-  }));
+export async function triggerMouseEvent(locator, eventType, x, y) {
+  const [offsetLeft, offsetTop] = await locator.evaluate((elem) => {
+    return [elem.offsetLeft, elem.offsetTop];
+  });
+  await locator.dispatchEvent(eventType, {
+    clientX: offsetLeft + x,
+    clientY: offsetTop + y
+  });
 }

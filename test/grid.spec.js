@@ -33,9 +33,9 @@ test.describe('grid', async () => {
     expect(grid2).toHaveProperty('rowCount', 8);
     expect(grid2).toHaveProperty('columns');
     expect(grid2).toHaveProperty('lastPlacedChip', chip);
-    expect(grid2.columns).not.toEqual(grid1.columns);
+    expect(grid2.columns).not.toBe(grid1.columns);
     expect(grid2.columns).toHaveLength(9);
-    expect(grid2.columns[3]).not.toEqual(grid1.columns[3]);
+    expect(grid2.columns[3]).not.toBe(grid1.columns[3]);
     expect(grid2.columns[3][0]).toEqual(chip);
   });
 

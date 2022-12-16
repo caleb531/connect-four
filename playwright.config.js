@@ -54,18 +54,22 @@ expect.extend({
       };
     }
   },
-  toHaveTranslate: (received, expectedX, expectedY) => {
-    const translate = received.style.transform;
-    const actualX = parseFloat(translate.slice(translate.indexOf('(') + 1));
-    const actualY = parseFloat(translate.slice(translate.indexOf(',') + 1));
+  toHaveTranslate: async (pendingChip, expectedX, expectedY) => {
+    const [actualX, actualY] = await pendingChip.evaluate((pendingChipElem) => {
+      const translate = pendingChipElem.style.transform;
+      return [
+        parseFloat(translate.slice(translate.indexOf('(') + 1)),
+        parseFloat(translate.slice(translate.indexOf(',') + 1))
+      ];
+    });
     if (actualX === expectedX && actualY === expectedY) {
       return {
-        message: () => `expected ${received} to have translate (${expectedX}, ${expectedY}) but got (${actualX}, ${actualY})`,
+        message: () => `expected ${pendingChip} to have translate (${expectedX}, ${expectedY}) but got (${actualX}, ${actualY})`,
         pass: true
       };
     } else {
       return {
-        message: () => `expected ${received} to have translate (${expectedX}, ${expectedY}) but got (${actualX}, ${actualY})`,
+        message: () => `expected ${pendingChip} to have translate (${expectedX}, ${expectedY}) but got (${actualX}, ${actualY})`,
         pass: false
       };
     }

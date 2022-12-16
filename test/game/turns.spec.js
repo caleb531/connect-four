@@ -19,11 +19,11 @@ test.describe('game', async () => {
     sinon.spy(game.players[1], 'getNextMove');
     try {
       // Events are emitted and callbacks and run synchronously
-      game.on('async-player:get-next-move', ({ aiPlayer, bestMove }) => {
+      game.on('async-player:get-next-move', ({ player, nextMove }) => {
         eventEmitted = true;
-        expect(aiPlayer).toEqual(game.players[1]);
-        expect(bestMove).toHaveProperty('column');
-        expect(bestMove).toHaveProperty('score');
+        expect(player).toEqual(game.players[1]);
+        expect(nextMove).toHaveProperty('column');
+        expect(nextMove).toHaveProperty('score');
       });
       game.startGame({
         startingPlayer: game.players[1]
@@ -33,10 +33,11 @@ test.describe('game', async () => {
     } finally {
       game.players[1].getNextMove.restore();
     }
-    await new Promise(() => {
+    await new Promise((resolve) => {
       setTimeout(() => {
-      // Emitter event callbacks should have run at this point
-      expect(eventEmitted, 'async-player:get-next-move not emitted').toBe(true);
+        // Emitter event callbacks should have run at this point
+        expect(eventEmitted, 'async-player:get-next-move not emitted').toBe(true);
+        resolve();
       }, 100);
     });
   });
