@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import sinon from 'sinon';
 import Game from '../../app/scripts/models/game.js';
 
 test.describe('game', async () => {
@@ -21,22 +22,23 @@ test.describe('game', async () => {
       game.on('async-player:get-next-move', ({ aiPlayer, bestMove }) => {
         eventEmitted = true;
         expect(aiPlayer).toEqual(game.players[1]);
-        expect(bestMove).to.have.property('column');
-        expect(bestMove).to.have.property('score');
+        expect(bestMove).toHaveProperty('column');
+        expect(bestMove).toHaveProperty('score');
       });
       game.startGame({
         startingPlayer: game.players[1]
       });
-      expect(game.players[1].getNextMove).to.have.been.calledWith({ game });
-      expect(game.players[1].getNextMove).to.have.been.calledWith({ game });
+      expect(game.players[1].getNextMove).toHaveBeenCalledWith({ game });
+      expect(game.players[1].getNextMove).toHaveBeenCalledWith({ game });
     } finally {
       game.players[1].getNextMove.restore();
     }
-    setTimeout(() => {
+    await new Promise(() => {
+      setTimeout(() => {
       // Emitter event callbacks should have run at this point
       expect(eventEmitted, 'async-player:get-next-move not emitted').toBe(true);
-      done();
-    }, 100);
+      }, 100);
+    });
   });
 
   test('should end turn', async () => {

@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import sinon from 'sinon';
 import Emitter from 'tiny-emitter';
 import Game from '../../app/scripts/models/game.js';
 
@@ -16,7 +17,7 @@ test.describe('game', async () => {
     game.setPlayers({ gameType: '2P' });
     game.startGame();
     game.placePendingChip({ column: 2 });
-    expect(game.grid.columns[2]).to.have.length(1);
+    expect(game.grid.columns[2]).toHaveLength(1);
     expect(game.grid.columns[2][0].player).toEqual(game.players[0]);
   });
 
@@ -30,7 +31,7 @@ test.describe('game', async () => {
         game,
         columns: [2, 2, 3, 3, 4, 4, 5]
       });
-      expect(Emitter.prototype.emit).to.have.been.calledWith('game:declare-winner');
+      expect(Emitter.prototype.emit).toHaveBeenCalledWith('game:declare-winner');
     } finally {
       Emitter.prototype.emit.restore();
     }
@@ -50,7 +51,7 @@ test.describe('game', async () => {
         game,
         columns: [0, 1, 0, 1, 0, 1, 0]
       });
-      expect(Emitter.prototype.emit).to.have.been.calledWith('game:declare-winner');
+      expect(Emitter.prototype.emit).toHaveBeenCalledWith('game:declare-winner');
     } finally {
       Emitter.prototype.emit.restore();
     }
@@ -70,7 +71,7 @@ test.describe('game', async () => {
         game,
         columns: [3, 4, 4, 3, 5, 5, 5, 6, 6, 6, 6]
       });
-      expect(Emitter.prototype.emit).to.have.been.calledWith('game:declare-winner');
+      expect(Emitter.prototype.emit).toHaveBeenCalledWith('game:declare-winner');
     } finally {
       Emitter.prototype.emit.restore();
     }
@@ -90,7 +91,7 @@ test.describe('game', async () => {
         game,
         columns: [0, 1, 1, 1, 2, 2, 2, 0, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 3]
       });
-      expect(Emitter.prototype.emit).to.have.been.calledWith('game:declare-winner');
+      expect(Emitter.prototype.emit).toHaveBeenCalledWith('game:declare-winner');
     } finally {
       Emitter.prototype.emit.restore();
     }
@@ -110,7 +111,7 @@ test.describe('game', async () => {
         game,
         columns: [2, 2, 3, 3, 4, 4, 6, 6, 5]
       });
-      expect(Emitter.prototype.emit).to.have.been.calledWith('game:declare-winner');
+      expect(Emitter.prototype.emit).toHaveBeenCalledWith('game:declare-winner');
     } finally {
       Emitter.prototype.emit.restore();
     }
@@ -135,7 +136,7 @@ test.describe('game', async () => {
           6, 6, 6, 6, 6, 6
         ]
       });
-      expect(Emitter.prototype.emit).to.have.been.calledWith('game:declare-tie');
+      expect(Emitter.prototype.emit).toHaveBeenCalledWith('game:declare-tie');
     } finally {
       Emitter.prototype.emit.restore();
     }

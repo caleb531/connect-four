@@ -11,13 +11,13 @@ test.describe('server player', async () => {
       color: 'green',
       socket
     });
-    expect(player).to.have.property('name', 'Caleb');
-    expect(player).to.have.property('color', 'green');
-    expect(player).to.have.property('socket', socket);
-    expect(player).to.have.property('score', 0);
-    expect(player).to.have.property('lastSubmittedWinner', null);
-    expect(player).to.have.property('lastDisconnectReason', null);
-    expect(player).to.have.property('lastReaction', null);
+    expect(player).toHaveProperty('name', 'Caleb');
+    expect(player).toHaveProperty('color', 'green');
+    expect(player).toHaveProperty('socket', socket);
+    expect(player).toHaveProperty('score', 0);
+    expect(player).toHaveProperty('lastSubmittedWinner', null);
+    expect(player).toHaveProperty('lastDisconnectReason', null);
+    expect(player).toHaveProperty('lastReaction', null);
   });
 
   test('should generate valid v4 UUID', async () => {
@@ -26,7 +26,7 @@ test.describe('server player', async () => {
       color: 'green',
       socket: null
     });
-    expect(player.id).to.match(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i);
+    expect(player.id).toMatch(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i);
   });
 
   test('should know when socket is connected', async () => {
@@ -36,7 +36,7 @@ test.describe('server player', async () => {
       color: 'green',
       socket
     });
-    expect(player).to.have.property('connected', true);
+    expect(player).toHaveProperty('connected', true);
   });
 
   test('should know when socket is not connected', async () => {
@@ -45,7 +45,7 @@ test.describe('server player', async () => {
       color: 'green',
       socket: null
     });
-    expect(player).to.have.property('connected', false);
+    expect(player).toHaveProperty('connected', false);
   });
 
   test('should emit a server event for this player only', async () => {
@@ -58,7 +58,7 @@ test.describe('server player', async () => {
       socket
     });
     player.emit('my-event', { foo: 'bar' });
-    expect(socket.emit).to.have.been.calledWith('my-event', { foo: 'bar' });
+    expect(socket.emit).toHaveBeenCalledWith('my-event', { foo: 'bar' });
   });
 
   test('should broadcast a server event to all players', async () => {
@@ -76,7 +76,7 @@ test.describe('server player', async () => {
     ];
     localPlayer.room = { players };
     localPlayer.broadcast('my-event', { foo: 'bar' });
-    expect(socket.emit).to.have.been.calledWith('my-event', {
+    expect(socket.emit).toHaveBeenCalledWith('my-event', {
       foo: 'bar',
       localPlayer
     });
@@ -90,12 +90,12 @@ test.describe('server player', async () => {
       socket
     });
     const json = player.toJSON();
-    expect(json).to.have.property('id');
-    expect(json).to.have.property('name', 'Caleb');
-    expect(json).to.have.property('color', 'green');
-    expect(json).to.have.property('connected', true);
-    expect(json).to.have.property('lastDisconnectReason', null);
-    expect(json).to.have.property('lastReaction', null);
+    expect(json).toHaveProperty('id');
+    expect(json).toHaveProperty('name', 'Caleb');
+    expect(json).toHaveProperty('color', 'green');
+    expect(json).toHaveProperty('connected', true);
+    expect(json).toHaveProperty('lastDisconnectReason', null);
+    expect(json).toHaveProperty('lastReaction', null);
   });
 
 });

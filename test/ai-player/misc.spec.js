@@ -12,10 +12,10 @@ test.describe('AI player', async () => {
       name: 'HAL',
       color: 'red'
     });
-    expect(aiPlayer).to.have.property('name', 'HAL');
-    expect(aiPlayer).to.have.property('color', 'red');
-    expect(aiPlayer).to.have.property('score', 0);
-    expect(aiPlayer).to.have.property('type', 'ai');
+    expect(aiPlayer).toHaveProperty('name', 'HAL');
+    expect(aiPlayer).toHaveProperty('color', 'red');
+    expect(aiPlayer).toHaveProperty('score', 0);
+    expect(aiPlayer).toHaveProperty('type', 'ai');
   });
 
   test('should wait when instructed', async () => {
@@ -26,9 +26,9 @@ test.describe('AI player', async () => {
     const clock = sinon.useFakeTimers();
     const callback = sinon.spy();
     aiPlayer.wait(callback);
-    expect(callback).not.to.have.been.calledOnce;
+    expect(callback).not.toHaveBeenCalledOnce;
     clock.tick(500);
-    expect(callback).to.have.been.calledOnce;
+    expect(callback).toHaveBeenCalledOnce;
     clock.restore();
   });
 

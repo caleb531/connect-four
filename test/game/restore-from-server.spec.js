@@ -48,8 +48,8 @@ test.describe('game', async () => {
 
   test('should restore player data from server', async () => {
     game.restoreFromServer({ game: serverGame, localPlayer });
-    expect(game.players[0]).to.be.instanceOf(HumanPlayer);
-    expect(game.players[1]).to.be.instanceOf(OnlinePlayer);
+    expect(game.players[0]).toBeInstanceOf(HumanPlayer);
+    expect(game.players[1]).toBeInstanceOf(OnlinePlayer);
     expect(game.currentPlayer).toEqual(game.players[1]);
     expect(game.requestingPlayer).toEqual(game.players[0]);
   });
@@ -57,18 +57,18 @@ test.describe('game', async () => {
   test('should set correct player to online player', async () => {
     localPlayer = serverGame.players[1];
     game.restoreFromServer({ game: serverGame, localPlayer });
-    expect(game.players[0]).to.be.instanceOf(OnlinePlayer);
-    expect(game.players[1]).to.be.instanceOf(HumanPlayer);
+    expect(game.players[0]).toBeInstanceOf(OnlinePlayer);
+    expect(game.players[1]).toBeInstanceOf(HumanPlayer);
   });
 
   test('should restore grid data from server', async () => {
     game.restoreFromServer({ game: serverGame, localPlayer });
-    expect(game.grid).to.be.instanceOf(Grid);
-    expect(game.grid.columns[5][0]).to.be.instanceOf(Chip);
+    expect(game.grid).toBeInstanceOf(Grid);
+    expect(game.grid.columns[5][0]).toBeInstanceOf(Chip);
     expect(game.grid.columns[5][0].column).toEqual(5);
     expect(game.grid.columns[5][0].row).toEqual(0);
     expect(game.grid.columns[5][0].player).toEqual(game.players[1]);
-    expect(game.grid.columns[5][1]).to.be.instanceOf(Chip);
+    expect(game.grid.columns[5][1]).toBeInstanceOf(Chip);
     expect(game.grid.columns[5][1].column).toEqual(5);
     expect(game.grid.columns[5][1].row).toEqual(1);
     expect(game.grid.columns[5][1].player).toEqual(game.players[0]);

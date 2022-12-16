@@ -8,10 +8,10 @@ test.describe('human player', async () => {
       name: 'Super Player',
       color: 'blue'
     });
-    expect(humanPlayer).to.have.property('name', 'Super Player');
-    expect(humanPlayer).to.have.property('color', 'blue');
-    expect(humanPlayer).to.have.property('score', 0);
-    expect(humanPlayer).to.have.property('type', 'human');
+    expect(humanPlayer).toHaveProperty('name', 'Super Player');
+    expect(humanPlayer).toHaveProperty('color', 'blue');
+    expect(humanPlayer).toHaveProperty('score', 0);
+    expect(humanPlayer).toHaveProperty('type', 'human');
   });
 
 });

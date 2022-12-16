@@ -8,10 +8,10 @@ test.describe('game', async () => {
     game.setPlayers({ gameType: '2P' });
     game.startGame();
     game.placePendingChip({ column: 2 });
-    expect(game.grid.columns[2]).to.have.length(1);
+    expect(game.grid.columns[2]).toHaveLength(1);
     game.endGame();
     game.resetGame();
-    expect(game.grid.columns[2]).to.have.length(0);
+    expect(game.grid.columns[2]).toHaveLength(0);
   });
 
   test('should reset winner when resetting', async () => {

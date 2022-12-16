@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import sinon from 'sinon';
 import Emitter from 'tiny-emitter';
 import Game from '../../app/scripts/models/game.js';
 
@@ -10,7 +11,7 @@ test.describe('game', async () => {
     sinon.spy(Emitter.prototype, 'emit');
     try {
       game.startGame();
-      expect(Emitter.prototype.emit).to.have.been.calledWith('game:start');
+      expect(Emitter.prototype.emit).toHaveBeenCalledWith('game:start');
     } finally {
       Emitter.prototype.emit.restore();
     }

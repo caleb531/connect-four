@@ -10,26 +10,6 @@ test.describe('game UI', async () => {
   test.beforeEach(_beforeEach);
   test.afterEach(_afterEach);
 
-  // Add syntactic sugar assertion for testing CSS translate values
-  expect.extend({
-    toHaveTranslate: (received, expectedX, expectedY) => {
-      const translate = received.style.transform;
-      const actualX = parseFloat(translate.slice(translate.indexOf('(') + 1));
-      const actualY = parseFloat(translate.slice(translate.indexOf(',') + 1));
-      if (actualX === expectedX && actualY === expectedY) {
-        return {
-          message: () => `expected ${received} to have translate (${expectedX}, ${expectedY}) but got (${actualX}, ${actualY})`,
-          pass: true
-        };
-      } else {
-        return {
-          message: () => `expected ${received} to have translate (${expectedX}, ${expectedY}) but got (${actualX}, ${actualY})`,
-          pass: false
-        };
-      }
-    }
-  });
-
   test('should place chip in initial column', async () => {
     qsa('#game-dashboard button')[0].click();
     m.redraw.sync();

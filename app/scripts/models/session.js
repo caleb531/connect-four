@@ -38,12 +38,20 @@ class Session {
   }
 
   getLocalPlayerId() {
-    return this.localPlayerId || sessionStorage.getItem('c4-localPlayerId');
+    if (this.localPlayerId) {
+      return this.localPlayerId;
+    } else if (typeof sessionStorage !== 'undefined') {
+      return sessionStorage.getItem('c4-localPlayerId');
+    } else {
+      return null;
+    }
   }
 
   setLocalPlayerId(localPlayerId) {
     this.localPlayerId = localPlayerId;
-    return sessionStorage.setItem('c4-localPlayerId', localPlayerId);
+    if (typeof sessionStorage !== 'undefined') {
+      sessionStorage.setItem('c4-localPlayerId', localPlayerId);
+    }
   }
 
   on(eventName, callback) {

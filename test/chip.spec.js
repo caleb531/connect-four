@@ -12,10 +12,10 @@ test.describe('chip', async () => {
     const chip = new Chip({
       player
     });
-    expect(chip).to.have.property('player', player);
-    expect(chip).to.have.property('column', null);
-    expect(chip).to.have.property('row', null);
-    expect(chip).to.have.property('winning', false);
+    expect(chip).toHaveProperty('player', player);
+    expect(chip).toHaveProperty('column', null);
+    expect(chip).toHaveProperty('row', null);
+    expect(chip).toHaveProperty('winning', false);
   });
 
 });

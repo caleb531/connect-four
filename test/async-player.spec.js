@@ -12,7 +12,7 @@ test.describe('async player', async () => {
       name: 'Super Player',
       color: 'blue'
     });
-    expect(asyncPlayer.getNextMove).to.throw(Error);
+    expect(asyncPlayer.getNextMove).toThrow(Error);
   });
 
 });

@@ -10,7 +10,7 @@ test.describe('game', async () => {
     game.players[1].score = 20;
     game.endGame();
     game.setPlayers({ gameType: '1P' });
-    expect(game.players).to.have.length(2);
+    expect(game.players).toHaveLength(2);
     expect(game.players[0].type).toEqual('human');
     expect(game.players[0].score).toEqual(10);
     expect(game.players[1].type).toEqual('ai');
@@ -24,7 +24,7 @@ test.describe('game', async () => {
     game.players[1].score = 16;
     game.endGame();
     game.setPlayers({ gameType: '2P' });
-    expect(game.players).to.have.length(2);
+    expect(game.players).toHaveLength(2);
     expect(game.players[0].type).toEqual('human');
     expect(game.players[0].score).toEqual(12);
     expect(game.players[1].type).toEqual('human');
@@ -45,7 +45,7 @@ test.describe('game', async () => {
     game.players[1].score = 16;
     game.endGame();
     game.setPlayers({ gameType: 'online' });
-    expect(game.players).to.have.length(2);
+    expect(game.players).toHaveLength(2);
     expect(game.players[0].type).toEqual('online');
     expect(game.players[0].score).toEqual(12);
     expect(game.players[1].type).toEqual('human');
@@ -58,7 +58,7 @@ test.describe('game', async () => {
     game.players[0].score = 10;
     game.players[1].score = 15;
     game.setPlayers({ gameType: '2P' });
-    expect(game.players).to.have.length(2);
+    expect(game.players).toHaveLength(2);
     expect(game.players[0].type).toEqual('human');
     expect(game.players[0].score).toEqual(0);
     expect(game.players[1].type).toEqual('human');
@@ -71,7 +71,7 @@ test.describe('game', async () => {
     game.players[0].score = 10;
     game.players[1].score = 15;
     game.setPlayers({ gameType: '1P' });
-    expect(game.players).to.have.length(2);
+    expect(game.players).toHaveLength(2);
     expect(game.players[0].type).toEqual('human');
     expect(game.players[0].score).toEqual(0);
     expect(game.players[1].type).toEqual('ai');

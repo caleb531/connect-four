@@ -13,11 +13,11 @@ test.describe('grid', async () => {
     });
     expect(grid.columnCount).toEqual(9);
     expect(grid.rowCount).toEqual(8);
-    expect(grid.columns).to.have.length(9);
+    expect(grid.columns).toHaveLength(9);
     grid.columns.forEach(function (column) {
-      expect(column).to.have.length(0);
+      expect(column).toHaveLength(0);
     });
-    expect(grid).to.have.property('lastPlacedChip', null);
+    expect(grid).toHaveProperty('lastPlacedChip', null);
   });
 
   test('should be copiable', async () => {
@@ -29,12 +29,12 @@ test.describe('grid', async () => {
     const chip = new Chip({ player });
     grid1.placeChip({ column: 3, chip });
     const grid2 = new Grid(grid1);
-    expect(grid2).to.have.property('columnCount', 9);
-    expect(grid2).to.have.property('rowCount', 8);
-    expect(grid2).to.have.property('columns');
-    expect(grid2).to.have.property('lastPlacedChip', chip);
+    expect(grid2).toHaveProperty('columnCount', 9);
+    expect(grid2).toHaveProperty('rowCount', 8);
+    expect(grid2).toHaveProperty('columns');
+    expect(grid2).toHaveProperty('lastPlacedChip', chip);
     expect(grid2.columns).not.toEqual(grid1.columns);
-    expect(grid2.columns).to.have.length(9);
+    expect(grid2.columns).toHaveLength(9);
     expect(grid2.columns[3]).not.toEqual(grid1.columns[3]);
     expect(grid2.columns[3][0]).toEqual(chip);
   });
@@ -102,9 +102,9 @@ test.describe('grid', async () => {
     });
     grid.resetGrid();
     grid.columns.forEach(function (column) {
-      expect(column).to.have.length(0);
+      expect(column).toHaveLength(0);
     });
-    expect(grid).to.have.property('lastPlacedChip', null);
+    expect(grid).toHaveProperty('lastPlacedChip', null);
   });
 
   test('should get next available slot in column', async () => {
@@ -133,14 +133,14 @@ test.describe('grid', async () => {
     const chip2 = new Chip({ player: player2 });
     grid.placeChip({ column: 2, chip: chip1 });
     expect(grid.columns[2][0]).toEqual(chip1);
-    expect(grid.columns[2][0]).to.have.property('column', 2);
-    expect(grid.columns[2][0]).to.have.property('row', 0);
-    expect(grid).to.have.property('lastPlacedChip', chip1);
+    expect(grid.columns[2][0]).toHaveProperty('column', 2);
+    expect(grid.columns[2][0]).toHaveProperty('row', 0);
+    expect(grid).toHaveProperty('lastPlacedChip', chip1);
     grid.placeChip({ column: 2, chip: chip2 });
     expect(grid.columns[2][1]).toEqual(chip2);
-    expect(grid.columns[2][1]).to.have.property('column', 2);
-    expect(grid.columns[2][1]).to.have.property('row', 1);
-    expect(grid).to.have.property('lastPlacedChip', chip2);
+    expect(grid.columns[2][1]).toHaveProperty('column', 2);
+    expect(grid.columns[2][1]).toHaveProperty('row', 1);
+    expect(grid).toHaveProperty('lastPlacedChip', chip2);
   });
 
 });

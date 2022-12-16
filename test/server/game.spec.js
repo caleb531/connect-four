@@ -13,17 +13,17 @@ test.describe('server game', async () => {
       ],
       grid: new Grid({ columnCount: 9, rowCount: 8 })
     });
-    expect(game.grid).to.have.property('columnCount', 9);
-    expect(game.grid).to.have.property('rowCount', 8);
-    expect(game.players).to.have.length(2);
+    expect(game.grid).toHaveProperty('columnCount', 9);
+    expect(game.grid).toHaveProperty('rowCount', 8);
+    expect(game.players).toHaveLength(2);
     expect(game.players[0].name).toEqual('Bob');
     expect(game.players[1].name).toEqual('Larry');
-    expect(game).to.have.property('startingPlayer', null);
-    expect(game).to.have.property('currentPlayer', null);
-    expect(game).to.have.property('requestingPlayer', null);
-    expect(game).to.have.property('inProgress', false);
-    expect(game).to.have.property('pendingChipColumn', null);
-    expect(game).to.have.property('winner', null);
+    expect(game).toHaveProperty('startingPlayer', null);
+    expect(game).toHaveProperty('currentPlayer', null);
+    expect(game).toHaveProperty('requestingPlayer', null);
+    expect(game).toHaveProperty('inProgress', false);
+    expect(game).toHaveProperty('pendingChipColumn', null);
+    expect(game).toHaveProperty('winner', null);
   });
 
   test('should initialize with default grid', async () => {
@@ -33,8 +33,8 @@ test.describe('server game', async () => {
         new Player({ color: 'black', name: 'Larry' })
       ]
     });
-    expect(game.grid).to.have.property('columnCount', 7);
-    expect(game.grid).to.have.property('rowCount', 6);
+    expect(game.grid).toHaveProperty('columnCount', 7);
+    expect(game.grid).toHaveProperty('rowCount', 6);
   });
 
   test('should start game', async () => {
@@ -45,11 +45,11 @@ test.describe('server game', async () => {
     const game = new Game({
       players
     });
-    expect(game).to.have.property('startingPlayer', null);
+    expect(game).toHaveProperty('startingPlayer', null);
     game.startGame();
-    expect(game).to.have.property('startingPlayer', players[1]);
-    expect(game).to.have.property('currentPlayer', players[1]);
-    expect(game).to.have.property('inProgress', true);
+    expect(game).toHaveProperty('startingPlayer', players[1]);
+    expect(game).toHaveProperty('currentPlayer', players[1]);
+    expect(game).toHaveProperty('inProgress', true);
   });
 
   test('should alternate starting player when starting successive games', async () => {
@@ -60,12 +60,12 @@ test.describe('server game', async () => {
     const game = new Game({
       players
     });
-    expect(game).to.have.property('startingPlayer', null);
+    expect(game).toHaveProperty('startingPlayer', null);
     game.startGame();
-    expect(game).to.have.property('startingPlayer', players[1]);
+    expect(game).toHaveProperty('startingPlayer', players[1]);
     game.endGame();
     game.startGame();
-    expect(game).to.have.property('startingPlayer', players[0]);
+    expect(game).toHaveProperty('startingPlayer', players[0]);
   });
 
   test('should end game', async () => {
@@ -78,8 +78,8 @@ test.describe('server game', async () => {
     });
     game.startGame();
     game.endGame();
-    expect(game).to.have.property('inProgress', false);
-    expect(game).to.have.property('currentPlayer', null);
+    expect(game).toHaveProperty('inProgress', false);
+    expect(game).toHaveProperty('currentPlayer', null);
   });
 
   test('should reset game', async () => {
@@ -95,9 +95,9 @@ test.describe('server game', async () => {
     game.endGame();
     game.requestingPlayer = players[0];
     game.resetGame();
-    expect(game).to.have.property('inProgress', false);
-    expect(game).to.have.property('requestingPlayer', null);
-    expect(game).to.have.property('winner', null);
+    expect(game).toHaveProperty('inProgress', false);
+    expect(game).toHaveProperty('requestingPlayer', null);
+    expect(game).toHaveProperty('winner', null);
   });
 
   test('should place chip', async () => {
@@ -109,14 +109,14 @@ test.describe('server game', async () => {
       players
     });
     game.startGame();
-    expect(game).to.have.property('currentPlayer', players[1]);
+    expect(game).toHaveProperty('currentPlayer', players[1]);
     game.placeChip({
       column: 4
     });
-    expect(game.grid.columns[4]).to.have.length(1);
-    expect(game.grid.columns[4][0]).to.have.property('column', 4);
-    expect(game.grid.columns[4][0]).to.have.property('player', 'black');
-    expect(game).to.have.property('currentPlayer', players[0]);
+    expect(game.grid.columns[4]).toHaveLength(1);
+    expect(game.grid.columns[4][0]).toHaveProperty('column', 4);
+    expect(game.grid.columns[4][0]).toHaveProperty('player', 'black');
+    expect(game).toHaveProperty('currentPlayer', players[0]);
   });
 
   test('should not place chip if game is not in progress', async () => {
@@ -130,7 +130,7 @@ test.describe('server game', async () => {
     game.placeChip({
       column: 4
     });
-    expect(game.grid.columns[4]).to.have.length(0);
+    expect(game.grid.columns[4]).toHaveLength(0);
   });
 
   test('should declare winner', async () => {
@@ -183,15 +183,15 @@ test.describe('server game', async () => {
     game.currentPlayer = game.players[1];
     game.requestingPlayer = game.players[0];
     const json = game.toJSON();
-    expect(json.grid).to.have.property('columnCount', 9);
-    expect(json.grid).to.have.property('rowCount', 8);
-    expect(json.players).to.have.length(2);
+    expect(json.grid).toHaveProperty('columnCount', 9);
+    expect(json.grid).toHaveProperty('rowCount', 8);
+    expect(json.players).toHaveLength(2);
     expect(json.players[0].name).toEqual('Bob');
     expect(json.players[1].name).toEqual('Larry');
-    expect(json).to.have.property('currentPlayer', 'black');
-    expect(json).to.have.property('requestingPlayer', 'blue');
-    expect(json).to.have.property('inProgress', false);
-    expect(json).to.have.property('pendingChipColumn', null);
+    expect(json).toHaveProperty('currentPlayer', 'black');
+    expect(json).toHaveProperty('requestingPlayer', 'blue');
+    expect(json).toHaveProperty('inProgress', false);
+    expect(json).toHaveProperty('pendingChipColumn', null);
   });
 
 });

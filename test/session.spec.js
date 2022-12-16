@@ -16,7 +16,7 @@ test.describe('session', async () => {
     connect.returns(socket);
   });
 
-  test.beforeEach(() => {
+  test.beforeEach(async ({ page }) => {
     session = new Session({
       url: 'http://localhost:8080',
       roomCode: 'ABCD'
@@ -32,31 +32,31 @@ test.describe('session', async () => {
   });
 
   test('should initialize', async () => {
-    expect(session).to.have.property('url', 'http://localhost:8080');
-    expect(session).to.have.property('roomCode', 'ABCD');
-    expect(session).to.have.property('localPlayerId', null);
+    expect(session).toHaveProperty('url', 'http://localhost:8080');
+    expect(session).toHaveProperty('roomCode', 'ABCD');
+    expect(session).toHaveProperty('localPlayerId', null);
   });
 
   test('should not be connected by default', async () => {
-    expect(session).to.have.property('connected', false);
+    expect(session).toHaveProperty('connected', false);
   });
 
   test('should not be disconnected by default', async () => {
-    expect(session).to.have.property('disconnected', false);
+    expect(session).toHaveProperty('disconnected', false);
   });
 
   test('should connect', async () => {
     session.connect();
-    expect(connect).to.have.been.calledWith(session.url);
-    expect(session).to.have.property('status', 'connecting');
-    expect(session).to.have.property('socket', socket);
+    expect(connect).toHaveBeenCalledWith(session.url);
+    expect(session).toHaveProperty('status', 'connecting');
+    expect(session).toHaveProperty('socket', socket);
   });
 
   test('should disconnect', async () => {
     socket.disconnect = sinon.stub();
     session.connect();
     session.disconnect();
-    expect(socket.disconnect).to.have.been.calledWith();
+    expect(socket.disconnect).toHaveBeenCalledWith();
     delete socket.disconnect;
   });
 
@@ -69,9 +69,9 @@ test.describe('session', async () => {
       callback();
     });
     session.emit('my-event', { foo: 'bar' });
-    expect(callback).not.to.have.been.called;
+    expect(callback).not.toHaveBeenCalled;
     session.connect();
-    expect(callback).to.have.been.called;
+    expect(callback).toHaveBeenCalled;
   });
 
   test('should emit immediately if already connected', async () => {
@@ -84,7 +84,7 @@ test.describe('session', async () => {
     });
     session.connect();
     session.emit('my-event', { foo: 'bar' });
-    expect(callback).to.have.been.called;
+    expect(callback).toHaveBeenCalled;
   });
 
   test('should queue listener until connected', async () => {
@@ -94,10 +94,10 @@ test.describe('session', async () => {
       callback();
     });
     socket.emit('my-event', { foo: 'bar' });
-    expect(callback).not.to.have.been.called;
+    expect(callback).not.toHaveBeenCalled;
     session.connect();
     socket.emit('my-event', { foo: 'bar' });
-    expect(callback).to.have.been.called;
+    expect(callback).toHaveBeenCalled;
   });
 
   test('should add listener immediately if already connected', async () => {
@@ -108,7 +108,7 @@ test.describe('session', async () => {
       callback();
     });
     socket.emit('my-event', { foo: 'bar' });
-    expect(callback).to.have.been.called;
+    expect(callback).toHaveBeenCalled;
   });
 
 });

@@ -5,8 +5,8 @@ test.describe('server grid', async () => {
 
   test('should initialize with no arguments', async () => {
     const grid = new Grid();
-    expect(grid).to.have.property('columnCount', 7);
-    expect(grid).to.have.property('rowCount', 6);
+    expect(grid).toHaveProperty('columnCount', 7);
+    expect(grid).toHaveProperty('rowCount', 6);
   });
 
   test('should initialize with arguments', async () => {
@@ -14,8 +14,8 @@ test.describe('server grid', async () => {
       columnCount: 9,
       rowCount: 8
     });
-    expect(grid).to.have.property('columnCount', 9);
-    expect(grid).to.have.property('rowCount', 8);
+    expect(grid).toHaveProperty('columnCount', 9);
+    expect(grid).toHaveProperty('rowCount', 8);
   });
 
   test('should serialize as JSON', async () => {
@@ -26,17 +26,17 @@ test.describe('server grid', async () => {
     const chip = { column: 3, player: 'green' };
     grid.placeChip(chip);
     const json = grid.toJSON();
-    expect(json).to.have.property('columnCount', 5);
-    expect(json).to.have.property('rowCount', 8);
-    expect(json.columns).to.deep.equal([
+    expect(json).toHaveProperty('columnCount', 5);
+    expect(json).toHaveProperty('rowCount', 8);
+    expect(json.columns).toEqual([
       [],
       [],
       [],
       [chip],
       []
     ]);
-    expect(chip).to.have.property('row', 0);
-    expect(json).to.have.property('lastPlacedChip', chip);
+    expect(chip).toHaveProperty('row', 0);
+    expect(json).toHaveProperty('lastPlacedChip', chip);
   });
 
 });

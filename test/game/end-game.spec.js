@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import sinon from 'sinon';
 import Emitter from 'tiny-emitter';
 import Game from '../../app/scripts/models/game.js';
 
@@ -11,7 +12,7 @@ test.describe('game', async () => {
     sinon.spy(Emitter.prototype, 'emit');
     try {
       game.endGame();
-      expect(Emitter.prototype.emit).to.have.been.calledWith('game:end');
+      expect(Emitter.prototype.emit).toHaveBeenCalledWith('game:end');
     } finally {
       Emitter.prototype.emit.restore();
     }
@@ -27,14 +28,14 @@ test.describe('game', async () => {
    sinon.stub(console, 'log');
    try {
      game.placePendingChip({ column: 2 });
-     expect(game.columnHistory).to.have.length(1);
+     expect(game.columnHistory).toHaveLength(1);
      expect(game.columnHistory[0]).toEqual(2);
    } finally {
       // eslint-disable-next-line no-console
      console.log.restore();
    }
    game.endGame();
-   expect(game.columnHistory).to.have.length(0);
+   expect(game.columnHistory).toHaveLength(0);
   });
 
 });
