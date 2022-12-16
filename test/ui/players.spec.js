@@ -18,14 +18,14 @@ test.describe('game UI', async () => {
     await page.getByRole('button', { name: '1 Player' }).click();
     await page.getByRole('button', { name: 'Human' }).click();
     const pendingChip = await page.locator('.chip.pending');
-    await expect(pendingChip).toHaveClass('red');
+    await expect(pendingChip).toHaveClass(/red/);
   });
 
   test('should start with AI when chosen in 1-Player mode', async ({ page }) => {
     await page.getByRole('button', { name: '1 Player' }).click();
     await page.getByRole('button', { name: 'Mr. A.I.' }).click();
     const pendingChip = await page.locator('.chip.pending');
-    await expect(pendingChip).toHaveClass('black');
+    await expect(pendingChip).toHaveClass(/black/);
   });
 
 });
