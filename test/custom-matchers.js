@@ -1,7 +1,8 @@
 const { expect } = require('@playwright/test');
+const { ROW_COUNT } = require('./constants.js');
 
-// Add syntactic sugar assertion for testing CSS translate values
 expect.extend({
+  // Matchers for Sinon stubs/spies
   toHaveBeenCalled: (received) => {
     if (received.called) {
       return {
@@ -41,6 +42,7 @@ expect.extend({
       };
     }
   },
+  // Expect the given value to be one of the provided values
   toBeOneOf: (received, choices) => {
     if (choices.includes(received)) {
       return {
@@ -54,25 +56,44 @@ expect.extend({
       };
     }
   },
-  toHaveTranslate: async (pendingChip, expectedX, expectedY) => {
-    const { selector, actualX, actualY } = await pendingChip.evaluate((pendingChipElem) => {
+  // Expect that the given pending chip is over the specified column on the grid
+  toHavePendingChipAt: async (grid, { column }) => {
+    const pendingChip = grid.locator('.chip.pending');
+    const { selector, actualColumn } = await pendingChip.evaluate((pendingChipElem) => {
       const translate = pendingChipElem.style.transform;
       return {
         selector: pendingChipElem.nodeName.toLowerCase() + '.' + String(pendingChipElem.className)
           .trim()
           .replace(/\s+/g, '.'),
-        actualX: parseFloat(translate.slice(translate.indexOf('(') + 1)),
-        actualY: parseFloat(translate.slice(translate.indexOf(',') + 1))
+        actualColumn: Math.round((parseFloat(translate.slice(translate.indexOf('(') + 1)) / 100))
       };
     });
-    if (actualX === expectedX && actualY === expectedY) {
+    if (actualColumn === column) {
       return {
-        message: () => `expected ${selector} not to have translate (${expectedX}, ${expectedY}) but got (${actualX}, ${actualY})`,
+        message: () => `expected ${selector} not to be at column ${column} but got ${actualColumn}`,
         pass: true
       };
     } else {
       return {
-        message: () => `expected ${selector} to have translate (${expectedX}, ${expectedY}) but got (${actualX}, ${actualY})`,
+        message: () => `expected ${selector} to be at column ${column} but got ${actualColumn}`,
+        pass: false
+      };
+    }
+  },
+  // Expect that the given grid locator has a chip of the given color at the
+  // specified row/column
+  toHaveChipAt: async (grid, { column, row, chipColor }) => {
+    // TODO
+    const nthColumn = grid.locator('.grid-column').nth(column);
+    const chip = nthColumn.locator(`.chip.${chipColor}:nth-child(${ROW_COUNT - row})`);
+    if ((await chip.count()) === 1) {
+      return {
+        message: () => `expected ${chipColor} chip not to be placed at column ${column}, row ${row}`,
+        pass: true
+      };
+    } else {
+      return {
+        message: () => `expected ${chipColor} chip to be placed at column ${column}, row ${row}`,
         pass: false
       };
     }

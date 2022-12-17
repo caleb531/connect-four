@@ -1,7 +1,9 @@
+import { CHIP_WIDTH } from '../constants.js';
+
 // Wait for the next transition on the given element to complete, timing out
 // and erroring if the transition never completes
-export async function onPendingChipTransitionEnd({ page }) {
-  const pendingChip = await page.locator('.chip.pending');
+export async function onPendingChipTransitionEnd({ grid }) {
+  const pendingChip = await grid.locator('.chip.pending');
   await pendingChip.evaluate(async (element) => {
     // The nmuber of milliseconds to wait before the transitionend event
     // listener gives up; it must be defined inside this callback because of the
@@ -23,14 +25,13 @@ export async function onPendingChipTransitionEnd({ page }) {
   return pendingChip;
 }
 
-// Simulate a mouse event at the specified coordinates, relative to the given
-// element
-export async function triggerMouseEvent(locator, eventType, x, y) {
-  const [offsetLeft, offsetTop] = await locator.evaluate((elem) => {
-    return [elem.offsetLeft, elem.offsetTop];
+// Simulate a click event over the specified column on the grid
+export async function clickGrid({ grid, column }) {
+  await grid.click({
+    position: {
+      x: column * CHIP_WIDTH,
+      y: 0
+    }
   });
-  await locator.dispatchEvent(eventType, {
-    clientX: offsetLeft + x,
-    clientY: offsetTop + y
-  });
+  await onPendingChipTransitionEnd({ grid });
 }
