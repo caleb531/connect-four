@@ -55,22 +55,24 @@ expect.extend({
     }
   },
   toHaveTranslate: async (pendingChip, expectedX, expectedY) => {
-    const { classList, actualX, actualY } = await pendingChip.evaluate((pendingChipElem) => {
+    const { selector, actualX, actualY } = await pendingChip.evaluate((pendingChipElem) => {
       const translate = pendingChipElem.style.transform;
       return {
-        classList: pendingChipElem.classList,
+        selector: pendingChipElem.nodeName.toLowerCase() + '.' + String(pendingChipElem.className)
+          .trim()
+          .replace(/\s+/g, '.'),
         actualX: parseFloat(translate.slice(translate.indexOf('(') + 1)),
         actualY: parseFloat(translate.slice(translate.indexOf(',') + 1))
       };
     });
     if (actualX === expectedX && actualY === expectedY) {
       return {
-        message: () => `expected .${Array.from(classList).join('.')} to have translate (${expectedX}, ${expectedY}) but got (${actualX}, ${actualY})`,
+        message: () => `expected ${selector} to have translate (${expectedX}, ${expectedY}) but got (${actualX}, ${actualY})`,
         pass: true
       };
     } else {
       return {
-        message: () => `expected .${Array.from(classList).join('.')} to have translate (${expectedX}, ${expectedY}) but got (${actualX}, ${actualY})`,
+        message: () => `expected ${selector} to have translate (${expectedX}, ${expectedY}) but got (${actualX}, ${actualY})`,
         pass: false
       };
     }
