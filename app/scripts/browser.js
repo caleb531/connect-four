@@ -1,16 +1,33 @@
+import _ from 'underscore';
+
 // Utilities for cross-browser compatibility.
 class Browser {
 
   static getNormalizedTransformProperty() {
+    const supportedProp = ['transform', 'WebkitTransform'].find((prop) => {
+      return document.documentElement.style[prop] !== undefined;
+    });
+    if (supportedProp) {
+      return supportedProp;
+    }
     return 'transform';
   }
 
   static getNormalizedTransitionEndEventName() {
+    const supportedEventName = _.find(['transitionend', 'webkitTransitionEnd'], (handlerName) => {
+      return window[`on${handlerName.toLowerCase()}`] !== undefined;
+    });
+    if (supportedEventName) {
+      return supportedEventName.name;
+    }
     return 'transitionend';
   }
 
   // Convert a DOM event name to an equivalent event name for this browser.
   static getNormalizedEventName(eventName) {
+    if (Browser.normalizedEventNames[eventName] !== undefined) {
+      return Browser.normalizedEventNames[eventName];
+    }
     return eventName;
   }
 
