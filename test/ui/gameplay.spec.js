@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { _before, _beforeEach, _afterEach } from './fixtures.js';
-import { clickGrid, onPendingChipTransitionEnd } from './utils.js';
+import { clickGrid, waitForPendingChipTransitionEnd } from './utils.js';
 
 test.describe('game UI', async () => {
 
@@ -13,6 +13,7 @@ test.describe('game UI', async () => {
     await page.getByRole('button', { name: 'Human' }).click();
     const grid = page.locator('#grid');
     await clickGrid({ grid, column: 0 });
+    await waitForPendingChipTransitionEnd({ grid });
     await expect(grid).toHaveChipAt({
       column: 0,
       row: 5,
@@ -25,6 +26,7 @@ test.describe('game UI', async () => {
     await page.getByRole('button', { name: 'Human' }).click();
     const grid = page.locator('#grid');
     await clickGrid({ grid, column: 3 });
+    await waitForPendingChipTransitionEnd({ grid });
     await expect(grid).toHavePendingChipAt({ column: 3 });
   });
 
@@ -33,7 +35,9 @@ test.describe('game UI', async () => {
     await page.getByRole('button', { name: 'Human' }).click();
     const grid = page.locator('#grid');
     await clickGrid({ grid, column: 3 });
+    await waitForPendingChipTransitionEnd({ grid });
     await clickGrid({ grid, column: 3 });
+    await waitForPendingChipTransitionEnd({ grid });
     await expect(grid).toHaveChipAt({
       column: 3,
       row: 5,
@@ -48,9 +52,11 @@ test.describe('game UI', async () => {
     // Human's turn
     // Human chip's initial position (before placing)
     await clickGrid({ grid, column: 3 });
+    await waitForPendingChipTransitionEnd({ grid });
     await expect(grid).toHavePendingChipAt({ column: 3 });
     // Place human chip
     await clickGrid({ grid, column: 3 });
+    await waitForPendingChipTransitionEnd({ grid });
     await expect(grid).toHaveChipAt({
       column: 3,
       row: 5,
@@ -62,9 +68,9 @@ test.describe('game UI', async () => {
     await expect(pendingChip).toHaveClass(/black/);
     await expect(grid).toHavePendingChipAt({ column: 3 });
     // Place AI chip
-    await onPendingChipTransitionEnd({ grid });
+    await waitForPendingChipTransitionEnd({ grid });
     await expect(grid).toHavePendingChipAt({ column: 2 });
-    await onPendingChipTransitionEnd({ grid });
+    await waitForPendingChipTransitionEnd({ grid });
     await expect(grid).toHaveChipAt({
       column: 2,
       row: 5,
@@ -77,6 +83,7 @@ test.describe('game UI', async () => {
     await page.getByRole('button', { name: 'Human' }).click();
     const grid = page.locator('#grid');
     await clickGrid({ grid, column: 3 });
+    await waitForPendingChipTransitionEnd({ grid });
     await expect(grid).toHavePendingChipAt({ column: 3 });
   });
 

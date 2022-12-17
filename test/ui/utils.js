@@ -2,7 +2,7 @@ import { CHIP_WIDTH } from '../constants.js';
 
 // Wait for the next transition on the given element to complete, timing out
 // and erroring if the transition never completes
-export async function onPendingChipTransitionEnd({ grid }) {
+export async function waitForPendingChipTransitionEnd({ grid }) {
   const pendingChip = await grid.locator('.chip.pending');
   await pendingChip.evaluate(async (element) => {
     // The nmuber of milliseconds to wait before the transitionend event
@@ -18,7 +18,7 @@ export async function onPendingChipTransitionEnd({ grid }) {
         }
       });
       setTimeout(() => {
-        reject(new Error('onPendingChipTransitionEnd gave up waiting'));
+        reject(new Error('waitForPendingChipTransitionEnd gave up waiting'));
       }, TRANSITION_WAIT_TIMEOUT);
     });
   });
@@ -33,5 +33,4 @@ export async function clickGrid({ grid, column }) {
       y: 0
     }
   });
-  await onPendingChipTransitionEnd({ grid });
 }
