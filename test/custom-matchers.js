@@ -5,12 +5,12 @@ expect.extend({
   toHaveBeenCalled: (received) => {
     if (received.called) {
       return {
-        message: () => `expected ${received} to have been called`,
+        message: () => `expected ${received} not to have been called`,
         pass: true
       };
     } else {
       return {
-        message: () => `expected ${received} not to have been called`,
+        message: () => `expected ${received} to have been called`,
         pass: false
       };
     }
@@ -18,12 +18,12 @@ expect.extend({
   toHaveBeenCalledOnce: (received) => {
     if (received.calledOnce) {
       return {
-        message: () => `expected ${received} to have been called once; called ${received.callCount} times`,
+        message: () => `expected ${received} not to have been called once; called ${received.callCount} times`,
         pass: true
       };
     } else {
       return {
-        message: () => `expected ${received} not to have been called once`,
+        message: () => `expected ${received} to have been called once`,
         pass: false
       };
     }
@@ -31,12 +31,12 @@ expect.extend({
   toHaveBeenCalledWith: (received, ...args) => {
     if (received.calledWith(...args)) {
       return {
-        message: () => `expected ${received} to have been called with [${args.join(', ')}]`,
+        message: () => `expected ${received} not to have been called with [${args.join(', ')}]`,
         pass: true
       };
     } else {
       return {
-        message: () => `expected ${received} not to have been called with [${args.join(', ')}]`,
+        message: () => `expected ${received} to have been called with [${args.join(', ')}]`,
         pass: false
       };
     }
@@ -44,12 +44,12 @@ expect.extend({
   toBeOneOf: (received, choices) => {
     if (choices.includes(received)) {
       return {
-        message: () => `expected ${received} to be in [${choices.join(', ')}]`,
+        message: () => `expected ${received} not to be in [${choices.join(', ')}]`,
         pass: true
       };
     } else {
       return {
-        message: () => `expected ${received} not to be in [${choices.join(', ')}]`,
+        message: () => `expected ${received} to be in [${choices.join(', ')}]`,
         pass: false
       };
     }
@@ -67,7 +67,7 @@ expect.extend({
     });
     if (actualX === expectedX && actualY === expectedY) {
       return {
-        message: () => `expected ${selector} to have translate (${expectedX}, ${expectedY}) but got (${actualX}, ${actualY})`,
+        message: () => `expected ${selector} not to have translate (${expectedX}, ${expectedY}) but got (${actualX}, ${actualY})`,
         pass: true
       };
     } else {
