@@ -11,13 +11,13 @@ gulp.task('assets:core', () => {
   return gulp.src([
       'app/assets/**/*'
     ])
-    .pipe(gulp.dest('public'));
+    .pipe(gulp.dest('dist'));
 });
 gulp.task('assets:server', () => {
   return gulp.src([
       'app/server/**/*'
     ])
-    .pipe(gulp.dest('public/server'));
+    .pipe(gulp.dest('dist/server'));
 });
 gulp.task('assets:js', () => {
   return gulp.src([
@@ -27,7 +27,7 @@ gulp.task('assets:js', () => {
       'node_modules/socket.io-client/dist/socket.io.min.js',
       'node_modules/clipboard/dist/clipboard.min.js'
     ])
-    .pipe(gulp.dest('public/scripts'));
+    .pipe(gulp.dest('dist/scripts'));
 });
 gulp.task('assets:fonts', () => {
   return gulp.src([
@@ -36,7 +36,7 @@ gulp.task('assets:fonts', () => {
       'node_modules/typeface-ubuntu/files/ubuntu-latin-400.eot',
       'node_modules/typeface-ubuntu/files/ubuntu-latin-400.svg'
     ])
-    .pipe(gulp.dest('public/fonts'));
+    .pipe(gulp.dest('dist/fonts'));
 });
 gulp.task('assets', gulp.parallel(
   'assets:core',
@@ -55,7 +55,7 @@ gulp.task('sass', () => {
       outputStyle: process.env.NODE_ENV === 'production' ? 'compressed' : 'expanded'
     }).on('error', sass.logError))
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('public/styles'));
+    .pipe(gulp.dest('dist/styles'));
 });
 gulp.task('sass:watch', () => {
   return gulp.watch('app/styles/**/*.scss', gulp.series('sass', 'sw'));
@@ -81,12 +81,12 @@ gulp.task('uglify', () => {
       'node_modules/sw-update-manager/sw-update-manager.js'
     ])
     .pipe(process.env.NODE_ENV === 'production' ? terser() : noop())
-    .pipe(gulp.dest('public/scripts'));
+    .pipe(gulp.dest('dist/scripts'));
 });
 
 gulp.task('sw', () => {
   return workboxBuild.injectManifest({
-    globDirectory: 'public',
+    globDirectory: 'dist',
     globPatterns: [
       '**\/*.{js,css,png}'
     ],
@@ -100,7 +100,7 @@ gulp.task('sw', () => {
       '.': ['index.ejs']
     },
     swSrc: 'app/scripts/service-worker.js',
-    swDest: 'public/service-worker.js'
+    swDest: 'dist/service-worker.js'
    }).then(({ warnings }) => {
     warnings.forEach(console.warn);
   });
@@ -126,7 +126,7 @@ gulp.task('build:watch', gulp.series(
 ));
 
 gulp.task('connect', () => {
-  require('esm')(module)('./public/server/index.js');
+  require('esm')(module)('./dist/server/index.js');
 });
 gulp.task('serve', gulp.series(
   'build',

@@ -2,7 +2,7 @@
 
 module.exports = function (config) {
   config.set({
-    basePath: 'public',
+    basePath: 'dist',
     browsers: ['ChromeHeadlessCustom'],
     files: [
       'styles/index.css',

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A Connect Four web app implemented in JS using Mithril",
   "scripts": {
-    "start": "node -r esm public/server/index.js",
+    "start": "node -r esm dist/server/index.js",
     "build": "gulp build",
     "lint": "eslint app/**/*.js test/**/*.js gulpfile.js",
     "test": "playwright test",

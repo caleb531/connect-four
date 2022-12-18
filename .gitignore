@@ -13,7 +13,7 @@ coverage
 app/assets/icons/png
 
 # Gulp
-public/
+dist/
 
 # Private environment variables for deployment
 .env
