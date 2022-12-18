@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import Room from './room.js';
+import Room from './room.mjs';
 
 class RoomManager {
 

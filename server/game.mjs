@@ -1,4 +1,4 @@
-import Grid from './grid.js';
+import Grid from './grid.mjs';
 
 class Game {
 
