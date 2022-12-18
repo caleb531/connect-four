@@ -64,8 +64,8 @@ async function createExpressServer() {
   // undefined (because in Production mode, we don't want to have Vite transform
   // the HTML)
   let vite;
-  if (process.env.NODE_ENV === 'production' || true) {
-    app.use(express.static(path.join(path.dirname(__dirname)), 'dist'));
+  if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(path.dirname(__dirname), '/dist')));
   } else {
     vite = await createViteServer({
       server: { middlewareMode: true },
