@@ -7,7 +7,7 @@ import { createServer as createViteServer } from 'vite';
 import fs from 'fs';
 import path from 'path';
 import { readFile } from 'fs/promises';
-import { roomManager } from './room-manager.mjs';
+import { roomManager } from './room-manager.js';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -64,8 +64,8 @@ async function createExpressServer() {
   // undefined (because in Production mode, we don't want to have Vite transform
   // the HTML)
   let vite;
-  if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.dirname(__dirname)));
+  if (process.env.NODE_ENV === 'production' || true) {
+    app.use(express.static(path.join(path.dirname(__dirname)), 'dist'));
   } else {
     vite = await createViteServer({
       server: { middlewareMode: true },

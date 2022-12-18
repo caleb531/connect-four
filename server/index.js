@@ -1,7 +1,7 @@
 import { Server } from 'socket.io';
 
-import getExpressServer from './express-server.mjs';
-import { roomManager } from './room-manager.mjs';
+import getExpressServer from './express-server.js';
+import { roomManager } from './room-manager.js';
 
 // Socket.IO server
 async function createServer() {

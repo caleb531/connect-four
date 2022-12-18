@@ -2,9 +2,10 @@
   "name": "connect-four",
   "version": "1.0.0",
   "description": "A Connect Four web app implemented in JS using Mithril",
+  "type": "module",
   "scripts": {
-    "start": "node server/index.mjs",
-    "dev": "node server/index.mjs",
+    "start": "node server/index.js",
+    "dev": "node server/index.js",
     "build": "vite build",
     "preview": "vite preview --open",
     "lint": "eslint scripts/**/*.js test/*.js",

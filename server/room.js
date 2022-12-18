@@ -1,7 +1,7 @@
 import moment from 'moment';
 
-import Player from './player.mjs';
-import Game from './game.mjs';
+import Player from './player.js';
+import Game from './game.js';
 
 class Room {
 
