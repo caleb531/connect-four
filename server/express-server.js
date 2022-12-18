@@ -63,16 +63,11 @@ async function createExpressServer() {
   // Setting vite outside of the conditional so that we can later check if it's
   // undefined (because in Production mode, we don't want to have Vite transform
   // the HTML)
-  let vite;
-  if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(path.dirname(__dirname), '/dist')));
-  } else {
-    vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: 'custom'
-    });
-    app.use(vite.middlewares);
-  }
+  const vite = await createViteServer({
+    server: { middlewareMode: true },
+    appType: 'custom'
+  });
+  app.use(vite.middlewares);
 
   // Routes
 
