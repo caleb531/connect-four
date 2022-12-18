@@ -7,7 +7,6 @@
     "start": "node server/index.js",
     "dev": "node server/index.js",
     "build": "vite build",
-    "preview": "vite preview --open",
     "lint": "eslint scripts/**/*.js test/*.js",
     "test": "playwright test",
     "coverage": "COVERAGE=true npm test && npm run remap-coverage && npm run coverage-report",
