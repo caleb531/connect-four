@@ -4,13 +4,25 @@ import expressEnforcesSSL from 'express-enforces-ssl';
 import helmet from 'helmet';
 import http from 'http';
 import { createServer as createViteServer } from 'vite';
+import fs from 'fs';
 import path from 'path';
 import { readFile } from 'fs/promises';
 import { roomManager } from './room-manager.mjs';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
+// __dirname is not available in ES modules natively, so we must define it
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+// Transform page HTML using both EJS and Vite
+async function transformHtml(vite, req, res, htmlPath, params) {
+  res.render(htmlPath, params, async (err, html) => {
+    if (vite) {
+      html = await vite.transformIndexHtml(req.originalUrl, html);
+    }
+    res.send(html);
+  });
+}
 
 // Express server
 async function createExpressServer() {
@@ -33,12 +45,12 @@ async function createExpressServer() {
       directives: {
         /* eslint-disable quotes */
         'default-src': ["'none'"],
-        'style-src': ["'self'", "'unsafe-inline'"],
+        'style-src': ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com" ],
         'img-src': ["'self'", 'https://www.google-analytics.com', 'https://www.googletagmanager.com'],
         'font-src': ["'self'", 'https://*.gstatic.com', 'data:'],
         'script-src': ["'self'", "'unsafe-inline'", 'https://storage.googleapis.com', 'https://www.google-analytics.com', 'https://www.googletagmanager.com'],
         'child-src': ["'self'"],
-        'connect-src': ["'self'", "https://www.google-analytics.com", 'https://www.googletagmanager.com'],
+        'connect-src': ["'self'", "http://localhost:24678", "ws://localhost:24678", "https://www.google-analytics.com", 'https://www.googletagmanager.com'],
         'manifest-src': ["'self'"]
         /* eslint-enable quotes */
       }
@@ -48,6 +60,20 @@ async function createExpressServer() {
   // Serve assets using gzip compression
   app.use(compression());
 
+  // Setting vite outside of the conditional so that we can later check if it's
+  // undefined (because in Production mode, we don't want to have Vite transform
+  // the HTML)
+  let vite;
+  if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.dirname(__dirname)));
+  } else {
+    vite = await createViteServer({
+      server: { middlewareMode: true },
+      appType: 'custom'
+    });
+    app.use(vite.middlewares);
+  }
+
   // Routes
 
   app.get('/room/:roomCode', async (req, res) => {
@@ -55,11 +81,11 @@ async function createExpressServer() {
     const room = roomManager.getRoom(req.params.roomCode);
     if (room) {
       const inviteeName = (room.players[0] ? room.players[0].name : 'Someone');
-      res.render(indexPath, {
+      await transformHtml(vite, req, res, indexPath, {
         pageTitle: `${inviteeName} invited you to play!`
       });
     } else {
-      res.render(indexPath, {
+      await transformHtml(vite, req, res, indexPath, {
         pageTitle: 'Room doesn\'t exist'
       });
     }
@@ -67,22 +93,12 @@ async function createExpressServer() {
   app.get('/room', (req, res) => {
     res.redirect(301, '/');
   });
-  app.get('/', (req, res) => {
+  app.get('/', async (req, res) => {
     const indexPath = path.join(path.dirname(__dirname), 'index.html');
-    res.render(indexPath, {
+    await transformHtml(vite, req, res, indexPath, {
       pageTitle: 'Caleb Evans'
     });
   });
-
-  if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.dirname(__dirname)));
-  } else {
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: 'custom'
-    });
-    app.use(vite.middlewares);
-  }
 
   // HTTP server wrapper
 
