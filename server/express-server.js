@@ -108,6 +108,8 @@ async function createExpressServer() {
   server.listen(process.env.PORT || 8080, () => {
     console.log(`Server started. Listening on port ${server.address().port}`);
   });
+
+  return server;
 }
 
 export default createExpressServer;
