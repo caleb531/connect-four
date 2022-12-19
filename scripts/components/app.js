@@ -24,6 +24,13 @@ class AppComponent {
       this.updateManager ? m(UpdateNotificationComponent, {
         updateManager: this.updateManager
       }) : null,
+      m('span#personal-site-link.nav-link.nav-link-left', [
+        m('a[href="https://github.com/caleb531/connect-four"]', 'View on GitHub')
+      ]),
+      m('span#github-link.nav-link.nav-link-right', [
+        'by',
+        m('a[href="https://calebevans.me"]', 'Caleb Evans')
+      ]),
       m(GameComponent, { session: this.session, roomCode: attrs.roomCode })
     ]);
   }
