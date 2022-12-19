@@ -2,8 +2,8 @@ import { test, expect } from '@playwright/test';
 import sinon from 'sinon';
 import utils from './utils.js';
 
-import AIPlayer from '../../app/scripts/models/ai-player.js';
-import Game from '../../app/scripts/models/game.js';
+import AIPlayer from '../../scripts/models/ai-player.js';
+import Game from '../../scripts/models/game.js';
 
 test.describe('AI player', async () => {
 

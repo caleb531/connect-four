@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import utils from './utils.js';
 
-import Game from '../../app/scripts/models/game.js';
+import Game from '../../scripts/models/game.js';
 
 test.describe('AI player', async () => {
 

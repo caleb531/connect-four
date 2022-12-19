@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
 import _ from 'underscore';
-import Grid from '../app/scripts/models/grid.js';
-import Player from '../app/scripts/models/player.js';
-import Chip from '../app/scripts/models/chip.js';
+import Grid from '../scripts/models/grid.js';
+import Player from '../scripts/models/player.js';
+import Chip from '../scripts/models/chip.js';
 
 test.describe('grid', async () => {
 

@@ -62,12 +62,8 @@ test.describe('game UI', async () => {
       row: 5,
       chipColor: 'red'
     });
-    // AI's turn
-    // AI chip's initial position (before placing)
-    const pendingChip = grid.locator('.chip.pending');
-    await expect(pendingChip).toHaveClass(/black/);
-    await expect(grid).toHavePendingChipAt({ column: 3 });
     // Place AI chip
+    await waitForPendingChipTransitionEnd({ grid });
     await waitForPendingChipTransitionEnd({ grid });
     await expect(grid).toHavePendingChipAt({ column: 2 });
     await waitForPendingChipTransitionEnd({ grid });

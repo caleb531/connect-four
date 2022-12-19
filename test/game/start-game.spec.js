@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import sinon from 'sinon';
 import Emitter from 'tiny-emitter';
-import Game from '../../app/scripts/models/game.js';
+import Game from '../../scripts/models/game.js';
 
 test.describe('game', async () => {
 

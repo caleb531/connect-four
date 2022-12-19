@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
-import Game from '../../app/scripts/models/game.js';
-import Grid from '../../app/scripts/models/grid.js';
-import HumanPlayer from '../../app/scripts/models/human-player.js';
-import OnlinePlayer from '../../app/scripts/models/online-player.js';
-import Chip from '../../app/scripts/models/chip.js';
+import Game from '../../scripts/models/game.js';
+import Grid from '../../scripts/models/grid.js';
+import HumanPlayer from '../../scripts/models/human-player.js';
+import OnlinePlayer from '../../scripts/models/online-player.js';
+import Chip from '../../scripts/models/chip.js';
 
 test.describe('game', async () => {
 

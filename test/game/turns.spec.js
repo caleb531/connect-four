@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import sinon from 'sinon';
-import Game from '../../app/scripts/models/game.js';
+import Game from '../../scripts/models/game.js';
 
 test.describe('game', async () => {
 

@@ -1,5 +1,5 @@
-const { expect } = require('@playwright/test');
-const { ROW_COUNT } = require('./constants.js');
+import { expect } from '@playwright/test';
+import { ROW_COUNT } from './constants.js';
 
 expect.extend({
   // Matchers for Sinon stubs/spies

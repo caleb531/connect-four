@@ -1,4 +1,4 @@
-import Chip from '../../app/scripts/models/chip.js';
+import Chip from '../../scripts/models/chip.js';
 
 // Place chips at the given columns with the given players
 function placeChips({ game, startingPlayer, columns }) {

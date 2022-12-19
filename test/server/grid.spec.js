@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import Grid from '../../app/server/grid.js';
+import Grid from '../../server/grid.js';
 
 test.describe('server grid', async () => {
 

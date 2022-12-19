@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import { test, expect } from '@playwright/test';
 import Emitter from 'tiny-emitter';
-import Session from '../app/scripts/models/session.js';
+import Session from '../scripts/models/session.js';
 import io from 'socket.io-client';
 
 test.describe('session', async () => {

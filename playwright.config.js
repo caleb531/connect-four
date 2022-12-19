@@ -1,7 +1,6 @@
-require('./test/custom-matchers.js');
+import './test/custom-matchers.js';
 
-module.exports = {
-  globalSetup: require.resolve('./test/global-setup'),
+export default {
   webServer: {
     command: 'npm start',
     url: 'http://localhost:8080/',
