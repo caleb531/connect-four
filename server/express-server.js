@@ -8,11 +8,15 @@ import fs from 'fs';
 import path from 'path';
 import { readFile } from 'fs/promises';
 import { roomManager } from './room-manager.js';
-import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 // __dirname is not available in ES modules natively, so we must define it
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// Ensure that we transform the correct index.html path depending upon the
+// environment/context
+const indexPath = process.env.NODE_ENV === 'production'
+  ? path.join(path.dirname(__dirname), 'dist', 'index.html')
+  : path.join(path.dirname(__dirname), 'index.html');
 
 // Transform page HTML using both EJS and Vite
 async function transformHtml(vite, req, res, htmlPath, params) {
@@ -65,14 +69,14 @@ async function createExpressServer() {
   // the HTML)
   const vite = await createViteServer({
     server: { middlewareMode: true },
-    appType: 'custom'
+    appType: 'custom',
+    root: process.env.NODE_ENV === 'production' ? './dist/' : process.cwd()
   });
   app.use(vite.middlewares);
 
   // Routes
 
   app.get('/room/:roomCode', async (req, res) => {
-    const indexPath = path.join(path.dirname(__dirname), 'index.html');
     const room = roomManager.getRoom(req.params.roomCode);
     if (room) {
       const inviteeName = (room.players[0] ? room.players[0].name : 'Someone');
@@ -89,7 +93,6 @@ async function createExpressServer() {
     res.redirect(301, '/');
   });
   app.get('/', async (req, res) => {
-    const indexPath = path.join(path.dirname(__dirname), 'index.html');
     await transformHtml(vite, req, res, indexPath, {
       pageTitle: 'Caleb Evans'
     });
