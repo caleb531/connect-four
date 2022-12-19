@@ -11,7 +11,7 @@ class AppComponent {
       url: window.location.origin,
       roomCode: attrs.roomCode
     });
-    if (navigator.serviceWorker && !window.__karma__ && window.location.port !== '8080') {
+    if (navigator.serviceWorker && (window.location.hostname !== 'localhost' || (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('sw')))) {
       const serviceWorker = navigator.serviceWorker.register('/service-worker.js');
       this.updateManager = new SWUpdateManager(serviceWorker);
       this.updateManager.on('updateAvailable', () => m.redraw());
