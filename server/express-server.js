@@ -12,7 +12,7 @@ import { fileURLToPath } from 'url';
 
 // __dirname is not available in ES modules natively, so we must define it
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-// Ensure that we transform the correct index.html path depending upon the
+// Ensure that we serve the correct index.html path depending upon the
 // environment/context
 const indexPath = process.env.NODE_ENV === 'production'
   ? path.join(path.dirname(__dirname), 'dist', 'index.html')
@@ -67,12 +67,25 @@ async function createExpressServer() {
   // Setting vite outside of the conditional so that we can later check if it's
   // undefined (because in Production mode, we don't want to have Vite transform
   // the HTML)
-  const vite = await createViteServer({
-    server: { middlewareMode: true },
-    appType: 'custom',
-    root: process.env.NODE_ENV === 'production' ? './dist/' : process.cwd()
-  });
-  app.use(vite.middlewares);
+  let vite = null;
+  if (process.env.NODE_ENV === 'production') {
+    // I've found that Vite's middleware does not play nicely with the service
+    // worker; for example, if they are both active at the same time, Vite's
+    // middleware will wrap the app's CSS contents in a JavaScript wrapper when
+    // the service worker tries to fetch CSS, thus causing all styles to break
+    // (because the associated <link /> tag receives JS, not raw CSS);
+    // therefore, we need to remove Vite as the middleman when serving
+    // Production so that the service worker can fetch the static files directly
+    // (the middleware can be safely disabled in Production because we use Vite
+    // to pre-build the project anyway)
+    app.use(express.static(path.join(path.dirname(__dirname), 'dist')));
+  } else {
+    vite = await createViteServer({
+      server: { middlewareMode: true },
+      appType: 'custom'
+    });
+    app.use(vite.middlewares);
+  }
 
   // Routes
 
