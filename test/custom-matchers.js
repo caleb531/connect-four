@@ -1,47 +1,12 @@
 import { expect } from '@playwright/test';
+import sinonMatchers from 'sinon-matchers';
 import { ROW_COUNT } from './constants.js';
+import _ from 'underscore';
 
 expect.extend({
-  // Matchers for Sinon stubs/spies
-  toHaveBeenCalled: (received) => {
-    if (received.called) {
-      return {
-        message: () => `expected ${received} not to have been called`,
-        pass: true
-      };
-    } else {
-      return {
-        message: () => `expected ${received} to have been called`,
-        pass: false
-      };
-    }
-  },
-  toHaveBeenCalledOnce: (received) => {
-    if (received.calledOnce) {
-      return {
-        message: () => `expected ${received} not to have been called once; called ${received.callCount} times`,
-        pass: true
-      };
-    } else {
-      return {
-        message: () => `expected ${received} to have been called once`,
-        pass: false
-      };
-    }
-  },
-  toHaveBeenCalledWith: (received, ...args) => {
-    if (received.calledWith(...args)) {
-      return {
-        message: () => `expected ${received} not to have been called with [${args.join(', ')}]`,
-        pass: true
-      };
-    } else {
-      return {
-        message: () => `expected ${received} to have been called with [${args.join(', ')}]`,
-        pass: false
-      };
-    }
-  },
+  // Both Playwright and sinon-matchers include toThrow/toThrowError matchers,
+  // so we pick Playwright's matchers because they are more useful
+  ..._.omit(sinonMatchers, ['toThrow', 'toThrowError']),
   // Expect the given value to be one of the provided values
   toBeOneOf: (received, choices) => {
     if (choices.includes(received)) {
