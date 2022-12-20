@@ -21,13 +21,5 @@ export default defineConfig({
       swSrc: 'scripts/service-worker.js',
       swDest: 'dist/service-worker.js'
     })
-  ],
-  test: {
-    globals: true,
-    environment: 'jsdom',
-    setupFiles: ['./test/custom-matchers.js'],
-    coverage: {
-      reporter: ['text', 'lcov', 'html']
-    }
-  }
+  ]
 });

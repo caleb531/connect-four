@@ -1,12 +1,14 @@
+import { test, expect } from '@playwright/test';
+import sinon from 'sinon';
 import Emitter from 'tiny-emitter';
 import Game from '../../scripts/models/game.js';
 
-describe('game', async () => {
+test.describe('game', async () => {
 
-  it('should start', async () => {
+  test('should start', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
-    vi.spyOn(Emitter.prototype, 'emit');
+    sinon.spy(Emitter.prototype, 'emit');
     try {
       game.startGame();
       expect(Emitter.prototype.emit).toHaveBeenCalledWith('game:start');
@@ -17,7 +19,7 @@ describe('game', async () => {
     expect(game.inProgress).toBe(true);
   });
 
-  it('should set starting player when starting', async () => {
+  test('should set starting player when starting', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame({

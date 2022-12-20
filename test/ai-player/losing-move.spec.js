@@ -1,10 +1,11 @@
+import { test, expect } from '@playwright/test';
 import utils from './utils.js';
 
 import Game from '../../scripts/models/game.js';
 
-describe('AI player', async () => {
+test.describe('AI player', async () => {
 
-  it('should avoid losing move (#1)', async () => {
+  test('should avoid losing move (#1)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -21,7 +22,7 @@ describe('AI player', async () => {
     });
   });
 
-  it('should avoid losing move (#2)', async () => {
+  test('should avoid losing move (#2)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -38,7 +39,7 @@ describe('AI player', async () => {
     });
   });
 
-  it('should avoid losing move (#3)', async () => {
+  test('should avoid losing move (#3)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -54,7 +55,7 @@ describe('AI player', async () => {
     });
   });
 
-  it('should avoid losing move (#4)', async () => {
+  test('should avoid losing move (#4)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({

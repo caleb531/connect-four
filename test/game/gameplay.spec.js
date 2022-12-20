@@ -1,7 +1,9 @@
+import { test, expect } from '@playwright/test';
+import sinon from 'sinon';
 import Emitter from 'tiny-emitter';
 import Game from '../../scripts/models/game.js';
 
-describe('game', async () => {
+test.describe('game', async () => {
 
   // Place chips at the given columns in the given order
   function placeChips({ game, columns }) {
@@ -10,14 +12,7 @@ describe('game', async () => {
     });
   }
 
-  beforeEach(() => {
-    vi.restoreAllMocks();
-  });
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
-  it('should place pending chip', async () => {
+  test('should place pending chip', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
@@ -26,17 +21,17 @@ describe('game', async () => {
     expect(game.grid.columns[2][0].player).toEqual(game.players[0]);
   });
 
-  it('should win horizontally', async () => {
+  test('should win horizontally', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
-    vi.spyOn(Emitter.prototype, 'emit');
+    sinon.spy(Emitter.prototype, 'emit');
     try {
       placeChips({
         game,
         columns: [2, 2, 3, 3, 4, 4, 5]
       });
-      expect(Emitter.prototype.emit).toHaveBeenCalledWith('game:declare-winner', game.players[0]);
+      expect(Emitter.prototype.emit).toHaveBeenCalledWith('game:declare-winner');
     } finally {
       Emitter.prototype.emit.restore();
     }
@@ -46,17 +41,17 @@ describe('game', async () => {
     expect(game.winner.score).toEqual(1);
   });
 
-  it('should win vertically', async () => {
+  test('should win vertically', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
-    vi.spyOn(Emitter.prototype, 'emit');
+    sinon.spy(Emitter.prototype, 'emit');
     try {
       placeChips({
         game,
         columns: [0, 1, 0, 1, 0, 1, 0]
       });
-      expect(Emitter.prototype.emit).toHaveBeenCalledWith('game:declare-winner', game.players[0]);
+      expect(Emitter.prototype.emit).toHaveBeenCalledWith('game:declare-winner');
     } finally {
       Emitter.prototype.emit.restore();
     }
@@ -66,17 +61,17 @@ describe('game', async () => {
     expect(game.winner.score).toEqual(1);
   });
 
-  it('should win diagonally', async () => {
+  test('should win diagonally', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
-    vi.spyOn(Emitter.prototype, 'emit');
+    sinon.spy(Emitter.prototype, 'emit');
     try {
       placeChips({
         game,
         columns: [3, 4, 4, 3, 5, 5, 5, 6, 6, 6, 6]
       });
-      expect(Emitter.prototype.emit).toHaveBeenCalledWith('game:declare-winner', game.players[0]);
+      expect(Emitter.prototype.emit).toHaveBeenCalledWith('game:declare-winner');
     } finally {
       Emitter.prototype.emit.restore();
     }
@@ -86,17 +81,17 @@ describe('game', async () => {
     expect(game.winner.score).toEqual(1);
   });
 
-  it('should win with two connect-fours at once', async () => {
+  test('should win with two connect-fours at once', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
-    vi.spyOn(Emitter.prototype, 'emit');
+    sinon.spy(Emitter.prototype, 'emit');
     try {
       placeChips({
         game,
         columns: [0, 1, 1, 1, 2, 2, 2, 0, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 3]
       });
-      expect(Emitter.prototype.emit).toHaveBeenCalledWith('game:declare-winner', game.players[0]);
+      expect(Emitter.prototype.emit).toHaveBeenCalledWith('game:declare-winner');
     } finally {
       Emitter.prototype.emit.restore();
     }
@@ -106,17 +101,17 @@ describe('game', async () => {
     expect(game.winner.score).toEqual(1);
   });
 
-  it('should win on connections of more than four', async () => {
+  test('should win on connections of more than four', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
-    vi.spyOn(Emitter.prototype, 'emit');
+    sinon.spy(Emitter.prototype, 'emit');
     try {
       placeChips({
         game,
         columns: [2, 2, 3, 3, 4, 4, 6, 6, 5]
       });
-      expect(Emitter.prototype.emit).toHaveBeenCalledWith('game:declare-winner', game.players[0]);
+      expect(Emitter.prototype.emit).toHaveBeenCalledWith('game:declare-winner');
     } finally {
       Emitter.prototype.emit.restore();
     }
@@ -126,11 +121,11 @@ describe('game', async () => {
     expect(game.winner.score).toEqual(1);
   });
 
-  it('should end when grid becomes full', async () => {
+  test('should end when grid becomes full', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
-    vi.spyOn(Emitter.prototype, 'emit');
+    sinon.spy(Emitter.prototype, 'emit');
     try {
       placeChips({
         game,

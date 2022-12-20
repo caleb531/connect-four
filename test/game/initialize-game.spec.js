@@ -1,10 +1,11 @@
+import { test, expect } from '@playwright/test';
 import Grid from '../../scripts/models/grid.js';
 import Player from '../../scripts/models/player.js';
 import Game from '../../scripts/models/game.js';
 
-describe('game', async () => {
+test.describe('game', async () => {
 
-  it('should initialize with no arguments', async () => {
+  test('should initialize with no arguments', async () => {
     const game = new Game();
     expect(game).toHaveProperty('grid');
     expect(game.grid).toHaveProperty('columnCount', 7);
@@ -17,7 +18,7 @@ describe('game', async () => {
     expect(game).toHaveProperty('winner', null);
   });
 
-  it('should initialize with arguments', async () => {
+  test('should initialize with arguments', async () => {
     const game = new Game({
       players: [
         new Player({ color: 'blue', name: 'Bob' }),
@@ -36,7 +37,7 @@ describe('game', async () => {
     expect(game).toHaveProperty('winner', null);
   });
 
-  it('should initialize debug mode when set', async () => {
+  test('should initialize debug mode when set', async () => {
     const game = new Game({ debug: true });
     expect(game).toHaveProperty('debug', true);
     expect(game).toHaveProperty('columnHistory');
@@ -44,7 +45,7 @@ describe('game', async () => {
     expect(game.columnHistory).toHaveLength(0);
   });
 
-  it('should initialize 1P game', async () => {
+  test('should initialize 1P game', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     expect(game.players).toHaveLength(2);
@@ -52,7 +53,7 @@ describe('game', async () => {
     expect(game.players[1].type).toEqual('ai');
   });
 
-  it('should initialize 2P game', async () => {
+  test('should initialize 2P game', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     expect(game.players).toHaveLength(2);

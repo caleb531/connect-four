@@ -1,11 +1,13 @@
+import { test, expect } from '@playwright/test';
+import sinon from 'sinon';
 import utils from './utils.js';
 
 import AIPlayer from '../../scripts/models/ai-player.js';
 import Game from '../../scripts/models/game.js';
 
-describe('AI player', async () => {
+test.describe('AI player', async () => {
 
-  it('should initialize', async () => {
+  test('should initialize', async () => {
     const aiPlayer = new AIPlayer({
       name: 'HAL',
       color: 'red'
@@ -16,21 +18,21 @@ describe('AI player', async () => {
     expect(aiPlayer).toHaveProperty('type', 'ai');
   });
 
-  it('should wait when instructed', async () => {
+  test('should wait when instructed', async () => {
     const aiPlayer = new AIPlayer({
       name: 'HAL',
       color: 'red'
     });
-    const clock = vi.useFakeTimers();
-    const callback = vi.fn();
+    const clock = sinon.useFakeTimers();
+    const callback = sinon.spy();
     aiPlayer.wait(callback);
-    expect(callback).not.toHaveBeenCalledOnce();
-    vi.advanceTimersByTime(500);
-    expect(callback).toHaveBeenCalledOnce();
-    vi.useRealTimers();
+    expect(callback).not.toHaveBeenCalledOnce;
+    clock.tick(500);
+    expect(callback).toHaveBeenCalledOnce;
+    clock.restore();
   });
 
-  it('should wrap around if right side of grid is full', async () => {
+  test('should wrap around if right side of grid is full', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({

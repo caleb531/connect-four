@@ -1,8 +1,9 @@
+import { test, expect } from '@playwright/test';
 import Game from '../../scripts/models/game.js';
 
-describe('game', async () => {
+test.describe('game', async () => {
 
-  it('should preserve players when continuing in 1P mode', async () => {
+  test('should preserve players when continuing in 1P mode', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     game.players[0].score = 10;
@@ -16,7 +17,7 @@ describe('game', async () => {
     expect(game.players[1].score).toEqual(20);
   });
 
-  it('should preserve players when continuing in 2P mode', async () => {
+  test('should preserve players when continuing in 2P mode', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.players[0].score = 12;
@@ -30,7 +31,7 @@ describe('game', async () => {
     expect(game.players[1].score).toEqual(16);
   });
 
-  it('should preserve players when continuing in Online mode', async () => {
+  test('should preserve players when continuing in Online mode', async () => {
     const game = new Game();
     game.setPlayers({
       gameType: 'online',
@@ -51,7 +52,7 @@ describe('game', async () => {
     expect(game.players[1].score).toEqual(16);
   });
 
-  it('should initialize new players when switching from 1P to 2P', async () => {
+  test('should initialize new players when switching from 1P to 2P', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     game.players[0].score = 10;
@@ -64,7 +65,7 @@ describe('game', async () => {
     expect(game.players[1].score).toEqual(0);
   });
 
-  it('should initialize new players when switching from 2P to 1P', async () => {
+  test('should initialize new players when switching from 2P to 1P', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.players[0].score = 10;
@@ -77,7 +78,7 @@ describe('game', async () => {
     expect(game.players[1].score).toEqual(0);
   });
 
-  it('should get other player', async () => {
+  test('should get other player', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     expect(game.getOtherPlayer(game.players[0])).toEqual(game.players[1]);

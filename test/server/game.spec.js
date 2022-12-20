@@ -1,10 +1,11 @@
+import { test, expect } from '@playwright/test';
 import Game from '../../server/game.js';
 import Grid from '../../server/grid.js';
 import Player from '../../server/player.js';
 
-describe('server game', async () => {
+test.describe('server game', async () => {
 
-  it('should initialize with arguments', async () => {
+  test('should initialize with arguments', async () => {
     const game = new Game({
       players: [
         new Player({ color: 'blue', name: 'Bob' }),
@@ -25,7 +26,7 @@ describe('server game', async () => {
     expect(game).toHaveProperty('winner', null);
   });
 
-  it('should initialize with default grid', async () => {
+  test('should initialize with default grid', async () => {
     const game = new Game({
       players: [
         new Player({ color: 'blue', name: 'Bob' }),
@@ -36,7 +37,7 @@ describe('server game', async () => {
     expect(game.grid).toHaveProperty('rowCount', 6);
   });
 
-  it('should start game', async () => {
+  test('should start game', async () => {
     const players = [
       new Player({ color: 'blue', name: 'Bob' }),
       new Player({ color: 'black', name: 'Larry' })
@@ -51,7 +52,7 @@ describe('server game', async () => {
     expect(game).toHaveProperty('inProgress', true);
   });
 
-  it('should alternate starting player when starting successive games', async () => {
+  test('should alternate starting player when starting successive games', async () => {
     const players = [
       new Player({ color: 'blue', name: 'Bob' }),
       new Player({ color: 'black', name: 'Larry' })
@@ -67,7 +68,7 @@ describe('server game', async () => {
     expect(game).toHaveProperty('startingPlayer', players[0]);
   });
 
-  it('should end game', async () => {
+  test('should end game', async () => {
     const players = [
       new Player({ color: 'blue', name: 'Bob' }),
       new Player({ color: 'black', name: 'Larry' })
@@ -81,7 +82,7 @@ describe('server game', async () => {
     expect(game).toHaveProperty('currentPlayer', null);
   });
 
-  it('should reset game', async () => {
+  test('should reset game', async () => {
     const players = [
       new Player({ color: 'blue', name: 'Bob' }),
       new Player({ color: 'black', name: 'Larry' })
@@ -99,7 +100,7 @@ describe('server game', async () => {
     expect(game).toHaveProperty('winner', null);
   });
 
-  it('should place chip', async () => {
+  test('should place chip', async () => {
     const players = [
       new Player({ color: 'blue', name: 'Bob' }),
       new Player({ color: 'black', name: 'Larry' })
@@ -118,7 +119,7 @@ describe('server game', async () => {
     expect(game).toHaveProperty('currentPlayer', players[0]);
   });
 
-  it('should not place chip if game is not in progress', async () => {
+  test('should not place chip if game is not in progress', async () => {
     const players = [
       new Player({ color: 'blue', name: 'Bob' }),
       new Player({ color: 'black', name: 'Larry' })
@@ -132,7 +133,7 @@ describe('server game', async () => {
     expect(game.grid.columns[4]).toHaveLength(0);
   });
 
-  it('should declare winner', async () => {
+  test('should declare winner', async () => {
     const players = [
       new Player({ color: 'blue', name: 'Bob' }),
       new Player({ color: 'black', name: 'Larry' })
@@ -151,7 +152,7 @@ describe('server game', async () => {
     expect(players[0].score).toEqual(1);
   });
 
-  it('should not declare winner if someone spoofs results', async () => {
+  test('should not declare winner if someone spoofs results', async () => {
     const players = [
       new Player({ color: 'blue', name: 'Bob' }),
       new Player({ color: 'black', name: 'Larry' })
@@ -171,7 +172,7 @@ describe('server game', async () => {
     expect(players[1].score).toEqual(0);
   });
 
-  it('should serialize as JSON', async () => {
+  test('should serialize as JSON', async () => {
     const game = new Game({
       players: [
         new Player({ color: 'blue', name: 'Bob' }),

@@ -1,13 +1,15 @@
+import { test, expect } from '@playwright/test';
+import sinon from 'sinon';
 import Emitter from 'tiny-emitter';
 import Game from '../../scripts/models/game.js';
 
-describe('game', async () => {
+test.describe('game', async () => {
 
-  it('should end', async () => {
+  test('should end', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
-    vi.spyOn(Emitter.prototype, 'emit');
+    sinon.spy(Emitter.prototype, 'emit');
     try {
       game.endGame();
       expect(Emitter.prototype.emit).toHaveBeenCalledWith('game:end');
@@ -19,13 +21,11 @@ describe('game', async () => {
     expect(game.pendingChip).toBe(null);
   });
 
-  it('should reset debug mode when ended', async () => {
+  test('should reset debug mode when ended', async () => {
    const game = new Game({ debug: true });
    game.setPlayers({ gameType: '2P' });
    game.startGame();
-  vi.spyOn(console, 'log').mockImplementation(() => {
-    // noop
-  });
+   sinon.stub(console, 'log');
    try {
      game.placePendingChip({ column: 2 });
      expect(game.columnHistory).toHaveLength(1);

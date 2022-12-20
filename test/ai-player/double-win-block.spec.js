@@ -1,10 +1,11 @@
+import { test, expect } from '@playwright/test';
 import utils from './utils.js';
 
 import Game from '../../scripts/models/game.js';
 
-describe('AI player', async () => {
+test.describe('AI player', async () => {
 
-  it('should block one win of opponent double-win (#1)', async () => {
+  test('should block one win of opponent double-win (#1)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -16,7 +17,7 @@ describe('AI player', async () => {
     });
   });
 
-  it('should block one win of opponent double-win (#2)', async () => {
+  test('should block one win of opponent double-win (#2)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -28,7 +29,7 @@ describe('AI player', async () => {
     });
   });
 
-  it('should block one win of opponent double-win (#3)', async () => {
+  test('should block one win of opponent double-win (#3)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -40,7 +41,7 @@ describe('AI player', async () => {
     });
   });
 
-  it('should block one win of opponent double-win (#4)', async () => {
+  test('should block one win of opponent double-win (#4)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -52,7 +53,7 @@ describe('AI player', async () => {
     });
   });
 
-  it('should block one win of opponent double-win (#5)', async () => {
+  test('should block one win of opponent double-win (#5)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -64,7 +65,7 @@ describe('AI player', async () => {
     });
   });
 
-  it('should block one win of opponent double-win (#6)', async () => {
+  test('should block one win of opponent double-win (#6)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -76,7 +77,7 @@ describe('AI player', async () => {
     });
   });
 
-  it('should block one win of opponent double-win (#7)', async () => {
+  test('should block one win of opponent double-win (#7)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -88,7 +89,7 @@ describe('AI player', async () => {
     });
   });
 
-  it('should block one win of opponent double-win (#8)', async () => {
+  test('should block one win of opponent double-win (#8)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -100,7 +101,7 @@ describe('AI player', async () => {
     });
   });
 
-  it('should block one win of opponent double-win (#9)', async () => {
+  test('should block one win of opponent double-win (#9)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -112,7 +113,7 @@ describe('AI player', async () => {
     });
   });
 
-  it('should block one win of opponent double-win (#10)', async () => {
+  test('should block one win of opponent double-win (#10)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -129,7 +130,7 @@ describe('AI player', async () => {
     });
   });
 
-  it('should block one win of opponent double-win (#11)', async () => {
+  test('should block one win of opponent double-win (#11)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({

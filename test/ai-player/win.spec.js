@@ -1,10 +1,11 @@
+import { test, expect } from '@playwright/test';
 import utils from './utils.js';
 
 import Game from '../../scripts/models/game.js';
 
-describe('AI player', async () => {
+test.describe('AI player', async () => {
 
-  it('should win horizontally on turn', async () => {
+  test('should win horizontally on turn', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -16,7 +17,7 @@ describe('AI player', async () => {
     });
   });
 
-  it('should win vertically on turn', async () => {
+  test('should win vertically on turn', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -28,7 +29,7 @@ describe('AI player', async () => {
     });
   });
 
-  it('should win diagonally on turn', async () => {
+  test('should win diagonally on turn', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({

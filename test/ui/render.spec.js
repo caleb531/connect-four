@@ -1,21 +1,21 @@
+import { test, expect } from '@playwright/test';
 import { _before, _beforeEach, _afterEach } from './fixtures.js';
-import { $, $$ } from './utils.js';
 
-describe('game UI', async () => {
+test.describe('game UI', async () => {
 
-  beforeAll(_before);
-  beforeEach(_beforeEach);
-  afterEach(_afterEach);
+  test.beforeAll(_before);
+  test.beforeEach(_beforeEach);
+  test.afterEach(_afterEach);
 
-  it('should render initial buttons', async () => {
-    const buttons = $$('#game-dashboard button');
-    expect(buttons[0]).toHaveTextContent('1 Player');
-    expect(buttons[1]).toHaveTextContent('2 Players');
+  test('should render initial buttons', async ({ page }) => {
+    const buttons = page.locator('#game-dashboard button');
+    await expect(buttons.nth(0)).toHaveText('1 Player');
+    await expect(buttons.nth(1)).toHaveText('2 Players');
   });
 
-  it('should render initial grid', async () => {
-    const slots = $$('.empty-chip-slot');
-    expect(slots).toHaveLength(42);
+  test('should render initial grid', async ({ page }) => {
+    const slots = page.locator('.empty-chip-slot');
+    await expect(slots).toHaveCount(42);
   });
 
 });
