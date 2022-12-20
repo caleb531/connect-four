@@ -2,7 +2,6 @@ import m from 'mithril';
 import _ from 'underscore';
 import Emitter from 'tiny-emitter';
 import classNames from '../classnames.js';
-import Browser from '../browser.js';
 
 // The grid UI, including the pending chip (i.e. the chip to be placed), as well
 // as all chips currently placed on the grid
@@ -238,8 +237,7 @@ class GridComponent extends Emitter {
     // previous games) are unbound
     this.off('pending-chip:transition-end');
     // Listen for whenever a pending chip transition finishes
-    const eventName = Browser.getNormalizedEventName('transitionend');
-    dom.addEventListener(eventName, (event) => {
+    dom.addEventListener('transitionend', (event) => {
       // The transitionend DOM event can fire multiple times (undesirably) if
       // the children also have transitions; ensure that the
       // pending-chip:transition-end event is only emitted for the parent's
@@ -262,12 +260,12 @@ class GridComponent extends Emitter {
             'transition-x': this.transitionPendingChipX,
             'transition-y': this.transitionPendingChipY
           }),
-          style: Browser.getNormalizedStyles({
+          style: {
             transform: this.getTranslate({
               column: this.pendingChipColumn,
               row: this.pendingChipRow
             })
-          }),
+          },
           oncreate: ({ dom }) => this.initializePendingChip({ dom })
         }, [
           m('div.chip-inner.chip-inner-real'),
