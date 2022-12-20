@@ -22,7 +22,6 @@ specifiers:
   socket.io-client: ^4.5.4
   sw-update-manager: ^1.0.0
   tiny-emitter: ^1.2.0
-  typeface-ubuntu: 0.0.22
   underscore: ^1.13.6
   uuid: ^9.0.0
   vite: ^4.0.1
@@ -54,7 +53,6 @@ devDependencies:
   sinon: 15.0.1
   sinon-chai: 3.7.0_chai@4.3.7+sinon@15.0.1
   sinon-matchers: 2.1.0_sinon@15.0.1
-  typeface-ubuntu: 0.0.22
   vite: 4.0.1_sass@1.56.1
   workbox-build: 4.3.1
 
@@ -4286,10 +4284,6 @@ packages:
       media-typer: 0.3.0
       mime-types: 2.1.35
     dev: false
-
-  /typeface-ubuntu/0.0.22:
-    resolution: {integrity: sha512-Oeiv/afnAl+ExTxoFi21CRTjvkTnEACQPzjDaRwZSzNS7x9A7ghMtZNoOJVEpaY7gS1HKTaMLiAdGHaGBOkoEw==}
-    dev: true
 
   /uglify-js/3.17.4:
     resolution: {integrity: sha512-T9q82TJI9e/C1TAxYvfb16xO120tMVFZrGA3f9/P4424DNu6ypK103y0GPFVa17yotwSyZW5iYXgjYHkGrJW/g==}

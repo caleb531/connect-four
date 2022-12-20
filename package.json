@@ -50,7 +50,6 @@
     "sinon": "^15.0.1",
     "sinon-chai": "^3.7.0",
     "sinon-matchers": "^2.1.0",
-    "typeface-ubuntu": "0.0.22",
     "vite": "^4.0.1",
     "workbox-build": "^4.3.1"
   }
