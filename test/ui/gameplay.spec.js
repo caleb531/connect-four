@@ -11,11 +11,11 @@ describe('game UI', async () => {
   afterEach(_afterEach);
 
   it('should place chip in initial column', async () => {
-    await userEvent.click($$('#game-dashboard button')[0]); // "1-Player"
+    await userEvent.click((await $$('#game-dashboard button'))[0]); // "1-Player"
     m.redraw.sync();
-    await userEvent.click($$('#game-dashboard button')[0]); // "Human"
+    await userEvent.click((await $$('#game-dashboard button'))[0]); // "Human"
     m.redraw.sync();
-    const grid = $('#grid');
+    const grid = await $('#grid');
     await clickGrid({ grid, column: 0 });
     await waitForPendingChipTransitionEnd({ grid });
     expect(grid).toHaveChipAt({
@@ -26,24 +26,24 @@ describe('game UI', async () => {
   });
 
   it('should align chip to clicked column', async () => {
-    await userEvent.click($$('#game-dashboard button')[0]); // "1-Player"
+    await userEvent.click((await $$('#game-dashboard button'))[0]); // "1-Player"
     m.redraw.sync();
-    await userEvent.click($$('#game-dashboard button')[0]); // "Human"
+    await userEvent.click((await $$('#game-dashboard button'))[0]); // "Human"
     m.redraw.sync();
-    const grid = $('#grid');
+    const grid = await $('#grid');
     await clickGrid({ grid, column: 3 });
     await waitForPendingChipTransitionEnd({ grid });
     expect(grid).toHavePendingChipAt({ column: 3 });
   });
 
   it('should place chip after aligning', async () => {
-    await userEvent.click($$('#game-dashboard button')[0]); // "1-Player"
+    await userEvent.click((await $$('#game-dashboard button'))[0]); // "1-Player"
     m.redraw.sync();
     m.redraw.sync();
-    await userEvent.click($$('#game-dashboard button')[0]); // "Human"
+    await userEvent.click((await $$('#game-dashboard button'))[0]); // "Human"
     m.redraw.sync();
     m.redraw.sync();
-    const grid = $('#grid');
+    const grid = await $('#grid');
     await clickGrid({ grid, column: 3 });
     await waitForPendingChipTransitionEnd({ grid });
     await clickGrid({ grid, column: 3 });
@@ -56,11 +56,11 @@ describe('game UI', async () => {
   });
 
   it('should signal AI to place chip on its turn', async () => {
-    await userEvent.click($$('#game-dashboard button')[0]); // "1-Player"
+    await userEvent.click((await $$('#game-dashboard button'))[0]); // "1-Player"
     m.redraw.sync();
-    await userEvent.click($$('#game-dashboard button')[0]); // "Human"
+    await userEvent.click((await $$('#game-dashboard button'))[0]); // "Human"
     m.redraw.sync();
-    const grid = $('#grid');
+    const grid = await $('#grid');
     // Human's turn
     // Human chip's initial position (before placing)
     await clickGrid({ grid, column: 3 });
@@ -87,11 +87,11 @@ describe('game UI', async () => {
   });
 
   it('should align chip to hovered column', async () => {
-    await userEvent.click($$('#game-dashboard button')[0]); // "1-Player"
+    await userEvent.click((await $$('#game-dashboard button'))[0]); // "1-Player"
     m.redraw.sync();
-    await userEvent.click($$('#game-dashboard button')[0]); // "Human"
+    await userEvent.click((await $$('#game-dashboard button'))[0]); // "Human"
     m.redraw.sync();
-    const grid = $('#grid');
+    const grid = await $('#grid');
     await clickGrid({ grid, column: 3 });
     await waitForPendingChipTransitionEnd({ grid });
     expect(grid).toHavePendingChipAt({ column: 3 });

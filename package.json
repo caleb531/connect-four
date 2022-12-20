@@ -51,6 +51,7 @@
     "eslint": "^8.28.0",
     "eslint-plugin-jest": "^27.1.7",
     "istanbul": "^0.4.5",
+    "jest-preview": "^0.3.1",
     "jsdom": "^20.0.3",
     "karma": "^6.4.1",
     "karma-chai-dom": "^1.1.0",

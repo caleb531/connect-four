@@ -1,4 +1,4 @@
-import userEvent from '@testing-library/user-event';
+import userEvent, { fireEvent } from '@testing-library/user-event';
 import { CHIP_WIDTH } from '../constants.js';
 
 // Wait for the next transition on the given element to complete, timing out
@@ -10,16 +10,8 @@ export async function waitForPendingChipTransitionEnd({ grid }) {
   // encasulated nature of .evaluate()
   const TRANSITION_WAIT_TIMEOUT = 5000;
   await new Promise((resolve, reject) => {
-    pendingChip.addEventListener('transitionend', function transitionend(event) {
-      // Prevent transitionend from firing on child pendingChips
-      if (event.target === pendingChip) {
-        pendingChip.removeEventListener('transitionend', transitionend);
-        resolve(pendingChip);
-      }
-    });
-    setTimeout(() => {
-      reject(new Error('waitForPendingChipTransitionEnd gave up waiting'));
-    }, TRANSITION_WAIT_TIMEOUT);
+    fireEvent(pendingChip, new Event('transitionend'));
+    resolve(pendingChip);
   });
   return pendingChip;
 }
@@ -36,14 +28,19 @@ export async function clickGrid({ grid, column }) {
 
 // Consise aliases for retrieving DOM elements
 
-export function $(selector) {
+export function $(selector, triesLeft = 10) {
   const element = document.querySelector(selector);
   if (element) {
     return element;
   } else {
-    throw Error(`Element matching "${selector}" does not exist`);
+    throw Error(`Could not find element matching "${selector}"`);
   }
 }
-export function $$(selector) {
-  return document.querySelectorAll(selector);
+export async function $$(selector) {
+  const elements = document.querySelectorAll(selector);
+  if (elements) {
+    return elements;
+  } else {
+    throw Error(`Could not find any elements matching "${selector}"`);
+  }
 }
