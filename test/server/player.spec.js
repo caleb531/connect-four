@@ -1,11 +1,9 @@
-import { test, expect } from '@playwright/test';
-import sinon from 'sinon';
 import Player from '../../server/player.js';
 
-test.describe('server player', async () => {
+describe('server player', async () => {
 
-  test('should initialize with arguments', async () => {
-    const socket = sinon.stub();
+  it('should initialize with arguments', async () => {
+    const socket = {};
     const player = new Player({
       name: 'Caleb',
       color: 'green',
@@ -20,7 +18,7 @@ test.describe('server player', async () => {
     expect(player).toHaveProperty('lastReaction', null);
   });
 
-  test('should generate valid v4 UUID', async () => {
+  it('should generate valid v4 UUID', async () => {
     const player = new Player({
       name: 'Caleb',
       color: 'green',
@@ -29,8 +27,8 @@ test.describe('server player', async () => {
     expect(player.id).toMatch(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i);
   });
 
-  test('should know when socket is connected', async () => {
-    const socket = sinon.stub();
+  it('should know when socket is connected', async () => {
+    const socket = {};
     const player = new Player({
       name: 'Caleb',
       color: 'green',
@@ -39,7 +37,7 @@ test.describe('server player', async () => {
     expect(player).toHaveProperty('connected', true);
   });
 
-  test('should know when socket is not connected', async () => {
+  it('should know when socket is not connected', async () => {
     const player = new Player({
       name: 'Caleb',
       color: 'green',
@@ -48,10 +46,8 @@ test.describe('server player', async () => {
     expect(player).toHaveProperty('connected', false);
   });
 
-  test('should emit a server event for this player only', async () => {
-    const socket = sinon.stub({
-      emit: () => {/* noop */}
-    });
+  it('should emit a server event for this player only', async () => {
+    const socket = { emit: vi.fn() };
     const player = new Player({
       name: 'Caleb',
       color: 'green',
@@ -61,10 +57,8 @@ test.describe('server player', async () => {
     expect(socket.emit).toHaveBeenCalledWith('my-event', { foo: 'bar' });
   });
 
-  test('should broadcast a server event to all players', async () => {
-    const socket = sinon.stub({
-      emit: () => {/* noop */}
-    });
+  it('should broadcast a server event to all players', async () => {
+    const socket = { emit: vi.fn() };
     const localPlayer = new Player({
       name: 'Caleb',
       color: 'green',
@@ -82,8 +76,8 @@ test.describe('server player', async () => {
     });
   });
 
-  test('should serialize as JSON', async () => {
-    const socket = sinon.stub();
+  it('should serialize as JSON', async () => {
+    const socket = {};
     const player = new Player({
       name: 'Caleb',
       color: 'green',

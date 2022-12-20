@@ -1,11 +1,10 @@
-import { test, expect } from '@playwright/test';
 import utils from './utils.js';
 
 import Game from '../../scripts/models/game.js';
 
-test.describe('AI player', async () => {
+describe('AI player', async () => {
 
-  test('should block horizontal opponent win (#1)', async () => {
+  it('should block horizontal opponent win (#1)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -17,7 +16,7 @@ test.describe('AI player', async () => {
     });
   });
 
-  test('should block horizontal opponent win (#2)', async () => {
+  it('should block horizontal opponent win (#2)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -29,7 +28,7 @@ test.describe('AI player', async () => {
     });
   });
 
-  test('should block horizontal opponent win (#3)', async () => {
+  it('should block horizontal opponent win (#3)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -41,7 +40,7 @@ test.describe('AI player', async () => {
     });
   });
 
-  test('should block horizontal connect-three trap (#1)', async () => {
+  it('should block horizontal connect-three trap (#1)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -53,7 +52,7 @@ test.describe('AI player', async () => {
     });
   });
 
-  test('should block horizontal connect-three trap (#2)', async () => {
+  it('should block horizontal connect-three trap (#2)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -65,7 +64,7 @@ test.describe('AI player', async () => {
     });
   });
 
-  test('should block horizontal connect-three trap (#3)', async () => {
+  it('should block horizontal connect-three trap (#3)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -77,7 +76,7 @@ test.describe('AI player', async () => {
     });
   });
 
-  test('should block horizontal connect-three trap (#4)', async () => {
+  it('should block horizontal connect-three trap (#4)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
@@ -89,7 +88,7 @@ test.describe('AI player', async () => {
     });
   });
 
-  test('should block horizontal connect-three trap (#5)', async () => {
+  it('should block horizontal connect-three trap (#5)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({

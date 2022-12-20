@@ -1,10 +1,9 @@
-import { test, expect } from '@playwright/test';
 import Player from '../scripts/models/player.js';
 import Chip from '../scripts/models/chip.js';
 
-test.describe('chip', async () => {
+describe('chip', async () => {
 
-  test('should initialize', async () => {
+  it('should initialize', async () => {
     const player = new Player({
       color: 'blue',
       name: 'Super Player'

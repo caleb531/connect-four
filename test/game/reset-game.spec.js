@@ -1,9 +1,8 @@
-import { test, expect } from '@playwright/test';
 import Game from '../../scripts/models/game.js';
 
-test.describe('game', async () => {
+describe('game', async () => {
 
-  test('should reset grid when resetting', async () => {
+  it('should reset grid when resetting', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
@@ -14,7 +13,7 @@ test.describe('game', async () => {
     expect(game.grid.columns[2]).toHaveLength(0);
   });
 
-  test('should reset winner when resetting', async () => {
+  it('should reset winner when resetting', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
@@ -24,7 +23,7 @@ test.describe('game', async () => {
     expect(game.winner).toBe(null);
   });
 
-  test('should reset pending chip when resetting', async () => {
+  it('should reset pending chip when resetting', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();

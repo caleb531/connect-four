@@ -1,18 +1,17 @@
-import { test, expect } from '@playwright/test';
 import Game from '../../scripts/models/game.js';
 import Grid from '../../scripts/models/grid.js';
 import HumanPlayer from '../../scripts/models/human-player.js';
 import OnlinePlayer from '../../scripts/models/online-player.js';
 import Chip from '../../scripts/models/chip.js';
 
-test.describe('game', async () => {
+describe('game', async () => {
 
   let session;
   let game;
   let serverGame;
   let localPlayer;
 
-  test.beforeEach(() => {
+  beforeEach(() => {
      session = { on: () => {/* this is a noop */} };
      game = new Game({ session });
      serverGame = {
@@ -40,13 +39,13 @@ test.describe('game', async () => {
      localPlayer = serverGame.players[0];
   });
 
-  test('should restore basic state from server', async () => {
+  it('should restore basic state from server', async () => {
     game.restoreFromServer({ game: serverGame, localPlayer });
     expect(game.inProgress).toEqual(true);
     expect(game.type).toEqual('online');
   });
 
-  test('should restore player data from server', async () => {
+  it('should restore player data from server', async () => {
     game.restoreFromServer({ game: serverGame, localPlayer });
     expect(game.players[0]).toBeInstanceOf(HumanPlayer);
     expect(game.players[1]).toBeInstanceOf(OnlinePlayer);
@@ -54,14 +53,14 @@ test.describe('game', async () => {
     expect(game.requestingPlayer).toEqual(game.players[0]);
   });
 
-  test('should set correct player to online player', async () => {
+  it('should set correct player to online player', async () => {
     localPlayer = serverGame.players[1];
     game.restoreFromServer({ game: serverGame, localPlayer });
     expect(game.players[0]).toBeInstanceOf(OnlinePlayer);
     expect(game.players[1]).toBeInstanceOf(HumanPlayer);
   });
 
-  test('should restore grid data from server', async () => {
+  it('should restore grid data from server', async () => {
     game.restoreFromServer({ game: serverGame, localPlayer });
     expect(game.grid).toBeInstanceOf(Grid);
     expect(game.grid.columns[5][0]).toBeInstanceOf(Chip);
@@ -75,7 +74,7 @@ test.describe('game', async () => {
     expect(game.grid.lastPlacedChip).toEqual(game.grid.columns[5][1]);
   });
 
-  test('should restore lastPlacedChip as null if grid is empty', async () => {
+  it('should restore lastPlacedChip as null if grid is empty', async () => {
     serverGame.grid.lastPlacedChip = null;
     game.restoreFromServer({ game: serverGame, localPlayer });
     expect(game.grid.lastPlacedChip).toBe(null);

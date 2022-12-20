@@ -1,47 +1,6 @@
-import { expect } from '@playwright/test';
 import { ROW_COUNT } from './constants.js';
 
 expect.extend({
-  // Matchers for Sinon stubs/spies
-  toHaveBeenCalled: (received) => {
-    if (received.called) {
-      return {
-        message: () => `expected ${received} not to have been called`,
-        pass: true
-      };
-    } else {
-      return {
-        message: () => `expected ${received} to have been called`,
-        pass: false
-      };
-    }
-  },
-  toHaveBeenCalledOnce: (received) => {
-    if (received.calledOnce) {
-      return {
-        message: () => `expected ${received} not to have been called once; called ${received.callCount} times`,
-        pass: true
-      };
-    } else {
-      return {
-        message: () => `expected ${received} to have been called once`,
-        pass: false
-      };
-    }
-  },
-  toHaveBeenCalledWith: (received, ...args) => {
-    if (received.calledWith(...args)) {
-      return {
-        message: () => `expected ${received} not to have been called with [${args.join(', ')}]`,
-        pass: true
-      };
-    } else {
-      return {
-        message: () => `expected ${received} to have been called with [${args.join(', ')}]`,
-        pass: false
-      };
-    }
-  },
   // Expect the given value to be one of the provided values
   toBeOneOf: (received, choices) => {
     if (choices.includes(received)) {
@@ -58,7 +17,7 @@ expect.extend({
   },
   // Expect that the given pending chip is over the specified column on the grid
   toHavePendingChipAt: async (grid, { column }) => {
-    const pendingChip = grid.locator('.chip.pending');
+    const pendingChip = grid.querySelector('.chip.pending');
     const { selector, actualColumn } = await pendingChip.evaluate((pendingChipElem) => {
       const translate = pendingChipElem.style.transform;
       return {
@@ -84,7 +43,7 @@ expect.extend({
   // specified row/column
   toHaveChipAt: async (grid, { column, row, chipColor }) => {
     // TODO
-    const nthColumn = grid.locator('.grid-column').nth(column);
+    const nthColumn = grid.querySelectorAll('.grid-column')[column];
     const chip = nthColumn.locator(`.chip.${chipColor}:nth-child(${ROW_COUNT - row})`);
     if ((await chip.count()) === 1) {
       return {

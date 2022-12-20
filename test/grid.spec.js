@@ -1,12 +1,11 @@
-import { test, expect } from '@playwright/test';
 import _ from 'underscore';
 import Grid from '../scripts/models/grid.js';
 import Player from '../scripts/models/player.js';
 import Chip from '../scripts/models/chip.js';
 
-test.describe('grid', async () => {
+describe('grid', async () => {
 
-  test('should initialize', async () => {
+  it('should initialize', async () => {
     const grid = new Grid({
       columnCount: 9,
       rowCount: 8
@@ -20,7 +19,7 @@ test.describe('grid', async () => {
     expect(grid).toHaveProperty('lastPlacedChip', null);
   });
 
-  test('should be copiable', async () => {
+  it('should be copiable', async () => {
     const grid1 = new Grid({
       columnCount: 9,
       rowCount: 8
@@ -39,7 +38,7 @@ test.describe('grid', async () => {
     expect(grid2.columns[3][0]).toEqual(chip);
   });
 
-  test('should know when it is full', async () => {
+  it('should know when it is full', async () => {
     const grid = new Grid({
       columnCount: 9,
       rowCount: 8
@@ -53,7 +52,7 @@ test.describe('grid', async () => {
     expect(grid.checkIfFull()).toBe(true);
   });
 
-  test('should know when it is not full', async () => {
+  it('should know when it is not full', async () => {
     const grid = new Grid({
       columnCount: 9,
       rowCount: 8
@@ -67,7 +66,7 @@ test.describe('grid', async () => {
     expect(grid.checkIfFull()).toBe(false);
   });
 
-  test('should count current number of chips when grid is empty', async () => {
+  it('should count current number of chips when grid is empty', async () => {
     const grid = new Grid({
       columnCount: 9,
       rowCount: 8
@@ -75,7 +74,7 @@ test.describe('grid', async () => {
     expect(grid.getChipCount()).toEqual(0);
   });
 
-  test('should count current number of chips', async () => {
+  it('should count current number of chips', async () => {
     const grid = new Grid({
       columnCount: 9,
       rowCount: 8
@@ -89,7 +88,7 @@ test.describe('grid', async () => {
     expect(grid.getChipCount()).toEqual(24);
   });
 
-  test('should reset', async () => {
+  it('should reset', async () => {
     const grid = new Grid({
       columnCount: 9,
       rowCount: 8
@@ -107,7 +106,7 @@ test.describe('grid', async () => {
     expect(grid).toHaveProperty('lastPlacedChip', null);
   });
 
-  test('should get next available slot in column', async () => {
+  it('should get next available slot in column', async () => {
     const grid = new Grid({
       columnCount: 7,
       rowCount: 6
@@ -122,7 +121,7 @@ test.describe('grid', async () => {
     expect(grid.getNextAvailableSlot({ column: 4 })).toEqual(1);
   });
 
-  test('should place chip and set its column/row', async () => {
+  it('should place chip and set its column/row', async () => {
     const grid = new Grid({
       columnCount: 9,
       rowCount: 6

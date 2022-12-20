@@ -1,10 +1,8 @@
-import { test, expect } from '@playwright/test';
-import sinon from 'sinon';
 import Game from '../../scripts/models/game.js';
 
-test.describe('game', async () => {
+describe('game', async () => {
 
-  test('should start turn', async () => {
+  it('should start turn', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();
@@ -12,11 +10,11 @@ test.describe('game', async () => {
     expect(game.pendingChip).not.toBe(null);
   });
 
-  test('should communicate with AI player on its turn', async () => {
+  it('should communicate with AI player on its turn', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
     let eventEmitted = false;
-    sinon.spy(game.players[1], 'getNextMove');
+    vi.spyOn(game.players[1], 'getNextMove');
     try {
       // Events are emitted and callbacks and run synchronously
       game.on('async-player:get-next-move', ({ player, nextMove }) => {
@@ -42,7 +40,7 @@ test.describe('game', async () => {
     });
   });
 
-  test('should end turn', async () => {
+  it('should end turn', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
     game.startGame();

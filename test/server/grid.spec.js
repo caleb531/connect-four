@@ -1,15 +1,14 @@
-import { test, expect } from '@playwright/test';
 import Grid from '../../server/grid.js';
 
-test.describe('server grid', async () => {
+describe('server grid', async () => {
 
-  test('should initialize with no arguments', async () => {
+  it('should initialize with no arguments', async () => {
     const grid = new Grid();
     expect(grid).toHaveProperty('columnCount', 7);
     expect(grid).toHaveProperty('rowCount', 6);
   });
 
-  test('should initialize with arguments', async () => {
+  it('should initialize with arguments', async () => {
     const grid = new Grid({
       columnCount: 9,
       rowCount: 8
@@ -18,7 +17,7 @@ test.describe('server grid', async () => {
     expect(grid).toHaveProperty('rowCount', 8);
   });
 
-  test('should serialize as JSON', async () => {
+  it('should serialize as JSON', async () => {
     const grid = new Grid({
       columnCount: 5,
       rowCount: 8
