@@ -13,7 +13,7 @@ class GameComponent {
     this.session = session;
     this.game = new Game({
       // Only enable debug mode on non-production sites
-      debug: (window.location.host !== 'connectfour.calebevans.me' && !window.__karma__)
+      debug: (window.location.host !== 'connectfour.calebevans.me')
     });
     if (roomCode) {
       this.session.connect();
