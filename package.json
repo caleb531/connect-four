@@ -61,7 +61,7 @@
     "remap-istanbul": "^0.13.0",
     "rollup-plugin-workbox": "^6.2.0",
     "sass": "^1.56.1",
-    "sinon": "^7.5.0",
+    "sinon": "^15.0.1",
     "sinon-chai": "^3.7.0",
     "typeface-ubuntu": "0.0.22",
     "vite": "^4.0.1",
