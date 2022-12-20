@@ -69,9 +69,9 @@ test.describe('session', async () => {
       callback();
     });
     session.emit('my-event', { foo: 'bar' });
-    expect(callback).not.toHaveBeenCalled;
+    expect(callback).not.toHaveBeenCalled();
     session.connect();
-    expect(callback).toHaveBeenCalled;
+    expect(callback).toHaveBeenCalled();
   });
 
   test('should emit immediately if already connected', async () => {
@@ -84,7 +84,7 @@ test.describe('session', async () => {
     });
     session.connect();
     session.emit('my-event', { foo: 'bar' });
-    expect(callback).toHaveBeenCalled;
+    expect(callback).toHaveBeenCalled();
   });
 
   test('should queue listener until connected', async () => {
@@ -94,10 +94,10 @@ test.describe('session', async () => {
       callback();
     });
     socket.emit('my-event', { foo: 'bar' });
-    expect(callback).not.toHaveBeenCalled;
+    expect(callback).not.toHaveBeenCalled();
     session.connect();
     socket.emit('my-event', { foo: 'bar' });
-    expect(callback).toHaveBeenCalled;
+    expect(callback).toHaveBeenCalled();
   });
 
   test('should add listener immediately if already connected', async () => {
@@ -108,7 +108,7 @@ test.describe('session', async () => {
       callback();
     });
     socket.emit('my-event', { foo: 'bar' });
-    expect(callback).toHaveBeenCalled;
+    expect(callback).toHaveBeenCalled();
   });
 
 });
