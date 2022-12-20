@@ -1,11 +1,5 @@
 {
-  "env": {
-    "jest/globals": true
-  },
   "globals": {
     "vi": true
-  },
-  "plugins": [
-    "jest"
-  ]
+  }
 }
