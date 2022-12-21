@@ -26,9 +26,9 @@ test.describe('AI player', async () => {
     const clock = sinon.useFakeTimers();
     const callback = sinon.spy();
     aiPlayer.wait(callback);
-    expect(callback).not.toHaveBeenCalledOnce;
+    expect(callback).not.toHaveBeenCalledOnce();
     clock.tick(500);
-    expect(callback).toHaveBeenCalledOnce;
+    expect(callback).toHaveBeenCalledOnce();
     clock.restore();
   });
 

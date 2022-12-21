@@ -7,7 +7,7 @@
     "start": "node server/index.js",
     "dev": "node server/index.js",
     "build": "vite build",
-    "lint": "eslint scripts/**/*.js test/*.js",
+    "lint": "eslint scripts/**/*.js test/**/*.js",
     "test": "playwright test"
   },
   "repository": {
