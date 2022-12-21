@@ -1,4 +1,4 @@
-import { CHIP_WIDTH } from '../constants.js';
+import { COLUMN_COUNT } from '../constants.js';
 
 // Wait for the next transition on the given element to complete, timing out
 // and erroring if the transition never completes
@@ -27,9 +27,11 @@ export async function waitForPendingChipTransitionEnd({ grid }) {
 
 // Simulate a click event over the specified column on the grid
 export async function clickGrid({ grid, column }) {
+  const gridWidth = (await grid.boundingBox()).width;
+  const chipWidth = gridWidth / COLUMN_COUNT;
   await grid.click({
     position: {
-      x: column * CHIP_WIDTH,
+      x: column * chipWidth,
       y: 0
     }
   });
