@@ -1,7 +1,6 @@
 import Player from './player.js';
 
-// A human player that requires user interaction; every human player inherits
-// from the base Player model
+// A local player whose moves are determined by a human user on the same device
 class HumanPlayer extends Player {
   // Nothing to do here!
 }
