@@ -36,6 +36,7 @@ jobs:
         run: |
           pnpm install --frozen-lockfile
           pnpm build
+          pnpm exec playwright install
           pnpm test
         # pnpm coverage
 
