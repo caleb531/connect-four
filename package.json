@@ -2,6 +2,7 @@
   "name": "connect-four",
   "version": "1.0.0",
   "description": "A Connect Four web app implemented in JS using Mithril",
+  "private": true,
   "type": "module",
   "packageManager": "^pnpm@7.18.2",
   "scripts": {
