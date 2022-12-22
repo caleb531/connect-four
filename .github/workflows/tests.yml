@@ -36,7 +36,7 @@ jobs:
         run: |
           pnpm install --frozen-lockfile
           pnpm build
-          pmpm test
+          pnpm test
         # pnpm coverage
 
       # - name: Coveralls
