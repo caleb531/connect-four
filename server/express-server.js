@@ -4,9 +4,7 @@ import expressEnforcesSSL from 'express-enforces-ssl';
 import helmet from 'helmet';
 import http from 'http';
 import { createServer as createViteServer } from 'vite';
-import fs from 'fs';
 import path from 'path';
-import { readFile } from 'fs/promises';
 import { roomManager } from './room-manager.js';
 import { fileURLToPath } from 'url';
 
