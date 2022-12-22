@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A Connect Four web app implemented in JS using Mithril",
   "type": "module",
+  "packageManager": "^pnpm@7.18.2",
   "scripts": {
     "start": "node server/index.js",
     "dev": "node server/index.js",
