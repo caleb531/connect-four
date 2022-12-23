@@ -8,6 +8,7 @@ WORKDIR /usr/app
 COPY ./package.json /usr/app
 RUN pnpm install
 COPY ./ ./
+RUN pnpm build
 
 # Start server
 EXPOSE 8080
