@@ -28,7 +28,7 @@ class AppComponent {
         m('a[href="https://github.com/caleb531/connect-four"]', 'View on GitHub')
       ]),
       m('span#github-link.nav-link.nav-link-right', [
-        'by',
+        'by ',
         m('a[href="https://calebevans.me"]', 'Caleb Evans')
       ]),
       m(GameComponent, { session: this.session, roomCode: attrs.roomCode })
