@@ -13,6 +13,8 @@ export default defineConfig({
         // the servie worker caches *.css, *.js, and *.html; see
         // <https://vite-pwa-org.netlify.app/guide/service-worker-precache.html#precache-manifest>)
         globPatterns: ['**/*.{js,css,html,ico,png,svg,json}'],
+        // By default, the filename of the generated service worker is sw.js,
+        // but we'd prefer something a bit less ambiguous
         swDest: 'dist/service-worker.js'
       },
       // Web App Manifest (will be generated as manifest.webmanifest; the
