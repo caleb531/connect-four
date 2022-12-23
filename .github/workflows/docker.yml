@@ -1,0 +1,20 @@
+# This workflow will test the building and running of the Docker container
+
+name: docker
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "*" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build Docker Image
+        run: |
+          docker build . < Dockerfile
