@@ -15,6 +15,9 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,ico,png,svg,json}'],
         swDest: 'dist/service-worker.js'
       },
+      // Web App Manifest (will be generated as manifest.webmanifest; the
+      // relevant <link> tag will be automatically added to index.html during
+      // build)
       manifest: {
         short_name: 'Connect Four',
         name: 'Connect Four',
