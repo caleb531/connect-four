@@ -37,7 +37,7 @@ async function createExpressServer() {
   app.engine('html', (await import('ejs')).renderFile);
 
   // Force HTTPS on production
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production' && !process.env.DISABLE_SSL) {
     app.enable('trust proxy');
     app.use(expressEnforcesSSL());
   }
