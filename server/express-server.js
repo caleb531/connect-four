@@ -66,7 +66,7 @@ async function createExpressServer() {
   // undefined (because in Production mode, we don't want to have Vite transform
   // the HTML)
   let vite = null;
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV !== 'production') {
     // I've found that Vite's middleware does not play nicely with the service
     // worker; for example, if they are both active at the same time, Vite's
     // middleware will wrap the app's CSS contents in a JavaScript wrapper when
@@ -76,8 +76,6 @@ async function createExpressServer() {
     // Production so that the service worker can fetch the static files directly
     // (the middleware can be safely disabled in Production because we use Vite
     // to pre-build the project anyway)
-    app.use(express.static(path.join(path.dirname(__dirname), 'dist')));
-  } else {
     vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'custom'
@@ -108,6 +106,14 @@ async function createExpressServer() {
       pageTitle: 'Caleb Evans'
     });
   });
+
+  // Vite not being defined implies that NODE_ENV === production, per the
+  // createViteServer() conditional earlier in the file
+  if (!vite) {
+    // We set this as the last route because the above / route must take
+    // precedence
+    app.use(express.static(path.join(path.dirname(__dirname), 'dist')));
+  }
 
   // HTTP server wrapper
 
