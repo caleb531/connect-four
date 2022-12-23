@@ -8,7 +8,6 @@ COPY . ./
 # otherwise we would encounter several "EACCES: permission denied" errors
 RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 RUN mkdir -p /usr/local/lib/node_modules && chown -R node:node /usr/local/lib/node_modules
-RUN mkdir -p /usr/local/lib/node_modules/pnpm && chown -R node:node /usr/local/lib/node_modules/pnpm
 RUN mkdir -p /usr/local/bin && chown -R node:node /usr/local/bin
 
 USER node
