@@ -2,7 +2,6 @@ import m from 'mithril';
 import Session from '../models/session.js';
 import GameComponent from './game.js';
 import UpdateNotificationComponent from './update-notification.js';
-import SWUpdateManager from 'sw-update-manager';
 
 class AppComponent {
 
@@ -11,19 +10,12 @@ class AppComponent {
       url: window.location.origin,
       roomCode: attrs.roomCode
     });
-    if (navigator.serviceWorker && (window.location.hostname !== 'localhost' || (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('sw')))) {
-      const serviceWorker = navigator.serviceWorker.register('/service-worker.js');
-      this.updateManager = new SWUpdateManager(serviceWorker);
-      this.updateManager.on('updateAvailable', () => m.redraw());
-      this.updateManager.checkForUpdates();
-    }
   }
 
   view({ attrs = { roomCode: null } }) {
     return m('div#app', [
-      this.updateManager ? m(UpdateNotificationComponent, {
-        updateManager: this.updateManager
-      }) : null,
+      // The UpdateNotificationComponent manages its own visibility
+      m(UpdateNotificationComponent),
       m('span#personal-site-link.nav-link.nav-link-left', [
         m('a[href="https://github.com/caleb531/connect-four"]', 'View on GitHub')
       ]),
