@@ -48,10 +48,10 @@
     "autoprefixer": "^10.4.13",
     "eslint": "^8.30.0",
     "istanbul": "^0.4.5",
-    "rollup-plugin-workbox": "^6.2.0",
     "sass": "^1.57.1",
     "sinon": "^15.0.1",
     "sinon-chai": "^3.7.0",
-    "sinon-matchers": "^2.1.0"
+    "sinon-matchers": "^2.1.0",
+    "vite-plugin-pwa": "^0.14.0"
   }
 }
