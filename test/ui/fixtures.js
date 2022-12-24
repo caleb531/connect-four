@@ -11,7 +11,7 @@ export async function _beforeEach({ page }) {
     // Minimize the transition duration to speed up tests (interestingly, a
     // duration of 0ms will prevent transitionEnd from firing)
     const style = document.createElement('style');
-    style.className = 'test-duration-speedup';
+    style.className = 'transition-duration-speedup';
     style.innerHTML = '* {transition-duration: 50ms !important;}';
     document.head.appendChild(style);
   });
