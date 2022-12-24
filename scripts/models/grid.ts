@@ -9,16 +9,16 @@ class Grid {
   columnCount: number;
   rowCount: number;
   columns: Chip[][];
-  lastPlacedChip: Chip | null;
+  lastPlacedChip?: Chip | null;
   static maxScore: typeof Number.POSITIVE_INFINITY;
   static minScore: typeof Number.NEGATIVE_INFINITY;
 
   // The state of a particular game grid
-  constructor({ columnCount, rowCount, columns, lastPlacedChip = null }: Grid) {
+  constructor({ columnCount, rowCount, columns = [], lastPlacedChip = null }: Pick<Grid, 'columnCount' | 'rowCount'> & { columns?: Grid['columns'] }) {
     this.columnCount = columnCount;
     this.rowCount = rowCount;
     // If existing grid object is passed to constructor, copy it
-    if (columns) {
+    if (columns && columns.length) {
       // The columns array where columns containing placed chips are stored
       this.columns = columns.map((column) => column.slice(0));
     } else {

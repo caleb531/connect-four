@@ -24,7 +24,7 @@ class Game extends TypedEmitter {
   debug: boolean;
   columnHistory?: number[];
 
-  constructor({ grid = new Grid({ columnCount: 7, rowCount: 6 }), players = [], debug = false }: Game = {}) {
+  constructor({ grid = new Grid({ columnCount: 7, rowCount: 6 }), players = [], debug = false }: Pick<Game, 'grid' | 'players' | 'debug'> = { grid: new Grid({ columnCount: 7, rowCount: 6 }), players: [], debug: false }) {
     super();
     // The two-dimensional array representing the entire game grid
     this.grid = grid;
@@ -56,7 +56,7 @@ class Game extends TypedEmitter {
     }
   }
 
-  startGame({ startingPlayer }: { startingPlayer: SupportedPlayerTypes } = {}) {
+  startGame({ startingPlayer }: { startingPlayer: SupportedPlayerTypes | null } = { startingPlayer: null }) {
     if (startingPlayer) {
       this.currentPlayer = startingPlayer;
     } else {
@@ -74,7 +74,7 @@ class Game extends TypedEmitter {
     this.pendingChip = null;
     this.emit('game:end');
     this.type = null;
-    if (this.debug) {
+    if (this.debug && this.columnHistory) {
       this.columnHistory.length = 0;
     }
   }
@@ -88,7 +88,7 @@ class Game extends TypedEmitter {
 
   // Initialize or change the current set of players based on the specified game
   // type;
-  setPlayers({ gameType, players = [], localPlayer = null }) {
+  setPlayers({ gameType, players = [], localPlayer = null }: Partial<{ gameType: GameType, players: SupportedPlayerTypes[], localPlayer: SupportedPlayerTypes | null }> & { gameType: GameType }) {
     // Instantiate new players as needed (if user is about to play the first game
     // or if the user is switching modes)
     if (this.players.length === 0) {
