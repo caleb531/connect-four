@@ -1,4 +1,5 @@
 import { Server } from 'socket.io';
+import open from 'open';
 
 import getExpressServer from './express-server.js';
 import { roomManager } from './room-manager.js';
@@ -6,7 +7,8 @@ import { roomManager } from './room-manager.js';
 // Socket.IO server
 async function createServer() {
 
-  const io = new Server(await getExpressServer());
+  const httpServer = await getExpressServer();
+  const io = new Server(httpServer);
 
   // A wrapper around RoomManager.getRoom() to run the given callback if the
   // specified room exists, otherwise responding with an error message if the room
@@ -214,6 +216,11 @@ async function createServer() {
     });
 
   });
+
+  // Allow us to open browser
+  if (process.argv.includes('--open') || process.argv.includes('-o')) {
+    await open(`http://localhost:${httpServer.address().port}`);
+  }
 
 }
 createServer();

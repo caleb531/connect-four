@@ -6,9 +6,9 @@
   "type": "module",
   "scripts": {
     "start": "node server/index.js",
-    "dev": "node server/index.js",
+    "dev": "node server/index.js --open",
     "build": "vite build",
-    "preview": "npm run build && NODE_ENV=production DISABLE_SSL=1 npm start",
+    "preview": "npm run build && NODE_ENV=production DISABLE_SSL=1 npm run dev",
     "lint": "eslint scripts/**/*.js test/**/*.js",
     "test": "playwright test"
   },
@@ -35,6 +35,7 @@
     "helmet": "^6.0.1",
     "mithril": "^2.2.2",
     "moment": "^2.29.4",
+    "open": "^8.4.0",
     "socket.io": "^4.5.4",
     "socket.io-client": "^4.5.4",
     "tiny-emitter": "^2.1.0",
