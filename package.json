@@ -5,8 +5,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node server/index.js",
-    "dev": "node server/index.js --open",
+    "start": "esr server/index.js",
+    "dev": "esr server/index.js --open",
     "build": "vite build",
     "preview": "npm run build && NODE_ENV=production DISABLE_SSL=1 npm run dev",
     "lint": "eslint server/**/*.js scripts/**/*.js test/**/*.js",
@@ -30,6 +30,7 @@
     "clipboard": "^2.0.11",
     "compression": "^1.7.4",
     "ejs": "^3.1.8",
+    "esbuild-runner": "^2.2.2",
     "express": "^4.18.2",
     "express-enforces-ssl": "^1.1.0",
     "helmet": "^6.0.1",
@@ -54,6 +55,7 @@
     "sinon": "^15.0.1",
     "sinon-chai": "^3.7.0",
     "sinon-matchers": "^2.1.0",
+    "typescript": "^4.9.4",
     "workbox-build": "^6.5.4"
   }
 }

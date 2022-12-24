@@ -6,6 +6,7 @@ specifiers:
   clipboard: ^2.0.11
   compression: ^1.7.4
   ejs: ^3.1.8
+  esbuild-runner: ^2.2.2
   eslint: ^8.30.0
   express: ^4.18.2
   express-enforces-ssl: ^1.1.0
@@ -21,6 +22,7 @@ specifiers:
   socket.io: ^4.5.4
   socket.io-client: ^4.5.4
   tiny-emitter: ^2.1.0
+  typescript: ^4.9.4
   underscore: ^1.13.6
   uuid: ^9.0.0
   vite: ^4.0.2
@@ -32,6 +34,7 @@ dependencies:
   clipboard: 2.0.11
   compression: 1.7.4
   ejs: 3.1.8
+  esbuild-runner: 2.2.2_esbuild@0.16.8
   express: 4.18.2
   express-enforces-ssl: 1.1.0
   helmet: 6.0.1
@@ -56,6 +59,7 @@ devDependencies:
   sinon: 15.0.1
   sinon-chai: 3.7.0_chai@4.3.7+sinon@15.0.1
   sinon-matchers: 2.1.0_sinon@15.0.1
+  typescript: 4.9.4
   workbox-build: 6.5.4
 
 packages:
@@ -2148,6 +2152,17 @@ packages:
       is-date-object: 1.0.5
       is-symbol: 1.0.4
 
+  /esbuild-runner/2.2.2_esbuild@0.16.8:
+    resolution: {integrity: sha512-fRFVXcmYVmSmtYm2mL8RlUASt2TDkGh3uRcvHFOKNr/T58VrfVeKD9uT9nlgxk96u0LS0ehS/GY7Da/bXWKkhw==}
+    hasBin: true
+    peerDependencies:
+      esbuild: '*'
+    dependencies:
+      esbuild: 0.16.8
+      source-map-support: 0.5.21
+      tslib: 2.4.0
+    dev: false
+
   /esbuild/0.16.8:
     resolution: {integrity: sha512-RKxRaLYAI5b/IVJ5k8jK3bO2G7cch2ZIZFbfKHbBzpwsWt9+VChcBEndNISBBZ5c3WwekFfkfl11/2QfIGHgDw==}
     engines: {node: '>=12'}
@@ -3876,6 +3891,10 @@ packages:
     dependencies:
       punycode: 2.1.1
 
+  /tslib/2.4.0:
+    resolution: {integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==}
+    dev: false
+
   /type-check/0.3.2:
     resolution: {integrity: sha512-ZCmOJdvOWDBYJlzAoFkC+Q0+bUyEOS1ltgp1MGU03fqHG+dbi9tBFU2Rd9QKiDZFAYrhPh2JUf7rZRIuHRKtOg==}
     engines: {node: '>= 0.8.0'}
@@ -3911,6 +3930,12 @@ packages:
       media-typer: 0.3.0
       mime-types: 2.1.35
     dev: false
+
+  /typescript/4.9.4:
+    resolution: {integrity: sha512-Uz+dTXYzxXXbsFpM86Wh3dKCxrQqUcVMxwU54orwlJjOpO3ao8L7j5lH+dWfTwgCwIuM9GQ2kvVotzYJMXTBZg==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: true
 
   /uglify-js/3.17.4:
     resolution: {integrity: sha512-T9q82TJI9e/C1TAxYvfb16xO120tMVFZrGA3f9/P4424DNu6ypK103y0GPFVa17yotwSyZW5iYXgjYHkGrJW/g==}
