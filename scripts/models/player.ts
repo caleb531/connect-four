@@ -1,8 +1,17 @@
+import { Reaction } from './player.d';
+
 // An abstract base model representing a player in a game
 class Player {
 
+  name: string;
+  color: 'black' | 'blue' | 'red';
+  score: number;
+  connected: boolean;
+  lastDisconnectReason: string | null;
+  lastReaction: Reaction | null;
+
   /* eslint-disable no-shadow */
-  constructor({ name, color, score = 0, connected = false, lastDisconnectReason = null, lastReaction = null }) {
+  constructor({ name, color, score = 0, connected = false, lastDisconnectReason = null, lastReaction = null }: Player) {
     // The name of the player (e.g. 'Human 1')
     this.name = name;
     // The player's chip color (supported colors are black, blue, and red)

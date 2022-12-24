@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import Player from './player.js';
+import Player from './player.ts';
 import Game from './game.js';
 
 class Room {

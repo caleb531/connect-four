@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import sinon from 'sinon';
 import utils from './utils.js';
 
-import AIPlayer from '../../scripts/models/ai-player.js';
+import AIPlayer from '../../scripts/models/ai-player.ts';
 import Game from '../../scripts/models/game.js';
 
 test.describe('AI player', async () => {

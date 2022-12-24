@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import AsyncPlayer from '../scripts/models/async-player.js';
+import AsyncPlayer from '../scripts/models/async-player.ts';
 
 test.describe('async player', async () => {
 

@@ -18,7 +18,8 @@
     "jsx": "preserve",
     "incremental": true,
     "strict": true,
-    "strictFunctionTypes": false
+    "strictFunctionTypes": false,
+    "strictPropertyInitialization": false
   },
   "include": [
     "**/*.js",

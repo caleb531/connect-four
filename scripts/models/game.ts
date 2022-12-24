@@ -1,15 +1,30 @@
-import Emitter from 'tiny-emitter';
+import { TypedEmitter } from 'tiny-typed-emitter';
 import Grid from './grid.js';
-import HumanPlayer from './human-player.js';
-import OnlinePlayer from './online-player.js';
-import AIPlayer from './ai-player.js';
-import Chip from './chip.js';
+import HumanPlayer from './human-player';
+import OnlinePlayer from './online-player';
+import AIPlayer from './ai-player';
+import Chip from './chip';
+
+type GameType = '1P' | '2P' | 'online' | null;
+type SupportedPlayerTypes = HumanPlayer | AIPlayer | OnlinePlayer;
 
 // A game between two players; the same Game instance is re-used for successive
 // rounds
-class Game extends Emitter {
+class Game extends TypedEmitter {
 
-  constructor({ grid = new Grid({ columnCount: 7, rowCount: 6 }), players = [], debug = false } = {}) {
+  grid: Grid;
+  players: SupportedPlayerTypes[];
+  type: GameType;
+  lastType: GameType;
+  currentPlayer: SupportedPlayerTypes | null;
+  inProgress: boolean;
+  pendingChip: Chip | null;
+  winner: SupportedPlayerTypes | null;
+  requestingPlayer: SupportedPlayerTypes | null;
+  debug: boolean;
+  columnHistory?: number[];
+
+  constructor({ grid = new Grid({ columnCount: 7, rowCount: 6 }), players = [], debug = false }: Game = {}) {
     super();
     // The two-dimensional array representing the entire game grid
     this.grid = grid;
@@ -41,7 +56,7 @@ class Game extends Emitter {
     }
   }
 
-  startGame({ startingPlayer } = {}) {
+  startGame({ startingPlayer }: { startingPlayer: SupportedPlayerTypes } = {}) {
     if (startingPlayer) {
       this.currentPlayer = startingPlayer;
     } else {

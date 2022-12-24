@@ -1,12 +1,14 @@
+import type Game from './game.js';
 import Grid from './grid.js';
-import AsyncPlayer from './async-player.js';
-import Chip from './chip.js';
+import AsyncPlayer from './async-player';
+import Chip from './chip';
+import { AsyncPlayerMove } from './async-player.d';
 
 // An AI player that can think for itself
 class AIPlayer extends AsyncPlayer {
 
   // Compute the column where the AI player should place its next chip
-  getNextMove({ game }) {
+  getNextMove({ game }: { game: Game }): Promise<AsyncPlayerMove> {
     return new Promise((resolve) => {
       const nextMove = this.maximizeMove({
         grid: game.grid,

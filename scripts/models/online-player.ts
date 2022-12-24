@@ -1,4 +1,6 @@
-import AsyncPlayer from './async-player.js';
+import AsyncPlayer from './async-player';
+import Game from './game';
+import { AsyncPlayerMove } from './async-player.d';
 
 // An online player whose moves are determined by a remote human user
 class OnlinePlayer extends AsyncPlayer {
@@ -6,7 +8,7 @@ class OnlinePlayer extends AsyncPlayer {
   // Declare the end of the local (human) player's turn, communicating its move
   // to the opponent (online) player and waiting for the opponent to make the
   // next move
-  getNextMove({ game }) {
+  getNextMove({ game }: { game: Game }): Promise<AsyncPlayerMove> {
     return new Promise((resolve) => {
       // Resolve the promise when the game's TinyEmitter listener receives the
       // move from the opponent, passing it to the local (human) player

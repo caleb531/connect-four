@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import Player from '../scripts/models/player.js';
-import Chip from '../scripts/models/chip.js';
+import Player from '../scripts/models/player.ts';
+import Chip from '../scripts/models/chip.ts';
 
 test.describe('chip', async () => {
 

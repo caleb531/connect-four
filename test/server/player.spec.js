@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import sinon from 'sinon';
-import Player from '../../server/player.js';
+import Player from '../../server/player.ts';
 
 test.describe('server player', async () => {
 

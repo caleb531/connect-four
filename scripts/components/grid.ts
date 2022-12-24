@@ -1,11 +1,11 @@
 import m from 'mithril';
 import _ from 'underscore';
-import Emitter from 'tiny-emitter';
+import { TypedEmitter } from 'tiny-typed-emitter';
 import classNames from '../classnames.js';
 
 // The grid UI, including the pending chip (i.e. the chip to be placed), as well
 // as all chips currently placed on the grid
-class GridComponent extends Emitter {
+class GridComponent extends TypedEmitter {
 
   oninit({ attrs: { game, session } }) {
     this.game = game;

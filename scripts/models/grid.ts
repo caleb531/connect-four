@@ -1,11 +1,20 @@
 import _ from 'underscore';
 import GridConnection from './grid-connection.js';
-import Chip from './chip.js';
+import Chip from './chip';
+import type Player from './player';
+import { Direction } from './grid.d';
 
 class Grid {
 
+  columnCount: number;
+  rowCount: number;
+  columns: Chip[][];
+  lastPlacedChip: Chip | null;
+  static maxScore: typeof Number.POSITIVE_INFINITY;
+  static minScore: typeof Number.NEGATIVE_INFINITY;
+
   // The state of a particular game grid
-  constructor({ columnCount, rowCount, columns, lastPlacedChip = null }) {
+  constructor({ columnCount, rowCount, columns, lastPlacedChip = null }: Grid) {
     this.columnCount = columnCount;
     this.rowCount = rowCount;
     // If existing grid object is passed to constructor, copy it
@@ -37,7 +46,7 @@ class Grid {
   }
 
   // Return the index of the next available slot for the given column
-  getNextAvailableSlot({ column }) {
+  getNextAvailableSlot({ column }: { column: number }): number | null {
     const nextRowIndex = this.columns[column].length;
     if (nextRowIndex < this.rowCount) {
       return nextRowIndex;
@@ -48,7 +57,7 @@ class Grid {
   }
 
   // Place the given chip into the specified column on the grid
-  placeChip({ chip, column }) {
+  placeChip({ chip, column }: { chip: Chip, column: number }) {
     this.columns[column].push(chip);
     this.lastPlacedChip = chip;
     chip.column = column;
@@ -56,7 +65,7 @@ class Grid {
   }
 
   // Find same-color neighbors connected to the given chip in the given direction
-  getSubConnection(baseChip, direction) {
+  getSubConnection(baseChip: Chip, direction: Direction) {
     let neighbor = baseChip;
     const subConnection = new GridConnection();
     while (true) {
@@ -88,23 +97,23 @@ class Grid {
   }
 
   // Add a sub-connection (in the given direction) to a larger connection
-  addSubConnection(connection, baseChip, direction) {
+  addSubConnection(connection: GridConnection, baseChip: Chip, direction: Direction): void {
     const subConnection = this.getSubConnection(baseChip, direction);
     connection.addConnection(subConnection);
   }
 
   // Get all connections of four chips (including connections of four within
   // larger connections) which the last placed chip is apart of
-  getConnections({ baseChip, minConnectionSize }) {
-    const connections = [];
+  getConnections({ baseChip, minConnectionSize }: { baseChip: Chip, minConnectionSize: number }) {
+    const connections: GridConnection[] = [];
     GridConnection.directions.forEach((direction) => {
       const connection = new GridConnection({ chips: [baseChip] });
       // Check for connected neighbors in this direction
       this.addSubConnection(connection, baseChip, direction);
       // Check for connected neighbors in the opposite direction
       this.addSubConnection(connection, baseChip, {
-        x: -direction.x,
-        y: -direction.y
+        x: -direction.x as Direction['x'],
+        y: -direction.y as Direction['y']
       });
       if (connection.length >= minConnectionSize) {
         connections.push(connection);
@@ -115,7 +124,7 @@ class Grid {
 
   // Score connections connected to the given chip; the chip is assumed to
   // belong to the current player
-  getChipScore({ chip, currentPlayerIsMaxPlayer }) {
+  getChipScore({ chip, currentPlayerIsMaxPlayer }: { chip: Chip, currentPlayerIsMaxPlayer: boolean }) {
     let gridScore = 0;
     // Search for current player's connections of one or more chips that are
     // connected to the empty slot
@@ -143,7 +152,7 @@ class Grid {
   }
 
   // Compute the grid's heuristic score for use by the AI player
-  getScore({ currentPlayer, currentPlayerIsMaxPlayer }) {
+  getScore({ currentPlayer, currentPlayerIsMaxPlayer }: { currentPlayer: Player, currentPlayerIsMaxPlayer: boolean }) {
     let gridScore = 0;
     let c, r;
     // Use native for loops instead of forEach because the function will need to
@@ -155,7 +164,7 @@ class Grid {
         if (chip.player !== currentPlayer) {
           continue;
         }
-        const score = this.getChipScore({ currentPlayer, currentPlayerIsMaxPlayer, chip });
+        const score = this.getChipScore({ currentPlayerIsMaxPlayer, chip });
         if (Math.abs(score) === Grid.maxScore) {
           return score;
         } else {
@@ -166,7 +175,7 @@ class Grid {
     return gridScore;
   }
 
-  restoreFromServer({ grid, players }) {
+  restoreFromServer({ grid, players }: { grid: Grid, players: Player[] }) {
     const playersByColor = _.indexBy(players, 'color');
     this.columnCount = grid.columnCount;
     this.rowCount = grid.rowCount;
@@ -192,9 +201,9 @@ class Grid {
 
 // The maximum grid score possible (awarded for winning connections by the
 // maximizing player)
-Grid.maxScore = Infinity;
+Grid.maxScore = Number.POSITIVE_INFINITY;
 // The minimum grid score possible (awarded for winning connections by the
 // minimizing player)
-Grid.minScore = -Grid.maxScore;
+Grid.minScore = Number.NEGATIVE_INFINITY;
 
 export default Grid;

@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import HumanPlayer from '../scripts/models/human-player.js';
+import HumanPlayer from '../scripts/models/human-player.ts';
 
 test.describe('human player', async () => {
 

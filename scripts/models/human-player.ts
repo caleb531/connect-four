@@ -1,8 +1,8 @@
-import Player from './player.js';
+import Player from './player';
 
 // A local player whose moves are determined by a human user on the same device
 class HumanPlayer extends Player {
-  // Nothing to do here!
+  type: 'human';
 }
 HumanPlayer.prototype.type = 'human';
 

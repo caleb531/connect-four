@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import Game from '../../server/game.js';
 import Grid from '../../server/grid.js';
-import Player from '../../server/player.js';
+import Player from '../../server/player.ts';
 
 test.describe('server game', async () => {
 

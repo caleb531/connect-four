@@ -1,4 +1,4 @@
-import AIPlayer from '../../scripts/models/ai-player.js';
+import AIPlayer from '../../scripts/models/ai-player.ts';
 
 export async function _before() {
   // Also zero out the AI Player's delay between each swift movement

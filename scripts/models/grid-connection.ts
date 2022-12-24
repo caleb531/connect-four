@@ -1,8 +1,15 @@
 // A connection of one or more chips on a grid, including information about
+import Chip from './chip';
+import { Direction } from './grid.d';
+
 // neighboring empty slots and such
 class GridConnection {
 
-    constructor({ chips = [], emptySlotCount = 0 } = {}) {
+    chips: Chip[];
+    emptySlotCount: number;
+    static directions: Direction[];
+
+    constructor({ chips = [], emptySlotCount = 0 }: Partial<GridConnection>= { chips: [], emptySlotCount: 0 }) {
       this.chips = [...chips];
       this.emptySlotCount = emptySlotCount;
     }
@@ -13,19 +20,18 @@ class GridConnection {
 
     set length(newLength) {
       this.chips.length = newLength;
-      return this.chips.length;
     }
 
-    addChip(chip) {
+    addChip(chip: Chip) {
       this.chips.push(chip);
     }
 
-    addConnection(connection) {
+    addConnection(connection: GridConnection) {
       this.chips.push(...connection.chips);
       this.emptySlotCount += connection.emptySlotCount || 0;
     }
 
-    forEach(callback) {
+    forEach(callback: Parameters<typeof this.chips.forEach>[0]) {
       return this.chips.forEach(callback);
     }
 
