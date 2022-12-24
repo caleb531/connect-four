@@ -110,8 +110,18 @@ async function createExpressServer() {
   // Vite not being defined implies that NODE_ENV === production, per the
   // createViteServer() conditional earlier in the file
   if (!vite) {
-    // We set this as the last route because the above / route must take
-    // precedence
+    // Since we changed the name of the service worker when integrating Vite PWA
+    // (from service-worker.js to sw.js), we need to preserve backwards
+    // compatibility with users whose have already registered with
+    // service-worker.js, since they won't ever look for sw.js when checking for
+    // updates; we can solve this by making both /sw.js and /service-worker.js
+    // point to the same static file on the server
+    app.use(
+      '/service-worker.js',
+      express.static(path.join(path.dirname(__dirname), 'dist', 'sw.js'))
+    );
+    // We set this *after* the / route above because that / route needs to take
+    // precedence (so that Vite/EJS can process index.html)
     app.use(express.static(path.join(path.dirname(__dirname), 'dist')));
   }
 
