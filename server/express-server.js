@@ -101,7 +101,10 @@ async function createExpressServer() {
   app.get('/room', (req, res) => {
     res.redirect(301, '/');
   });
-  app.get('/', async (req, res) => {
+  // We need to specify /index.html in addition to / so that the service worker
+  // caches the index.html file that EJS has already processed via
+  // transformHtml()
+  app.get(['/', '/index.html'], async (req, res) => {
     await transformHtml(vite, req, res, indexPath, {
       pageTitle: 'Caleb Evans'
     });
