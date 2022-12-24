@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { _before, _beforeEach, _afterEach } from './fixtures.js';
-import { clickGrid, waitForPendingChipTransitionEnd } from './utils.js';
+import { clickGrid, hoverGrid, waitForPendingChipTransitionEnd } from './utils.js';
 
 test.describe('game UI', async () => {
 
@@ -78,7 +78,7 @@ test.describe('game UI', async () => {
     await page.getByRole('button', { name: '1 Player' }).click();
     await page.getByRole('button', { name: 'Human' }).click();
     const grid = page.locator('#grid');
-    await clickGrid({ grid, column: 3 });
+    await hoverGrid({ page, grid, column: 3 });
     await waitForPendingChipTransitionEnd({ grid });
     await expect(grid).toHavePendingChipAt({ column: 3 });
   });

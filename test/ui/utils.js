@@ -36,3 +36,13 @@ export async function clickGrid({ grid, column }) {
     }
   });
 }
+
+// Simulate a mousemove event over the specified column on the grid
+export async function hoverGrid({ page, grid, column }) {
+  const gridBoundingBox = await grid.boundingBox();
+  const chipWidth = gridBoundingBox.width / COLUMN_COUNT;
+  await page.mouse.move(
+    gridBoundingBox.x + (column * chipWidth),
+    gridBoundingBox.y
+  );
+}
