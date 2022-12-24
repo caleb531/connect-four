@@ -27,8 +27,8 @@ export async function waitForPendingChipTransitionEnd({ grid }) {
 
 // Simulate a click event over the specified column on the grid
 export async function clickGrid({ grid, column }) {
-  const gridWidth = (await grid.boundingBox()).width;
-  const chipWidth = gridWidth / COLUMN_COUNT;
+  const gridBoundingBox = await grid.boundingBox();
+  const chipWidth = gridBoundingBox.width / COLUMN_COUNT;
   await grid.click({
     position: {
       x: column * chipWidth,
