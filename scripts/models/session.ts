@@ -1,8 +1,26 @@
 /* eslint-disable no-console */
 import io from 'socket.io-client';
+import { ServerPlayer } from './player.d';
+
+type CallQueueEvent =
+  | {
+      method: 'on';
+      args: Parameters<Session['on']>;
+    }
+  | {
+      method: 'emit';
+      args: Parameters<Session['emit']>;
+    };
 
 class Session {
-  constructor({ url, roomCode }) {
+  url: string;
+  roomCode: string | null;
+  localPlayerId: string | null;
+  localPlayer: ServerPlayer | null;
+  callQueue: CallQueueEvent[];
+  socket?: ReturnType<typeof io>;
+  status?: string;
+  constructor({ url, roomCode }: Pick<Session, 'url' | 'roomCode'>) {
     this.url = url;
     this.roomCode = roomCode;
     this.localPlayerId = this.getLocalPlayerId();
@@ -12,13 +30,13 @@ class Session {
   }
 
   connect() {
-    this.socket = io.connect(this.url);
+    this.socket = io(this.url);
     this.status = 'connecting';
     this.executeCallQueue();
   }
 
   disconnect() {
-    this.socket.disconnect();
+    this.socket?.disconnect();
   }
 
   get connected() {
@@ -31,7 +49,7 @@ class Session {
 
   executeCallQueue() {
     this.callQueue.forEach(({ method, args }) => {
-      this[method](...args);
+      this[method].apply(this, args);
     });
     this.callQueue.length = 0;
   }
@@ -46,14 +64,14 @@ class Session {
     }
   }
 
-  setLocalPlayerId(localPlayerId) {
+  setLocalPlayerId(localPlayerId: string | null) {
     this.localPlayerId = localPlayerId;
     if (typeof sessionStorage !== 'undefined') {
-      sessionStorage.setItem('c4-localPlayerId', localPlayerId);
+      sessionStorage.setItem('c4-localPlayerId', String(localPlayerId));
     }
   }
 
-  on(eventName, callback) {
+  on(eventName: string, callback: () => void) {
     if (this.socket) {
       this.socket.on(eventName, (args = {}) => {
         this.processArgs(args, callback);
@@ -63,7 +81,7 @@ class Session {
     }
   }
 
-  emit(eventName, data = {}, callback) {
+  emit(eventName: string, data: object = {}, callback: () => void) {
     if (this.socket) {
       data = Object.assign(
         { roomCode: this.roomCode, playerId: this.localPlayerId },
@@ -80,7 +98,10 @@ class Session {
     }
   }
 
-  processArgs(args, callback) {
+  processArgs(
+    args: Partial<Pick<Session, 'localPlayer' | 'status' | 'roomCode'>>,
+    callback: (args: any) => void
+  ) {
     if (args.status) {
       this.status = args.status;
     }
