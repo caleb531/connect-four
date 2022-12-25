@@ -5,7 +5,6 @@ import type { PlacedChip } from './chip.d';
 import type Player from './player';
 import type { ServerGrid } from './grid.d';
 import { Direction } from './grid-connection.d';
-import { Optional } from 'utility-types';
 
 class Grid {
 
@@ -17,7 +16,7 @@ class Grid {
   static minScore: typeof Number.NEGATIVE_INFINITY;
 
   // The state of a particular game grid
-  constructor({ columnCount, rowCount, columns = [], lastPlacedChip = null }: Pick<Grid, 'columnCount' | 'rowCount'> & Optional<Grid, 'columns' | 'lastPlacedChip'>) {
+  constructor({ columnCount, rowCount, columns = [], lastPlacedChip = null }: Partial<Grid> & Pick<Grid, 'columnCount' | 'rowCount'>) {
     this.columnCount = columnCount;
     this.rowCount = rowCount;
     // If existing grid object is passed to constructor, copy it

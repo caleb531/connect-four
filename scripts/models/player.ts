@@ -11,7 +11,7 @@ class Player {
   lastReaction: Reaction | null;
 
   /* eslint-disable no-shadow */
-  constructor({ name, color, score = 0, connected = false, lastDisconnectReason = null, lastReaction = null }: Partial<Player> & Required<Pick<Player, 'name' | 'color'>>) {
+  constructor({ name, color, score = 0, connected = false, lastDisconnectReason = null, lastReaction = null }: Partial<Player> & Pick<Player, 'name' | 'color'>) {
     // The name of the player (e.g. 'Human 1')
     this.name = name;
     // The player's chip color (supported colors are black, blue, and red)
