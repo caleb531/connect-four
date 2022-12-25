@@ -9,10 +9,13 @@ export default defineConfig({
       // since we will already be handling this manually
       injectRegister: null,
       workbox: {
-        // Add additional file types to be cached by service worker (by default,
-        // the servie worker caches *.css, *.js, and *.html; see
-        // <https://vite-pwa-org.netlify.app/guide/service-worker-precache.html#precache-manifest>)
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,json}'],
+        // Add additional file types to be precached by service worker (by
+        // default, the service worker caches *.css, *.js, and *.html; see
+        // <https://vite-pwa-org.netlify.app/guide/service-worker-precache.html#precache-manifest>;
+        // it's also worth noting that the webmanifest defined later in this
+        // file is automatically precached by Vite PWA (i.e. there is no need to
+        // include *.webmanifest in the glob patterns list here)
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
         // A nice-to-have optimization for purging old cache entries after the
         // service worker has updated; see:
         // <https://vite-pwa-org.netlify.app/guide/prompt-for-update.html#cleanup-outdated-caches>
