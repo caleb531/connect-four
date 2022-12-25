@@ -1,7 +1,6 @@
 import m from 'mithril';
 
 class ReactionPickerComponent {
-
   oninit({ attrs: { game, session } }) {
     this.game = game;
     this.session = session;
@@ -12,13 +11,22 @@ class ReactionPickerComponent {
   }
 
   view() {
-    return m('div#reaction-picker', ReactionPickerComponent.availableReactions.map((reaction) => {
-      return m('div.available-reaction', m('div.available-reaction-symbol', {
-        onclick: () => this.sendReaction(reaction)
-      }, reaction.symbol));
-    }));
+    return m(
+      'div#reaction-picker',
+      ReactionPickerComponent.availableReactions.map((reaction) => {
+        return m(
+          'div.available-reaction',
+          m(
+            'div.available-reaction-symbol',
+            {
+              onclick: () => this.sendReaction(reaction)
+            },
+            reaction.symbol
+          )
+        );
+      })
+    );
   }
-
 }
 
 ReactionPickerComponent.availableReactions = [

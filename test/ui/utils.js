@@ -42,7 +42,7 @@ export async function hoverGrid({ page, grid, column }) {
   const gridBoundingBox = await grid.boundingBox();
   const chipWidth = gridBoundingBox.width / COLUMN_COUNT;
   await page.mouse.move(
-    gridBoundingBox.x + (column * chipWidth),
+    gridBoundingBox.x + column * chipWidth,
     gridBoundingBox.y
   );
 }

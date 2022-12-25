@@ -4,7 +4,6 @@ import utils from './utils.js';
 import Game from '../../scripts/models/game.js';
 
 test.describe('AI player', async () => {
-
   test('should block horizontal opponent win (#1)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
@@ -34,7 +33,10 @@ test.describe('AI player', async () => {
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
-      columns: [2, 0, 4, 1, 6, 3, 2, 0, 3, 1, 4, 5, 0, 3, 0, 3, 2, 2, 4, 4, 2, 6, 6, 4, 3, 4, 2, 3, 6]
+      columns: [
+        2, 0, 4, 1, 6, 3, 2, 0, 3, 1, 4, 5, 0, 3, 0, 3, 2, 2, 4, 4, 2, 6, 6, 4,
+        3, 4, 2, 3, 6
+      ]
     });
     return game.players[1].getNextMove({ game }).then((nextMove) => {
       expect(nextMove.column).toEqual(5);
@@ -100,5 +102,4 @@ test.describe('AI player', async () => {
       expect(nextMove.column).toBeOneOf([2, 5, 6]);
     });
   });
-
 });

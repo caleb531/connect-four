@@ -6,7 +6,6 @@ import classNames from '../classnames.js';
 // The grid UI, including the pending chip (i.e. the chip to be placed), as well
 // as all chips currently placed on the grid
 class GridComponent extends TypedEmitter {
-
   oninit({ attrs: { game, session } }) {
     this.game = game;
     this.session = session;
@@ -72,7 +71,13 @@ class GridComponent extends TypedEmitter {
 
   // Get the CSS translate string for the given coordinate map
   getTranslate({ column, row }) {
-    return 'translate(' + (column * 100) + '%,' + ((this.grid.rowCount - row) * 100) + '%)';
+    return (
+      'translate(' +
+      column * 100 +
+      '%,' +
+      (this.grid.rowCount - row) * 100 +
+      '%)'
+    );
   }
 
   // Retrieve the constant width of a single chip
@@ -89,7 +94,9 @@ class GridComponent extends TypedEmitter {
   // last at or where the last chip was dropped)
   getLastVisitedColumn(mouseEvent) {
     const chipWidth = this.getChipWidth();
-    let column = Math.floor((mouseEvent.pageX - mouseEvent.currentTarget.offsetLeft) / chipWidth);
+    let column = Math.floor(
+      (mouseEvent.pageX - mouseEvent.currentTarget.offsetLeft) / chipWidth
+    );
     column = Math.max(0, column);
     column = Math.min(column, this.grid.columnCount - 1);
     return column;
@@ -135,7 +142,11 @@ class GridComponent extends TypedEmitter {
 
   // Align the pending chip with the column nearest to the user's cursor
   alignPendingChipViaPointer(mousemoveEvent) {
-    if (this.game.pendingChip && this.game.currentPlayer.type === 'human' && !this.transitionPendingChipY) {
+    if (
+      this.game.pendingChip &&
+      this.game.currentPlayer.type === 'human' &&
+      !this.transitionPendingChipY
+    ) {
       this.alignPendingChipWithColumn({
         column: this.getLastVisitedColumn(mousemoveEvent),
         emit: true
@@ -197,7 +208,12 @@ class GridComponent extends TypedEmitter {
 
   // Place the pending chip into the column where the user clicked
   placePendingChipViaPointer(clickEvent) {
-    if (this.game.pendingChip && this.game.currentPlayer.type === 'human' && !this.transitionPendingChipX && !this.transitionPendingChipY) {
+    if (
+      this.game.pendingChip &&
+      this.game.currentPlayer.type === 'human' &&
+      !this.transitionPendingChipX &&
+      !this.transitionPendingChipY
+    ) {
       this.placePendingChip({
         column: this.getLastVisitedColumn(clickEvent)
       });
@@ -249,49 +265,71 @@ class GridComponent extends TypedEmitter {
   }
 
   view() {
-    return m('div#grid', {
-      onmousemove: (mousemoveEvent) => this.alignPendingChipViaPointer(mousemoveEvent),
-      onclick: (clickEvent) => this.placePendingChipViaPointer(clickEvent)
-    }, [
-      // The chip that is about to be placed on the grid
-      this.game.pendingChip ?
-        m(`div.chip.pending.${this.game.pendingChip.player.color}`, {
-          class: classNames({
-            'transition-x': this.transitionPendingChipX,
-            'transition-y': this.transitionPendingChipY
-          }),
-          style: {
-            transform: this.getTranslate({
-              column: this.pendingChipColumn,
-              row: this.pendingChipRow
-            })
-          },
-          oncreate: ({ dom }) => this.initializePendingChip({ dom })
-        }, [
-          m('div.chip-inner.chip-inner-real'),
-          // See _grid.scss for how the pending chip inner clone is used
-          m('div.chip-inner.chip-inner-clone')
-        ]) : null,
-      // The part of the grid containing both placed chips and empty chip slots
-      m('div#grid-columns', _.times(this.grid.columnCount, (c) => {
-        return m('div.grid-column', _.times(this.grid.rowCount, (r) => {
-          if (this.grid.columns[c][r]) {
-            // If this grid slot is occupied, display the corresponding chip
-            const chip = this.grid.columns[c][r];
-            return m(`div.chip.${chip.player.color}`, {
-              class: classNames({
-                'winning': chip.winning
+    return m(
+      'div#grid',
+      {
+        onmousemove: (mousemoveEvent) =>
+          this.alignPendingChipViaPointer(mousemoveEvent),
+        onclick: (clickEvent) => this.placePendingChipViaPointer(clickEvent)
+      },
+      [
+        // The chip that is about to be placed on the grid
+        this.game.pendingChip
+          ? m(
+              `div.chip.pending.${this.game.pendingChip.player.color}`,
+              {
+                class: classNames({
+                  'transition-x': this.transitionPendingChipX,
+                  'transition-y': this.transitionPendingChipY
+                }),
+                style: {
+                  transform: this.getTranslate({
+                    column: this.pendingChipColumn,
+                    row: this.pendingChipRow
+                  })
+                },
+                oncreate: ({ dom }) => this.initializePendingChip({ dom })
+              },
+              [
+                m('div.chip-inner.chip-inner-real'),
+                // See _grid.scss for how the pending chip inner clone is used
+                m('div.chip-inner.chip-inner-clone')
+              ]
+            )
+          : null,
+        // The part of the grid containing both placed chips and empty chip slots
+        m(
+          'div#grid-columns',
+          _.times(this.grid.columnCount, (c) => {
+            return m(
+              'div.grid-column',
+              _.times(this.grid.rowCount, (r) => {
+                if (this.grid.columns[c][r]) {
+                  // If this grid slot is occupied, display the corresponding chip
+                  const chip = this.grid.columns[c][r];
+                  return m(
+                    `div.chip.${chip.player.color}`,
+                    {
+                      class: classNames({
+                        winning: chip.winning
+                      })
+                    },
+                    m('div.chip-inner')
+                  );
+                } else {
+                  // If this grid slot is empty, display an empty slot circle
+                  return m(
+                    'div.empty-chip-slot',
+                    m('div.empty-chip-slot-inner')
+                  );
+                }
               })
-            }, m('div.chip-inner'));
-          } else {
-            // If this grid slot is empty, display an empty slot circle
-            return m('div.empty-chip-slot', m('div.empty-chip-slot-inner'));
-          }
-        }));
-      }))
-    ]);
+            );
+          })
+        )
+      ]
+    );
   }
-
 }
 
 // The time to wait (in ms) before rendering the next pending chip alignment

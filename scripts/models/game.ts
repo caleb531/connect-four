@@ -11,7 +11,6 @@ type SupportedPlayerTypes = HumanPlayer | AIPlayer | OnlinePlayer;
 // A game between two players; the same Game instance is re-used for successive
 // rounds
 class Game extends TypedEmitter {
-
   grid: Grid;
   players: SupportedPlayerTypes[];
   type: GameType;
@@ -24,7 +23,17 @@ class Game extends TypedEmitter {
   debug: boolean;
   columnHistory?: number[];
 
-  constructor({ grid = new Grid({ columnCount: 7, rowCount: 6 }), players = [], debug = false }: Pick<Game, 'grid' | 'players' | 'debug'> = { grid: new Grid({ columnCount: 7, rowCount: 6 }), players: [], debug: false }) {
+  constructor(
+    {
+      grid = new Grid({ columnCount: 7, rowCount: 6 }),
+      players = [],
+      debug = false
+    }: Pick<Game, 'grid' | 'players' | 'debug'> = {
+      grid: new Grid({ columnCount: 7, rowCount: 6 }),
+      players: [],
+      debug: false
+    }
+  ) {
     super();
     // The two-dimensional array representing the entire game grid
     this.grid = grid;
@@ -56,7 +65,11 @@ class Game extends TypedEmitter {
     }
   }
 
-  startGame({ startingPlayer }: { startingPlayer: SupportedPlayerTypes | null } = { startingPlayer: null }) {
+  startGame(
+    { startingPlayer }: { startingPlayer: SupportedPlayerTypes | null } = {
+      startingPlayer: null
+    }
+  ) {
     if (startingPlayer) {
       this.currentPlayer = startingPlayer;
     } else {
@@ -88,7 +101,15 @@ class Game extends TypedEmitter {
 
   // Initialize or change the current set of players based on the specified game
   // type;
-  setPlayers({ gameType, players = [], localPlayer = null }: Partial<{ gameType: GameType, players: SupportedPlayerTypes[], localPlayer: SupportedPlayerTypes | null }> & { gameType: GameType }) {
+  setPlayers({
+    gameType,
+    players = [],
+    localPlayer = null
+  }: Partial<{
+    gameType: GameType;
+    players: SupportedPlayerTypes[];
+    localPlayer: SupportedPlayerTypes | null;
+  }> & { gameType: GameType }) {
     // Instantiate new players as needed (if user is about to play the first game
     // or if the user is switching modes)
     if (this.players.length === 0) {
@@ -104,13 +125,15 @@ class Game extends TypedEmitter {
       } else if (gameType === 'online' && players.length > 0 && localPlayer) {
         // If user chooses Online mode, the user will play against another human
         // on another machine
-        this.players.push(...players.map((player) => {
-          if (player.color === localPlayer.color) {
-            return new HumanPlayer(player);
-          } else {
-            return new OnlinePlayer(player);
-          }
-        }));
+        this.players.push(
+          ...players.map((player) => {
+            if (player.color === localPlayer.color) {
+              return new HumanPlayer(player);
+            } else {
+              return new OnlinePlayer(player);
+            }
+          })
+        );
       }
     } else if (gameType !== this.lastType) {
       // If user switches game type (e.g. from 1-Player to 2-Player mode),
@@ -226,8 +249,12 @@ class Game extends TypedEmitter {
     // OnlinePlayer.getNextMove() promise
     this.off('online-player:receive-next-move');
 
-    this.currentPlayer = this.players.find((player) => player.color === game.currentPlayer);
-    this.requestingPlayer = this.players.find((player) => player.color === game.requestingPlayer);
+    this.currentPlayer = this.players.find(
+      (player) => player.color === game.currentPlayer
+    );
+    this.requestingPlayer = this.players.find(
+      (player) => player.color === game.requestingPlayer
+    );
 
     this.grid.restoreFromServer({
       grid: game.grid,
@@ -236,7 +263,9 @@ class Game extends TypedEmitter {
     // Restore the last position of the pending chip when the game state is
     // restored
     if (game.pendingChipColumn) {
-      this.emit('grid:align-pending-chip-initially', { column: game.pendingChipColumn });
+      this.emit('grid:align-pending-chip-initially', {
+        column: game.pendingChipColumn
+      });
     }
     this.winner = null;
 
@@ -246,7 +275,6 @@ class Game extends TypedEmitter {
     this.checkForWin();
     this.checkForTie();
   }
-
 }
 
 // The minimum number of chips a connection must have to win the game

@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import Player from '../../server/player.ts';
 
 test.describe('server player', async () => {
-
   test('should initialize with arguments', async () => {
     const socket = sinon.stub();
     const player = new Player({
@@ -26,7 +25,9 @@ test.describe('server player', async () => {
       color: 'green',
       socket: null
     });
-    expect(player.id).toMatch(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i);
+    expect(player.id).toMatch(
+      /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i
+    );
   });
 
   test('should know when socket is connected', async () => {
@@ -50,7 +51,9 @@ test.describe('server player', async () => {
 
   test('should emit a server event for this player only', async () => {
     const socket = sinon.stub({
-      emit: () => {/* noop */}
+      emit: () => {
+        /* noop */
+      }
     });
     const player = new Player({
       name: 'Caleb',
@@ -63,17 +66,16 @@ test.describe('server player', async () => {
 
   test('should broadcast a server event to all players', async () => {
     const socket = sinon.stub({
-      emit: () => {/* noop */}
+      emit: () => {
+        /* noop */
+      }
     });
     const localPlayer = new Player({
       name: 'Caleb',
       color: 'green',
       socket
     });
-    const players = [
-      new Player({ color: 'blue', name: 'Bob' }),
-      localPlayer
-    ];
+    const players = [new Player({ color: 'blue', name: 'Bob' }), localPlayer];
     localPlayer.room = { players };
     localPlayer.broadcast('my-event', { foo: 'bar' });
     expect(socket.emit).toHaveBeenCalledWith('my-event', {
@@ -97,5 +99,4 @@ test.describe('server player', async () => {
     expect(json).toHaveProperty('lastDisconnectReason', null);
     expect(json).toHaveProperty('lastReaction', null);
   });
-
 });

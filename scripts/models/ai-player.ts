@@ -6,7 +6,6 @@ import { AsyncPlayerMove } from './async-player.d';
 
 // An AI player that can think for itself
 class AIPlayer extends AsyncPlayer {
-
   // Compute the column where the AI player should place its next chip
   getNextMove({ game }: { game: Game }): Promise<AsyncPlayerMove> {
     return new Promise((resolve) => {
@@ -32,7 +31,10 @@ class AIPlayer extends AsyncPlayer {
       currentPlayerIsMaxPlayer: true
     });
     // If max search depth was reached or if winning grid was found
-    if (depth === this.maxComputeDepth || Math.abs(gridScore) === Grid.maxScore) {
+    if (
+      depth === this.maxComputeDepth ||
+      Math.abs(gridScore) === Grid.maxScore
+    ) {
       return { column: null, score: gridScore };
     }
     const maxMove = { column: null, score: Grid.minScore };
@@ -44,8 +46,8 @@ class AIPlayer extends AsyncPlayer {
       // Clone the current grid and place a chip to generate a new permutation
       const nextGrid = new Grid(grid);
       nextGrid.placeChip({
-          column: c,
-          chip: new Chip({ player: this })
+        column: c,
+        chip: new Chip({ player: this })
       });
       // Minimize the opponent human player's chances of winning
       const minMove = this.minimizeMove({
@@ -75,7 +77,6 @@ class AIPlayer extends AsyncPlayer {
     return maxMove;
   }
 
-
   // Choose a column that will minimize the human player's chances of winning
   minimizeMove({ grid, minPlayer, depth, alpha, beta }) {
     const gridScore = grid.getScore({
@@ -83,7 +84,10 @@ class AIPlayer extends AsyncPlayer {
       currentPlayerIsMaxPlayer: false
     });
     // If max search depth was reached or if winning grid was found
-    if (depth === this.maxComputeDepth || Math.abs(gridScore) === Grid.maxScore) {
+    if (
+      depth === this.maxComputeDepth ||
+      Math.abs(gridScore) === Grid.maxScore
+    ) {
       return { column: null, score: gridScore };
     }
     const minMove = { column: null, score: Grid.maxScore };
@@ -95,8 +99,8 @@ class AIPlayer extends AsyncPlayer {
       const nextGrid = new Grid(grid);
       // The human playing against the AI is always the first player
       nextGrid.placeChip({
-          column: c,
-          chip: new Chip({ player: minPlayer })
+        column: c,
+        chip: new Chip({ player: minPlayer })
       });
       // Maximize the AI player's chances of winning
       const maxMove = this.maximizeMove({
@@ -119,7 +123,6 @@ class AIPlayer extends AsyncPlayer {
     }
     return minMove;
   }
-
 }
 
 AIPlayer.prototype.type = 'ai';

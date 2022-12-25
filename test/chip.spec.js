@@ -3,7 +3,6 @@ import Player from '../scripts/models/player.ts';
 import Chip from '../scripts/models/chip.ts';
 
 test.describe('chip', async () => {
-
   test('should initialize', async () => {
     const player = new Player({
       color: 'blue',
@@ -17,5 +16,4 @@ test.describe('chip', async () => {
     expect(chip).toHaveProperty('row', null);
     expect(chip).toHaveProperty('winning', false);
   });
-
 });

@@ -3,7 +3,6 @@ import m from 'mithril';
 import ClipboardJS from 'clipboard';
 
 class DashboardControlsComponent {
-
   oninit({ attrs: { game, session } }) {
     this.game = game;
     this.session = session;
@@ -89,10 +88,14 @@ class DashboardControlsComponent {
   addNewPlayerToGame(roomCode) {
     this.session.status = 'connecting';
     const submittedPlayer = { name: this.newPlayerName, color: 'blue' };
-    this.session.emit('add-player', { roomCode, player: submittedPlayer }, ({ game, localPlayer }) => {
-      this.game.restoreFromServer({ game, localPlayer });
-      m.redraw();
-    });
+    this.session.emit(
+      'add-player',
+      { roomCode, player: submittedPlayer },
+      ({ game, localPlayer }) => {
+        this.game.restoreFromServer({ game, localPlayer });
+        m.redraw();
+      }
+    );
   }
 
   startOnlineGame() {
@@ -101,10 +104,14 @@ class DashboardControlsComponent {
     // first player color
     const submittedPlayer = { name: this.newPlayerName, color: 'red' };
     // Request a new room and retrieve the room code returned from the server
-    this.session.emit('open-room', { player: submittedPlayer }, ({ roomCode, game, localPlayer }) => {
-      this.game.restoreFromServer({ game, localPlayer });
-      m.route.set(`/room/${roomCode}`);
-    });
+    this.session.emit(
+      'open-room',
+      { player: submittedPlayer },
+      ({ roomCode, game, localPlayer }) => {
+        this.game.restoreFromServer({ game, localPlayer });
+        m.route.set(`/room/${roomCode}`);
+      }
+    );
     if (window.ga) {
       ga('send', 'pageview');
     }
@@ -115,12 +122,16 @@ class DashboardControlsComponent {
 
   requestNewOnlineGame() {
     this.session.status = 'connecting';
-    this.session.emit('request-new-game', { winner: this.game.winner }, ({ localPlayer }) => {
-      if (this.session.status === 'requestingNewGame') {
-        this.game.requestingPlayer = localPlayer;
+    this.session.emit(
+      'request-new-game',
+      { winner: this.game.winner },
+      ({ localPlayer }) => {
+        if (this.session.status === 'requestingNewGame') {
+          this.game.requestingPlayer = localPlayer;
+        }
+        m.redraw();
       }
-      m.redraw();
-    });
+    );
   }
 
   configureCopyControl({ dom }) {
@@ -129,99 +140,157 @@ class DashboardControlsComponent {
 
   view({ attrs: { roomCode } }) {
     return m('div#dashboard-controls', [
-
       // Prompt a player to enter their name when starting an online game, or
       // when joining an existing game for the first time; the 'action'
       // attribute on the <form> element is necessary to show the Go button on
       // iOS keyboards
-      this.session.status === 'newPlayer' ? m('form[action]', {
-        onsubmit: (submitEvent) => this.submitNewPlayer(submitEvent, roomCode)
-      }, [
-        m('input[type=text][autocomplete=off]#new-player-name', {
-          name: 'new-player-name',
-          autofocus: true,
-          required: true,
-          oninput: (inputEvent) => this.setNewPlayerName(inputEvent)
-        }),
-        m('button[type=submit]', roomCode ? 'Join Game' : 'Start Game'),
-        !roomCode ? m('a.go-back[href=/]', 'Back') : null
-      ]) :
+      this.session.status === 'newPlayer'
+        ? m(
+            'form[action]',
+            {
+              onsubmit: (submitEvent) =>
+                this.submitNewPlayer(submitEvent, roomCode)
+            },
+            [
+              m('input[type=text][autocomplete=off]#new-player-name', {
+                name: 'new-player-name',
+                autofocus: true,
+                required: true,
+                oninput: (inputEvent) => this.setNewPlayerName(inputEvent)
+              }),
+              m('button[type=submit]', roomCode ? 'Join Game' : 'Start Game'),
+              !roomCode ? m('a.go-back[href=/]', 'Back') : null
+            ]
+          )
+        : this.session.status === 'waitingForPlayers'
+        ? [
+            m('div#share-controls', [
+              m('input[type=text][readonly]#share-link', {
+                value: window.location.href,
+                onclick: ({ target }) => target.select()
+              }),
+              m(
+                'button#copy-share-link',
+                {
+                  'data-clipboard-text': window.location.href,
+                  oncreate: ({ dom }) => this.configureCopyControl({ dom })
+                },
+                'Copy'
+              )
+            ]),
+            // If P1 is still waiting for players, offer P1 the option to close
+            // room
+            m('button.warn', { onclick: () => this.closeRoom() }, 'Close Room')
+          ]
+        : // If game is in progress, allow user to end game at any time
+        this.game.inProgress &&
+          this.session.status !== 'watchingGame' &&
+          !this.session.disconnected
+        ? m(
+            'button.warn',
+            {
+              onclick: () => this.endGame(roomCode)
+            },
+            'End Game'
+          )
+        : // If online game is not in progress, allow user to leave room
+        !this.game.inProgress &&
+          this.session.status !== 'watchingGame' &&
+          !this.session.disconnected &&
+          this.session.disconnectedPlayer
+        ? m(
+            'button.warn',
+            {
+              onclick: () => this.leaveRoom()
+            },
+            'Leave Room'
+          )
+        : // If room does not exist, allow user to return to app home
+        this.session.status === 'roomNotFound'
+        ? m(
+            'button',
+            {
+              onclick: () => this.returnToHome()
+            },
+            'Return to Home'
+          )
+        : // If an online game is not in progress (i.e. it was ended early, or there
+        // is a winner/tie), allow the user to play again
+        this.session.socket &&
+          this.game.players.length === 2 &&
+          this.session.status !== 'connecting' &&
+          this.session.status !== 'watchingGame' &&
+          !this.session.disconnectedPlayer &&
+          !this.session.reconnectedPlayer &&
+          !this.session.disconnected
+        ? [
+            // Play Again / Yes
+            m(
+              'button',
+              {
+                onclick: () => this.requestNewOnlineGame(),
+                disabled: this.session.status === 'requestingNewGame'
+              },
+              this.session.status === 'newGameRequested'
+                ? 'Yes!'
+                : this.session.status === 'requestingNewGame'
+                ? 'Pending'
+                : 'Play Again'
+            ),
 
-      this.session.status === 'waitingForPlayers' ? [
-        m('div#share-controls', [
-          m('input[type=text][readonly]#share-link', {
-            value: window.location.href,
-            onclick: ({ target }) => target.select()
-          }),
-          m('button#copy-share-link', {
-            'data-clipboard-text': window.location.href,
-            oncreate: ({ dom }) => this.configureCopyControl({ dom })
-          }, 'Copy')
-        ]),
-        // If P1 is still waiting for players, offer P1 the option to close
-        // room
-        m('button.warn', { onclick: () => this.closeRoom() }, 'Close Room')
-      ] :
-
-      // If game is in progress, allow user to end game at any time
-      this.game.inProgress && this.session.status !== 'watchingGame' && !this.session.disconnected ? m('button.warn', {
-        onclick: () => this.endGame(roomCode) }, 'End Game'
-      ) :
-
-      // If online game is not in progress, allow user to leave room
-      !this.game.inProgress && this.session.status !== 'watchingGame' && !this.session.disconnected && this.session.disconnectedPlayer ? m('button.warn', {
-        onclick: () => this.leaveRoom() }, 'Leave Room'
-      ) :
-
-      // If room does not exist, allow user to return to app home
-      this.session.status === 'roomNotFound' ? m('button', {
-        onclick: () => this.returnToHome() }, 'Return to Home'
-      ) :
-
-      // If an online game is not in progress (i.e. it was ended early, or there
-      // is a winner/tie), allow the user to play again
-      this.session.socket && this.game.players.length === 2 && this.session.status !== 'connecting' && this.session.status !== 'watchingGame' && !this.session.disconnectedPlayer && !this.session.reconnectedPlayer && !this.session.disconnected ? [
-
-        // Play Again / Yes
-        m('button', {
-          onclick: () => this.requestNewOnlineGame(),
-          disabled: this.session.status === 'requestingNewGame'
-        }, this.session.status === 'newGameRequested' ? 'Yes!' : this.session.status === 'requestingNewGame' ? 'Pending' : 'Play Again'),
-
-        // No Thanks
-        this.session.status !== 'requestingNewGame' ? m('button.warn', {
-          onclick: () => this.declineNewGame(),
-          disabled: this.session.status === 'requestingNewGame'
-        }, this.session.status === 'newGameRequested' ? 'Nah' : this.session.status !== 'requestingNewGame' ? 'No Thanks' : null) : null
-
-      ] :
-
-      !this.session.socket ? [
-
-        // If number of players has been chosen, ask user to choose starting player
-        this.game.type !== null ? [
-          this.game.players.map((player) => {
-            return m('button', {
-              onclick: () => this.startGame(player)
-            }, player.name);
-          }),
-          m('a.go-back[href=/]', 'Back')
-        ] :
-
-        // Select a number of human players
-        [
-          m('button', {
-            onclick: () => this.setPlayers({ gameType: '1P' })
-          }, '1 Player'),
-          m('button', {
-            onclick: () => this.promptToStartOnlineGame()
-          }, '2 Players')
-        ]
-
-      ] : null
+            // No Thanks
+            this.session.status !== 'requestingNewGame'
+              ? m(
+                  'button.warn',
+                  {
+                    onclick: () => this.declineNewGame(),
+                    disabled: this.session.status === 'requestingNewGame'
+                  },
+                  this.session.status === 'newGameRequested'
+                    ? 'Nah'
+                    : this.session.status !== 'requestingNewGame'
+                    ? 'No Thanks'
+                    : null
+                )
+              : null
+          ]
+        : !this.session.socket
+        ? [
+            // If number of players has been chosen, ask user to choose starting player
+            this.game.type !== null
+              ? [
+                  this.game.players.map((player) => {
+                    return m(
+                      'button',
+                      {
+                        onclick: () => this.startGame(player)
+                      },
+                      player.name
+                    );
+                  }),
+                  m('a.go-back[href=/]', 'Back')
+                ]
+              : // Select a number of human players
+                [
+                  m(
+                    'button',
+                    {
+                      onclick: () => this.setPlayers({ gameType: '1P' })
+                    },
+                    '1 Player'
+                  ),
+                  m(
+                    'button',
+                    {
+                      onclick: () => this.promptToStartOnlineGame()
+                    },
+                    '2 Players'
+                  )
+                ]
+          ]
+        : null
     ]);
   }
-
 }
 
 export default DashboardControlsComponent;

@@ -2,7 +2,6 @@ import { test, expect } from '@playwright/test';
 import HumanPlayer from '../scripts/models/human-player.ts';
 
 test.describe('human player', async () => {
-
   test('should initialize', async () => {
     const humanPlayer = new HumanPlayer({
       name: 'Super Player',
@@ -13,5 +12,4 @@ test.describe('human player', async () => {
     expect(humanPlayer).toHaveProperty('score', 0);
     expect(humanPlayer).toHaveProperty('type', 'human');
   });
-
 });

@@ -4,7 +4,6 @@ import Player from '../../scripts/models/player.ts';
 import Game from '../../scripts/models/game.js';
 
 test.describe('game', async () => {
-
   test('should initialize with no arguments', async () => {
     const game = new Game();
     expect(game).toHaveProperty('grid');
@@ -60,5 +59,4 @@ test.describe('game', async () => {
     expect(game.players[0].type).toEqual('human');
     expect(game.players[1].type).toEqual('human');
   });
-
 });

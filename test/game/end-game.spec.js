@@ -4,7 +4,6 @@ import Emitter from 'tiny-emitter';
 import Game from '../../scripts/models/game.js';
 
 test.describe('game', async () => {
-
   test('should end', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
@@ -22,20 +21,19 @@ test.describe('game', async () => {
   });
 
   test('should reset debug mode when ended', async () => {
-   const game = new Game({ debug: true });
-   game.setPlayers({ gameType: '2P' });
-   game.startGame();
-   sinon.stub(console, 'log');
-   try {
-     game.placePendingChip({ column: 2 });
-     expect(game.columnHistory).toHaveLength(1);
-     expect(game.columnHistory[0]).toEqual(2);
-   } finally {
+    const game = new Game({ debug: true });
+    game.setPlayers({ gameType: '2P' });
+    game.startGame();
+    sinon.stub(console, 'log');
+    try {
+      game.placePendingChip({ column: 2 });
+      expect(game.columnHistory).toHaveLength(1);
+      expect(game.columnHistory[0]).toEqual(2);
+    } finally {
       // eslint-disable-next-line no-console
-     console.log.restore();
-   }
-   game.endGame();
-   expect(game.columnHistory).toHaveLength(0);
+      console.log.restore();
+    }
+    game.endGame();
+    expect(game.columnHistory).toHaveLength(0);
   });
-
 });

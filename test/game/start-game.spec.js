@@ -4,7 +4,6 @@ import Emitter from 'tiny-emitter';
 import Game from '../../scripts/models/game.js';
 
 test.describe('game', async () => {
-
   test('should start', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
@@ -28,5 +27,4 @@ test.describe('game', async () => {
     expect(game.currentPlayer).toEqual(game.players[1]);
     expect(game.inProgress).toBe(true);
   });
-
 });

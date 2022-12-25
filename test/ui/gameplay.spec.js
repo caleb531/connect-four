@@ -1,9 +1,12 @@
 import { test, expect } from '@playwright/test';
 import { _before, _beforeEach, _afterEach } from './fixtures.js';
-import { clickGrid, hoverGrid, waitForPendingChipTransitionEnd } from './utils.js';
+import {
+  clickGrid,
+  hoverGrid,
+  waitForPendingChipTransitionEnd
+} from './utils.js';
 
 test.describe('game UI', async () => {
-
   test.beforeAll(_before);
   test.beforeEach(_beforeEach);
   test.afterEach(_afterEach);
@@ -82,5 +85,4 @@ test.describe('game UI', async () => {
     await waitForPendingChipTransitionEnd({ grid });
     await expect(grid).toHavePendingChipAt({ column: 3 });
   });
-
 });

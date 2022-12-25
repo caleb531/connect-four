@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import Game from '../../scripts/models/game.js';
 
 test.describe('game', async () => {
-
   test('should start turn', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
@@ -36,7 +35,9 @@ test.describe('game', async () => {
     await new Promise((resolve) => {
       setTimeout(() => {
         // Emitter event callbacks should have run at this point
-        expect(eventEmitted, 'async-player:get-next-move not emitted').toBe(true);
+        expect(eventEmitted, 'async-player:get-next-move not emitted').toBe(
+          true
+        );
         resolve();
       }, 100);
     });
@@ -50,5 +51,4 @@ test.describe('game', async () => {
     game.endTurn();
     expect(game.currentPlayer).toEqual(game.players[1]);
   });
-
 });

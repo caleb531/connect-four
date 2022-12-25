@@ -7,7 +7,6 @@ import type { ServerGrid } from './grid.d';
 import { Direction } from './grid-connection.d';
 
 class Grid {
-
   columnCount: number;
   rowCount: number;
   columns: PlacedChip[][];
@@ -16,7 +15,12 @@ class Grid {
   static minScore: typeof Number.NEGATIVE_INFINITY;
 
   // The state of a particular game grid
-  constructor({ columnCount, rowCount, columns = [], lastPlacedChip = null }: Partial<Grid> & Pick<Grid, 'columnCount' | 'rowCount'>) {
+  constructor({
+    columnCount,
+    rowCount,
+    columns = [],
+    lastPlacedChip = null
+  }: Partial<Grid> & Pick<Grid, 'columnCount' | 'rowCount'>) {
     this.columnCount = columnCount;
     this.rowCount = rowCount;
     // If existing grid object is passed to constructor, copy it
@@ -59,7 +63,7 @@ class Grid {
   }
 
   // Place the given chip into the specified column on the grid
-  placeChip({ chip, column }: { chip: Chip, column: number }) {
+  placeChip({ chip, column }: { chip: Chip; column: number }) {
     this.lastPlacedChip = chip as PlacedChip;
     chip.column = column;
     chip.row = this.columns[column].length - 1;
@@ -99,14 +103,24 @@ class Grid {
   }
 
   // Add a sub-connection (in the given direction) to a larger connection
-  addSubConnection(connection: GridConnection, baseChip: PlacedChip, direction: Direction): void {
+  addSubConnection(
+    connection: GridConnection,
+    baseChip: PlacedChip,
+    direction: Direction
+  ): void {
     const subConnection = this.getSubConnection(baseChip, direction);
     connection.addConnection(subConnection);
   }
 
   // Get all connections of four chips (including connections of four within
   // larger connections) which the last placed chip is apart of
-  getConnections({ baseChip, minConnectionSize }: { baseChip: PlacedChip, minConnectionSize: number }) {
+  getConnections({
+    baseChip,
+    minConnectionSize
+  }: {
+    baseChip: PlacedChip;
+    minConnectionSize: number;
+  }) {
     const connections: GridConnection[] = [];
     GridConnection.directions.forEach((direction) => {
       const connection = new GridConnection({ chips: [baseChip] });
@@ -126,7 +140,13 @@ class Grid {
 
   // Score connections connected to the given chip; the chip is assumed to
   // belong to the current player
-  getChipScore({ chip, currentPlayerIsMaxPlayer }: { chip: PlacedChip, currentPlayerIsMaxPlayer: boolean }) {
+  getChipScore({
+    chip,
+    currentPlayerIsMaxPlayer
+  }: {
+    chip: PlacedChip;
+    currentPlayerIsMaxPlayer: boolean;
+  }) {
     let gridScore = 0;
     // Search for current player's connections of one or more chips that are
     // connected to the empty slot
@@ -142,7 +162,9 @@ class Grid {
         gridScore = Grid.maxScore;
         break;
       } else if (connection.emptySlotCount >= 1) {
-        gridScore += Math.pow(connection.length, 2) + Math.pow(connection.emptySlotCount, 3);
+        gridScore +=
+          Math.pow(connection.length, 2) +
+          Math.pow(connection.emptySlotCount, 3);
       }
     }
     // Negate the grid score for any advantage the minimizing player has (as this
@@ -154,7 +176,13 @@ class Grid {
   }
 
   // Compute the grid's heuristic score for use by the AI player
-  getScore({ currentPlayer, currentPlayerIsMaxPlayer }: { currentPlayer: Player, currentPlayerIsMaxPlayer: boolean }) {
+  getScore({
+    currentPlayer,
+    currentPlayerIsMaxPlayer
+  }: {
+    currentPlayer: Player;
+    currentPlayerIsMaxPlayer: boolean;
+  }) {
     let gridScore = 0;
     let c, r;
     // Use native for loops instead of forEach because the function will need to
@@ -177,7 +205,13 @@ class Grid {
     return gridScore;
   }
 
-  restoreFromServer({ grid, players }: { grid: ServerGrid, players: Player[] }) {
+  restoreFromServer({
+    grid,
+    players
+  }: {
+    grid: ServerGrid;
+    players: Player[];
+  }) {
     const playersByColor = _.indexBy(players, 'color');
     this.columnCount = grid.columnCount;
     this.rowCount = grid.rowCount;
@@ -187,18 +221,20 @@ class Grid {
         // chip, rather than the player object itself; however, the client
         // expects Chip objects in the grid to have a direct reference to the
         // player object, so perform that conversion here
-        return new Chip(Object.assign(chip, {
-          player: playersByColor[chip.player]
-        })) as PlacedChip;
+        return new Chip(
+          Object.assign(chip, {
+            player: playersByColor[chip.player]
+          })
+        ) as PlacedChip;
       });
     });
     if (grid.lastPlacedChip) {
-      this.lastPlacedChip = this.columns[grid.lastPlacedChip.column][grid.lastPlacedChip.row];
+      this.lastPlacedChip =
+        this.columns[grid.lastPlacedChip.column][grid.lastPlacedChip.row];
     } else {
       this.lastPlacedChip = null;
     }
   }
-
 }
 
 // The maximum grid score possible (awarded for winning connections by the

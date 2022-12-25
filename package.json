@@ -9,6 +9,7 @@
     "dev": "esr server/index.js --open",
     "build": "vite build",
     "preview": "npm run build && NODE_ENV=production DISABLE_SSL=1 npm run dev",
+    "prettier": "prettier -w scripts server styles test vite.config.js",
     "lint": "eslint server/**/*.js scripts/**/*.js test/**/*.js",
     "test": "playwright test"
   },
@@ -55,6 +56,7 @@
     "autoprefixer": "^10.4.13",
     "eslint": "^8.30.0",
     "istanbul": "^0.4.5",
+    "prettier": "^2.8.1",
     "sass": "^1.57.1",
     "sinon": "^15.0.1",
     "sinon-chai": "^3.7.0",

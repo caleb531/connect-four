@@ -4,7 +4,6 @@ import GameComponent from './game.js';
 import UpdateNotificationComponent from './update-notification.js';
 
 class AppComponent {
-
   oninit({ attrs = { roomCode: null } }) {
     this.session = new Session({
       url: window.location.origin,
@@ -17,7 +16,10 @@ class AppComponent {
       // The UpdateNotificationComponent manages its own visibility
       m(UpdateNotificationComponent),
       m('span#personal-site-link.nav-link.nav-link-left', [
-        m('a[href="https://github.com/caleb531/connect-four"]', 'View on GitHub')
+        m(
+          'a[href="https://github.com/caleb531/connect-four"]',
+          'View on GitHub'
+        )
       ]),
       m('span#github-link.nav-link.nav-link-right', [
         'by ',
@@ -26,7 +28,6 @@ class AppComponent {
       m(GameComponent, { session: this.session, roomCode: attrs.roomCode })
     ]);
   }
-
 }
 
 export default AppComponent;

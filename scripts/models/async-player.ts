@@ -6,7 +6,6 @@ import { AsyncPlayerMove } from './async-player.d';
 // rather, by a asynchronous getNextMove method that AsyncPlayer subclasses
 // define
 class AsyncPlayer extends Player {
-
   type: string;
   waitDelay: number;
 
@@ -21,9 +20,10 @@ class AsyncPlayer extends Player {
   // integer column in which to place the player's next chip; all AsyncPlayer
   // subclasses must implement this method
   getNextMove({ game }: { game: Game }): Promise<AsyncPlayerMove> {
-    throw new Error('This method must be implemented by a subclass of AsyncPlayer; it must return a promise which resolves when the async player\'s next move has finished computing');
+    throw new Error(
+      "This method must be implemented by a subclass of AsyncPlayer; it must return a promise which resolves when the async player's next move has finished computing"
+    );
   }
-
 }
 // Each AsyncPlayer subclass should override this type property with a string
 // value unique to that subclass

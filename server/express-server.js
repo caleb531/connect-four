@@ -12,9 +12,10 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // Ensure that we serve the correct index.html path depending upon the
 // environment/context
-const indexPath = process.env.NODE_ENV === 'production'
-  ? path.join(path.dirname(__dirname), 'dist', 'index.html')
-  : path.join(path.dirname(__dirname), 'index.html');
+const indexPath =
+  process.env.NODE_ENV === 'production'
+    ? path.join(path.dirname(__dirname), 'dist', 'index.html')
+    : path.join(path.dirname(__dirname), 'index.html');
 
 // Transform page HTML using both EJS and Vite
 async function transformHtml(vite, req, res, htmlPath, params) {
@@ -28,7 +29,6 @@ async function transformHtml(vite, req, res, htmlPath, params) {
 
 // Express server
 async function createExpressServer() {
-
   const app = express();
 
   // Use EJS as view engine, regardless of file extension (i.e. we need
@@ -41,23 +41,46 @@ async function createExpressServer() {
     app.enable('trust proxy');
     app.use(expressEnforcesSSL());
   }
-  app.use(helmet({
-    contentSecurityPolicy: {
-      useDefaults: true,
-      directives: {
-        /* eslint-disable quotes */
-        'default-src': ["'none'"],
-        'style-src': ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com" ],
-        'img-src': ["'self'", 'https://www.google-analytics.com', 'https://www.googletagmanager.com'],
-        'font-src': ["'self'", 'https://*.gstatic.com', 'data:'],
-        'script-src': ["'self'", "'unsafe-inline'", 'https://storage.googleapis.com', 'https://www.google-analytics.com', 'https://www.googletagmanager.com'],
-        'child-src': ["'self'"],
-        'connect-src': ["'self'", "ws:", "wss:", "http://localhost:24678", "https://www.google-analytics.com", 'https://www.googletagmanager.com'],
-        'manifest-src': ["'self'"]
-        /* eslint-enable quotes */
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        useDefaults: true,
+        directives: {
+          /* eslint-disable quotes */
+          'default-src': ["'none'"],
+          'style-src': [
+            "'self'",
+            "'unsafe-inline'",
+            'https://fonts.googleapis.com'
+          ],
+          'img-src': [
+            "'self'",
+            'https://www.google-analytics.com',
+            'https://www.googletagmanager.com'
+          ],
+          'font-src': ["'self'", 'https://*.gstatic.com', 'data:'],
+          'script-src': [
+            "'self'",
+            "'unsafe-inline'",
+            'https://storage.googleapis.com',
+            'https://www.google-analytics.com',
+            'https://www.googletagmanager.com'
+          ],
+          'child-src': ["'self'"],
+          'connect-src': [
+            "'self'",
+            'ws:',
+            'wss:',
+            'http://localhost:24678',
+            'https://www.google-analytics.com',
+            'https://www.googletagmanager.com'
+          ],
+          'manifest-src': ["'self'"]
+          /* eslint-enable quotes */
+        }
       }
-    }
-  }));
+    })
+  );
 
   // Serve assets using gzip compression
   app.use(compression());
@@ -88,13 +111,13 @@ async function createExpressServer() {
   app.get('/room/:roomCode', async (req, res) => {
     const room = roomManager.getRoom(req.params.roomCode);
     if (room) {
-      const inviteeName = (room.players[0] ? room.players[0].name : 'Someone');
+      const inviteeName = room.players[0] ? room.players[0].name : 'Someone';
       await transformHtml(vite, req, res, indexPath, {
         pageTitle: `${inviteeName} invited you to play!`
       });
     } else {
       await transformHtml(vite, req, res, indexPath, {
-        pageTitle: 'Room doesn\'t exist'
+        pageTitle: "Room doesn't exist"
       });
     }
   });

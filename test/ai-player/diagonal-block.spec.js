@@ -4,7 +4,6 @@ import utils from './utils.js';
 import Game from '../../scripts/models/game.js';
 
 test.describe('AI player', async () => {
-
   test('should block diagonal opponent win (#1)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
@@ -28,5 +27,4 @@ test.describe('AI player', async () => {
       expect(nextMove.column).toEqual(5);
     });
   });
-
 });

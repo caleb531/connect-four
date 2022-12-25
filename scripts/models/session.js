@@ -2,7 +2,6 @@
 import io from 'socket.io-client';
 
 class Session {
-
   constructor({ url, roomCode }) {
     this.url = url;
     this.roomCode = roomCode;
@@ -66,12 +65,18 @@ class Session {
 
   emit(eventName, data = {}, callback) {
     if (this.socket) {
-      data = Object.assign({ roomCode: this.roomCode, playerId: this.localPlayerId }, data);
+      data = Object.assign(
+        { roomCode: this.roomCode, playerId: this.localPlayerId },
+        data
+      );
       this.socket.emit(eventName, data, (args = {}) => {
         this.processArgs(args, callback);
       });
     } else {
-      this.callQueue.push({ method: 'emit', args: [eventName, data, callback] });
+      this.callQueue.push({
+        method: 'emit',
+        args: [eventName, data, callback]
+      });
     }
   }
 
@@ -90,7 +95,6 @@ class Session {
       callback(args);
     }
   }
-
 }
 
 export default Session;

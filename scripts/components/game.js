@@ -8,12 +8,11 @@ import ReactionPickerComponent from './reaction-picker.js';
 
 // The game UI, encompassing all UI pertaining to the game directly
 class GameComponent {
-
   oninit({ attrs: { session, roomCode } }) {
     this.session = session;
     this.game = new Game({
       // Only enable debug mode on non-production sites
-      debug: (window.location.host !== 'connectfour.calebevans.me')
+      debug: window.location.host !== 'connectfour.calebevans.me'
     });
     if (roomCode) {
       this.session.connect();
@@ -102,25 +101,33 @@ class GameComponent {
   }
 
   view({ attrs: { roomCode } }) {
-    return m('div#game', {
-      class: classNames({ 'in-progress': this.game.inProgress })
-    }, [
-      m('div.game-column', [
-        m('h1', 'Connect Four'),
-        m(DashboardComponent, {
-          game: this.game,
-          session: this.session,
-          roomCode
-        })
-      ]),
-      m('div.game-column', [
-        m(GridComponent, { game: this.game, session: this.session }),
-        m(PlayerAreaComponent, { game: this.game, session: this.session }),
-        this.session.connected && this.game.players.length === 2 ? m(ReactionPickerComponent, { game: this.game, session: this.session }) : null
-      ])
-    ]);
+    return m(
+      'div#game',
+      {
+        class: classNames({ 'in-progress': this.game.inProgress })
+      },
+      [
+        m('div.game-column', [
+          m('h1', 'Connect Four'),
+          m(DashboardComponent, {
+            game: this.game,
+            session: this.session,
+            roomCode
+          })
+        ]),
+        m('div.game-column', [
+          m(GridComponent, { game: this.game, session: this.session }),
+          m(PlayerAreaComponent, { game: this.game, session: this.session }),
+          this.session.connected && this.game.players.length === 2
+            ? m(ReactionPickerComponent, {
+                game: this.game,
+                session: this.session
+              })
+            : null
+        ])
+      ]
+    );
   }
-
 }
 
 // The duration (in ms) the 'reconnected player' message will show before the

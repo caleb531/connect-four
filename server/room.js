@@ -4,7 +4,6 @@ import Player from './player.ts';
 import Game from './game.js';
 
 class Room {
-
   constructor({ code, players = [], game = new Game({ players }) }) {
     this.code = code;
     this.players = players;
@@ -34,7 +33,8 @@ class Room {
   }
 
   connectPlayer({ playerId, socket }) {
-    const player = this.getPlayerById(playerId) || this.getFirstDisconnectedPlayer();
+    const player =
+      this.getPlayerById(playerId) || this.getFirstDisconnectedPlayer();
     if (player) {
       player.socket = socket;
       socket.player = player;
@@ -66,7 +66,6 @@ class Room {
       .add(Room.abandonmentThreshold)
       .isSameOrBefore(moment());
   }
-
 }
 
 // The number of minutes a room can be inactive before it is considered

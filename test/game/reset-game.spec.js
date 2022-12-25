@@ -2,7 +2,6 @@ import { test, expect } from '@playwright/test';
 import Game from '../../scripts/models/game.js';
 
 test.describe('game', async () => {
-
   test('should reset grid when resetting', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
@@ -33,5 +32,4 @@ test.describe('game', async () => {
     game.resetGame();
     expect(game.pendingChip).toBe(null);
   });
-
 });

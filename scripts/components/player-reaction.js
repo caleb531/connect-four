@@ -2,14 +2,15 @@ import m from 'mithril';
 import classNames from '../classnames.js';
 
 class PlayerReactionComponent {
-
   oninit({ attrs: { session, player } }) {
     this.player = player;
     session.on('send-reaction', ({ reactingPlayer, reaction }) => {
       if (reactingPlayer.color === this.player.color) {
         // Immediately update the reaction if another reaction was sent before
         // the current reaction disappears
-        clearTimeout(this.player.lastReaction ? this.player.lastReaction.timer : null);
+        clearTimeout(
+          this.player.lastReaction ? this.player.lastReaction.timer : null
+        );
         this.player.lastReaction = reaction;
         // The reaction should disappear after the specified duration
         this.player.lastReaction.timer = setTimeout(() => {
@@ -32,11 +33,19 @@ class PlayerReactionComponent {
   }
 
   view({ attrs: { player } }) {
-    return m('div.player-reaction', m('div.player-reaction-symbol', {
-      class: classNames({ 'show': player.lastReaction && player.lastReaction.timer })
-    }, player.lastReaction ? player.lastReaction.symbol : null));
+    return m(
+      'div.player-reaction',
+      m(
+        'div.player-reaction-symbol',
+        {
+          class: classNames({
+            show: player.lastReaction && player.lastReaction.timer
+          })
+        },
+        player.lastReaction ? player.lastReaction.symbol : null
+      )
+    );
   }
-
 }
 
 // The duration a reaction is shown before disappearing

@@ -19,6 +19,7 @@ specifiers:
   mithril: ^2.2.2
   moment: ^2.29.4
   open: ^8.4.0
+  prettier: ^2.8.1
   sass: ^1.57.1
   sinon: ^15.0.1
   sinon-chai: ^3.7.0
@@ -63,6 +64,7 @@ devDependencies:
   autoprefixer: 10.4.13_postcss@8.4.20
   eslint: 8.30.0
   istanbul: 0.4.5
+  prettier: 2.8.1
   sass: 1.57.1
   sinon: 15.0.1
   sinon-chai: 3.7.0_chai@4.3.7+sinon@15.0.1
@@ -3434,6 +3436,12 @@ packages:
   /prelude-ls/1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
+    dev: true
+
+  /prettier/2.8.1:
+    resolution: {integrity: sha512-lqGoSJBQNJidqCHE80vqZJHWHRFoNYsSpP9AjFhlhi9ODCJA541svILes/+/1GM3VaL/abZi7cpFzOpdR9UPKg==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
     dev: true
 
   /pretty-bytes/5.6.0:

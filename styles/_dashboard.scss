@@ -3,7 +3,8 @@
   // Prevent grid from shifting awkwardly when game controls disappear/reappear
   min-height: 60px;
   margin-bottom: 10px;
-  label, button {
+  label,
+  button {
     display: inline-block;
     margin: 0 6px;
     font-size: $dashboard-text-size;

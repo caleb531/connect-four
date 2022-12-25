@@ -4,7 +4,6 @@ import { AsyncPlayerMove } from './async-player.d';
 
 // An online player whose moves are determined by a remote human user
 class OnlinePlayer extends AsyncPlayer {
-
   type: 'online';
   waitDelay: number;
 
@@ -20,7 +19,6 @@ class OnlinePlayer extends AsyncPlayer {
       });
     });
   }
-
 }
 
 OnlinePlayer.prototype.type = 'online';
