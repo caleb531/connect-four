@@ -1,11 +1,16 @@
+import AsyncPlayer from './async-player';
+import { AsyncPlayerMove } from './async-player.d';
+import Chip from './chip';
 import type Game from './game.js';
 import Grid from './grid.js';
-import AsyncPlayer from './async-player';
-import Chip from './chip';
-import { AsyncPlayerMove } from './async-player.d';
+import type Player from './player';
 
 // An AI player that can think for itself
 class AIPlayer extends AsyncPlayer {
+  type: 'ai';
+  waitDelay: number;
+  maxComputeDepth: number;
+
   // Compute the column where the AI player should place its next chip
   getNextMove({ game }: { game: Game }): Promise<AsyncPlayerMove> {
     return new Promise((resolve) => {
@@ -25,7 +30,19 @@ class AIPlayer extends AsyncPlayer {
   }
 
   // Choose a column that will maximize the AI player's chances of winning
-  maximizeMove({ grid, minPlayer, depth, alpha, beta }) {
+  maximizeMove({
+    grid,
+    minPlayer,
+    depth,
+    alpha,
+    beta
+  }: {
+    grid: Grid;
+    minPlayer: Player;
+    depth: number;
+    alpha: number;
+    beta: number;
+  }) {
     const gridScore = grid.getScore({
       currentPlayer: this,
       currentPlayerIsMaxPlayer: true
@@ -35,9 +52,9 @@ class AIPlayer extends AsyncPlayer {
       depth === this.maxComputeDepth ||
       Math.abs(gridScore) === Grid.maxScore
     ) {
-      return { column: null, score: gridScore };
+      return { column: null, score: gridScore } as AsyncPlayerMove;
     }
-    const maxMove = { column: null, score: Grid.minScore };
+    const maxMove: AsyncPlayerMove = { column: null, score: Grid.minScore };
     for (let c = 0; c < grid.columnCount; c += 1) {
       // Continue to next possible move if this column is full
       if (grid.columns[c].length === grid.rowCount) {
@@ -78,7 +95,19 @@ class AIPlayer extends AsyncPlayer {
   }
 
   // Choose a column that will minimize the human player's chances of winning
-  minimizeMove({ grid, minPlayer, depth, alpha, beta }) {
+  minimizeMove({
+    grid,
+    minPlayer,
+    depth,
+    alpha,
+    beta
+  }: {
+    grid: Grid;
+    minPlayer: Player;
+    depth: number;
+    alpha: number;
+    beta: number;
+  }) {
     const gridScore = grid.getScore({
       currentPlayer: minPlayer,
       currentPlayerIsMaxPlayer: false
@@ -88,9 +117,9 @@ class AIPlayer extends AsyncPlayer {
       depth === this.maxComputeDepth ||
       Math.abs(gridScore) === Grid.maxScore
     ) {
-      return { column: null, score: gridScore };
+      return { column: null, score: gridScore } as AsyncPlayerMove;
     }
-    const minMove = { column: null, score: Grid.maxScore };
+    const minMove: AsyncPlayerMove = { column: null, score: Grid.maxScore };
     for (let c = 0; c < grid.columnCount; c += 1) {
       // Continue to next possible move if this column is full
       if (grid.columns[c].length === grid.rowCount) {

@@ -64,7 +64,7 @@ class Game {
         column,
         player: this.currentPlayer.color
       });
-      this.currentPlayer = this.getOtherPlayer();
+      this.currentPlayer = this.getOtherPlayer(this.currentPlayer);
     }
   }
 

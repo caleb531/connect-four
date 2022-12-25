@@ -1,6 +1,6 @@
 // A connection of one or more chips on a grid, including information about
 import Chip from './chip';
-import { Direction } from './grid-connection';
+import { Direction } from './grid-connection.d';
 
 // neighboring empty slots and such
 class GridConnection {

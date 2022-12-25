@@ -1,27 +1,30 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
+import AIPlayer from './ai-player';
+import AsyncPlayer from './async-player';
+import Chip from './chip';
+import type { ServerGame } from './game.d';
 import Grid from './grid.js';
 import HumanPlayer from './human-player';
 import OnlinePlayer from './online-player';
-import AIPlayer from './ai-player';
-import Chip from './chip';
+import type Player from './player';
 
 type GameType = '1P' | '2P' | 'online' | null;
-type SupportedPlayerTypes = HumanPlayer | AIPlayer | OnlinePlayer;
 
 // A game between two players; the same Game instance is re-used for successive
 // rounds
 class Game extends TypedEmitter {
   grid: Grid;
-  players: SupportedPlayerTypes[];
+  players: Player[];
   type: GameType;
   lastType: GameType;
-  currentPlayer: SupportedPlayerTypes | null;
+  currentPlayer: Player | null;
   inProgress: boolean;
   pendingChip: Chip | null;
-  winner: SupportedPlayerTypes | null;
-  requestingPlayer: SupportedPlayerTypes | null;
+  winner: Player | null;
+  requestingPlayer: Player | null;
   debug: boolean;
   columnHistory?: number[];
+  static winningConnectionSize: number;
 
   constructor(
     {
@@ -66,7 +69,7 @@ class Game extends TypedEmitter {
   }
 
   startGame(
-    { startingPlayer }: { startingPlayer: SupportedPlayerTypes | null } = {
+    { startingPlayer }: { startingPlayer: Player | null } = {
       startingPlayer: null
     }
   ) {
@@ -107,8 +110,8 @@ class Game extends TypedEmitter {
     localPlayer = null
   }: Partial<{
     gameType: GameType;
-    players: SupportedPlayerTypes[];
-    localPlayer: SupportedPlayerTypes | null;
+    players: Player[];
+    localPlayer: Player | null;
   }> & { gameType: GameType }) {
     // Instantiate new players as needed (if user is about to play the first game
     // or if the user is switching modes)
@@ -147,8 +150,10 @@ class Game extends TypedEmitter {
   }
 
   // Retrieve the player that isn't the given player
-  getOtherPlayer(basePlayer: SupportedPlayerTypes | null = this.currentPlayer) {
-    return this.players.find((player) => player.color !== basePlayer?.color);
+  getOtherPlayer(basePlayer: Player) {
+    return this.players.find(
+      (player) => player.color !== basePlayer?.color
+    ) as Player; // There are guaranteed to be at least two players
   }
 
   // Start the turn of the current player
@@ -157,7 +162,7 @@ class Game extends TypedEmitter {
       return;
     }
     this.pendingChip = new Chip({ player: this.currentPlayer });
-    if (this.currentPlayer.getNextMove) {
+    if (this.currentPlayer instanceof AsyncPlayer) {
       this.currentPlayer.getNextMove({ game: this }).then((nextMove) => {
         this.emit('async-player:get-next-move', {
           player: this.currentPlayer,
@@ -169,7 +174,7 @@ class Game extends TypedEmitter {
 
   // End the turn of the current player and switch to the next player
   endTurn() {
-    if (this.inProgress) {
+    if (this.inProgress && this.currentPlayer) {
       // Switch to next player's turn
       this.currentPlayer = this.getOtherPlayer(this.currentPlayer);
       this.startTurn();
@@ -177,13 +182,16 @@ class Game extends TypedEmitter {
   }
 
   // Insert the current pending chip into the columns array at the given index
-  placePendingChip({ column }) {
+  placePendingChip({ column }: { column: number }) {
+    if (!this.pendingChip) {
+      return;
+    }
     this.grid.placeChip({
       chip: this.pendingChip,
       column
     });
     this.emit('player:place-chip', this.grid.lastPlacedChip);
-    if (this.debug) {
+    if (this.debug && this.columnHistory) {
       this.columnHistory.push(column);
       // The column history will only be logged on non-production sites, so we
       // can safely disable the ESLint error
@@ -236,7 +244,13 @@ class Game extends TypedEmitter {
   // Apply the given server game JSON to the current game instance, taking into
   // account which player is the local (human) player and which player is the
   // online player
-  restoreFromServer({ game, localPlayer = {} }) {
+  restoreFromServer({
+    game,
+    localPlayer = null
+  }: {
+    game: ServerGame;
+    localPlayer: Player | null;
+  }) {
     this.inProgress = game.inProgress;
     this.players.length = 0;
 
@@ -247,14 +261,14 @@ class Game extends TypedEmitter {
     });
     // Remove the event listener for any leftover (unresolved)
     // OnlinePlayer.getNextMove() promise
-    this.off('online-player:receive-next-move');
+    this.removeAllListeners('online-player:receive-next-move');
 
-    this.currentPlayer = this.players.find(
-      (player) => player.color === game.currentPlayer
-    );
-    this.requestingPlayer = this.players.find(
-      (player) => player.color === game.requestingPlayer
-    );
+    this.currentPlayer =
+      this.players.find((player) => player.color === game.currentPlayer) ||
+      null;
+    this.requestingPlayer =
+      this.players.find((player) => player.color === game.requestingPlayer) ||
+      null;
 
     this.grid.restoreFromServer({
       grid: game.grid,

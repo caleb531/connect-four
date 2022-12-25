@@ -1,4 +1,4 @@
 export interface AsyncPlayerMove {
-  column: number;
+  column: number | null;
   score: number;
 }

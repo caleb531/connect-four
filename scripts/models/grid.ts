@@ -1,10 +1,10 @@
 import _ from 'underscore';
-import GridConnection from './grid-connection.js';
 import Chip from './chip';
 import type { PlacedChip } from './chip.d';
-import type Player from './player';
-import type { ServerGrid } from './grid.d';
 import { Direction } from './grid-connection.d';
+import GridConnection from './grid-connection.js';
+import type { ServerGrid } from './grid.d';
+import type Player from './player';
 
 class Grid {
   columnCount: number;
@@ -64,10 +64,10 @@ class Grid {
 
   // Place the given chip into the specified column on the grid
   placeChip({ chip, column }: { chip: Chip; column: number }) {
-    this.lastPlacedChip = chip as PlacedChip;
     chip.column = column;
     chip.row = this.columns[column].length - 1;
     this.columns[column].push(chip as PlacedChip);
+    this.lastPlacedChip = chip as PlacedChip;
   }
 
   // Find same-color neighbors connected to the given chip in the given direction
