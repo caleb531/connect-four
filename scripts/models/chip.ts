@@ -1,4 +1,5 @@
 import Player from './player';
+import { Optional } from 'utility-types';
 
 // An individual chip/checker that can be placed on a game grid; each chip
 // belongs to a single player
@@ -9,7 +10,7 @@ class Chip {
   row: number | null;
   winning: boolean;
 
-  constructor({ player, column = null, row = null, winning = false }: Chip) {
+  constructor({ player, column = null, row = null, winning = false }: Pick<Chip, 'player'> & Optional<Chip, 'column' | 'row' | 'winning'>) {
     // A reference to the player who placed this chip
     this.player = player;
     // The index of the column on the grid where this chip was placed

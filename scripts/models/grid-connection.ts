@@ -1,6 +1,6 @@
 // A connection of one or more chips on a grid, including information about
 import Chip from './chip';
-import { Direction } from './grid.d';
+import { Direction } from './grid-connection';
 
 // neighboring empty slots and such
 class GridConnection {
@@ -9,7 +9,7 @@ class GridConnection {
     emptySlotCount: number;
     static directions: Direction[];
 
-    constructor({ chips = [], emptySlotCount = 0 }: Partial<GridConnection>= { chips: [], emptySlotCount: 0 }) {
+    constructor({ chips = [], emptySlotCount = 0 }: Partial<GridConnection> = { chips: [], emptySlotCount: 0 }) {
       this.chips = [...chips];
       this.emptySlotCount = emptySlotCount;
     }

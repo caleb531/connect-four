@@ -1,4 +1,6 @@
-export interface Direction {
-  x: 0 | 1 | -1;
-  y: 0 | 1 | -1;
-};
+import type Grid from './Grid';
+import type { ServerChip } from './chip.d';
+
+export interface ServerGrid extends Grid {
+  columns: ServerChip[][];
+}

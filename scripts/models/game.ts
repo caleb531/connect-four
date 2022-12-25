@@ -124,12 +124,15 @@ class Game extends TypedEmitter {
   }
 
   // Retrieve the player that isn't the given player
-  getOtherPlayer(basePlayer = this.currentPlayer) {
-    return this.players.find((player) => player.color !== basePlayer.color);
+  getOtherPlayer(basePlayer: SupportedPlayerTypes | null = this.currentPlayer) {
+    return this.players.find((player) => player.color !== basePlayer?.color);
   }
 
   // Start the turn of the current player
   startTurn() {
+    if (!this.currentPlayer) {
+      return;
+    }
     this.pendingChip = new Chip({ player: this.currentPlayer });
     if (this.currentPlayer.getNextMove) {
       this.currentPlayer.getNextMove({ game: this }).then((nextMove) => {

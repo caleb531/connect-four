@@ -7,7 +7,7 @@ import { AsyncPlayerMove } from './async-player.d';
 // define
 class AsyncPlayer extends Player {
 
-  type: 'async';
+  type: string;
   waitDelay: number;
 
   // Wait for a short moment to give the user time to see and process the
