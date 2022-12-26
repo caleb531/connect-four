@@ -3,6 +3,7 @@ import { Reaction } from './player.d';
 // An abstract base model representing a player in a game
 class Player {
   name: string;
+  type: string;
   color: 'black' | 'blue' | 'red';
   score: number;
   connected: boolean;
@@ -32,5 +33,6 @@ class Player {
     this.lastReaction = lastReaction;
   }
 }
+Player.prototype.type = 'player';
 
 export default Player;

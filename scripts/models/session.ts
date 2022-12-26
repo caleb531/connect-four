@@ -71,7 +71,7 @@ class Session {
     }
   }
 
-  on(eventName: string, callback: () => void) {
+  on(eventName: string, callback: (args: any) => void) {
     if (this.socket) {
       this.socket.on(eventName, (args = {}) => {
         this.processArgs(args, callback);
@@ -81,7 +81,7 @@ class Session {
     }
   }
 
-  emit(eventName: string, data: object = {}, callback: () => void) {
+  emit(eventName: string, data: object = {}, callback?: () => void) {
     if (this.socket) {
       data = Object.assign(
         { roomCode: this.roomCode, playerId: this.localPlayerId },

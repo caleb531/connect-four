@@ -1,12 +1,26 @@
 import m from 'mithril';
-import _ from 'underscore';
 import { TypedEmitter } from 'tiny-typed-emitter';
+import _ from 'underscore';
 import classNames from '../classnames.js';
+import type Game from '../models/game';
+import type Grid from '../models/grid';
+import type Session from '../models/session';
+import { Attrs } from './types.d';
 
 // The grid UI, including the pending chip (i.e. the chip to be placed), as well
 // as all chips currently placed on the grid
 class GridComponent extends TypedEmitter {
-  oninit({ attrs: { game, session } }) {
+  game: Game;
+  session: Session;
+  grid: Grid;
+  chipWidth: number | null;
+  pendingChipColumn?: number;
+  pendingChipRow?: number;
+  transitionPendingChipX: boolean;
+  transitionPendingChipY: boolean;
+  oninit({
+    attrs: { game, session }
+  }: Attrs<{ game: Game; session: Session }>) {
     this.game = game;
     this.session = session;
     this.grid = this.game.grid;
@@ -19,7 +33,7 @@ class GridComponent extends TypedEmitter {
       });
     });
     // Listen for when the opponent moves their pending chip
-    this.session.on('align-pending-chip', ({ column }) => {
+    this.session.on('align-pending-chip', ({ column }: { column: number }) => {
       if (!this.transitionPendingChipY) {
         this.alignPendingChipWithColumn({ column });
         m.redraw();
@@ -70,7 +84,7 @@ class GridComponent extends TypedEmitter {
   }
 
   // Get the CSS translate string for the given coordinate map
-  getTranslate({ column, row }) {
+  getTranslate({ column, row }: { column: number; row: number }) {
     return (
       'translate(' +
       column * 100 +
@@ -84,7 +98,7 @@ class GridComponent extends TypedEmitter {
   getChipWidth() {
     // Cache the width to eliminate successive superfluous reflows
     if (!this.chipWidth) {
-      const gridElem = document.getElementById('grid');
+      const gridElem = document.getElementById('grid')!;
       this.chipWidth = gridElem.offsetWidth / this.grid.columnCount;
     }
     return this.chipWidth;
@@ -92,10 +106,11 @@ class GridComponent extends TypedEmitter {
 
   // Get the index of the last visited column (the column where the cursor was
   // last at or where the last chip was dropped)
-  getLastVisitedColumn(mouseEvent) {
+  getLastVisitedColumn(mouseEvent: MouseEvent) {
     const chipWidth = this.getChipWidth();
+    const gridElem = mouseEvent.currentTarget! as HTMLElement;
     let column = Math.floor(
-      (mouseEvent.pageX - mouseEvent.currentTarget.offsetLeft) / chipWidth
+      (mouseEvent.pageX - gridElem.offsetLeft) / chipWidth
     );
     column = Math.max(0, column);
     column = Math.min(column, this.grid.columnCount - 1);
@@ -104,19 +119,27 @@ class GridComponent extends TypedEmitter {
 
   // Run the given callback when the next (and only the very next) pending
   // chip transition finishes
-  waitForPendingChipTransitionEnd(callback) {
-    this.off('pending-chip:transition-end');
+  waitForPendingChipTransitionEnd(callback: () => void) {
+    this.removeAllListeners('pending-chip:transition-end');
     this.once('pending-chip:transition-end', callback);
   }
 
   // Write the alignPendingChip event emitter as a separate function so it can
   // be throttled for performance
-  emitAlignEvent({ column }) {
+  emitAlignEvent({ column }: { column: number }) {
     this.session.emit('align-pending-chip', { column });
   }
 
   // Horizontally align the pending chip with the specified column
-  alignPendingChipWithColumn({ column, transitionEnd, emit = false }) {
+  alignPendingChipWithColumn({
+    column,
+    transitionEnd = null,
+    emit = false
+  }: {
+    column: number;
+    transitionEnd?: (() => void) | null;
+    emit?: boolean;
+  }) {
     // The last visited column is the grid column nearest to the cursor at
     // any given instant; keep track of the column's X position so the next
     // pending chip can instantaneously appear there
@@ -141,10 +164,10 @@ class GridComponent extends TypedEmitter {
   }
 
   // Align the pending chip with the column nearest to the user's cursor
-  alignPendingChipViaPointer(mousemoveEvent) {
+  alignPendingChipViaPointer(mousemoveEvent: MouseEvent) {
     if (
       this.game.pendingChip &&
-      this.game.currentPlayer.type === 'human' &&
+      this.game.currentPlayer?.type === 'human' &&
       !this.transitionPendingChipY
     ) {
       this.alignPendingChipWithColumn({
