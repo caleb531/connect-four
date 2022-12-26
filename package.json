@@ -49,7 +49,6 @@
     "@playwright/test": "^1.29.0",
     "autoprefixer": "^10.4.13",
     "eslint": "^8.30.0",
-    "istanbul": "^0.4.5",
     "sass": "^1.57.1",
     "sinon": "^15.0.1",
     "sinon-chai": "^3.7.0",
