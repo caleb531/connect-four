@@ -1,3 +1,7 @@
+# This Dockerfile is necessary because DigitalOcean's node buildpack does not
+# support pnpm (only npm/yarn); to work around this, we must containerize the
+# application ourselves, which allows us to install pnpm without issue
+
 # Base image
 FROM node:16-alpine
 RUN apk update && apk add --no-cache libc6-compat
