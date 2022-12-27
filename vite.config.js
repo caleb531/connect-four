@@ -13,6 +13,16 @@ export default defineConfig({
         // file is automatically precached by Vite PWA (i.e. there is no need to
         // include *.webmanifest in the glob patterns list here)
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        // Include Google Fonts in service worker cache
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/fonts.(?:googleapis|gstatic).com\/(.*)/,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'google-fonts'
+            }
+          }
+        ],
         // A nice-to-have optimization for purging old cache entries after the
         // service worker has updated; see:
         // <https://vite-pwa-org.netlify.app/guide/prompt-for-update.html#cleanup-outdated-caches>
