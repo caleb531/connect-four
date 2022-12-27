@@ -17,9 +17,12 @@ export default defineConfig({
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/fonts.(?:googleapis|gstatic).com\/(.*)/,
-            handler: 'StaleWhileRevalidate',
+            handler: 'CacheFirst',
             options: {
-              cacheName: 'google-fonts'
+              cacheName: 'google-fonts',
+              expiration: {
+                maxEntries: 30
+              }
             }
           }
         ],
