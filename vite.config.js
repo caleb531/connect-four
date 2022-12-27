@@ -16,18 +16,29 @@ export default defineConfig({
         // Include Google Fonts in service worker cache
         runtimeCaching: [
           {
-            urlPattern: /^https:\/\/fonts.(?:googleapis|gstatic).com\/(.*)/,
+            // For reasons unknown, the caching of Google Fonts will break when
+            // "https" is present in the regex, so we must omit it; I suspect
+            // this is some sort of Workbox v6 bug
+            urlPattern: /^https:\/\/fonts\.googleapis\.com/,
             handler: 'CacheFirst',
             options: {
-              cacheName: 'google-fonts',
-              expiration: {
-                maxEntries: 30
-              },
-              // The Google Fonts CSS response is an opaque (non-CORS) response
-              // with a status code of 0, so we need to enable caching for that
-              // type of response
+              cacheName: 'google-fonts-stylesheets',
               cacheableResponse: {
                 statuses: [0, 200]
+              }
+            }
+          },
+          {
+            urlPattern: /https:\/\/fonts\.gstatic\.com/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'google-fonts-webfonts',
+              cacheableResponse: {
+                statuses: [0, 200]
+              },
+              expiration: {
+                maxAgeSeconds: 60 * 60 * 24 * 365,
+                maxEntries: 30
               }
             }
           }
