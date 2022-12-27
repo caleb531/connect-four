@@ -8,7 +8,7 @@
     "start": "node server/index.js",
     "dev": "node server/index.js --open",
     "build": "vite build",
-    "preview": "NODE_ENV=production DISABLE_SSL=1 npm run dev",
+    "preview": "NODE_ENV=production DISABLE_SSL=1 node server/index.js",
     "lint": "eslint server/**/*.js scripts/**/*.js test/**/*.js",
     "test": "playwright test"
   },
