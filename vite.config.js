@@ -5,9 +5,6 @@ import { VitePWA } from 'vite-plugin-pwa';
 export default defineConfig({
   plugins: [
     VitePWA({
-      // Do not inject any SW registration code into the front end application,
-      // since we will already be handling this manually
-      injectRegister: null,
       workbox: {
         // Add additional file types to be precached by service worker (by
         // default, the service worker caches *.css, *.js, and *.html; see
