@@ -22,6 +22,12 @@ export default defineConfig({
               cacheName: 'google-fonts',
               expiration: {
                 maxEntries: 30
+              },
+              // The Google Fonts CSS response is an opaque (non-CORS) response
+              // with a status code of 0, so we need to enable caching for that
+              // type of response
+              cacheableResponse: {
+                statuses: [0, 200]
               }
             }
           }
