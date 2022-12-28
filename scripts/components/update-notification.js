@@ -10,7 +10,7 @@ class UpdateNotificationComponent {
     if (!navigator.serviceWorker) {
       return;
     }
-    if (window.location.hostname === 'localhost' && !sessionStorage.getItem('sw')) {
+    if ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && !sessionStorage.getItem('sw')) {
       return;
     }
     this.isUpdateAvailable = false;
