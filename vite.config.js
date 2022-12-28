@@ -5,6 +5,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 export default defineConfig({
   plugins: [
     VitePWA({
+      filename: 'service-worker.js',
       workbox: {
         // Add additional file types to be precached by service worker (by
         // default, the service worker caches *.css, *.js, and *.html; see

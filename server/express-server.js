@@ -126,8 +126,8 @@ async function createExpressServer() {
     // updates; we can solve this by making both /sw.js and /service-worker.js
     // point to the same static file on the server
     app.use(
-      '/service-worker.js',
-      express.static(path.join(path.dirname(__dirname), 'dist', 'sw.js'))
+      '/sw.js',
+      express.static(path.join(path.dirname(__dirname), 'dist', 'service-worker.js'))
     );
     // We set this *after* the / route above because that / route needs to take
     // precedence (so that Vite/EJS can process index.html)
