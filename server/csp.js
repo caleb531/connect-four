@@ -13,34 +13,34 @@ export default {
   ],
   'img-src': [
     "'self'",
-    'https://www.google-analytics.com',
-    'https://www.googletagmanager.com'
+    "https://www.google-analytics.com",
+    "https://www.googletagmanager.com"
   ],
   'font-src': [
     "'self'",
-    'https://fonts.gstatic.com',
+    "https://fonts.gstatic.com",
     'data:'
   ],
   'script-src': [
     "'self'",
     "'unsafe-inline'",
-    'https://storage.googleapis.com',
-    'https://www.google-analytics.com',
-    'https://www.googletagmanager.com'
+    "https://storage.googleapis.com",
+    "https://www.google-analytics.com",
+    "https://www.googletagmanager.com"
   ],
   'child-src': [
     "'self'"
   ],
   'connect-src': [
     "'self'",
-    'ws://localhost:24678',
-    'ws://localhost:8080',
-    'wss://connectfour.calebevans.me',
+    "ws://localhost:24678",
+    "ws://localhost:8080",
+    "wss://connectfour.calebevans.me",
     "http://localhost:24678",
     "https://www.google-analytics.com",
-    'https://fonts.googleapis.com',
-    'https://fonts.gstatic.com',
-    'https://www.googletagmanager.com'
+    "https://fonts.googleapis.com",
+    "https://fonts.gstatic.com",
+    "https://www.googletagmanager.com"
   ],
   'manifest-src': [
     "'self'"
