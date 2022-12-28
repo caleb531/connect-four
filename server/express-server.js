@@ -26,6 +26,12 @@ function generateNonce() {
 // Transform page HTML using both EJS and Vite
 async function transformHtml(vite, req, res, htmlPath, params) {
   res.render(htmlPath, params, async (err, html) => {
+    if (err) {
+      console.log(err);
+      res.status(500);
+      res.send('');
+      return;
+    }
     if (vite) {
       html = await vite.transformIndexHtml(req.originalUrl, html);
     }
