@@ -20,7 +20,7 @@ export default defineConfig({
             // "https" is present in the regex, so we must omit it; I suspect
             // this is some sort of Workbox v6 bug
             urlPattern: /^https:\/\/fonts\.googleapis\.com/,
-            handler: 'CacheFirst',
+            handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'google-fonts-stylesheets',
               cacheableResponse: {
