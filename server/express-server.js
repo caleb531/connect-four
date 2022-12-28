@@ -42,7 +42,7 @@ async function createExpressServer() {
     app.use(expressEnforcesSSL());
   }
   app.use(helmet({
-    // Helmet's defalut value of require-corp for Cross-Origin-Embedder-Policy
+    // Helmet's default value of require-corp for Cross-Origin-Embedder-Policy
     // breaks the caching of the Google Fonts CSS via the service worker,
     // supposedly because Google Fonts serves an opaque response for the CSS
     // which, per the nature of opaque responses, is not explicitly marked as
