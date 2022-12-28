@@ -49,7 +49,7 @@ async function createExpressServer() {
     // loadable from another origin
     crossOriginEmbedderPolicy: false,
     contentSecurityPolicy: {
-      useDefaults: true,
+      useDefaults: false,
       directives: {
         /* eslint-disable quotes */
         'default-src': ["'none'"],
