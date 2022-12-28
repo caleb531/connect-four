@@ -7,6 +7,7 @@ import { createServer as createViteServer } from 'vite';
 import path from 'path';
 import { roomManager } from './room-manager.js';
 import { fileURLToPath } from 'url';
+import cspDirectives from './csp.js';
 
 // __dirname is not available in ES modules natively, so we must define it
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -50,18 +51,7 @@ async function createExpressServer() {
     crossOriginEmbedderPolicy: false,
     contentSecurityPolicy: {
       useDefaults: false,
-      directives: {
-        /* eslint-disable quotes */
-        'default-src': ["'none'"],
-        'style-src': ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com" ],
-        'img-src': ["'self'", 'https://www.google-analytics.com', 'https://www.googletagmanager.com'],
-        'font-src': ["'self'", 'https://fonts.gstatic.com', 'data:'],
-        'script-src': ["'self'", "'unsafe-inline'", 'https://storage.googleapis.com', 'https://www.google-analytics.com', 'https://www.googletagmanager.com'],
-        'child-src': ["'self'"],
-        'connect-src': ["'self'", 'ws://localhost:24678', 'ws://localhost:8080', 'wss://connectfour.calebevans.me', "http://localhost:24678", "https://www.google-analytics.com", 'https://fonts.googleapis.com', 'https://fonts.gstatic.com', 'https://www.googletagmanager.com'],
-        'manifest-src': ["'self'"]
-        /* eslint-enable quotes */
-      }
+      directives: cspDirectives
     }
   }));
 
