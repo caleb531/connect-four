@@ -23,7 +23,9 @@ export default {
   ],
   'script-src': [
     "'self'",
+    // Inline <script> nonce for Universal Analytics
     (req, res) => `'nonce-${res.locals.uaNonce}'`,
+    // Inline <script> nonce for Google Analytics 4
     (req, res) => `'nonce-${res.locals.ga4Nonce}'`,
     "https://storage.googleapis.com",
     "https://www.google-analytics.com",
