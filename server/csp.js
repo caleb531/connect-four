@@ -31,9 +31,6 @@ export default {
     "https://www.google-analytics.com",
     "https://www.googletagmanager.com"
   ],
-  'child-src': [
-    "'self'"
-  ],
   'connect-src': [
     "'self'",
     "ws://localhost:24678",
