@@ -58,7 +58,7 @@ async function createExpressServer() {
         'font-src': ["'self'", 'https://fonts.gstatic.com', 'data:'],
         'script-src': ["'self'", "'unsafe-inline'", 'https://storage.googleapis.com', 'https://www.google-analytics.com', 'https://www.googletagmanager.com'],
         'child-src': ["'self'"],
-        'connect-src': ["'self'", "ws:", "wss:", "http://localhost:24678", "https://www.google-analytics.com", 'https://fonts.googleapis.com', 'https://fonts.gstatic.com', 'https://www.googletagmanager.com'],
+        'connect-src': ["'self'", 'ws://localhost:24678', 'ws://localhost:8080', 'wss://connectfour.calebevans.me', "http://localhost:24678", "https://www.google-analytics.com", 'https://fonts.googleapis.com', 'https://fonts.gstatic.com', 'https://www.googletagmanager.com'],
         'manifest-src': ["'self'"]
         /* eslint-enable quotes */
       }
