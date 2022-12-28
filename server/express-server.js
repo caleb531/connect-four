@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import express from 'express';
 import compression from 'compression';
 import expressEnforcesSSL from 'express-enforces-ssl';
@@ -17,12 +18,18 @@ const indexPath = process.env.NODE_ENV === 'production'
   ? path.join(path.dirname(__dirname), 'dist', 'index.html')
   : path.join(path.dirname(__dirname), 'index.html');
 
+// Generate a secure nonce that can be used to
+function generateNonce() {
+  return crypto.randomBytes(16).toString('hex');
+}
+
 // Transform page HTML using both EJS and Vite
 async function transformHtml(vite, req, res, htmlPath, params) {
   res.render(htmlPath, params, async (err, html) => {
     if (vite) {
       html = await vite.transformIndexHtml(req.originalUrl, html);
     }
+    res.status(200);
     res.send(html);
   });
 }
@@ -42,6 +49,14 @@ async function createExpressServer() {
     app.enable('trust proxy');
     app.use(expressEnforcesSSL());
   }
+  // Expose nonces to the below CSP (this middleware must be mounted before the
+  // CSP middleware is mounted))
+  app.use(((req, res, next) => {
+    res.locals.uaNonce = generateNonce();
+    res.locals.ga4Nonce = generateNonce();
+    next();
+  }));
+  // Define relatively-strict Content Security Policy (CSP)
   app.use(helmet({
     // Helmet's default value of require-corp for Cross-Origin-Embedder-Policy
     // breaks the caching of the Google Fonts CSS via the service worker,

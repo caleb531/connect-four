@@ -23,7 +23,8 @@ export default {
   ],
   'script-src': [
     "'self'",
-    "'unsafe-inline'",
+    (req, res) => `'nonce-${res.locals.uaNonce}'`,
+    (req, res) => `'nonce-${res.locals.ga4Nonce}'`,
     "https://storage.googleapis.com",
     "https://www.google-analytics.com",
     "https://www.googletagmanager.com"
