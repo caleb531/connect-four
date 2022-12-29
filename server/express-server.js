@@ -64,7 +64,7 @@ async function createExpressServer() {
     res.locals.ga4Nonce = generateNonce();
     next();
   }));
-  // Define relatively-strict Content Security Policy (CSP)
+  // Add the recommended security headers
   app.use(helmet({
     // Helmet's default value of require-corp for Cross-Origin-Embedder-Policy
     // breaks the caching of the Google Fonts CSS via the service worker,
@@ -72,6 +72,7 @@ async function createExpressServer() {
     // which, per the nature of opaque responses, is not explicitly marked as
     // loadable from another origin
     crossOriginEmbedderPolicy: false,
+    // Define relatively-strict Content Security Policy (CSP)
     contentSecurityPolicy: {
       useDefaults: false,
       directives: cspDirectives
