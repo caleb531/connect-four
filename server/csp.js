@@ -28,8 +28,7 @@ export default {
     // Inline <script> nonce for Google Analytics 4
     (req, res) => `'nonce-${res.locals.ga4Nonce}'`,
     "https://storage.googleapis.com",
-    "https://www.google-analytics.com",
-    "https://www.googletagmanager.com"
+    "https://plausible.io"
   ],
   'connect-src': [
     "'self'",
@@ -37,10 +36,9 @@ export default {
     "ws://localhost:8080",
     "wss://connectfour.calebevans.me",
     "http://localhost:24678",
-    "https://www.google-analytics.com",
     "https://fonts.googleapis.com",
     "https://fonts.gstatic.com",
-    "https://www.googletagmanager.com"
+    "https://plausible.io"
   ],
   'manifest-src': [
     "'self'"
