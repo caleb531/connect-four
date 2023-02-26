@@ -3,7 +3,7 @@
 # application ourselves, which allows us to install pnpm without issue
 
 # Base image
-FROM node:16-alpine
+FROM node:18-alpine
 RUN apk update && apk add --no-cache libc6-compat
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
