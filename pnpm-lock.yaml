@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@fontsource/ubuntu': ^4.5.11
   '@playwright/test': ^1.29.0
   autoprefixer: ^10.4.13
   clipboard: ^2.0.11
@@ -28,6 +29,7 @@ specifiers:
   workbox-window: ^6.5.4
 
 dependencies:
+  '@fontsource/ubuntu': 4.5.11
   clipboard: 2.0.11
   compression: 1.7.4
   ejs: 3.1.8
@@ -1329,6 +1331,10 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@fontsource/ubuntu/4.5.11:
+    resolution: {integrity: sha512-c+B8A8r31hJLk8Ek7Svoz4GwjtInhc60LFM6XTr5TKtZbcct8TPNxJuKX4+hnqoWgcvy8s0Gj4mde4TcK/SgDQ==}
+    dev: false
 
   /@humanwhocodes/config-array/0.11.8:
     resolution: {integrity: sha512-UybHIJzJnR5Qc/MsD9Kr+RpO2h+/P1GhOwdiLPXK5TWk5sgTdu88bTD9UP+CKbPPh5Rni1u0GjAdYQLemG8g+g==}
