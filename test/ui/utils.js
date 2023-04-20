@@ -8,7 +8,7 @@ export async function waitForPendingChipTransitionEnd({ grid }) {
     // The nmuber of milliseconds to wait before the transitionend event
     // listener gives up; it must be defined inside this callback because of the
     // encasulated nature of .evaluate()
-    const TRANSITION_WAIT_TIMEOUT = 5000;
+    const TRANSITION_WAIT_TIMEOUT = 2500;
     await new Promise((resolve, reject) => {
       element.addEventListener('transitionend', function transitionend(event) {
         // Prevent transitionend from firing on child elements
