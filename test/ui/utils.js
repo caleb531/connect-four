@@ -18,7 +18,14 @@ export async function waitForPendingChipTransitionEnd({ grid }) {
         }
       });
       setTimeout(() => {
-        reject(new Error('waitForPendingChipTransitionEnd gave up waiting'));
+        // If the timeout expires (meaning we never saw the transitionend fire),
+        // don't treat it as a failure, but let subsequent test assertions (from
+        // the calling test) run to determine if the timeout is actually the
+        // result of a problem; taking this approach handles the cases where the
+        // transitionend event either 1) does not fire at all even though the
+        // transition actually completed, or 2) fired before the above listener
+        // was bound
+        resolve(element);
       }, TRANSITION_WAIT_TIMEOUT);
     });
   });
