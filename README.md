@@ -48,7 +48,7 @@ In the app, the AI player is lovingly referred to as "Mr. AI".
 
 ### 1. Install global dependencies
 
-The project requires Node (>= 8) and Gulp, so make sure you have both installed.
+The project requires Node (>= 18), so make sure you have that installed.
 
 ### 2. Install project dependencies
 
@@ -69,9 +69,8 @@ pnpm install
 To serve the app locally, run:
 
 ```bash
-gulp serve
+pnpm dev
 ```
 
 You will then be able to view the app at `http://localhost:8080`. Any app files
-will be recompiled automatically when you make changes to them (as long as `gulp
-serve` is still running).
+will be recompiled automatically when you make changes to them (as long as `pnpm dev` is still running).
