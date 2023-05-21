@@ -2,8 +2,8 @@ lockfileVersion: '6.0'
 
 dependencies:
   '@fontsource/ubuntu':
-    specifier: ^4.5.11
-    version: 4.5.11
+    specifier: ^5.0.0
+    version: 5.0.0
   clipboard:
     specifier: ^2.0.11
     version: 2.0.11
@@ -1376,8 +1376,8 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /@fontsource/ubuntu@4.5.11:
-    resolution: {integrity: sha512-c+B8A8r31hJLk8Ek7Svoz4GwjtInhc60LFM6XTr5TKtZbcct8TPNxJuKX4+hnqoWgcvy8s0Gj4mde4TcK/SgDQ==}
+  /@fontsource/ubuntu@5.0.0:
+    resolution: {integrity: sha512-6V8YXWXuWPphbEuRS2B0ociinDCZ4klWU0OSg8dWC5ug1A392JGDt+VuAx145w3BDYAlGyLxVI3wk1NI3yq/MA==}
     dev: false
 
   /@humanwhocodes/config-array@0.11.8:
