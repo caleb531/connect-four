@@ -1,6 +1,6 @@
 # Connect Four
 
-*Copyright 2016-2022, Caleb Evans*  
+*Copyright 2016-2023, Caleb Evans*  
 *Released under the MIT License*
 
 [![tests](https://github.com/caleb531/connect-four/actions/workflows/tests.yml/badge.svg)](https://github.com/caleb531/connect-four/actions/workflows/tests.yml)
