@@ -1,6 +1,5 @@
 /* global ga, gtag */
 import m from 'mithril';
-import ClipboardJS from 'clipboard';
 
 class DashboardControlsComponent {
 
@@ -111,10 +110,6 @@ class DashboardControlsComponent {
     });
   }
 
-  configureCopyControl({ dom }) {
-    this.shareLinkCopier = new ClipboardJS(dom);
-  }
-
   view({ attrs: { roomCode } }) {
     return m('div#dashboard-controls', [
 
@@ -142,8 +137,7 @@ class DashboardControlsComponent {
             onclick: ({ target }) => target.select()
           }),
           m('button#copy-share-link', {
-            'data-clipboard-text': window.location.href,
-            oncreate: ({ dom }) => this.configureCopyControl({ dom })
+            onclick: () => navigator.clipboard.writeText(window.location.href)
           }, 'Copy')
         ]),
         // If P1 is still waiting for players, offer P1 the option to close
