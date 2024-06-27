@@ -6,20 +6,17 @@ import Chip from './chip.js';
 class AIPlayer extends AsyncPlayer {
 
   // Compute the column where the AI player should place its next chip
-  getNextMove({ game }) {
-    return new Promise((resolve) => {
-      const nextMove = this.maximizeMove({
-        grid: game.grid,
-        // The minimizing player (from the perspetive of the AI player) is the
-        // human player
-        minPlayer: game.getOtherPlayer(this),
-        // Initial depth at which to search future permutations of game states;
-        // this depth will count up to thix.maxComputeDepth
-        depth: 0,
-        alpha: Grid.minScore,
-        beta: Grid.maxScore
-      });
-      resolve(nextMove);
+  async getNextMove({ game }) {
+    return this.maximizeMove({
+      grid: game.grid,
+      // The minimizing player (from the perspetive of the AI player) is the
+      // human player
+      minPlayer: game.getOtherPlayer(this),
+      // Initial depth at which to search future permutations of game states;
+      // this depth will count up to thix.maxComputeDepth
+      depth: 0,
+      alpha: Grid.minScore,
+      beta: Grid.maxScore
     });
   }
 
