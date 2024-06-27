@@ -17,3 +17,6 @@ dist/
 
 # Private environment variables for deployment
 .env
+
+# Generated test results (not used)
+test-results
