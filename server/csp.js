@@ -18,14 +18,16 @@ export default {
     'data:'
   ],
   'script-src': [
-    "'self'"
+    "'self'",
+    "https://gc.zgo.at"
   ],
   'connect-src': [
     "'self'",
     "ws://localhost:24678",
     "ws://localhost:8080",
     "wss://connectfour.calebevans.me",
-    "http://localhost:24678"
+    "http://localhost:24678",
+    "https://calebevans-connectfour.goatcounter.com/count"
   ],
   'manifest-src': [
     "'self'"
