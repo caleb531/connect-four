@@ -13,7 +13,6 @@ class GridConnection {
 
     set length(newLength) {
       this.chips.length = newLength;
-      return this.chips.length;
     }
 
     addChip(chip) {
