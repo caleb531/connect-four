@@ -1,6 +1,6 @@
 import m from 'mithril';
 import classNames from '../classnames.js';
-import DashboardControlsComponent from './dashboard-controls.js';
+import DashboardControlsComponent from './dashboard-controls.jsx';
 
 // The area of the game UI consisting of game UI controls and status messages
 class DashboardComponent {

@@ -1,6 +1,6 @@
 import m from 'mithril';
 import classNames from '../classnames.js';
-import PlayerReactionComponent from './player-reaction.js';
+import PlayerReactionComponent from './player-reaction.jsx';
 
 // The player area container which contains both the name/score of each player,
 // as well as the reactions UI

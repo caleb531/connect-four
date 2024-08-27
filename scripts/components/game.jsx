@@ -1,10 +1,10 @@
 import m from 'mithril';
 import classNames from '../classnames.js';
 import Game from '../models/game.js';
-import GridComponent from './grid.js';
-import DashboardComponent from './dashboard.js';
-import PlayerAreaComponent from './player-area.js';
-import ReactionPickerComponent from './reaction-picker.js';
+import GridComponent from './grid.jsx';
+import DashboardComponent from './dashboard.jsx';
+import PlayerAreaComponent from './player-area.jsx';
+import ReactionPickerComponent from './reaction-picker.jsx';
 
 // The game UI, encompassing all UI pertaining to the game directly
 class GameComponent {

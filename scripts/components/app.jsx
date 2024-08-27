@@ -1,7 +1,7 @@
 import m from 'mithril';
 import Session from '../models/session.js';
-import GameComponent from './game.js';
-import UpdateNotificationComponent from './update-notification.js';
+import GameComponent from './game.jsx';
+import UpdateNotificationComponent from './update-notification.jsx';
 
 class AppComponent {
 

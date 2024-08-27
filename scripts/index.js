@@ -1,5 +1,5 @@
 import m from 'mithril';
-import AppComponent from './components/app.js';
+import AppComponent from './components/app.jsx';
 import '../styles/index.scss';
 import '@fontsource/ubuntu/400.css';
 
