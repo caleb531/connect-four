@@ -1,5 +1,5 @@
 import m from 'mithril';
-import classNames from '../classnames.js';
+import clsx from 'clsx';
 import Game from '../models/game.js';
 import GridComponent from './grid.jsx';
 import DashboardComponent from './dashboard.jsx';
@@ -103,7 +103,7 @@ class GameComponent {
 
   view({ attrs: { roomCode } }) {
     return m('div#game', {
-      class: classNames({ 'in-progress': this.game.inProgress })
+      class: clsx({ 'in-progress': this.game.inProgress })
     }, [
       m('div.game-column', [
         m('h1', 'Connect Four'),

@@ -1,5 +1,5 @@
 import m from 'mithril';
-import classNames from '../classnames.js';
+import clsx from 'clsx';
 import { registerSW } from 'virtual:pwa-register';
 
 class UpdateNotificationComponent {
@@ -29,8 +29,8 @@ class UpdateNotificationComponent {
   }
 
   view() {
-    return m('div.update-notification', {
-      class: classNames({ 'update-available': this.isUpdateAvailable }),
+    return m('div', {
+      class: clsx('update-notification', { 'update-available': this.isUpdateAvailable }),
       onclick: () => this.update()
     }, [
       m('span.update-notification-message', 'Update available! Click here to update.')

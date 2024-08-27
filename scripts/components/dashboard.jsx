@@ -1,13 +1,13 @@
 import m from 'mithril';
-import classNames from '../classnames.js';
 import DashboardControlsComponent from './dashboard-controls.jsx';
+import clsx from 'clsx';
 
 // The area of the game UI consisting of game UI controls and status messages
 class DashboardComponent {
 
   view({ attrs: { game, session, roomCode } }) {
     return m('div#game-dashboard', {
-      class: classNames({ 'prompting-for-input': session.status === 'newPlayer' })
+      class: clsx({ 'prompting-for-input': session.status === 'newPlayer' })
     }, [
       m('p#game-message',
 

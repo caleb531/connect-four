@@ -1,5 +1,5 @@
 import m from 'mithril';
-import classNames from '../classnames.js';
+import clsx from 'clsx';
 
 class PlayerReactionComponent {
 
@@ -32,8 +32,8 @@ class PlayerReactionComponent {
   }
 
   view({ attrs: { player } }) {
-    return m('div.player-reaction', m('div.player-reaction-symbol', {
-      class: classNames({ 'show': player.lastReaction && player.lastReaction.timer })
+    return m('div.player-reaction', m('div', {
+      class: clsx('player-reaction-symbol', { 'show': player.lastReaction && player.lastReaction.timer })
     }, player.lastReaction ? player.lastReaction.symbol : null));
   }
 

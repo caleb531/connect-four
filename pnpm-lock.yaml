@@ -8,6 +8,9 @@ dependencies:
   '@fontsource/ubuntu':
     specifier: ^5.0.13
     version: 5.0.13
+  clsx:
+    specifier: ^2.1.1
+    version: 2.1.1
   compression:
     specifier: ^1.7.4
     version: 1.7.4
@@ -2166,6 +2169,11 @@ packages:
       readdirp: 3.6.0
     optionalDependencies:
       fsevents: 2.3.3
+
+  /clsx@2.1.1:
+    resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
+    engines: {node: '>=6'}
+    dev: false
 
   /color-convert@1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}

@@ -1,7 +1,7 @@
 import m from 'mithril';
 import _ from 'underscore';
 import Emitter from 'tiny-emitter';
-import classNames from '../classnames.js';
+import clsx from 'clsx';
 
 // The grid UI, including the pending chip (i.e. the chip to be placed), as well
 // as all chips currently placed on the grid
@@ -255,8 +255,8 @@ class GridComponent extends Emitter {
     }, [
       // The chip that is about to be placed on the grid
       this.game.pendingChip ?
-        m(`div.chip.pending.${this.game.pendingChip.player.color}`, {
-          class: classNames({
+        m('div', {
+          class: clsx('chip', 'pending', this.game.pendingChip.player.color, {
             'transition-x': this.transitionPendingChipX,
             'transition-y': this.transitionPendingChipY
           }),
@@ -279,7 +279,7 @@ class GridComponent extends Emitter {
             // If this grid slot is occupied, display the corresponding chip
             const chip = this.grid.columns[c][r];
             return m(`div.chip.${chip.player.color}`, {
-              class: classNames({
+              class: clsx('chip', chip.player.color, {
                 'winning': chip.winning
               })
             }, m('div.chip-inner'));
