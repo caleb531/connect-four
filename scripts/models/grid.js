@@ -3,7 +3,6 @@ import GridConnection from './grid-connection.js';
 import Chip from './chip.js';
 
 class Grid {
-
   // The state of a particular game grid
   constructor({ columnCount, rowCount, columns, lastPlacedChip = null }) {
     this.columnCount = columnCount;
@@ -155,7 +154,11 @@ class Grid {
         if (chip.player !== currentPlayer) {
           continue;
         }
-        const score = this.getChipScore({ currentPlayer, currentPlayerIsMaxPlayer, chip });
+        const score = this.getChipScore({
+          currentPlayer,
+          currentPlayerIsMaxPlayer,
+          chip
+        });
         if (Math.abs(score) === Grid.maxScore) {
           return score;
         } else {
@@ -176,9 +179,11 @@ class Grid {
         // chip, rather than the player object itself; however, the client
         // expects Chip objects in the grid to have a direct reference to the
         // player object, so perform that conversion here
-        return new Chip(Object.assign(chip, {
-          player: playersByColor[chip.player]
-        }));
+        return new Chip(
+          Object.assign(chip, {
+            player: playersByColor[chip.player]
+          })
+        );
       });
     });
     if (grid.lastPlacedChip) {
@@ -187,7 +192,6 @@ class Grid {
       this.lastPlacedChip = null;
     }
   }
-
 }
 
 // The maximum grid score possible (awarded for winning connections by the

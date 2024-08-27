@@ -2,7 +2,6 @@
 import io from 'socket.io-client';
 
 class Session {
-
   constructor({ url, roomCode }) {
     this.url = url;
     this.roomCode = roomCode;
@@ -71,7 +70,10 @@ class Session {
         this.processArgs(args, callback);
       });
     } else {
-      this.callQueue.push({ method: 'emit', args: [eventName, data, callback] });
+      this.callQueue.push({
+        method: 'emit',
+        args: [eventName, data, callback]
+      });
     }
   }
 
@@ -90,7 +92,6 @@ class Session {
       callback(args);
     }
   }
-
 }
 
 export default Session;

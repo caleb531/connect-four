@@ -8,8 +8,11 @@ import Chip from './chip.js';
 // A game between two players; the same Game instance is re-used for successive
 // rounds
 class Game extends Emitter {
-
-  constructor({ grid = new Grid({ columnCount: 7, rowCount: 6 }), players = [], debug = false } = {}) {
+  constructor({
+    grid = new Grid({ columnCount: 7, rowCount: 6 }),
+    players = [],
+    debug = false
+  } = {}) {
     super();
     // The two-dimensional array representing the entire game grid
     this.grid = grid;
@@ -89,13 +92,15 @@ class Game extends Emitter {
       } else if (gameType === 'online' && players.length > 0 && localPlayer) {
         // If user chooses Online mode, the user will play against another human
         // on another machine
-        this.players.push(...players.map((player) => {
-          if (player.color === localPlayer.color) {
-            return new HumanPlayer(player);
-          } else {
-            return new OnlinePlayer(player);
-          }
-        }));
+        this.players.push(
+          ...players.map((player) => {
+            if (player.color === localPlayer.color) {
+              return new HumanPlayer(player);
+            } else {
+              return new OnlinePlayer(player);
+            }
+          })
+        );
       }
     } else if (gameType !== this.lastType) {
       // If user switches game type (e.g. from 1-Player to 2-Player mode),
@@ -218,7 +223,9 @@ class Game extends Emitter {
     // Restore the last position of the pending chip when the game state is
     // restored
     if (game.pendingChipColumn) {
-      this.emit('grid:align-pending-chip-initially', { column: game.pendingChipColumn });
+      this.emit('grid:align-pending-chip-initially', {
+        column: game.pendingChipColumn
+      });
     }
     this.winner = null;
 
@@ -228,7 +235,6 @@ class Game extends Emitter {
     this.checkForWin();
     this.checkForTie();
   }
-
 }
 
 // The minimum number of chips a connection must have to win the game

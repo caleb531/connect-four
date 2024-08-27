@@ -1,7 +1,6 @@
 import m from 'mithril';
 
 class ReactionPickerComponent {
-
   oninit({ attrs: { game, session } }) {
     this.game = game;
     this.session = session;
@@ -22,7 +21,6 @@ class ReactionPickerComponent {
       </div>
     );
   }
-
 }
 
 ReactionPickerComponent.availableReactions = [

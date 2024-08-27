@@ -72,7 +72,7 @@
   font-size: 64px;
   transform: scale(0);
   // Don't bounce back when shrinking to scale(0)
-  transition: all $player-reaction-transition-duration cubic-bezier(0.6, 0.0, 0.0, 1);
+  transition: all $player-reaction-transition-duration cubic-bezier(0.6, 0, 0, 1);
   transition-property: transform, text-shadow;
   &.show {
     transform: scale(1);

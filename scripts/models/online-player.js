@@ -2,7 +2,6 @@ import AsyncPlayer from './async-player.js';
 
 // An online player whose moves are determined by a remote human user
 class OnlinePlayer extends AsyncPlayer {
-
   // Declare the end of the local (human) player's turn, communicating its move
   // to the opponent (online) player and waiting for the opponent to make the
   // next move
@@ -15,7 +14,6 @@ class OnlinePlayer extends AsyncPlayer {
       });
     });
   }
-
 }
 
 OnlinePlayer.prototype.type = 'online';

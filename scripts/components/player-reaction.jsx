@@ -2,7 +2,6 @@ import m from 'mithril';
 import clsx from 'clsx';
 
 class PlayerReactionComponent {
-
   oninit({ attrs: { session, player } }) {
     this.player = player;
     session.on('send-reaction', ({ reactingPlayer, reaction }) => {
@@ -34,13 +33,16 @@ class PlayerReactionComponent {
   view({ attrs: { player } }) {
     return (
       <div className="player-reaction">
-        <div className={clsx('player-reaction-symbol', { 'show': player.lastReaction && player.lastReaction.timer })}>
+        <div
+          className={clsx('player-reaction-symbol', {
+            show: player.lastReaction && player.lastReaction.timer
+          })}
+        >
           {player.lastReaction ? player.lastReaction.symbol : null}
         </div>
       </div>
     );
   }
-
 }
 
 // The duration a reaction is shown before disappearing

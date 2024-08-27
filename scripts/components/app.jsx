@@ -4,7 +4,6 @@ import GameComponent from './game.jsx';
 import UpdateNotificationComponent from './update-notification.jsx';
 
 class AppComponent {
-
   oninit({ attrs = { roomCode: null } }) {
     this.session = new Session({
       url: window.location.origin,
@@ -27,7 +26,6 @@ class AppComponent {
       </div>
     );
   }
-
 }
 
 export default AppComponent;

@@ -1,7 +1,7 @@
-import clsx from "clsx";
-import m from "mithril";
-import Emitter from "tiny-emitter";
-import _ from "underscore";
+import clsx from 'clsx';
+import m from 'mithril';
+import Emitter from 'tiny-emitter';
+import _ from 'underscore';
 
 // The grid UI, including the pending chip (i.e. the chip to be placed), as well
 // as all chips currently placed on the grid
@@ -11,15 +11,15 @@ class GridComponent extends Emitter {
     this.session = session;
     this.grid = this.game.grid;
     // Place chip automatically when AI computes its next move on its turn
-    this.game.on("async-player:get-next-move", ({ player, nextMove }) => {
+    this.game.on('async-player:get-next-move', ({ player, nextMove }) => {
       player.wait(() => {
         this.placePendingChip({
-          column: nextMove.column,
+          column: nextMove.column
         });
       });
     });
     // Listen for when the opponent moves their pending chip
-    this.session.on("align-pending-chip", ({ column }) => {
+    this.session.on('align-pending-chip', ({ column }) => {
       if (!this.transitionPendingChipY) {
         this.alignPendingChipWithColumn({ column });
         m.redraw();
@@ -27,7 +27,7 @@ class GridComponent extends Emitter {
     });
     // Remember the last position of the pending chip when the user rejoins the
     // room or reloads the page
-    this.game.on("grid:align-pending-chip-initially", ({ column }) => {
+    this.game.on('grid:align-pending-chip-initially', ({ column }) => {
       this.pendingChipColumn = column;
       m.redraw();
     });
@@ -35,19 +35,19 @@ class GridComponent extends Emitter {
     // opponent (online) player during the course of the game; when we receive a
     // move from the opponent, TinyEmitter will help us resolve the promise
     // created in the most recent OnlinePlayer.getNextMove() call
-    this.session.on("receive-next-move", ({ column }) => {
-      this.game.emit("online-player:receive-next-move", { column });
+    this.session.on('receive-next-move', ({ column }) => {
+      this.game.emit('online-player:receive-next-move', { column });
     });
     // When the local (human) player has placed a chip, send that move to the
     // server
-    this.game.on("player:place-chip", ({ player, column }) => {
+    this.game.on('player:place-chip', ({ player, column }) => {
       // Only chip placements by the local (human) player need to be handled
-      if (player.type !== "online") {
-        this.session.emit("place-chip", { column });
+      if (player.type !== 'online') {
+        this.session.emit('place-chip', { column });
       }
     });
     // Reset controller state when game ends
-    this.game.on("game:end", () => this.reset());
+    this.game.on('game:end', () => this.reset());
     // Reset controller state whenever controller is initialized
     this.reset();
   }
@@ -71,20 +71,14 @@ class GridComponent extends Emitter {
 
   // Get the CSS translate string for the given coordinate map
   getTranslate({ column, row }) {
-    return (
-      "translate(" +
-      column * 100 +
-      "%," +
-      (this.grid.rowCount - row) * 100 +
-      "%)"
-    );
+    return 'translate(' + column * 100 + '%,' + (this.grid.rowCount - row) * 100 + '%)';
   }
 
   // Retrieve the constant width of a single chip
   getChipWidth() {
     // Cache the width to eliminate successive superfluous reflows
     if (!this.chipWidth) {
-      const gridElem = document.getElementById("grid");
+      const gridElem = document.getElementById('grid');
       this.chipWidth = gridElem.offsetWidth / this.grid.columnCount;
     }
     return this.chipWidth;
@@ -94,9 +88,7 @@ class GridComponent extends Emitter {
   // last at or where the last chip was dropped)
   getLastVisitedColumn(mouseEvent) {
     const chipWidth = this.getChipWidth();
-    let column = Math.floor(
-      (mouseEvent.pageX - mouseEvent.currentTarget.offsetLeft) / chipWidth,
-    );
+    let column = Math.floor((mouseEvent.pageX - mouseEvent.currentTarget.offsetLeft) / chipWidth);
     column = Math.max(0, column);
     column = Math.min(column, this.grid.columnCount - 1);
     return column;
@@ -105,14 +97,14 @@ class GridComponent extends Emitter {
   // Run the given callback when the next (and only the very next) pending
   // chip transition finishes
   waitForPendingChipTransitionEnd(callback) {
-    this.off("pending-chip:transition-end");
-    this.once("pending-chip:transition-end", callback);
+    this.off('pending-chip:transition-end');
+    this.once('pending-chip:transition-end', callback);
   }
 
   // Write the alignPendingChip event emitter as a separate function so it can
   // be throttled for performance
   emitAlignEvent({ column }) {
-    this.session.emit("align-pending-chip", { column });
+    this.session.emit('align-pending-chip', { column });
   }
 
   // Horizontally align the pending chip with the specified column
@@ -144,12 +136,12 @@ class GridComponent extends Emitter {
   alignPendingChipViaPointer(mousemoveEvent) {
     if (
       this.game.pendingChip &&
-      this.game.currentPlayer.type === "human" &&
+      this.game.currentPlayer.type === 'human' &&
       !this.transitionPendingChipY
     ) {
       this.alignPendingChipWithColumn({
         column: this.getLastVisitedColumn(mousemoveEvent),
-        emit: true,
+        emit: true
       });
     } else {
       mousemoveEvent.redraw = false;
@@ -179,7 +171,7 @@ class GridComponent extends Emitter {
               this.placePendingChip({ column });
             });
           }
-        },
+        }
       });
     } else if (this.transitionPendingChipX) {
       // Detect and prevent a race condition where placePendingChip is called
@@ -210,12 +202,12 @@ class GridComponent extends Emitter {
   placePendingChipViaPointer(clickEvent) {
     if (
       this.game.pendingChip &&
-      this.game.currentPlayer.type === "human" &&
+      this.game.currentPlayer.type === 'human' &&
       !this.transitionPendingChipX &&
       !this.transitionPendingChipY
     ) {
       this.placePendingChip({
-        column: this.getLastVisitedColumn(clickEvent),
+        column: this.getLastVisitedColumn(clickEvent)
       });
     } else {
       clickEvent.redraw = false;
@@ -251,15 +243,15 @@ class GridComponent extends Emitter {
   initializePendingChip({ dom }) {
     // Ensure that any unfinished pending chip event listeners (from
     // previous games) are unbound
-    this.off("pending-chip:transition-end");
+    this.off('pending-chip:transition-end');
     // Listen for whenever a pending chip transition finishes
-    dom.addEventListener("transitionend", (event) => {
+    dom.addEventListener('transitionend', (event) => {
       // The transitionend DOM event can fire multiple times (undesirably) if
       // the children also have transitions; ensure that the
       // pending-chip:transition-end event is only emitted for the parent's
       // transition; see https://stackoverflow.com/q/26309838/560642
       if (event.target === dom) {
-        this.emit("pending-chip:transition-end");
+        this.emit('pending-chip:transition-end');
       }
     });
   }
@@ -268,28 +260,21 @@ class GridComponent extends Emitter {
     return (
       <div
         id="grid"
-        onmousemove={(mousemoveEvent) =>
-          this.alignPendingChipViaPointer(mousemoveEvent)
-        }
+        onmousemove={(mousemoveEvent) => this.alignPendingChipViaPointer(mousemoveEvent)}
         onclick={(clickEvent) => this.placePendingChipViaPointer(clickEvent)}
       >
         {/* The chip that is about to be placed on the grid */}
         {this.game.pendingChip ? (
           <div
-            className={clsx(
-              "chip",
-              "pending",
-              this.game.pendingChip.player.color,
-              {
-                "transition-x": this.transitionPendingChipX,
-                "transition-y": this.transitionPendingChipY,
-              },
-            )}
+            className={clsx('chip', 'pending', this.game.pendingChip.player.color, {
+              'transition-x': this.transitionPendingChipX,
+              'transition-y': this.transitionPendingChipY
+            })}
             style={{
               transform: this.getTranslate({
                 column: this.pendingChipColumn,
-                row: this.pendingChipRow,
-              }),
+                row: this.pendingChipRow
+              })
             }}
             oncreate={({ dom }) => this.initializePendingChip({ dom })}
           >
@@ -308,8 +293,8 @@ class GridComponent extends Emitter {
                   const chip = this.grid.columns[c][r];
                   return (
                     <div
-                      className={clsx("chip", chip.player.color, {
-                        winning: chip.winning,
+                      className={clsx('chip', chip.player.color, {
+                        winning: chip.winning
                       })}
                     >
                       <div className="chip-inner"></div>
@@ -339,7 +324,7 @@ GridComponent.pendingChipAlignmentDelay = 250;
 // interval
 GridComponent.prototype.emitAlignEvent = _.throttle(
   GridComponent.prototype.emitAlignEvent,
-  GridComponent.pendingChipAlignmentDelay,
+  GridComponent.pendingChipAlignmentDelay
 );
 
 export default GridComponent;

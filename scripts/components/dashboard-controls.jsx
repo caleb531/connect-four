@@ -2,7 +2,6 @@
 import m from 'mithril';
 
 class DashboardControlsComponent {
-
   oninit({ attrs: { game, session } }) {
     this.game = game;
     this.session = session;
@@ -82,10 +81,14 @@ class DashboardControlsComponent {
   addNewPlayerToGame(roomCode) {
     this.session.status = 'connecting';
     const submittedPlayer = { name: this.newPlayerName, color: 'blue' };
-    this.session.emit('add-player', { roomCode, player: submittedPlayer }, ({ game, localPlayer }) => {
-      this.game.restoreFromServer({ game, localPlayer });
-      m.redraw();
-    });
+    this.session.emit(
+      'add-player',
+      { roomCode, player: submittedPlayer },
+      ({ game, localPlayer }) => {
+        this.game.restoreFromServer({ game, localPlayer });
+        m.redraw();
+      }
+    );
   }
 
   startOnlineGame() {
@@ -94,10 +97,14 @@ class DashboardControlsComponent {
     // first player color
     const submittedPlayer = { name: this.newPlayerName, color: 'red' };
     // Request a new room and retrieve the room code returned from the server
-    this.session.emit('open-room', { player: submittedPlayer }, ({ roomCode, game, localPlayer }) => {
-      this.game.restoreFromServer({ game, localPlayer });
-      m.route.set(`/room/${roomCode}`);
-    });
+    this.session.emit(
+      'open-room',
+      { player: submittedPlayer },
+      ({ roomCode, game, localPlayer }) => {
+        this.game.restoreFromServer({ game, localPlayer });
+        m.route.set(`/room/${roomCode}`);
+      }
+    );
   }
 
   requestNewOnlineGame() {
@@ -113,55 +120,107 @@ class DashboardControlsComponent {
   view({ attrs: { roomCode } }) {
     return (
       <div id="dashboard-controls">
-        {
-          this.session.status === 'newPlayer' ? (
-            <form action onsubmit={(submitEvent) => this.submitNewPlayer(submitEvent, roomCode)}>
-              <input type="text" autoComplete="off" id="new-player-name" name="new-player-name" autoFocus required oninput={(inputEvent) => this.setNewPlayerName(inputEvent)} />
-              <button type="submit">{roomCode ? 'Join Game' : 'Start Game'}</button>
-              {!roomCode ? <a className="go-back" href="/">Back</a> : null}
-            </form>
-          ) : this.session.status === 'waitingForPlayers' ? (
-            <div id="share-controls">
-              <input type="text" readOnly id="share-link" value={window.location.href} onclick={({ target }) => target.select()} />
-              <button id="copy-share-link" onclick={() => navigator.clipboard.writeText(window.location.href)}>Copy</button>
-            </div>
-          ) : this.game.inProgress && this.session.status !== 'watchingGame' && !this.session.disconnected ? (
-            <button className="warn" onclick={() => this.endGame(roomCode)}>End Game</button>
-          ) : !this.game.inProgress && this.session.status !== 'watchingGame' && !this.session.disconnected && this.session.disconnectedPlayer ? (
-            <button className="warn" onclick={() => this.leaveRoom()}>Leave Room</button>
-          ) : this.session.status === 'roomNotFound' ? (
-            <button onclick={() => this.returnToHome()}>Return to Home</button>
-          ) : this.session.socket && this.game.players.length === 2 && this.session.status !== 'connecting' && this.session.status !== 'watchingGame' && !this.session.disconnectedPlayer && !this.session.reconnectedPlayer && !this.session.disconnected ? (
-            <>
-              <button onclick={() => this.requestNewOnlineGame()} disabled={this.session.status === 'requestingNewGame'}>
-                {this.session.status === 'newGameRequested' ? 'Yes!' : this.session.status === 'requestingNewGame' ? 'Pending' : 'Play Again'}
+        {this.session.status === 'newPlayer' ? (
+          <form action onsubmit={(submitEvent) => this.submitNewPlayer(submitEvent, roomCode)}>
+            <input
+              type="text"
+              autoComplete="off"
+              id="new-player-name"
+              name="new-player-name"
+              autoFocus
+              required
+              oninput={(inputEvent) => this.setNewPlayerName(inputEvent)}
+            />
+            <button type="submit">{roomCode ? 'Join Game' : 'Start Game'}</button>
+            {!roomCode ? (
+              <a className="go-back" href="/">
+                Back
+              </a>
+            ) : null}
+          </form>
+        ) : this.session.status === 'waitingForPlayers' ? (
+          <div id="share-controls">
+            <input
+              type="text"
+              readOnly
+              id="share-link"
+              value={window.location.href}
+              onclick={({ target }) => target.select()}
+            />
+            <button
+              id="copy-share-link"
+              onclick={() => navigator.clipboard.writeText(window.location.href)}
+            >
+              Copy
+            </button>
+          </div>
+        ) : this.game.inProgress &&
+          this.session.status !== 'watchingGame' &&
+          !this.session.disconnected ? (
+          <button className="warn" onclick={() => this.endGame(roomCode)}>
+            End Game
+          </button>
+        ) : !this.game.inProgress &&
+          this.session.status !== 'watchingGame' &&
+          !this.session.disconnected &&
+          this.session.disconnectedPlayer ? (
+          <button className="warn" onclick={() => this.leaveRoom()}>
+            Leave Room
+          </button>
+        ) : this.session.status === 'roomNotFound' ? (
+          <button onclick={() => this.returnToHome()}>Return to Home</button>
+        ) : this.session.socket &&
+          this.game.players.length === 2 &&
+          this.session.status !== 'connecting' &&
+          this.session.status !== 'watchingGame' &&
+          !this.session.disconnectedPlayer &&
+          !this.session.reconnectedPlayer &&
+          !this.session.disconnected ? (
+          <>
+            <button
+              onclick={() => this.requestNewOnlineGame()}
+              disabled={this.session.status === 'requestingNewGame'}
+            >
+              {this.session.status === 'newGameRequested'
+                ? 'Yes!'
+                : this.session.status === 'requestingNewGame'
+                  ? 'Pending'
+                  : 'Play Again'}
+            </button>
+            {this.session.status !== 'requestingNewGame' ? (
+              <button
+                className="warn"
+                onclick={() => this.declineNewGame()}
+                disabled={this.session.status === 'requestingNewGame'}
+              >
+                {this.session.status === 'newGameRequested'
+                  ? 'Nah'
+                  : this.session.status !== 'requestingNewGame'
+                    ? 'No Thanks'
+                    : null}
               </button>
-              {this.session.status !== 'requestingNewGame' ? (
-                <button className="warn" onclick={() => this.declineNewGame()} disabled={this.session.status === 'requestingNewGame'}>
-                  {this.session.status === 'newGameRequested' ? 'Nah' : this.session.status !== 'requestingNewGame' ? 'No Thanks' : null}
-                </button>
-              ) : null}
+            ) : null}
+          </>
+        ) : !this.session.socket ? (
+          this.game.type !== null ? (
+            <>
+              {this.game.players.map((player) => (
+                <button onclick={() => this.startGame(player)}>{player.name}</button>
+              ))}
+              <a className="go-back" href="/">
+                Back
+              </a>
             </>
-          ) : !this.session.socket ? (
-            this.game.type !== null ? (
-              <>
-                {this.game.players.map((player) => (
-                  <button onclick={() => this.startGame(player)}>{player.name}</button>
-                ))}
-                <a className="go-back" href="/">Back</a>
-              </>
-            ) : (
-              <>
-                <button onclick={() => this.setPlayers({ gameType: '1P' })}>1 Player</button>
-                <button onclick={() => this.promptToStartOnlineGame()}>2 Players</button>
-              </>
-            )
-          ) : null
-        }
+          ) : (
+            <>
+              <button onclick={() => this.setPlayers({ gameType: '1P' })}>1 Player</button>
+              <button onclick={() => this.promptToStartOnlineGame()}>2 Players</button>
+            </>
+          )
+        ) : null}
       </div>
     );
   }
-
 }
 
 export default DashboardControlsComponent;

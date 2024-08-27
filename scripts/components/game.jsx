@@ -8,12 +8,11 @@ import ReactionPickerComponent from './reaction-picker.jsx';
 
 // The game UI, encompassing all UI pertaining to the game directly
 class GameComponent {
-
   oninit({ attrs: { session, roomCode } }) {
     this.session = session;
     this.game = new Game({
       // Only enable debug mode on non-production sites
-      debug: (window.location.host !== 'connectfour.calebevans.me')
+      debug: window.location.host !== 'connectfour.calebevans.me'
     });
     if (roomCode) {
       this.session.connect();
@@ -111,12 +110,13 @@ class GameComponent {
         <div className="game-column">
           <GridComponent game={this.game} session={this.session} />
           <PlayerAreaComponent game={this.game} session={this.session} />
-          {this.session.connected && this.game.players.length === 2 ? <ReactionPickerComponent game={this.game} session={this.session} /> : null}
+          {this.session.connected && this.game.players.length === 2 ? (
+            <ReactionPickerComponent game={this.game} session={this.session} />
+          ) : null}
         </div>
       </div>
     );
   }
-
 }
 
 // The duration (in ms) the 'reconnected player' message will show before the

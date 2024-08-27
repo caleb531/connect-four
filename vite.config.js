@@ -3,7 +3,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    // Enable JSX processing
+  // Enable JSX processing
   esbuild: {
     // We need to use _m as the imported name so that it doesn't collide with
     // explicitly importing _m, while still allowing us to have organizeImports
@@ -34,7 +34,8 @@ export default defineConfig({
       manifest: {
         short_name: 'Connect Four',
         name: 'Connect Four',
-        description: 'The slickest way to get 4-in-a-row. Play on your phone or computer, with a friend or against Mr. AI. Just be sure to enjoy and have fun.',
+        description:
+          'The slickest way to get 4-in-a-row. Play on your phone or computer, with a friend or against Mr. AI. Just be sure to enjoy and have fun.',
         start_url: '.',
         display: 'standalone',
         orientation: 'portrait',
