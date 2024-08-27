@@ -13,18 +13,19 @@ class AppComponent {
   }
 
   view({ attrs = { roomCode: null } }) {
-    return m('div#app', [
-      // The UpdateNotificationComponent manages its own visibility
-      m(UpdateNotificationComponent),
-      m('span#personal-site-link.nav-link.nav-link-left', [
-        m('a[href="https://github.com/caleb531/connect-four"]', 'View on GitHub')
-      ]),
-      m('span#github-link.nav-link.nav-link-right', [
-        'by ',
-        m('a[href="https://calebevans.me"]', 'Caleb Evans')
-      ]),
-      m(GameComponent, { session: this.session, roomCode: attrs.roomCode })
-    ]);
+    return (
+      <div id="app">
+        {/* The UpdateNotificationComponent manages its own visibility */}
+        <UpdateNotificationComponent />
+        <span id="personal-site-link" className="nav-link nav-link-left">
+          <a href="https://github.com/caleb531/connect-four">View on GitHub</a>
+        </span>
+        <span id="github-link" className="nav-link nav-link-right">
+          by <a href="https://calebevans.me">Caleb Evans</a>
+        </span>
+        <GameComponent session={this.session} roomCode={attrs.roomCode} />
+      </div>
+    );
   }
 
 }

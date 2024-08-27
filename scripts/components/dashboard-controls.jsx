@@ -111,97 +111,55 @@ class DashboardControlsComponent {
   }
 
   view({ attrs: { roomCode } }) {
-    return m('div#dashboard-controls', [
-
-      // Prompt a player to enter their name when starting an online game, or
-      // when joining an existing game for the first time; the 'action'
-      // attribute on the <form> element is necessary to show the Go button on
-      // iOS keyboards
-      this.session.status === 'newPlayer' ? m('form[action]', {
-        onsubmit: (submitEvent) => this.submitNewPlayer(submitEvent, roomCode)
-      }, [
-        m('input[type=text][autocomplete=off]#new-player-name', {
-          name: 'new-player-name',
-          autofocus: true,
-          required: true,
-          oninput: (inputEvent) => this.setNewPlayerName(inputEvent)
-        }),
-        m('button[type=submit]', roomCode ? 'Join Game' : 'Start Game'),
-        !roomCode ? m('a.go-back[href=/]', 'Back') : null
-      ]) :
-
-      this.session.status === 'waitingForPlayers' ? [
-        m('div#share-controls', [
-          m('input[type=text][readonly]#share-link', {
-            value: window.location.href,
-            onclick: ({ target }) => target.select()
-          }),
-          m('button#copy-share-link', {
-            onclick: () => navigator.clipboard.writeText(window.location.href)
-          }, 'Copy')
-        ]),
-        // If P1 is still waiting for players, offer P1 the option to close
-        // room
-        m('button.warn', { onclick: () => this.closeRoom() }, 'Close Room')
-      ] :
-
-      // If game is in progress, allow user to end game at any time
-      this.game.inProgress && this.session.status !== 'watchingGame' && !this.session.disconnected ? m('button.warn', {
-        onclick: () => this.endGame(roomCode) }, 'End Game'
-      ) :
-
-      // If online game is not in progress, allow user to leave room
-      !this.game.inProgress && this.session.status !== 'watchingGame' && !this.session.disconnected && this.session.disconnectedPlayer ? m('button.warn', {
-        onclick: () => this.leaveRoom() }, 'Leave Room'
-      ) :
-
-      // If room does not exist, allow user to return to app home
-      this.session.status === 'roomNotFound' ? m('button', {
-        onclick: () => this.returnToHome() }, 'Return to Home'
-      ) :
-
-      // If an online game is not in progress (i.e. it was ended early, or there
-      // is a winner/tie), allow the user to play again
-      this.session.socket && this.game.players.length === 2 && this.session.status !== 'connecting' && this.session.status !== 'watchingGame' && !this.session.disconnectedPlayer && !this.session.reconnectedPlayer && !this.session.disconnected ? [
-
-        // Play Again / Yes
-        m('button', {
-          onclick: () => this.requestNewOnlineGame(),
-          disabled: this.session.status === 'requestingNewGame'
-        }, this.session.status === 'newGameRequested' ? 'Yes!' : this.session.status === 'requestingNewGame' ? 'Pending' : 'Play Again'),
-
-        // No Thanks
-        this.session.status !== 'requestingNewGame' ? m('button.warn', {
-          onclick: () => this.declineNewGame(),
-          disabled: this.session.status === 'requestingNewGame'
-        }, this.session.status === 'newGameRequested' ? 'Nah' : this.session.status !== 'requestingNewGame' ? 'No Thanks' : null) : null
-
-      ] :
-
-      !this.session.socket ? [
-
-        // If number of players has been chosen, ask user to choose starting player
-        this.game.type !== null ? [
-          this.game.players.map((player) => {
-            return m('button', {
-              onclick: () => this.startGame(player)
-            }, player.name);
-          }),
-          m('a.go-back[href=/]', 'Back')
-        ] :
-
-        // Select a number of human players
-        [
-          m('button', {
-            onclick: () => this.setPlayers({ gameType: '1P' })
-          }, '1 Player'),
-          m('button', {
-            onclick: () => this.promptToStartOnlineGame()
-          }, '2 Players')
-        ]
-
-      ] : null
-    ]);
+    return (
+      <div id="dashboard-controls">
+        {
+          this.session.status === 'newPlayer' ? (
+            <form action onsubmit={(submitEvent) => this.submitNewPlayer(submitEvent, roomCode)}>
+              <input type="text" autoComplete="off" id="new-player-name" name="new-player-name" autoFocus required oninput={(inputEvent) => this.setNewPlayerName(inputEvent)} />
+              <button type="submit">{roomCode ? 'Join Game' : 'Start Game'}</button>
+              {!roomCode ? <a className="go-back" href="/">Back</a> : null}
+            </form>
+          ) : this.session.status === 'waitingForPlayers' ? (
+            <div id="share-controls">
+              <input type="text" readOnly id="share-link" value={window.location.href} onclick={({ target }) => target.select()} />
+              <button id="copy-share-link" onclick={() => navigator.clipboard.writeText(window.location.href)}>Copy</button>
+            </div>
+          ) : this.game.inProgress && this.session.status !== 'watchingGame' && !this.session.disconnected ? (
+            <button className="warn" onclick={() => this.endGame(roomCode)}>End Game</button>
+          ) : !this.game.inProgress && this.session.status !== 'watchingGame' && !this.session.disconnected && this.session.disconnectedPlayer ? (
+            <button className="warn" onclick={() => this.leaveRoom()}>Leave Room</button>
+          ) : this.session.status === 'roomNotFound' ? (
+            <button onclick={() => this.returnToHome()}>Return to Home</button>
+          ) : this.session.socket && this.game.players.length === 2 && this.session.status !== 'connecting' && this.session.status !== 'watchingGame' && !this.session.disconnectedPlayer && !this.session.reconnectedPlayer && !this.session.disconnected ? (
+            <>
+              <button onclick={() => this.requestNewOnlineGame()} disabled={this.session.status === 'requestingNewGame'}>
+                {this.session.status === 'newGameRequested' ? 'Yes!' : this.session.status === 'requestingNewGame' ? 'Pending' : 'Play Again'}
+              </button>
+              {this.session.status !== 'requestingNewGame' ? (
+                <button className="warn" onclick={() => this.declineNewGame()} disabled={this.session.status === 'requestingNewGame'}>
+                  {this.session.status === 'newGameRequested' ? 'Nah' : this.session.status !== 'requestingNewGame' ? 'No Thanks' : null}
+                </button>
+              ) : null}
+            </>
+          ) : !this.session.socket ? (
+            this.game.type !== null ? (
+              <>
+                {this.game.players.map((player) => (
+                  <button onclick={() => this.startGame(player)}>{player.name}</button>
+                ))}
+                <a className="go-back" href="/">Back</a>
+              </>
+            ) : (
+              <>
+                <button onclick={() => this.setPlayers({ gameType: '1P' })}>1 Player</button>
+                <button onclick={() => this.promptToStartOnlineGame()}>2 Players</button>
+              </>
+            )
+          ) : null
+        }
+      </div>
+    );
   }
 
 }

@@ -102,23 +102,19 @@ class GameComponent {
   }
 
   view({ attrs: { roomCode } }) {
-    return m('div#game', {
-      class: clsx({ 'in-progress': this.game.inProgress })
-    }, [
-      m('div.game-column', [
-        m('h1', 'Connect Four'),
-        m(DashboardComponent, {
-          game: this.game,
-          session: this.session,
-          roomCode
-        })
-      ]),
-      m('div.game-column', [
-        m(GridComponent, { game: this.game, session: this.session }),
-        m(PlayerAreaComponent, { game: this.game, session: this.session }),
-        this.session.connected && this.game.players.length === 2 ? m(ReactionPickerComponent, { game: this.game, session: this.session }) : null
-      ])
-    ]);
+    return (
+      <div id="game" className={clsx({ 'in-progress': this.game.inProgress })}>
+        <div className="game-column">
+          <h1>Connect Four</h1>
+          <DashboardComponent game={this.game} session={this.session} roomCode={roomCode} />
+        </div>
+        <div className="game-column">
+          <GridComponent game={this.game} session={this.session} />
+          <PlayerAreaComponent game={this.game} session={this.session} />
+          {this.session.connected && this.game.players.length === 2 ? <ReactionPickerComponent game={this.game} session={this.session} /> : null}
+        </div>
+      </div>
+    );
   }
 
 }

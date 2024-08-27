@@ -29,12 +29,11 @@ class UpdateNotificationComponent {
   }
 
   view() {
-    return m('div', {
-      class: clsx('update-notification', { 'update-available': this.isUpdateAvailable }),
-      onclick: () => this.update()
-    }, [
-      m('span.update-notification-message', 'Update available! Click here to update.')
-    ]);
+    return (
+      <div className={clsx('update-notification', { 'update-available': this.isUpdateAvailable })} onclick={() => this.update()}>
+        <span className="update-notification-message">Update available! Click here to update.</span>
+      </div>
+    );
   }
 
 }

@@ -25,16 +25,20 @@ class PlayerReactionComponent {
 
   // The oninit() call (and therefore the send-reaction listener) only runs once
   // for the lifetime of this component instance, however the player object may
-  // change during that time, so we need to ensure the above listener has an
+  // change during that time, so we need to ensure the above listener has a
   // dynamic reference to the freshest instance of the player
   onupdate({ attrs: { player } }) {
     this.player = player;
   }
 
   view({ attrs: { player } }) {
-    return m('div.player-reaction', m('div', {
-      class: clsx('player-reaction-symbol', { 'show': player.lastReaction && player.lastReaction.timer })
-    }, player.lastReaction ? player.lastReaction.symbol : null));
+    return (
+      <div className="player-reaction">
+        <div className={clsx('player-reaction-symbol', { 'show': player.lastReaction && player.lastReaction.timer })}>
+          {player.lastReaction ? player.lastReaction.symbol : null}
+        </div>
+      </div>
+    );
   }
 
 }

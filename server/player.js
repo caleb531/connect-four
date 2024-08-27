@@ -1,9 +1,18 @@
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 class Player {
-
   /* eslint-disable no-shadow */
-  constructor({ id = uuidv4(), name, color, socket, score = 0, room = null, lastSubmittedWinner = null, lastDisconnectReason = null, lastReaction = null }) {
+  constructor({
+    id = uuidv4(),
+    name,
+    color,
+    socket,
+    score = 0,
+    room = null,
+    lastSubmittedWinner = null,
+    lastDisconnectReason = null,
+    lastReaction = null,
+  }) {
     // A unique identifier for this player; this only needs to be unique within
     // the scope of a room
     this.id = id;
@@ -63,10 +72,9 @@ class Player {
       score: this.score,
       connected: this.connected,
       lastDisconnectReason: this.lastDisconnectReason,
-      lastReaction: this.lastReaction
+      lastReaction: this.lastReaction,
     };
   }
-
 }
 
 export default Player;

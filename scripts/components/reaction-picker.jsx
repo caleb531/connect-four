@@ -12,11 +12,15 @@ class ReactionPickerComponent {
   }
 
   view() {
-    return m('div#reaction-picker', ReactionPickerComponent.availableReactions.map((reaction) => {
-      return m('div.available-reaction', m('div.available-reaction-symbol', {
-        onclick: () => this.sendReaction(reaction)
-      }, reaction.symbol));
-    }));
+    return (
+      <div id="reaction-picker">
+        {ReactionPickerComponent.availableReactions.map((reaction) => (
+          <div className="available-reaction" onclick={() => this.sendReaction(reaction)}>
+            <div className="available-reaction-symbol">{reaction.symbol}</div>
+          </div>
+        ))}
+      </div>
+    );
   }
 
 }

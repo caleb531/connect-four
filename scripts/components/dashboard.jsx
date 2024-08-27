@@ -6,76 +6,46 @@ import clsx from 'clsx';
 class DashboardComponent {
 
   view({ attrs: { game, session, roomCode } }) {
-    return m('div#game-dashboard', {
-      class: clsx({ 'prompting-for-input': session.status === 'newPlayer' })
-    }, [
-      m('p#game-message',
-
-        session.status === 'connecting' ?
-          'Connecting to server...' :
-        session.status === 'roomNotFound' ?
-          [
-            'This room does not exist',
-            m('br'),
-            'or has been closed by the host.'
-          ] :
-        session.status === 'closingRoom' || session.status === 'closedRoom' ?
-          'Closing room...' :
-        session.status === 'leavingRoom' || session.status === 'decliningNewGame' || session.status === 'declinedNewGame' ?
-          'Leaving room...' :
-        session.disconnected ? [
-          'Lost connection.',
-          m('br'),
-          'Please reload the page to reconnect.'
-        ] :
-
-        // If the other player disconnects
-        session.disconnectedPlayer && session.disconnectedPlayer.lastDisconnectReason === 'newGameDeclined' ?
-          `${session.disconnectedPlayer.name} has declined to play again.` :
-        session.disconnectedPlayer ?
-          `${session.disconnectedPlayer.name} has disconnected.` :
-
-        // If the other player reconnects
-        session.reconnectedPlayer ?
-          `${session.reconnectedPlayer.name} has reconnected.` :
-
-        // If the current player needs to enter a name
-        session.status === 'newPlayer' ?
-          m('label[for=new-player-name]', 'Enter your player name:') :
-
-        // If the local player has requested a new game
-        session.status === 'requestingNewGame' ?
-          `Asking ${game.getOtherPlayer(game.requestingPlayer).name} to play again...` :
-        // Inform the other player if a player requests a new game
-        session.status === 'newGameRequested' ?
-          `${game.requestingPlayer.name} asks to play again.` :
-        // If user has not started any game yet
-        game.players.length === 0 ?
-          'Welcome! How many players?' :
-        // If a game is in progress
-        game.currentPlayer ?
-          `${game.currentPlayer.name}, your turn!` :
-        // If a player wins the game
-        game.winner ?
-          `${game.winner.name} wins! Play again?` :
-        // If the grid is completely full
-        game.grid.checkIfFull() ?
-          'We\'ll call it a draw! Play again?' :
-        // If the user just chose a number of players for the game to be started
-        !session.socket && game.type !== null ?
-          'Which player should start first?' :
-        // If either player ends the game early
-        roomCode && game.requestingPlayer ?
-          `${game.requestingPlayer.name} has ended the game.` :
-        session.status === 'waitingForPlayers' ?
-          'Waiting for other player...' :
-        // Otherwise, if game was ended manually by the user
-        'Game ended. Play again?'
-      ),
-
-      m(DashboardControlsComponent, { game, session, roomCode })
-
-    ]);
+    return (
+      <div id="game-dashboard" className={clsx({ 'prompting-for-input': session.status === 'newPlayer' })}>
+        <p id="game-message">
+          {
+            session.status === 'connecting' ? 'Connecting to server...' :
+            session.status === 'roomNotFound' ? (
+              <>
+                This room does not exist
+                <br />
+                or has been closed by the host.
+              </>
+            ) :
+            session.status === 'closingRoom' || session.status === 'closedRoom' ? 'Closing room...' :
+            session.status === 'leavingRoom' || session.status === 'decliningNewGame' || session.status === 'declinedNewGame' ? 'Leaving room...' :
+            session.disconnected ? (
+              <>
+                Lost connection.
+                <br />
+                Please reload the page to reconnect.
+              </>
+            ) :
+            session.disconnectedPlayer && session.disconnectedPlayer.lastDisconnectReason === 'newGameDeclined' ? `${session.disconnectedPlayer.name} has declined to play again.` :
+            session.disconnectedPlayer ? `${session.disconnectedPlayer.name} has disconnected.` :
+            session.reconnectedPlayer ? `${session.reconnectedPlayer.name} has reconnected.` :
+            session.status === 'newPlayer' ? <label htmlFor="new-player-name">Enter your player name:</label> :
+            session.status === 'requestingNewGame' ? `Asking ${game.getOtherPlayer(game.requestingPlayer).name} to play again...` :
+            session.status === 'newGameRequested' ? `${game.requestingPlayer.name} asks to play again.` :
+            game.players.length === 0 ? 'Welcome! How many players?' :
+            game.currentPlayer ? `${game.currentPlayer.name}, your turn!` :
+            game.winner ? `${game.winner.name} wins! Play again?` :
+            game.grid.checkIfFull() ? 'We\'ll call it a draw! Play again?' :
+            !session.socket && game.type !== null ? 'Which player should start first?' :
+            roomCode && game.requestingPlayer ? `${game.requestingPlayer.name} has ended the game.` :
+            session.status === 'waitingForPlayers' ? 'Waiting for other player...' :
+            'Game ended. Play again?'
+          }
+        </p>
+        <DashboardControlsComponent game={game} session={session} roomCode={roomCode} />
+      </div>
+    );
   }
 
 }
