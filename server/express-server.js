@@ -14,9 +14,10 @@ import cspDirectives from './csp.js';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // Ensure that we serve the correct index.html path depending upon the
 // environment/context
-const indexPath = process.env.NODE_ENV === 'production'
-  ? path.join(path.dirname(__dirname), 'dist', 'index.html')
-  : path.join(path.dirname(__dirname), 'index.html');
+const indexPath =
+  process.env.NODE_ENV === 'production'
+    ? path.join(path.dirname(__dirname), 'dist', 'index.html')
+    : path.join(path.dirname(__dirname), 'index.html');
 
 // Generate a secure nonce that can be used to
 function generateNonce() {
@@ -42,7 +43,6 @@ async function transformHtml(vite, req, res, htmlPath, params) {
 
 // Express server
 async function createExpressServer() {
-
   const app = express();
 
   // Use EJS as view engine, regardless of file extension (i.e. we need
@@ -57,27 +57,29 @@ async function createExpressServer() {
   }
   // Expose nonces to the below CSP (this middleware must be mounted before the
   // CSP middleware is mounted))
-  app.use(((req, res, next) => {
+  app.use((req, res, next) => {
     // Inline <script> nonce for Universal Analytics
     res.locals.uaNonce = generateNonce();
     // Inline <script> nonce for Google Analytics 4
     res.locals.ga4Nonce = generateNonce();
     next();
-  }));
+  });
   // Add the recommended security headers
-  app.use(helmet({
-    // Helmet's default value of require-corp for Cross-Origin-Embedder-Policy
-    // breaks the caching of the Google Fonts CSS via the service worker,
-    // supposedly because Google Fonts serves an opaque response for the CSS
-    // which, per the nature of opaque responses, is not explicitly marked as
-    // loadable from another origin
-    crossOriginEmbedderPolicy: false,
-    // Define relatively-strict Content Security Policy (CSP)
-    contentSecurityPolicy: {
-      useDefaults: false,
-      directives: cspDirectives
-    }
-  }));
+  app.use(
+    helmet({
+      // Helmet's default value of require-corp for Cross-Origin-Embedder-Policy
+      // breaks the caching of the Google Fonts CSS via the service worker,
+      // supposedly because Google Fonts serves an opaque response for the CSS
+      // which, per the nature of opaque responses, is not explicitly marked as
+      // loadable from another origin
+      crossOriginEmbedderPolicy: false,
+      // Define relatively-strict Content Security Policy (CSP)
+      contentSecurityPolicy: {
+        useDefaults: false,
+        directives: cspDirectives
+      }
+    })
+  );
 
   // Serve assets using gzip compression
   app.use(compression());
@@ -108,13 +110,13 @@ async function createExpressServer() {
   app.get('/room/:roomCode', async (req, res) => {
     const room = roomManager.getRoom(req.params.roomCode);
     if (room) {
-      const inviteeName = (room.players[0] ? room.players[0].name : 'Someone');
+      const inviteeName = room.players[0] ? room.players[0].name : 'Someone';
       await transformHtml(vite, req, res, indexPath, {
         pageTitle: `${inviteeName} invited you to play!`
       });
     } else {
       await transformHtml(vite, req, res, indexPath, {
-        pageTitle: 'Room doesn\'t exist'
+        pageTitle: "Room doesn't exist"
       });
     }
   });

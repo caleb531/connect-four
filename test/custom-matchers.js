@@ -27,10 +27,11 @@ expect.extend({
     const { selector, actualColumn } = await pendingChip.evaluate((pendingChipElem) => {
       const translate = pendingChipElem.style.transform;
       return {
-        selector: pendingChipElem.nodeName.toLowerCase() + '.' + String(pendingChipElem.className)
-          .trim()
-          .replace(/\s+/g, '.'),
-        actualColumn: Math.round((parseFloat(translate.slice(translate.indexOf('(') + 1)) / 100))
+        selector:
+          pendingChipElem.nodeName.toLowerCase() +
+          '.' +
+          String(pendingChipElem.className).trim().replace(/\s+/g, '.'),
+        actualColumn: Math.round(parseFloat(translate.slice(translate.indexOf('(') + 1)) / 100)
       };
     });
     if (actualColumn === column) {
@@ -53,7 +54,8 @@ expect.extend({
     const chip = nthColumn.locator(`.chip.${chipColor}:nth-child(${ROW_COUNT - row})`);
     if ((await chip.count()) === 1) {
       return {
-        message: () => `expected ${chipColor} chip not to be placed at column ${column}, row ${row}`,
+        message: () =>
+          `expected ${chipColor} chip not to be placed at column ${column}, row ${row}`,
         pass: true
       };
     } else {

@@ -3,7 +3,6 @@ import moment from 'moment';
 import Room from './room.js';
 
 class RoomManager {
-
   constructor() {
     this.roomsByCode = {};
     this.inactiveRooms = new Set();
@@ -43,7 +42,9 @@ class RoomManager {
     const startIndex = 65;
     const endIndex = 90;
     for (let i = 0; i < RoomManager.roomCodeLength; i += 1) {
-      roomCode += String.fromCharCode(Math.floor(startIndex + ((endIndex - startIndex + 1) * Math.random())));
+      roomCode += String.fromCharCode(
+        Math.floor(startIndex + (endIndex - startIndex + 1) * Math.random())
+      );
     }
     return roomCode;
   }
@@ -74,7 +75,6 @@ class RoomManager {
       });
     }, Room.abandonmentCheckInterval.asMilliseconds());
   }
-
 }
 
 // The number of characters is a given room code

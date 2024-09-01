@@ -5,7 +5,6 @@ import Session from '../scripts/models/session.js';
 import io from 'socket.io-client';
 
 test.describe('session', async () => {
-
   let session;
   let connect;
   let socket;
@@ -110,5 +109,4 @@ test.describe('session', async () => {
     socket.emit('my-event', { foo: 'bar' });
     expect(callback).toHaveBeenCalled();
   });
-
 });

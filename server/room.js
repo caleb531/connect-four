@@ -4,7 +4,6 @@ import Player from './player.js';
 import Game from './game.js';
 
 class Room {
-
   constructor({ code, players = [], game = new Game({ players }) }) {
     this.code = code;
     this.players = players;
@@ -62,11 +61,8 @@ class Room {
   // Return true if the room has been empty for the specified amount of time (or
   // longer); otherwise, return false
   isAbandoned() {
-    return moment(this.lastMarkedInactive)
-      .add(Room.abandonmentThreshold)
-      .isSameOrBefore(moment());
+    return moment(this.lastMarkedInactive).add(Room.abandonmentThreshold).isSameOrBefore(moment());
   }
-
 }
 
 // The number of minutes a room can be inactive before it is considered

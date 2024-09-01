@@ -5,7 +5,6 @@ import Player from '../scripts/models/player.js';
 import Chip from '../scripts/models/chip.js';
 
 test.describe('grid', async () => {
-
   test('should initialize', async () => {
     const grid = new Grid({
       columnCount: 9,
@@ -142,5 +141,4 @@ test.describe('grid', async () => {
     expect(grid.columns[2][1]).toHaveProperty('row', 1);
     expect(grid).toHaveProperty('lastPlacedChip', chip2);
   });
-
 });

@@ -4,7 +4,6 @@ import Emitter from 'tiny-emitter';
 import Game from '../../scripts/models/game.js';
 
 test.describe('game', async () => {
-
   // Place chips at the given columns in the given order
   function placeChips({ game, columns }) {
     columns.forEach((column) => {
@@ -130,10 +129,8 @@ test.describe('game', async () => {
       placeChips({
         game,
         columns: [
-          0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0,
-          2, 3, 2, 3, 2, 3, 3, 2, 3, 2, 3, 2,
-          4, 5, 4, 5, 4, 5, 5, 4, 5, 4, 5, 4,
-          6, 6, 6, 6, 6, 6
+          0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 2, 3, 2, 3, 2, 3, 3, 2, 3, 2, 3, 2, 4, 5, 4, 5, 4, 5,
+          5, 4, 5, 4, 5, 4, 6, 6, 6, 6, 6, 6
         ]
       });
       expect(Emitter.prototype.emit).toHaveBeenCalledWith('game:declare-tie');
@@ -145,5 +142,4 @@ test.describe('game', async () => {
     expect(game.players[0].score).toEqual(0);
     expect(game.players[1].score).toEqual(0);
   });
-
 });

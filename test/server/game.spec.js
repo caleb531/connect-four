@@ -4,7 +4,6 @@ import Grid from '../../server/grid.js';
 import Player from '../../server/player.js';
 
 test.describe('server game', async () => {
-
   test('should initialize with arguments', async () => {
     const game = new Game({
       players: [
@@ -193,5 +192,4 @@ test.describe('server game', async () => {
     expect(json).toHaveProperty('inProgress', false);
     expect(json).toHaveProperty('pendingChipColumn', null);
   });
-
 });

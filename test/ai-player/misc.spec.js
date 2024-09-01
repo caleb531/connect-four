@@ -6,7 +6,6 @@ import AIPlayer from '../../scripts/models/ai-player.js';
 import Game from '../../scripts/models/game.js';
 
 test.describe('AI player', async () => {
-
   test('should initialize', async () => {
     const aiPlayer = new AIPlayer({
       name: 'HAL',
@@ -38,11 +37,13 @@ test.describe('AI player', async () => {
     utils.placeChips({
       game,
       startingPlayer: game.players[1],
-      columns: [3, 4, 3, 3, 3, 4, 5, 1, 3, 4, 4, 1, 1, 1, 1, 4, 3, 5, 5, 0, 4, 5, 5, 1, 5, 2, 6, 6, 6, 6, 6, 6]
+      columns: [
+        3, 4, 3, 3, 3, 4, 5, 1, 3, 4, 4, 1, 1, 1, 1, 4, 3, 5, 5, 0, 4, 5, 5, 1, 5, 2, 6, 6, 6, 6, 6,
+        6
+      ]
     });
     return game.players[1].getNextMove({ game }).then((nextMove) => {
       expect(nextMove.column).toBeOneOf([0, 2]);
     });
   });
-
 });

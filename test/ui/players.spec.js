@@ -2,7 +2,6 @@ import { test, expect } from '@playwright/test';
 import { _before, _beforeEach, _afterEach } from './fixtures.js';
 
 test.describe('game UI', async () => {
-
   test.beforeAll(_before);
   test.beforeEach(_beforeEach);
   test.afterEach(_afterEach);
@@ -27,5 +26,4 @@ test.describe('game UI', async () => {
     const pendingChip = page.locator('.chip.pending');
     await expect(pendingChip).toHaveClass(/black/);
   });
-
 });

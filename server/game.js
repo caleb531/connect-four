@@ -1,8 +1,17 @@
 import Grid from './grid.js';
 
 class Game {
-
-  constructor({ players, grid = new Grid({ columnCount: 7, rowCount: 6 }), startingPlayer = null, currentPlayer = null, requestingPlayer = null, inProgress = false, pendingChipColumn = null, winner = null, pendingNewGame = false }) {
+  constructor({
+    players,
+    grid = new Grid({ columnCount: 7, rowCount: 6 }),
+    startingPlayer = null,
+    currentPlayer = null,
+    requestingPlayer = null,
+    inProgress = false,
+    pendingChipColumn = null,
+    winner = null,
+    pendingNewGame = false
+  }) {
     this.grid = grid;
     this.players = players;
     this.startingPlayer = startingPlayer;
@@ -39,7 +48,9 @@ class Game {
     if (this.startingPlayer === null) {
       this.startingPlayer = this.players[1];
     } else {
-      this.startingPlayer = this.players.find((player) => player.color !== this.startingPlayer.color);
+      this.startingPlayer = this.players.find(
+        (player) => player.color !== this.startingPlayer.color
+      );
     }
   }
 
@@ -60,7 +71,9 @@ class Game {
   declareWinner() {
     const submittedWinners = this.players.map((player) => player.lastSubmittedWinner || {});
     this.winner = this.players.find((player) => {
-      return player.color === submittedWinners[0].color && player.color === submittedWinners[1].color;
+      return (
+        player.color === submittedWinners[0].color && player.color === submittedWinners[1].color
+      );
     });
     if (this.winner) {
       this.winner.score += 1;
@@ -81,7 +94,6 @@ class Game {
       pendingChipColumn: this.pendingChipColumn
     };
   }
-
 }
 
 export default Game;

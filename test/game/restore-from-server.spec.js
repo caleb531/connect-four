@@ -6,38 +6,45 @@ import OnlinePlayer from '../../scripts/models/online-player.js';
 import Chip from '../../scripts/models/chip.js';
 
 test.describe('game', async () => {
-
   let session;
   let game;
   let serverGame;
   let localPlayer;
 
   test.beforeEach(() => {
-     session = { on: () => {/* this is a noop */} };
-     game = new Game({ session });
-     serverGame = {
-       inProgress: true,
-       players: [
-         { name: 'Abott', color: 'red' },
-         { name: 'Costello', color: 'blue' }
-       ],
-       currentPlayer: 'blue',
-       requestingPlayer: 'red',
-       grid: {
-         columnCount: 7,
-         rowCount: 6,
-         columns: [
-           [], [], [], [], [],
-           [
-             { column: 5, row: 0, player: 'blue' },
-             { column: 5, row: 1, player: 'red' }
-           ],
-           []
-         ],
-         lastPlacedChip: { column: 5, row: 1, player: 'red' }
-       }
-     };
-     localPlayer = serverGame.players[0];
+    session = {
+      on: () => {
+        /* this is a noop */
+      }
+    };
+    game = new Game({ session });
+    serverGame = {
+      inProgress: true,
+      players: [
+        { name: 'Abott', color: 'red' },
+        { name: 'Costello', color: 'blue' }
+      ],
+      currentPlayer: 'blue',
+      requestingPlayer: 'red',
+      grid: {
+        columnCount: 7,
+        rowCount: 6,
+        columns: [
+          [],
+          [],
+          [],
+          [],
+          [],
+          [
+            { column: 5, row: 0, player: 'blue' },
+            { column: 5, row: 1, player: 'red' }
+          ],
+          []
+        ],
+        lastPlacedChip: { column: 5, row: 1, player: 'red' }
+      }
+    };
+    localPlayer = serverGame.players[0];
   });
 
   test('should restore basic state from server', async () => {
@@ -80,5 +87,4 @@ test.describe('game', async () => {
     game.restoreFromServer({ game: serverGame, localPlayer });
     expect(game.grid.lastPlacedChip).toBe(null);
   });
-
 });

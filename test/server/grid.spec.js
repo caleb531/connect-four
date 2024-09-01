@@ -2,7 +2,6 @@ import { test, expect } from '@playwright/test';
 import Grid from '../../server/grid.js';
 
 test.describe('server grid', async () => {
-
   test('should initialize with no arguments', async () => {
     const grid = new Grid();
     expect(grid).toHaveProperty('columnCount', 7);
@@ -28,15 +27,8 @@ test.describe('server grid', async () => {
     const json = grid.toJSON();
     expect(json).toHaveProperty('columnCount', 5);
     expect(json).toHaveProperty('rowCount', 8);
-    expect(json.columns).toEqual([
-      [],
-      [],
-      [],
-      [chip],
-      []
-    ]);
+    expect(json.columns).toEqual([[], [], [], [chip], []]);
     expect(chip).toHaveProperty('row', 0);
     expect(json).toHaveProperty('lastPlacedChip', chip);
   });
-
 });

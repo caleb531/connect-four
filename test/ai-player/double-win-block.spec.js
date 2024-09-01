@@ -4,7 +4,6 @@ import utils from './utils.js';
 import Game from '../../scripts/models/game.js';
 
 test.describe('AI player', async () => {
-
   test('should block one win of opponent double-win (#1)', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
@@ -70,7 +69,9 @@ test.describe('AI player', async () => {
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
-      columns: [2, 1, 3, 4, 3, 2, 3, 3, 2, 2, 1, 4, 4, 1, 1, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 0, 5, 5]
+      columns: [
+        2, 1, 3, 4, 3, 2, 3, 3, 2, 2, 1, 4, 4, 1, 1, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 0, 5, 5
+      ]
     });
     return game.players[1].getNextMove({ game }).then((nextMove) => {
       expect(nextMove.column).toEqual(5);
@@ -82,7 +83,9 @@ test.describe('AI player', async () => {
     game.setPlayers({ gameType: '1P' });
     utils.placeChips({
       game,
-      columns: [3, 2, 3, 4, 2, 4, 3, 3, 2, 2, 4, 1, 1, 1, 4, 4, 6, 1, 3, 2, 1, 2, 6, 5, 6, 6, 6, 6, 5]
+      columns: [
+        3, 2, 3, 4, 2, 4, 3, 3, 2, 2, 4, 1, 1, 1, 4, 4, 6, 1, 3, 2, 1, 2, 6, 5, 6, 6, 6, 6, 5
+      ]
     });
     return game.players[1].getNextMove({ game }).then((nextMove) => {
       expect(nextMove.column).toEqual(5);
@@ -119,10 +122,7 @@ test.describe('AI player', async () => {
     utils.placeChips({
       game,
       columns: [
-        3, 3, 0, 0, 1, 2, 2, 2, 3, 1,
-        1, 2, 1, 1, 3, 2, 2, 3, 6, 5,
-        5, 1, 4, 5, 6, 6, 5, 3, 5, 5,
-        4
+        3, 3, 0, 0, 1, 2, 2, 2, 3, 1, 1, 2, 1, 1, 3, 2, 2, 3, 6, 5, 5, 1, 4, 5, 6, 6, 5, 3, 5, 5, 4
       ]
     });
     return game.players[1].getNextMove({ game }).then((nextMove) => {
@@ -141,5 +141,4 @@ test.describe('AI player', async () => {
       expect(nextMove.column).toEqual(0);
     });
   });
-
 });

@@ -2,7 +2,6 @@ import { test, expect } from '@playwright/test';
 import AsyncPlayer from '../scripts/models/async-player.js';
 
 test.describe('async player', async () => {
-
   class MyAsyncPlayer extends AsyncPlayer {
     // do nothing
   }
@@ -14,5 +13,4 @@ test.describe('async player', async () => {
     });
     expect(asyncPlayer.getNextMove).toThrow(Error);
   });
-
 });

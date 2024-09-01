@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import Game from '../../scripts/models/game.js';
 
 test.describe('game', async () => {
-
   test('should start turn', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '2P' });
@@ -50,5 +49,4 @@ test.describe('game', async () => {
     game.endTurn();
     expect(game.currentPlayer).toEqual(game.players[1]);
   });
-
 });

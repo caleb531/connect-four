@@ -2,7 +2,6 @@ import { test, expect } from '@playwright/test';
 import Game from '../../scripts/models/game.js';
 
 test.describe('game', async () => {
-
   test('should preserve players when continuing in 1P mode', async () => {
     const game = new Game();
     game.setPlayers({ gameType: '1P' });
@@ -84,5 +83,4 @@ test.describe('game', async () => {
     expect(game.getOtherPlayer(game.players[0])).toEqual(game.players[1]);
     expect(game.getOtherPlayer(game.players[1])).toEqual(game.players[0]);
   });
-
 });
