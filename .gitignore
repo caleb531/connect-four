@@ -12,7 +12,7 @@ coverage
 # Generated PNG app icons
 app/assets/icons/png
 
-# Gulp
+# Vite
 dist/
 
 # Private environment variables for deployment
