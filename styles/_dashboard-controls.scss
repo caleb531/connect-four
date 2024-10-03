@@ -3,25 +3,25 @@
     border: solid 1px rgba(0, 0, 0, 0.25);
     border-radius: 3px;
     padding: 4px 6px;
-    background-color: $button-background-color;
-    font-family: $sans-serif;
+    background-color: var(--button-background-color);
+    font-family: var(--sans-serif);
     color: #fff;
     &:not([disabled]):hover:active,
     &:not([disabled]):focus:active {
-      background-color: lighten($button-background-color, 5%);
+      --button-background-color: var(--button-background-color-active);
     }
     &:focus {
       outline-width: 0;
     }
     &.warn {
-      background-color: $button-warn-background-color;
+      --button-background-color: var(--button-warn-background-color);
       &:not([disabled]):hover:active,
       &:not([disabled]):focus:active {
-        background-color: desaturate(lighten($button-warn-background-color, 10%), 10%);
+        --button-background-color: var(--button-warn-background-color-active);
       }
     }
     &:disabled {
-      background-color: $button-disabled-background-color;
+      --button-background-color: var(--button-disabled-background-color);
     }
   }
   a {
@@ -42,8 +42,8 @@ input[type='text'] {
   text-align: center;
   &:focus {
     outline-width: 0;
-    border-color: $input-focus-border-color;
-    box-shadow: 0 0 3px 1px $input-focus-box-shadow-color;
+    border-color: var(--input-focus-border-color);
+    box-shadow: 0 0 3px 1px var(--input-focus-box-shadow-color);
   }
 }
 
@@ -69,7 +69,6 @@ input[type='text'] {
   margin-right: 0;
   transition: background-color 1000ms ease-in-out;
   &:hover:active {
-    background-color: $button-action-background-color;
     transition-duration: 0ms;
   }
 }

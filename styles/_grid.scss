@@ -2,12 +2,12 @@
 
 #grid {
   position: relative;
-  padding-top: $chip-size + ($chip-margin * 2);
+  padding-top: calc(var(--chip-size) + (var(--chip-margin) * 2));
   cursor: default;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   @include if-compact-layout() {
-    padding-top: $chip-size-compact + ($chip-margin-compact * 2);
+    padding-top: calc(var(--chip-size-compact) + (var(--chip-margin-compact) * 2));
   }
 }
 #grid-columns {
@@ -17,9 +17,9 @@
   display: inline-flex;
   flex-direction: column-reverse;
   // This ensures that empty columns do not occupy any less space
-  width: $chip-size + ($chip-margin * 2);
+  width: calc(var(--chip-size) + (var(--chip-margin) * 2));
   @include if-compact-layout() {
-    width: $chip-size-compact + ($chip-margin-compact * 2);
+    width: calc(var(--chip-size-compact) + (var(--chip-margin-compact) * 2));
   }
 }
 
@@ -28,24 +28,24 @@
 .chip-inner,
 .empty-chip-slot-inner {
   display: block;
-  width: $chip-size;
-  height: $chip-size;
-  margin: $chip-margin;
+  width: var(--chip-size);
+  height: var(--chip-size);
+  margin: var(--chip-margin);
   border-style: solid;
   border-width: 2px;
   border-radius: 50%;
   box-sizing: border-box;
   @include if-compact-layout() {
-    width: $chip-size-compact;
-    height: $chip-size-compact;
-    margin: $chip-margin-compact;
+    width: var(--chip-size-compact);
+    height: var(--chip-size-compact);
+    margin: var(--chip-margin-compact);
   }
 }
 
 .empty-chip-slot-inner {
-  border-color: $empty-chip-slot-border-color;
+  border-color: var(--empty-chip-slot-border-color);
   @include dark-mode() {
-    border-color: $empty-chip-slot-border-color-dark;
+    border-color: var(--empty-chip-slot-border-color-dark);
   }
 }
 
@@ -66,14 +66,10 @@
 }
 
 .chip {
-  @each $player-color-name, $player-color in $player-colors {
-    &.#{$player-color-name} {
-      --chip-background-color-light: #{$player-color};
-      --chip-background-color-dark: #{map-get($player-colors-dark, $player-color-name)};
-      --chip-border-color-light: #{darken($player-color, 10%)};
-      --chip-border-color-dark: #{darken(map-get($player-colors-dark, $player-color-name), 10%)};
-    }
-  }
+  --chip-background-color-light: var(--player-color-light);
+  --chip-background-color-dark: var(--player-color-dark);
+  --chip-border-color-light: rgba(0, 0, 0, 0.25);
+  --chip-border-color-dark: rgba(0, 0, 0, 0.25);
   .chip-inner {
     border-color: var(--chip-border-color-light);
     background-color: var(--chip-background-color-light);
@@ -105,13 +101,13 @@
     }
   }
   &.pending.transition-x {
-    transition: transform 200ms $bounce-transition-timing-function;
+    transition: transform 200ms var(--bounce-transition-timing-function);
   }
   &.pending.transition-y {
     // Restart fade-in animation when next pending chip appears
     animation: none;
     // Set a falling transition with a rubber-banding effect at the end
-    transition: transform 500ms $bounce-transition-timing-function;
+    transition: transform 500ms var(--bounce-transition-timing-function);
     .chip-inner-clone {
       opacity: 1;
     }

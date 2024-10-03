@@ -1,4 +1,7 @@
 // Mixins that can be used across all Sass partials
+$page-max-width-hybrid: 700px;
+$page-max-width-compact: 500px;
+$page-min-width-compact: 320px;
 
 // Add mixin for hybrid layout media query (triggers when the viewport width is
 // smaller than the width of the grid)

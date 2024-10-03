@@ -1,57 +1,22 @@
-// Sass variables
+// Variables
+:root {
+  // Global
+  --bounce-transition-timing-function: cubic-bezier(0.6, 0, 0, 1.25);
 
-// Global
-$bounce-transition-timing-function: cubic-bezier(0.6, 0, 0, 1.25);
+  // Fonts
+  --sans-serif: 'Ubuntu', sans-serif;
 
-// Fonts
-$sans-serif: 'Ubuntu', sans-serif;
+  // Chip constants
+  --chip-size: 52px;
+  --chip-margin: 6px;
+  --chip-size-compact: 10.25vw;
+  --chip-margin-compact: 1.25vw;
 
-// Chip constants
-$chip-size: 52px;
-$chip-margin: 6px;
-$chip-size-compact: 10.25vw;
-$chip-margin-compact: 1.25vw;
+  // Page constants
+  --page-spacing-top: 40px;
+  --page-spacing-x: 20px;
 
-// Page constants
-$page-spacing-top: 40px;
-$page-spacing-x: 20px;
-$page-max-width-hybrid: 700px;
-$page-max-width-compact: 500px;
-$page-min-width-compact: 320px;
-
-// Dashboard variables
-$dashboard-text-size: 14px;
-$dashboard-text-size-hybrid: 16px;
-
-// Colors
-$update-notification-color: #38c;
-$empty-chip-slot-border-color: #ccc;
-$button-background-color: #390;
-$button-disabled-background-color: #aaa;
-$button-action-background-color: #38c;
-$button-warn-background-color: #d60;
-$input-focus-border-color: #36c;
-$input-focus-box-shadow-color: #9cf;
-
-// Dark Mode Colors
-$app-background-color-dark: #111;
-$app-color-dark: #fff;
-$empty-chip-slot-border-color-dark: #333;
-
-// Player reactions
-$player-reaction-offset: -15px;
-$player-reaction-transition-duration: 300ms;
-
-// Player/chip colors
-$player-colors: (
-  'black': #444,
-  'blue': #36c,
-  'red': #c33
-);
-
-// Player/chip colors for Dark Mode
-$player-colors-dark: (
-  'black': #666,
-  'blue': #14a,
-  'red': #b22
-);
+  // Dashboard variables
+  --dashboard-text-size: 14px;
+  --dashboard-text-size-hybrid: 16px;
+}

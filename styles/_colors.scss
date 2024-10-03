@@ -1,0 +1,44 @@
+:root {
+  --update-notification-color: #38c;
+  --empty-chip-slot-border-color: #ccc;
+  --button-background-color: #390;
+  --button-background-color-active: #5b2;
+  --button-disabled-background-color: #aaa;
+  --button-warn-background-color: #d60;
+  --button-warn-background-color-active: #f3801d;
+  --input-focus-border-color: #36c;
+  --input-focus-box-shadow-color: #9cf;
+
+  // Dark Mode Colors
+  --app-background-color-dark: #111;
+  --app-color-dark: #fff;
+  --empty-chip-slot-border-color-dark: #333;
+
+  // Player reactions
+  --player-reaction-offset: -15px;
+  --player-reaction-transition-duration: 300ms;
+
+  // Player/chip colors
+  --player-color-light-black: #444;
+  --player-color-light-blue: #36c;
+  --player-color-light-red: #c33;
+
+  // Player/chip colors for Dark Mode
+  --player-color-dark-black: #666;
+  --player-color-dark-blue: #14a;
+  --player-color-dark-red: #b22;
+}
+
+// Define standard player colors that any element can use
+.red {
+  --player-color-light: var(--player-color-light-red);
+  --player-color-dark: var(--player-color-dark-red);
+}
+.blue {
+  --player-color-light: var(--player-color-light-blue);
+  --player-color-dark: var(--player-color-dark-blue);
+}
+.black {
+  --player-color-light: var(--player-color-light-black);
+  --player-color-dark: var(--player-color-dark-black);
+}

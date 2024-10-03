@@ -6,30 +6,24 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: $chip-margin;
+  margin-top: var(--chip-margin);
   text-align: center;
 }
 
 .player {
   position: relative;
   &:nth-child(1) {
-    margin-left: $chip-margin;
+    margin-left: var(--chip-margin);
     text-align: left;
     .player-reaction {
-      left: $player-reaction-offset;
+      left: var(--player-reaction-offset);
     }
   }
   &:nth-child(2) {
-    margin-right: $chip-margin;
+    margin-right: var(--chip-margin);
     text-align: right;
     .player-reaction {
-      right: $player-reaction-offset;
-    }
-  }
-  @each $player-color-name, $player-color in $player-colors {
-    &.#{$player-color-name} {
-      --player-color-light: #{$player-color};
-      --player-color-dark: #{map-get($player-colors-dark, $player-color-name)};
+      right: var(--player-reaction-offset);
     }
   }
   color: var(--player-color-light);
@@ -41,7 +35,7 @@
 .player-name,
 .player-score {
   opacity: 1;
-  transition: opacity $player-reaction-transition-duration ease-in-out;
+  transition: opacity var(--player-reaction-transition-duration) ease-in-out;
   .player.is-reacting & {
     opacity: 0;
   }
@@ -51,7 +45,7 @@
   font-size: 16px;
   border-bottom: solid 2px transparent;
   transition-property: border-color, opacity;
-  transition-duration: 150ms, $player-reaction-transition-duration;
+  transition-duration: 150ms, var(--player-reaction-transition-duration);
   transition-timing-function: ease-in-out;
   .current-player & {
     border-bottom-color: currentColor;
@@ -65,18 +59,18 @@
 .player-reaction {
   position: absolute;
   z-index: 10;
-  top: $player-reaction-offset;
+  top: var(--player-reaction-offset);
   user-select: none;
 }
 .player-reaction-symbol {
   font-size: 64px;
   transform: scale(0);
   // Don't bounce back when shrinking to scale(0)
-  transition: all $player-reaction-transition-duration cubic-bezier(0.6, 0, 0, 1);
+  transition: all var(--player-reaction-transition-duration) cubic-bezier(0.6, 0, 0, 1);
   transition-property: transform, text-shadow;
   &.show {
     transform: scale(1);
-    transition-timing-function: $bounce-transition-timing-function;
-    text-shadow: 0 1px 10px rgba(#000, 0.25);
+    transition-timing-function: var(--bounce-transition-timing-function);
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.25);
   }
 }

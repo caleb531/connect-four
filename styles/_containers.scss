@@ -1,18 +1,18 @@
 // Core containers
 
 body {
-  min-width: $page-min-width-compact;
+  min-width: var(--page-min-width-compact);
   margin: 0;
   padding: 0;
   // Ensure that the absolutely-positioned nav links do not get pushed out of
   // the bounds of the <body> due to the <h1> margin-top
   padding-top: 1px;
-  font-family: $sans-serif;
+  font-family: var(--sans-serif);
   text-align: center;
   overflow-y: scroll;
   @include dark-mode() {
-    background-color: $app-background-color-dark;
-    color: $app-color-dark;
+    background-color: var(--app-background-color-dark);
+    color: var(--app-color-dark);
   }
 }
 
@@ -28,8 +28,8 @@ main {
   align-items: flex-start;
   max-width: $page-max-width-hybrid;
   margin: 0 auto;
-  margin-top: $page-spacing-top;
-  padding: 0 $page-spacing-x;
+  margin-top: var(--page-spacing-top);
+  padding: 0 var(--page-spacing-x);
   font-size: 0;
   @include if-hybrid-layout() {
     display: inline-block;
@@ -40,6 +40,6 @@ main {
 }
 
 a {
-  color: $input-focus-border-color;
+  color: var(--input-focus-border-color);
   text-decoration: none;
 }
