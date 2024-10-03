@@ -11,7 +11,7 @@
   transform: translateY(-100%);
   transition: transform 400ms ease-in-out;
   text-align: center;
-  color: #fff;
+  color: var(--button-color);
   cursor: pointer;
   &.update-available {
     opacity: 1;

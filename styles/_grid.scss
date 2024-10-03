@@ -68,8 +68,8 @@
 .chip {
   --chip-background-color-light: var(--player-color-light);
   --chip-background-color-dark: var(--player-color-dark);
-  --chip-border-color-light: rgba(0, 0, 0, 0.25);
-  --chip-border-color-dark: rgba(0, 0, 0, 0.25);
+  --chip-border-color-light: hsla(0, 0%, 0%, 0.25);
+  --chip-border-color-dark: hsla(0, 0%, 0%, 0.25);
   .chip-inner {
     border-color: var(--chip-border-color-light);
     background-color: var(--chip-background-color-light);
