@@ -1,0 +1,28 @@
+alerts:
+  - rule: DEPLOYMENT_FAILED
+  - rule: DEPLOYMENT_LIVE
+  - rule: DOMAIN_FAILED
+domains:
+  - domain: connectfour.calebevans.me
+    type: PRIMARY
+ingress:
+  rules:
+    - component:
+        name: connect-four
+      match:
+        path:
+          prefix: /
+name: connect-four
+region: sfo
+services:
+  - dockerfile_path: Dockerfile
+    github:
+      branch: main
+      deploy_on_push: true
+      repo: caleb531/connect-four
+    http_port: 8080
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    name: connect-four
+    run_command: npm start
+    source_dir: /
