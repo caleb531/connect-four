@@ -1,13 +1,13 @@
 // Main front-end stylesheet
 
-@import 'mixins';
-@import 'variables';
-@import 'colors';
-@import 'containers';
-@import 'header';
-@import 'dashboard';
-@import 'dashboard-controls';
-@import 'grid';
-@import 'player-area';
-@import 'reaction-picker';
-@import 'update-notification';
+@use 'mixins';
+@use 'variables';
+@use 'colors';
+@use 'containers';
+@use 'header';
+@use 'dashboard';
+@use 'dashboard-controls';
+@use 'grid';
+@use 'player-area';
+@use 'reaction-picker';
+@use 'update-notification';
