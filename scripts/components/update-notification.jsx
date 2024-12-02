@@ -1,5 +1,5 @@
-import m from 'mithril';
 import clsx from 'clsx';
+import m from 'mithril';
 import { registerSW } from 'virtual:pwa-register';
 
 class UpdateNotificationComponent {
@@ -16,6 +16,7 @@ class UpdateNotificationComponent {
       return;
     }
     this.isUpdateAvailable = false;
+    this.isUpdating = false;
     this.updateSW = registerSW({
       onNeedRefresh: () => {
         this.isUpdateAvailable = true;
@@ -26,6 +27,8 @@ class UpdateNotificationComponent {
 
   update() {
     if (this.updateSW) {
+      this.isUpdating = true;
+      m.redraw();
       this.updateSW();
     }
   }
@@ -38,7 +41,9 @@ class UpdateNotificationComponent {
         })}
         onclick={() => this.update()}
       >
-        <span className="update-notification-message">Update available! Click here to update.</span>
+        <span className="update-notification-message">
+          {this.isUpdating ? 'Updating...' : 'Update available! Click here to update.'}
+        </span>
       </div>
     );
   }
