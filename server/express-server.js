@@ -55,15 +55,6 @@ async function createExpressServer() {
     app.enable('trust proxy');
     app.use(expressEnforcesSSL());
   }
-  // Expose nonces to the below CSP (this middleware must be mounted before the
-  // CSP middleware is mounted))
-  app.use((req, res, next) => {
-    // Inline <script> nonce for Universal Analytics
-    res.locals.uaNonce = generateNonce();
-    // Inline <script> nonce for Google Analytics 4
-    res.locals.ga4Nonce = generateNonce();
-    next();
-  });
   // Add the recommended security headers
   app.use(
     helmet({
