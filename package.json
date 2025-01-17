@@ -35,7 +35,7 @@
     "clsx": "^2.1.1",
     "compression": "^1.7.5",
     "ejs": "^3.1.10",
-    "express": "^4.21.1",
+    "express": "^4.21.2",
     "express-enforces-ssl": "^1.1.0",
     "helmet": "^8.0.0",
     "mithril": "^2.2.11",
