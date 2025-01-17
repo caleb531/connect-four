@@ -35,7 +35,7 @@ export default defineConfig({
         short_name: 'Connect Four',
         name: 'Connect Four',
         description:
-          'The slickest way to get 4-in-a-row. Play on your phone or computer, with a friend or against Mr. AI. Just be sure to enjoy and have fun.',
+          'The slickest way to get 4-in-a-row. Play on your phone or computer, with a friend or against Mr. A.I.',
         start_url: '.',
         display: 'standalone',
         orientation: 'portrait',

@@ -9,7 +9,7 @@ _Released under the MIT License_
 
 This is the slickest Connect Four app around, written using HTML5, JavaScript,
 and Mithril (a React-like framework). You can play on your phone or computer,
-with a friend or against the AI. Just be sure to enjoy and have fun. :)
+with a friend or against Mr. A.I.
 
 You can play the app online at:  
 https://connectfour.calebevans.me/
