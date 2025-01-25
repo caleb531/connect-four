@@ -1,3 +1,5 @@
+@use 'mixins' as *;
+
 :root {
   --update-notification-color: hsl(207, 60%, 50%);
   --empty-chip-slot-border-color: hsl(0, 0%, 80%);
@@ -10,36 +12,29 @@
   --input-focus-border-color: hsl(220, 60%, 50%);
   --input-focus-box-shadow-color: hsl(210, 100%, 80%);
 
-  // Dark Mode Colors
-  --app-background-color-dark: hsl(0, 0%, 7%);
-  --app-color-dark: hsl(0, 0%, 100%);
-  --empty-chip-slot-border-color-dark: hsl(0, 0%, 20%);
-
-  // Player reactions
-  --player-reaction-offset: -15px;
-  --player-reaction-transition-duration: 300ms;
-
   // Player/chip colors
-  --player-color-light-black: hsl(0, 0%, 27%);
-  --player-color-light-blue: hsl(220, 60%, 50%);
-  --player-color-light-red: hsl(0, 60%, 50%);
+  --player-color-black: hsl(0, 0%, 27%);
+  --player-color-blue: hsl(220, 60%, 50%);
+  --player-color-red: hsl(0, 60%, 50%);
 
-  // Player/chip colors for Dark Mode
-  --player-color-dark-black: hsl(0, 0%, 40%);
-  --player-color-dark-blue: hsl(220, 82%, 37%);
-  --player-color-dark-red: hsl(0, 69%, 43%);
+  // Dark mode
+  @media (prefers-color-scheme: dark) {
+    --app-background-color: hsl(0, 0%, 7%);
+    --app-text-color: hsl(0, 0%, 100%);
+    --empty-chip-slot-border-color: hsl(0, 0%, 20%);
+    --player-color-black: hsl(0, 0%, 40%);
+    --player-color-blue: hsl(220, 82%, 37%);
+    --player-color-red: hsl(0, 69%, 43%);
+  }
 }
 
 // Define standard player colors that any element can use
 .red {
-  --player-color-light: var(--player-color-light-red);
-  --player-color-dark: var(--player-color-dark-red);
+  --player-color: var(--player-color-red);
 }
 .blue {
-  --player-color-light: var(--player-color-light-blue);
-  --player-color-dark: var(--player-color-dark-blue);
+  --player-color: var(--player-color-blue);
 }
 .black {
-  --player-color-light: var(--player-color-light-black);
-  --player-color-dark: var(--player-color-dark-black);
+  --player-color: var(--player-color-black);
 }

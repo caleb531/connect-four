@@ -9,13 +9,11 @@ body {
   // Ensure that the absolutely-positioned nav links do not get pushed out of
   // the bounds of the <body> due to the <h1> margin-top
   padding-top: 1px;
+  background-color: var(--app-background-color);
   font-family: var(--sans-serif);
   text-align: center;
+  color: var(--app-text-color);
   overflow-y: scroll;
-  @include dark-mode() {
-    background-color: var(--app-background-color-dark);
-    color: var(--app-color-dark);
-  }
 }
 
 // Ensure that the <main> element renders correctly on browsers that don't fully

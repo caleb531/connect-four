@@ -46,9 +46,6 @@
 
 .empty-chip-slot-inner {
   border-color: var(--empty-chip-slot-border-color);
-  @include dark-mode() {
-    border-color: var(--empty-chip-slot-border-color-dark);
-  }
 }
 
 @keyframes fade-in-chip {
@@ -68,17 +65,11 @@
 }
 
 .chip {
-  --chip-background-color-light: var(--player-color-light);
-  --chip-background-color-dark: var(--player-color-dark);
-  --chip-border-color-light: hsla(0, 0%, 0%, 0.25);
-  --chip-border-color-dark: hsla(0, 0%, 0%, 0.25);
+  --chip-background-color: var(--player-color);
+  --chip-border-color: hsla(0, 0%, 0%, 0.25);
   .chip-inner {
-    border-color: var(--chip-border-color-light);
-    background-color: var(--chip-background-color-light);
-    @include dark-mode() {
-      border-color: var(--chip-border-color-dark);
-      background-color: var(--chip-background-color-dark);
-    }
+    border-color: var(--chip-border-color);
+    background-color: var(--chip-background-color);
   }
   // The pending chip is the to-be-placed chip above the board
   &.pending {

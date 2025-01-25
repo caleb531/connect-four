@@ -1,5 +1,10 @@
 @use 'mixins' as *;
 
+:root {
+  --player-reaction-offset: -15px;
+  --player-reaction-transition-duration: 300ms;
+}
+
 #player-area {
   position: relative;
 }
@@ -28,10 +33,7 @@
       right: var(--player-reaction-offset);
     }
   }
-  color: var(--player-color-light);
-  @include dark-mode() {
-    color: var(--player-color-dark);
-  }
+  color: var(--player-color);
 }
 
 .player-name,
