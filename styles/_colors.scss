@@ -1,6 +1,8 @@
 @use 'mixins' as *;
 
 :root {
+  --app-background-color: hsl(0, 0%, 100%);
+  --app-text-color: hsl(0, 0%, 0%);
   --update-notification-color: hsl(207, 60%, 50%);
   --empty-chip-slot-border-color: hsl(0, 0%, 80%);
   --button-background-color: hsl(100, 100%, 30%);
