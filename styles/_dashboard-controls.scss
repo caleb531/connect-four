@@ -43,7 +43,7 @@ input[type='text'] {
   &:focus {
     outline-width: 0;
     border-color: var(--input-focus-border-color);
-    box-shadow: 0 0 3px 1px var(--input-focus-box-shadow-color);
+    box-shadow: 0 0 5px 2px var(--input-focus-box-shadow-color);
   }
 }
 
