@@ -3,6 +3,7 @@
 :root {
   --app-background-color: hsl(0, 0%, 100%);
   --app-text-color: hsl(0, 0%, 0%);
+  --app-link-color: hsl(220, 60%, 50%);
   --update-notification-color: hsl(207, 60%, 50%);
   --empty-chip-slot-border-color: hsl(0, 0%, 80%);
   --button-background-color: hsl(100, 100%, 30%);
@@ -23,8 +24,8 @@
   @media (prefers-color-scheme: dark) {
     --app-background-color: hsl(0, 0%, 7%);
     --app-text-color: hsl(0, 0%, 100%);
+    --app-link-color: hsl(220, 100%, 65%);
     --empty-chip-slot-border-color: hsl(0, 0%, 20%);
-    --input-focus-border-color: hsl(220, 100%, 65%);
     --player-color-black: hsl(0, 0%, 40%);
     --player-color-blue: hsl(220, 82%, 37%);
     --player-color-red: hsl(0, 69%, 43%);
