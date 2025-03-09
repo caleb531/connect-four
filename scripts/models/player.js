@@ -1,6 +1,5 @@
 // An abstract base model representing a player in a game
 class Player {
-  /* eslint-disable no-shadow */
   constructor({
     name,
     color,

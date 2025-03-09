@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import sinon from 'sinon';
 import Emitter from 'tiny-emitter';
 import Game from '../../scripts/models/game.js';
@@ -30,7 +30,6 @@ test.describe('game', async () => {
       expect(game.columnHistory).toHaveLength(1);
       expect(game.columnHistory[0]).toEqual(2);
     } finally {
-      // eslint-disable-next-line no-console
       console.log.restore();
     }
     game.endGame();

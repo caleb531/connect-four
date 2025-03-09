@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
 class Player {
-  /* eslint-disable no-shadow */
   constructor({
     id = uuidv4(),
     name,

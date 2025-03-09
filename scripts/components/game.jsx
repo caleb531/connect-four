@@ -1,8 +1,8 @@
-import m from 'mithril';
 import clsx from 'clsx';
+import m from 'mithril';
 import Game from '../models/game.js';
-import GridComponent from './grid.jsx';
 import DashboardComponent from './dashboard.jsx';
+import GridComponent from './grid.jsx';
 import PlayerAreaComponent from './player-area.jsx';
 import ReactionPickerComponent from './reaction-picker.jsx';
 

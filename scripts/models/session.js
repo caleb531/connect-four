@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import io from 'socket.io-client';
 
 class Session {

@@ -51,6 +51,7 @@
     "workbox-window": "^7.3.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.22.0",
     "@playwright/test": "^1.49.0",
     "@types/eslint-config-prettier": "^6.11.3",
     "@types/eslint__js": "^8.42.3",

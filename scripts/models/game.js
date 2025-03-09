@@ -1,9 +1,9 @@
 import Emitter from 'tiny-emitter';
+import AIPlayer from './ai-player.js';
+import Chip from './chip.js';
 import Grid from './grid.js';
 import HumanPlayer from './human-player.js';
 import OnlinePlayer from './online-player.js';
-import AIPlayer from './ai-player.js';
-import Chip from './chip.js';
 
 // A game between two players; the same Game instance is re-used for successive
 // rounds
@@ -151,7 +151,6 @@ class Game extends Emitter {
       this.columnHistory.push(column);
       // The column history will only be logged on non-production sites, so we
       // can safely disable the ESLint error
-      // eslint-disable-next-line no-console
       console.log(this.columnHistory.join(', '));
     }
     this.pendingChip = null;

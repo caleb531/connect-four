@@ -1,5 +1,3 @@
-/* eslint-disable quotes */
-
 // Content Security Policy directives for consumption by Helmet package
 // (<https://www.npmjs.com/package/helmet>)
 export default {
