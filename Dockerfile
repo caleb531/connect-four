@@ -5,6 +5,10 @@
 # Base image
 FROM node:20-alpine
 RUN apk update && apk add --no-cache libc6-compat
+# Upgrade corepack to latest to fix "Internal Error: Cannot find matching keyid"
+# error when installing latest pnpm (source:
+# <https://vercel.com/guides/corepack-errors-github-actions>)
+RUN npm install -g corepack@latest
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
 # Set up project
