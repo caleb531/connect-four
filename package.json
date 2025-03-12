@@ -56,7 +56,6 @@
     "@types/eslint-config-prettier": "^6.11.3",
     "@types/eslint__js": "^8.42.3",
     "@types/mithril": "^2.2.7",
-    "autoprefixer": "^10.4.20",
     "eslint": "^9.16.0",
     "eslint-config-prettier": "^9.1.0",
     "globals": "^15.13.0",
