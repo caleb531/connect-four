@@ -1,5 +1,5 @@
-import { Server } from 'socket.io';
 import open from 'open';
+import { Server } from 'socket.io';
 
 import getExpressServer from './express-server.js';
 import { roomManager } from './room-manager.js';

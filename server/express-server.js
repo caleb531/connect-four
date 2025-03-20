@@ -1,14 +1,14 @@
+import compression from 'compression';
 import crypto from 'crypto';
 import express from 'express';
-import compression from 'compression';
 import expressEnforcesSSL from 'express-enforces-ssl';
 import helmet from 'helmet';
 import http from 'http';
-import { createServer as createViteServer } from 'vite';
 import path from 'path';
-import { roomManager } from './room-manager.js';
 import { fileURLToPath } from 'url';
+import { createServer as createViteServer } from 'vite';
 import cspDirectives from './csp.js';
+import { roomManager } from './room-manager.js';
 
 // __dirname is not available in ES modules natively, so we must define it
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
