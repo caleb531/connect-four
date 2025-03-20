@@ -42,7 +42,7 @@ async function transformHtml(vite, req, res, htmlPath, params) {
 }
 
 // Express server
-async function createExpressServer() {
+async function createHttpServer() {
   const app = express();
 
   // Use EJS as view engine, regardless of file extension (i.e. we need
@@ -153,4 +153,4 @@ async function createExpressServer() {
   return server;
 }
 
-export default createExpressServer;
+export default createHttpServer;

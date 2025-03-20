@@ -1,12 +1,12 @@
 import open from 'open';
 import { Server } from 'socket.io';
 
-import getExpressServer from './express-server.js';
+import createHttpServer from './http-server.js';
 import { roomManager } from './room-manager.js';
 
 // Socket.IO server
 async function createServer() {
-  const httpServer = await getExpressServer();
+  const httpServer = await createHttpServer();
   const io = new Server(httpServer);
 
   // A wrapper around RoomManager.getRoom() to run the given callback if the
