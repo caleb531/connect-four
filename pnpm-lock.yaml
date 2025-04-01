@@ -57,11 +57,11 @@ importers:
         specifier: ^11.1.0
         version: 11.1.0
       vite:
-        specifier: ^6.2.1
-        version: 6.2.1(@types/node@22.10.1)(sass-embedded@1.85.1)(terser@5.36.0)
+        specifier: ^6.2.4
+        version: 6.2.4(@types/node@22.10.1)(sass-embedded@1.85.1)(terser@5.36.0)
       vite-plugin-pwa:
         specifier: ^0.21.1
-        version: 0.21.1(vite@6.2.1(@types/node@22.10.1)(sass-embedded@1.85.1)(terser@5.36.0))(workbox-build@7.3.0)(workbox-window@7.3.0)
+        version: 0.21.1(vite@6.2.4(@types/node@22.10.1)(sass-embedded@1.85.1)(terser@5.36.0))(workbox-build@7.3.0)(workbox-window@7.3.0)
       workbox-window:
         specifier: ^7.3.0
         version: 7.3.0
@@ -2598,8 +2598,8 @@ packages:
       '@vite-pwa/assets-generator':
         optional: true
 
-  vite@6.2.1:
-    resolution: {integrity: sha512-n2GnqDb6XPhlt9B8olZPrgMD/es/Nd1RdChF6CBD/fHW6pUyUTt2sQW2fPRX5GiD9XEa6+8A6A4f2vT6pSsE7Q==}
+  vite@6.2.4:
+    resolution: {integrity: sha512-veHMSew8CcRzhL5o8ONjy8gkfmFJAd5Ac16oxBUjlwgX3Gq2Wqr+qNC3TjPIpy7TPV/KporLga5GT9HqdrCizw==}
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
     peerDependencies:
@@ -5390,18 +5390,18 @@ snapshots:
 
   vary@1.1.2: {}
 
-  vite-plugin-pwa@0.21.1(vite@6.2.1(@types/node@22.10.1)(sass-embedded@1.85.1)(terser@5.36.0))(workbox-build@7.3.0)(workbox-window@7.3.0):
+  vite-plugin-pwa@0.21.1(vite@6.2.4(@types/node@22.10.1)(sass-embedded@1.85.1)(terser@5.36.0))(workbox-build@7.3.0)(workbox-window@7.3.0):
     dependencies:
       debug: 4.3.7
       pretty-bytes: 6.1.1
       tinyglobby: 0.2.10
-      vite: 6.2.1(@types/node@22.10.1)(sass-embedded@1.85.1)(terser@5.36.0)
+      vite: 6.2.4(@types/node@22.10.1)(sass-embedded@1.85.1)(terser@5.36.0)
       workbox-build: 7.3.0
       workbox-window: 7.3.0
     transitivePeerDependencies:
       - supports-color
 
-  vite@6.2.1(@types/node@22.10.1)(sass-embedded@1.85.1)(terser@5.36.0):
+  vite@6.2.4(@types/node@22.10.1)(sass-embedded@1.85.1)(terser@5.36.0):
     dependencies:
       esbuild: 0.25.1
       postcss: 8.5.3
