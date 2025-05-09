@@ -1,5 +1,4 @@
 import compression from 'compression';
-import crypto from 'crypto';
 import express from 'express';
 import expressEnforcesSSL from 'express-enforces-ssl';
 import helmet from 'helmet';
@@ -18,11 +17,6 @@ const indexPath =
   process.env.NODE_ENV === 'production'
     ? path.join(path.dirname(__dirname), 'dist', 'index.html')
     : path.join(path.dirname(__dirname), 'index.html');
-
-// Generate a secure nonce that can be used to
-function generateNonce() {
-  return crypto.randomBytes(16).toString('hex');
-}
 
 // Transform page HTML using both EJS and Vite
 async function transformHtml(vite, req, res, htmlPath, params) {
