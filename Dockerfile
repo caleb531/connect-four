@@ -3,7 +3,7 @@
 # application ourselves, which allows us to install pnpm without issue
 
 # Base image
-FROM node:20-alpine
+FROM node:22-alpine
 RUN apk update && apk add --no-cache libc6-compat
 # Upgrade corepack to latest to fix "Internal Error: Cannot find matching keyid"
 # error when installing latest pnpm (source:
