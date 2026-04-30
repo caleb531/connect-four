@@ -3,5 +3,20 @@
 node_modules
 npm-debug.log
 Dockerfile
+docker-compose.yml
 .dockerignore
 ./**/.DS_Store
+
+# Build output (re-generated inside the container)
+dist/
+
+# SQLite database (mounted as a volume at runtime)
+data/
+
+# Test artifacts
+test-results/
+coverage/
+.nyc_output/
+
+# Local env overrides
+.env

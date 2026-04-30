@@ -1,0 +1,18 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      NODE_ENV: production
+      # Remove DISABLE_SSL if you terminate HTTPS at this container directly.
+      # Keep it set (or add PORT=443) when a reverse proxy (nginx, Caddy,
+      # Traefik) handles TLS termination in front of this container.
+      DISABLE_SSL: "1"
+    volumes:
+      # Persists the SQLite database (data/games.db) across restarts/upgrades
+      - game-data:/usr/app/data
+    restart: unless-stopped
+
+volumes:
+  game-data:

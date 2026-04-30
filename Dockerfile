@@ -1,30 +1,50 @@
+# ─── Stage 1: build the frontend ─────────────────────────────────────────────
 # This Dockerfile is necessary because DigitalOcean's node buildpack does not
 # support pnpm (only npm/yarn); to work around this, we must containerize the
-# application ourselves, which allows us to install pnpm without issue
+# application ourselves, which allows us to install pnpm without issue.
+FROM node:24-alpine AS builder
 
-# Base image
-FROM node:22-alpine
-RUN apk update && apk add --no-cache libc6-compat
 # Upgrade corepack to latest to fix "Internal Error: Cannot find matching keyid"
 # error when installing latest pnpm (source:
 # <https://vercel.com/guides/corepack-errors-github-actions>)
 RUN npm install -g corepack@latest
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
-# Set up project
 WORKDIR /usr/app
-# Because the package.json and pnpm-lock.yaml are the only files needed to
-# install dependencies, we copy them first and separately from the other project
-# files; this allows us to take advantage of Docker's layer caching feature,
-# which in turn speeds up subsequent Docker builds (see
-# <https://stackoverflow.com/questions/51533448/why-copy-package-json-precedes-copy>
-# for more details)
+
+# Copy manifests first so that the dependency layer is cached independently
+# from source changes — speeds up re-builds when only source files change
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install
-COPY ./ ./
+RUN pnpm install --frozen-lockfile
+
+COPY . .
 RUN pnpm build
 
-# Start server
+
+# ─── Stage 2: lean production image ──────────────────────────────────────────
+FROM node:24-alpine AS production
+
+RUN npm install -g corepack@latest
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+WORKDIR /usr/app
+ENV NODE_ENV=production
+
+# Install only runtime dependencies (skips eslint, playwright, sinon, etc.)
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile --prod
+
+# Server source and compiled frontend from the builder stage
+COPY server ./server
+COPY --from=builder /usr/app/dist ./dist
+
+# SQLite database lives here — mount a named volume to persist it across
+# container restarts and upgrades
+VOLUME ["/usr/app/data"]
+
 EXPOSE 8080
-ENV NODE_ENV production
-CMD ["pnpm", "start"]
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
+  CMD wget -q --spider http://localhost:8080/ || exit 1
+
+CMD ["node", "server/index.js"]
