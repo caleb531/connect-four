@@ -215,6 +215,9 @@ class DashboardControlsComponent {
             <>
               <button onclick={() => this.setPlayers({ gameType: '1P' })}>1 Player</button>
               <button onclick={() => this.promptToStartOnlineGame()}>2 Players</button>
+              <a className="browse-rooms" href="/rooms">
+                Browse Rooms
+              </a>
             </>
           )
         ) : null}
