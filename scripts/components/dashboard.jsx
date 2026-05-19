@@ -56,7 +56,7 @@ class DashboardComponent {
             `${game.winner.name} wins! Play again?`
           ) : game.grid.checkIfFull() ? (
             "We'll call it a draw! Play again?"
-          ) : !session.socket && game.type !== null ? (
+          ) : !session.socket && game.type === '1P' ? (
             'Which player should start first?'
           ) : roomCode && game.requestingPlayer ? (
             `${game.requestingPlayer.name} has ended the game.`

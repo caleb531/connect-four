@@ -78,6 +78,8 @@ class DashboardControlsComponent {
   startSameDeviceGame() {
     this.session.status = null;
     this.setPlayers({ gameType: '2P' });
+    this.game.setStartingPlayer();
+    this.startGame(this.game.startingPlayer);
   }
 
   setNewPlayerName(inputEvent) {
@@ -218,7 +220,7 @@ class DashboardControlsComponent {
             ) : null}
           </>
         ) : !this.session.socket ? (
-          this.game.type !== null ? (
+          this.game.type === '1P' ? (
             <>
               {this.game.players.map((player) => (
                 <button onclick={() => this.startGame(player)}>{player.name}</button>

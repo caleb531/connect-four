@@ -27,4 +27,19 @@ test.describe('game', async () => {
     expect(game.currentPlayer).toEqual(game.players[1]);
     expect(game.inProgress).toBe(true);
   });
+
+  test('should choose second player for first same-device starting player', async () => {
+    const game = new Game();
+    game.setPlayers({ gameType: '2P' });
+    game.setStartingPlayer();
+    expect(game.startingPlayer).toEqual(game.players[1]);
+  });
+
+  test('should alternate same-device starting player', async () => {
+    const game = new Game();
+    game.setPlayers({ gameType: '2P' });
+    game.setStartingPlayer();
+    game.setStartingPlayer();
+    expect(game.startingPlayer).toEqual(game.players[0]);
+  });
 });

@@ -24,6 +24,9 @@ class Game extends Emitter {
     // The type of the current/last game; unlike this.type, this does not reset
     // when the game ends
     this.lastType = null;
+    // The player who starts same-device games; this alternates between rounds
+    // after the first same-device game starts with Player 2.
+    this.startingPlayer = null;
     // The current player is null when a game is not in progress
     this.currentPlayer = null;
     // Whether or not the game is in progress
@@ -53,6 +56,16 @@ class Game extends Emitter {
     this.inProgress = true;
     this.emit('game:start');
     this.startTurn();
+  }
+
+  // Choose the next starting player for same-device games, matching online
+  // mode's behavior of giving Player 2 the first move and alternating after.
+  setStartingPlayer() {
+    if (this.startingPlayer === null) {
+      this.startingPlayer = this.players[1];
+    } else {
+      this.startingPlayer = this.getOtherPlayer(this.startingPlayer);
+    }
   }
 
   // End the game without resetting the grid
@@ -106,6 +119,7 @@ class Game extends Emitter {
       // If user switches game type (e.g. from 1-Player to 2-Player mode),
       // recreate set of players
       this.players.length = 0;
+      this.startingPlayer = null;
       this.setPlayers({ gameType });
       return;
     }
