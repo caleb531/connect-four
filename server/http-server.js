@@ -1,4 +1,5 @@
 import compression from 'compression';
+import ejs from 'ejs';
 import express from 'express';
 import expressEnforcesSSL from 'express-enforces-ssl';
 import helmet from 'helmet';
@@ -42,7 +43,7 @@ async function createHttpServer() {
   // Use EJS as view engine, regardless of file extension (i.e. we need
   // index.html instead of index.ejs so Vite can recognize entry point)
   app.set('view engine', 'html');
-  app.engine('html', (await import('ejs')).renderFile);
+  app.engine('html', ejs.renderFile);
 
   // Force HTTPS on production
   if (process.env.NODE_ENV === 'production' && !process.env.DISABLE_SSL) {
