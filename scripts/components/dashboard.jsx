@@ -46,6 +46,8 @@ class DashboardComponent {
             `Asking ${game.getOtherPlayer(game.requestingPlayer).name} to play again...`
           ) : session.status === 'newGameRequested' ? (
             `${game.requestingPlayer.name} asks to play again.`
+          ) : session.status === 'choosingTwoPlayerDevice' ? (
+            'Where will both players play?'
           ) : game.players.length === 0 ? (
             'Welcome! How many players?'
           ) : game.currentPlayer ? (

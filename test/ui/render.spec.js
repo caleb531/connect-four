@@ -12,6 +12,14 @@ test.describe('game UI', async () => {
     await expect(buttons.nth(1)).toHaveText('2 Players');
   });
 
+  test('should render two-player device choices', async ({ page }) => {
+    await page.getByRole('button', { name: '2 Players' }).click();
+    const buttons = page.locator('#game-dashboard button');
+    await expect(page.locator('#game-message')).toHaveText('Where will both players play?');
+    await expect(buttons.nth(0)).toHaveText('Same device');
+    await expect(buttons.nth(1)).toHaveText('Different device');
+  });
+
   test('should render initial grid', async ({ page }) => {
     const slots = page.locator('.empty-chip-slot');
     await expect(slots).toHaveCount(42);

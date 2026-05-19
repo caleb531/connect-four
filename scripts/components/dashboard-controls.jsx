@@ -64,6 +64,22 @@ class DashboardControlsComponent {
     this.setPlayers({ gameType: 'online' });
   }
 
+  // Show the local/online choice after the user chooses a two-player game.
+  promptForTwoPlayerDevice() {
+    this.session.status = 'choosingTwoPlayerDevice';
+  }
+
+  // Return from the two-player device choice to the initial player-count menu.
+  cancelTwoPlayerDevicePrompt() {
+    this.session.status = null;
+  }
+
+  // Start a same-device game using the original local two-human-player mode.
+  startSameDeviceGame() {
+    this.session.status = null;
+    this.setPlayers({ gameType: '2P' });
+  }
+
   setNewPlayerName(inputEvent) {
     this.newPlayerName = inputEvent.target.value.trim();
     inputEvent.redraw = false;
@@ -211,10 +227,18 @@ class DashboardControlsComponent {
                 Back
               </a>
             </>
+          ) : this.session.status === 'choosingTwoPlayerDevice' ? (
+            <>
+              <button onclick={() => this.startSameDeviceGame()}>Same device</button>
+              <button onclick={() => this.promptToStartOnlineGame()}>Different device</button>
+              <button className="go-back" onclick={() => this.cancelTwoPlayerDevicePrompt()}>
+                Back
+              </button>
+            </>
           ) : (
             <>
               <button onclick={() => this.setPlayers({ gameType: '1P' })}>1 Player</button>
-              <button onclick={() => this.promptToStartOnlineGame()}>2 Players</button>
+              <button onclick={() => this.promptForTwoPlayerDevice()}>2 Players</button>
             </>
           )
         ) : null}

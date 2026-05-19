@@ -1,7 +1,7 @@
 @use 'mixins' as *;
 
 #game-dashboard {
-  width: 230px;
+  width: 300px;
   // Prevent grid from shifting awkwardly when game controls disappear/reappear
   min-height: 60px;
   margin-bottom: 10px;
