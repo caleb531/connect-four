@@ -11,7 +11,7 @@ RUN apk update && apk add --no-cache libc6-compat
 # then safely activate the latest pnpm
 RUN npm install -g npm@latest corepack@latest \
   && corepack enable \
-  && corepack prepare pnpm@latest --activate
+  && corepack prepare pnpm@10 --activate
 
 WORKDIR /usr/app
 
