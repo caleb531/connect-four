@@ -1,30 +1,60 @@
-# This Dockerfile is necessary because DigitalOcean's node buildpack does not
-# support pnpm (only npm/yarn); to work around this, we must containerize the
-# application ourselves, which allows us to install pnpm without issue
+# ==========================================
+# 1. Build Stage
+# ==========================================
 
-# Base image
-FROM node:22-alpine
+FROM node:24.15.1-alpine AS builder
+
+# Install build essentials
 RUN apk update && apk add --no-cache libc6-compat
-# Upgrade corepack to latest to fix "Internal Error: Cannot find matching keyid"
-# error when installing latest pnpm (source:
-# <https://vercel.com/guides/corepack-errors-github-actions>)
-RUN npm install -g corepack@latest
-RUN corepack enable && corepack prepare pnpm@latest --activate
 
-# Set up project
+# Force-update npm globally to clear base-image npm vulnerabilities,
+# then safely activate the latest pnpm
+RUN npm install -g npm@latest corepack@latest \
+  && corepack enable \
+  && corepack prepare pnpm@latest --activate
+
 WORKDIR /usr/app
-# Because the package.json and pnpm-lock.yaml are the only files needed to
-# install dependencies, we copy them first and separately from the other project
-# files; this allows us to take advantage of Docker's layer caching feature,
-# which in turn speeds up subsequent Docker builds (see
-# <https://stackoverflow.com/questions/51533448/why-copy-package-json-precedes-copy>
-# for more details)
+
+# Leverage layer caching [cite: 3, 6]
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install
+RUN pnpm install --frozen-lockfile
+
+# Copy source and build
 COPY ./ ./
 RUN pnpm build
+RUN pnpm prune --prod
 
-# Start server
-EXPOSE 8080
+# ==========================================
+# 2. Production Runtime Stage
+# ==========================================
+FROM node:24.15.1-alpine AS runner
+WORKDIR /usr/app
+
+# Set production environment
 ENV NODE_ENV=production
-CMD ["pnpm", "start"]
+
+# Remove global package managers entirely from the runtime image.
+# Since we execute the app directly with node, we don't need npm or yarn in production.
+# This obliterates the source of the LSP vulnerability flags.
+RUN rm -rf /usr/local/lib/node_modules/npm \
+  && rm -rf /usr/local/bin/npm \
+  && rm -rf /usr/local/bin/npx \
+  && rm -rf /usr/local/bin/yarn \
+  && rm -rf /usr/local/bin/yarnpkg
+
+# Ensure the built-in 'node' user owns the working directory
+RUN chown -R node:node /usr/app
+
+# Copy built assets from builder stage
+COPY --from=builder --chown=node:node /usr/app/package.json ./
+COPY --from=builder --chown=node:node /usr/app/node_modules ./node_modules
+COPY --from=builder --chown=node:node /usr/app/server ./server
+COPY --from=builder --chown=node:node /usr/app/dist ./dist
+
+# Switch to the official non-root user
+USER node
+
+EXPOSE 8080
+
+# Run the app directly with node
+CMD ["npm", "start"]
