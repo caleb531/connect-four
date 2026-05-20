@@ -2,7 +2,7 @@
 # 1. Build Stage
 # ==========================================
 
-FROM node:24.15.1-alpine AS builder
+FROM node:24.15.0-alpine AS builder
 
 # Install build essentials
 RUN apk update && apk add --no-cache libc6-compat
@@ -27,7 +27,7 @@ RUN pnpm prune --prod
 # ==========================================
 # 2. Production Runtime Stage
 # ==========================================
-FROM node:24.15.1-alpine AS runner
+FROM node:24.15.0-alpine AS runner
 WORKDIR /usr/app
 
 # Set production environment
