@@ -8,7 +8,7 @@ FROM node:24.15.0-alpine AS builder
 RUN apk update && apk add --no-cache libc6-compat
 
 # Force-update npm globally to clear base-image npm vulnerabilities,
-# then safely activate the latest pnpm
+# then safely activate our preferred version of pnpm
 RUN npm install -g npm@latest corepack@latest \
   && corepack enable \
   && corepack prepare pnpm@10 --activate
