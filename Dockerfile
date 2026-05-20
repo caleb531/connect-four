@@ -56,5 +56,5 @@ USER node
 
 EXPOSE 8080
 
-# Run the app directly with node
-CMD ["npm", "start"]
+# Run the app directly because the runtime image intentionally excludes npm.
+CMD ["node", "server/index.js"]
