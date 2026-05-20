@@ -1,0 +1,8 @@
+overrides:
+  cookie@<0.7.0: '>=0.7.0'
+  serialize-javascript@<=7.0.2: '>=7.0.3'
+  serialize-javascript@<7.0.5: '>=7.0.5'
+  ws@>=8.0.0 <8.20.1: '>=8.20.1'
+allowBuilds:
+  '@parcel/watcher': true
+  esbuild: true
