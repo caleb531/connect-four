@@ -1,0 +1,198 @@
+// Game replay page
+
+#replay {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: var(--page-spacing-top) var(--page-spacing-x) 40px;
+  text-align: center;
+
+  h2 {
+    font-weight: 400;
+    font-size: 20px;
+    margin: 0 0 12px;
+  }
+}
+
+.replay-players {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.replay-player {
+  font-weight: 600;
+  &.red {
+    color: var(--player-color-red);
+  }
+  &.blue {
+    color: var(--player-color-blue);
+  }
+  &.black {
+    color: var(--player-color-black);
+  }
+}
+
+.replay-vs {
+  font-size: 11px;
+  opacity: 0.45;
+}
+
+.replay-status {
+  font-size: 13px;
+  min-height: 1.5em;
+  margin: 0 0 16px;
+  opacity: 0.75;
+}
+
+.replay-message {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.replay-error {
+  color: var(--button-warn-background-color);
+  opacity: 1;
+}
+
+// Board
+
+#replay-grid-columns {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+
+  // Fade non-winning chips when a winner is shown
+  &.game-over.has-winner .chip:not(.winning) {
+    .chip-inner {
+      opacity: 0.3;
+    }
+  }
+
+  .chip.last-placed .chip-inner {
+    box-shadow: 0 0 0 3px white, 0 0 0 5px hsla(0, 0%, 0%, 0.25);
+  }
+}
+
+// Scrubber
+
+.replay-scrubber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 12px;
+
+  input[type='range'] {
+    width: 220px;
+    cursor: pointer;
+    accent-color: var(--button-background-color);
+  }
+}
+
+.replay-step-count {
+  font-size: 12px;
+  opacity: 0.6;
+  min-width: 46px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+// Transport controls
+
+.replay-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 10px;
+
+  button {
+    background: none;
+    border: solid 1px hsla(0, 0%, 0%, 0.2);
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    color: var(--app-text-color);
+    line-height: 1;
+    transition: background-color 0.1s;
+
+    &:hover:not(:disabled) {
+      background-color: hsla(0, 0%, 0%, 0.06);
+    }
+    &:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+    &:focus {
+      outline: none;
+    }
+    @media (prefers-color-scheme: dark) {
+      border-color: hsla(0, 0%, 100%, 0.2);
+      &:hover:not(:disabled) {
+        background-color: hsla(0, 0%, 100%, 0.08);
+      }
+    }
+  }
+
+  .play-pause {
+    padding: 5px 14px;
+    font-size: 18px;
+  }
+}
+
+// Speed selector
+
+.replay-speed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+
+.replay-speed-label {
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+.replay-speed button {
+  background: none;
+  border: solid 1px hsla(0, 0%, 0%, 0.2);
+  border-radius: 10px;
+  padding: 2px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--app-text-color);
+  transition: background-color 0.1s;
+
+  &:hover {
+    background-color: hsla(0, 0%, 0%, 0.06);
+  }
+  &.active {
+    background-color: var(--button-background-color);
+    color: var(--button-color);
+    border-color: transparent;
+  }
+  &:focus {
+    outline: none;
+  }
+  @media (prefers-color-scheme: dark) {
+    border-color: hsla(0, 0%, 100%, 0.2);
+    &:hover {
+      background-color: hsla(0, 0%, 100%, 0.08);
+    }
+  }
+}
+
+// Footer
+
+.replay-footer {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-size: 14px;
+}

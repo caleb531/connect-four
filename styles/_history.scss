@@ -1,0 +1,168 @@
+// Game History page
+
+#history {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--page-spacing-top) var(--page-spacing-x) 40px;
+  text-align: center;
+
+  h2 {
+    font-weight: 400;
+    font-size: 20px;
+    margin: 0 0 20px;
+  }
+}
+
+.history-message {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.history-error {
+  color: var(--button-warn-background-color);
+  opacity: 1;
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  text-align: left;
+  margin-bottom: 20px;
+
+  th {
+    font-weight: 600;
+    padding: 6px 10px;
+    border-bottom: 2px solid var(--empty-chip-slot-border-color);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--empty-chip-slot-border-color);
+    vertical-align: middle;
+  }
+
+  tr.abandoned td {
+    opacity: 0.5;
+  }
+}
+
+.history-date {
+  white-space: nowrap;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.history-players {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.history-player {
+  &.red {
+    color: var(--player-color-red);
+  }
+  &.blue {
+    color: var(--player-color-blue);
+  }
+}
+
+.history-vs {
+  font-size: 11px;
+  opacity: 0.45;
+}
+
+.history-winner {
+  font-weight: 600;
+  &.red {
+    color: var(--player-color-red);
+  }
+  &.blue {
+    color: var(--player-color-blue);
+  }
+}
+
+.history-moves,
+.history-duration {
+  text-align: center;
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.history-status {
+  text-align: center;
+}
+
+.history-replay {
+  text-align: center;
+  a {
+    font-size: 12px;
+    white-space: nowrap;
+  }
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+
+  &.completed {
+    background-color: hsl(100, 60%, 88%);
+    color: hsl(100, 60%, 25%);
+    @media (prefers-color-scheme: dark) {
+      background-color: hsl(100, 40%, 20%);
+      color: hsl(100, 60%, 70%);
+    }
+  }
+  &.draw {
+    background-color: hsl(220, 60%, 88%);
+    color: hsl(220, 60%, 30%);
+    @media (prefers-color-scheme: dark) {
+      background-color: hsl(220, 40%, 22%);
+      color: hsl(220, 70%, 70%);
+    }
+  }
+  &.in-progress {
+    background-color: hsl(28, 100%, 88%);
+    color: hsl(28, 80%, 30%);
+    @media (prefers-color-scheme: dark) {
+      background-color: hsl(28, 60%, 22%);
+      color: hsl(28, 90%, 65%);
+    }
+  }
+  &.abandoned {
+    background-color: hsl(0, 0%, 88%);
+    color: hsl(0, 0%, 35%);
+    @media (prefers-color-scheme: dark) {
+      background-color: hsl(0, 0%, 22%);
+      color: hsl(0, 0%, 60%);
+    }
+  }
+}
+
+.history-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  font-size: 14px;
+
+  button {
+    border: solid 1px hsla(0, 0%, 0%, 0.25);
+    border-radius: 3px;
+    padding: 4px 10px;
+    background-color: var(--button-background-color);
+    font-family: var(--sans-serif);
+    color: var(--button-color);
+    cursor: pointer;
+
+    &:disabled {
+      --button-background-color: var(--button-disabled-background-color);
+    }
+  }
+}

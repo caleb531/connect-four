@@ -22,6 +22,8 @@ class Game {
     this.pendingChipColumn = pendingChipColumn;
     this.winner = winner;
     this.pendingNewGame = pendingNewGame;
+    this.dbId = null;
+    this.moveCount = 0;
   }
 
   startGame() {
