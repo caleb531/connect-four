@@ -11,12 +11,12 @@ RUN apk update && apk add --no-cache libc6-compat
 # then safely activate our preferred version of pnpm
 RUN npm install -g npm@latest corepack@latest \
   && corepack enable \
-  && corepack prepare pnpm@10 --activate
+  && corepack prepare pnpm@12 --activate
 
 WORKDIR /usr/app
 
 # Leverage layer caching [cite: 3, 6]
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm install --frozen-lockfile
 
 # Copy source and build
